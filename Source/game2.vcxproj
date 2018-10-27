@@ -99,6 +99,10 @@
       <AdditionalLibraryDirectories>.\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -136,6 +140,16 @@
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /Y "$(ProjectDir)periodic_table.jgn" "$(ProjectDir)..\$(Configuration)\periodic_table.jgn"
+copy /Y "$(ProjectDir)JGN_Font.png" "$(ProjectDir)..\$(Configuration)\JGN_Font.png"
+copy /Y "$(ProjectDir)JGN_Font.bmp" "$(ProjectDir)..\$(Configuration)\JGN_Font.bmp"
+copy /Y "$(ProjectDir)JGN_Font.fnt" "$(ProjectDir)..\$(Configuration)\JGN_Font.fnt"
+move /Y "$(ProjectDir)..\$(Configuration)\*.iobj" "$(ProjectDir)$(Configuration)"
+move /Y "$(ProjectDir)..\$(Configuration)\*.ipdb" "$(ProjectDir)$(Configuration)"
+move /Y "$(ProjectDir)..\$(Configuration)\*.pdb" "$(ProjectDir)$(Configuration)"
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>

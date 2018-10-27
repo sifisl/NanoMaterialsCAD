@@ -1,8 +1,0 @@
-copy /Y "$(ProjectDir)periodic_table.jgn" "$(ProjectDir)..\$(Configuration)\periodic_table.jgn"
-copy /Y "$(ProjectDir)JGN_Font.png" "$(ProjectDir)..\$(Configuration)\JGN_Font.png"
-copy /Y "$(ProjectDir)JGN_Font.bmp" "$(ProjectDir)..\$(Configuration)\JGN_Font.bmp"
-copy /Y "$(ProjectDir)JGN_Font.fnt" "$(ProjectDir)..\$(Configuration)\JGN_Font.fnt"
-move /Y "$(ProjectDir)..\$(Configuration)\*.iobj" "$(ProjectDir)$(Configuration)"
-move /Y "$(ProjectDir)..\$(Configuration)\*.ipdb" "$(ProjectDir)$(Configuration)"
-move /Y "$(ProjectDir)..\$(Configuration)\*.pdb" "$(ProjectDir)$(Configuration)"
-

@@ -150,6 +150,10 @@ move /Y "$(ProjectDir)..\$(Configuration)\*.ipdb" "$(ProjectDir)$(Configuration)
 move /Y "$(ProjectDir)..\$(Configuration)\*.pdb" "$(ProjectDir)$(Configuration)"
 </Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>

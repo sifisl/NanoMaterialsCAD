@@ -1,6 +1,6 @@
 
-#include "JGN_Build.h"
 
+#include "JGN_Build.h"
 #include "JGN_Windows.h"
 #include "JGN_SolidSphere.h"
 #include "JGN_bmpLoader.h"
@@ -20,22 +20,6 @@ int main(int argc, char *argv[])
 
 	char s[200];
 
-	FILE* user_input = fopen("input.txt", "r");
-	std::fgets(s, 200, user_input);
-	sized[0] = atoi(strtok(s, " "));
-	sized_old[0] = sized[0];
-	custom_sized[0] = sized[0];
-
-	std::fgets(s, 200, user_input);
-	sized[1] = atoi(strtok(s, " "));
-	sized_old[1] = sized[1];
-	custom_sized[1] = sized[1];
-
-
-	std::fgets(s, 200, user_input);
-	sized[2] = atoi(strtok(s, " "));
-	sized_old[2] = sized[2];
-	custom_sized[2] = sized[2];
 
 	sized[0] = 1;
 	sized[1] = 1;
@@ -43,8 +27,6 @@ int main(int argc, char *argv[])
 	sized_old[0] = 1;
 	sized_old[1] = 1;
 	sized_old[2] = 1;
-
-	std::fclose(user_input);
 
 
 	JGN_Init();

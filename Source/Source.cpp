@@ -8,7 +8,7 @@
 
 #define glutSolidSphere JGN_SolidSphere
 // TODO: make a class instead of the crystal array
-
+//test
 
 int main(int argc, char *argv[])
 {

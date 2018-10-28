@@ -1,7 +1,7 @@
 // Win32Lesson1.cpp : Defines the entry point for the application.
 //
 
-#include "stdafx.h"
+
 #include "JGN_Resource.h"
 #include "JNG_DropFile.h"
 
@@ -128,7 +128,7 @@ HWND JGN_CreateWindow(char* EszTitle,
 	}
 
 
- 	// TODO: Place code here.
+ 	
 
 	// Initialize global strings
 		LoadString(hInstance, jgn_int_macro_map[jgn_wndcnt], szWindowClass, MAX_LOADSTRING);

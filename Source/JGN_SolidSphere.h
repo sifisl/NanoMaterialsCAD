@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+
 //https://stackoverflow.com/questions/28806871/how-to-render-sphere-using-open-gl-c-and-not-glut-glu
 //hint: use GL_NORMALIZE
 

@@ -1,12 +1,6 @@
 #pragma once
 
 
-#include <Windows.h>
-#include <iostream>
-
-using namespace std;
-
-
 
 int JGN_bmpWidth;
 int JGN_bmpHeight;

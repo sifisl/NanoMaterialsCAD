@@ -1086,9 +1086,9 @@ void JGN_DropFile()
 							selective_dynamics[1 + 3 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] = selective_dynamics[1 + 3 * (ole3)];
 							selective_dynamics[2 + 3 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] = selective_dynamics[2 + 3 * (ole3)];
 
-							sim_box_lo[0] = max;
-							sim_box_lo[1] = max;
-							sim_box_lo[2] = max;
+							sim_box_lo[0] = fl_max;
+							sim_box_lo[1] = fl_max;
+							sim_box_lo[2] = fl_max;
 
 							if (inptype == 'd')
 							{

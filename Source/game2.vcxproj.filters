@@ -44,13 +44,7 @@
     <ClInclude Include="JGN_Build.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="JGN_Embed.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="JGN_SolidSphere.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="JGN_GLloadpng.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="JGN_bmpLoader.h">

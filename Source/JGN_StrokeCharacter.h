@@ -1,7 +1,5 @@
 #pragma once
 
-#include "stdafx.h"
-
 #define len 200
 #define fontmapwidht 512
 #define fontmapheight 512

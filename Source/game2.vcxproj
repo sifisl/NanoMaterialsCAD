@@ -181,8 +181,6 @@ move /Y "$(ProjectDir)..\$(Configuration)\*.pdb" "$(ProjectDir)$(Configuration)"
     <ClInclude Include="help me.h" />
     <ClInclude Include="JGN_bmpLoader.h" />
     <ClInclude Include="JGN_Build.h" />
-    <ClInclude Include="JGN_Embed.h" />
-    <ClInclude Include="JGN_GLloadpng.h" />
     <ClInclude Include="JGN_Resource.h" />
     <ClInclude Include="JGN_SolidSphere.h" />
     <ClInclude Include="JGN_StrokeCharacter.h" />

@@ -1,4 +1,5 @@
 
+#include "stdafx.h"
 
 #include "JGN_Build.h"
 #include "JGN_Windows.h"
@@ -34,24 +35,13 @@ int main(int argc, char *argv[])
 	JGN_InitWindowSize(1000, 800);
 	JGN_CreateWindow("Ptyxiakh v1.0a");
 
-	/*int menID = glutCreateMenu(Sub_Menu);
-	glutAddMenuEntry("Right Hexagonal", 1);
-	glutAddMenuEntry("Rodlike", 2);
-	glutAddMenuEntry("Figure1", 3);
-	
 
-
-	glutCreateMenu(menuf);
-	glutAddMenuEntry("Build the POSCAR", 0);
-	glutAddSubMenu("Nanostructures", menID);
-	glutAddMenuEntry("Perspective", 1);
-	glutAttachMenu(GLUT_RIGHT_BUTTON);*/
 
 	JGN_ReshapeFunc(myReshape);//gia to window reshape
 	JGN_DisplayFunc(display1);
 	JGN_KeyboardFunc(keyboardgl);
-	//JGN_MotionFunc(mouse_motion);
-	//glutIdleFunc(spin_image);
+	
+
 	JGN_PassiveMotionFunc(mouse_pasive);
 	JGN_MouseFunc(mouse_func);
 
@@ -90,7 +80,6 @@ int main(int argc, char *argv[])
 	//  Free memory.
 	//delete[] xyz;
 	closefont();
-
 
 
 	return 0;
@@ -153,7 +142,6 @@ int stroke_c = 0;
 
 
 void display1(void)//generates the graphics output.
-
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -4747,12 +4735,12 @@ void lines_param()
 			}
 
 
-			first = 1.0*float(S3v - S2v) / (Svmax + 5);
-			second = 1.0*float(S2v - S1v) / (Svmax + 5);
-			third = 1.0*float(S1v) / (Svmax + 5);
-			forth = 1.0*float(S2v) / (Svmax + 5);
-			fifth = 1.0*float(2 * S2v - S3v) / (Svmax + 5);
-			sixth = 1.0*float(S3v - S1v) / (Svmax + 5);
+			first = (GLfloat)1.0*float(S3v - S2v) / (Svmax + 5);
+			second = (GLfloat)1.0*float(S2v - S1v) / (Svmax + 5);
+			third = (GLfloat)1.0*float(S1v) / (Svmax + 5);
+			forth = (GLfloat)1.0*float(S2v) / (Svmax + 5);
+			fifth = (GLfloat)1.0*float(2 * S2v - S3v) / (Svmax + 5);
+			sixth = (GLfloat)1.0*float(S3v - S1v) / (Svmax + 5);
 
 
 
@@ -4770,12 +4758,12 @@ void lines_param()
 			}
 
 
-			first = 1.0*float(S3v - S2v) / (Svmax + 5);
-			second = 1.0*float(S2v - S1v) / (Svmax + 5);
-			third = 1.0*float(S1v) / (Svmax + 5);
-			forth = 1.0*float(S2v) / (Svmax + 5);
-			fifth = 1.0*float(2 * S2v - S3v) / (Svmax + 5);
-			sixth = 1.0*float(S3v - S1v) / (Svmax + 5);
+			first = (GLfloat)1.0*float(S3v - S2v) / (Svmax + 5);
+			second = (GLfloat)1.0*float(S2v - S1v) / (Svmax + 5);
+			third = (GLfloat)1.0*float(S1v) / (Svmax + 5);
+			forth = (GLfloat)1.0*float(S2v) / (Svmax + 5);
+			fifth = (GLfloat)1.0*float(2 * S2v - S3v) / (Svmax + 5);
+			sixth = (GLfloat)1.0*float(S3v - S1v) / (Svmax + 5);
 
 
 
@@ -4811,14 +4799,14 @@ void lines_param()
 		}
 
 
-		first = 1.0*float(S3v - S2v) / (Svmax + 5);
-		second = 1.0*float(S2v - S1v) / (Svmax + 5);
-		third = 1.0*float(S1v) / (Svmax + 5);
+		first = (GLfloat)1.0*float(S3v - S2v) / (Svmax + 5);
+		second = (GLfloat)1.0*float(S2v - S1v) / (Svmax + 5);
+		third = (GLfloat)1.0*float(S1v) / (Svmax + 5);
 
 
-		sixth = 1.0*float(S3v - S1v) / (Svmax + 5);
+		sixth = (GLfloat)1.0*float(S3v - S1v) / (Svmax + 5);
 
-		eighth = 1.0*float(S3v) / (Svmax + 5);
+		eighth = (GLfloat)1.0*float(S3v) / (Svmax + 5);
 
 
 
@@ -4838,34 +4826,34 @@ void lines_param()
 	}
 	else if (Scase == 1)
 	{
-		first = 1.0*float(S3v - S2v) / (Svmax + 5);
-		second = 1.0*float(S2v - S1v) / (Svmax + 5);
-		third = 1.0*float(S1v) / (Svmax + 5);
+		first = (GLfloat)1.0*float(S3v - S2v) / (Svmax + 5);
+		second = (GLfloat)1.0*float(S2v - S1v) / (Svmax + 5);
+		third = (GLfloat)1.0*float(S1v) / (Svmax + 5);
 
-		fifth = 1.0*float(2 * S2v - S3v) / (Svmax + 5);
+		fifth = (GLfloat)1.0*float(2 * S2v - S3v) / (Svmax + 5);
 
 
 	}
 	else if (Scase == 2)
 	{
 
-		second = 1.0*float(S2v - S1v) / (Svmax + 5);
-		third = 1.0*float(S1v) / (Svmax + 5);
-		forth = 1.0*float(S2v) / (Svmax + 5);
+		second = (GLfloat)1.0*float(S2v - S1v) / (Svmax + 5);
+		third = (GLfloat)1.0*float(S1v) / (Svmax + 5);
+		forth = (GLfloat)1.0*float(S2v) / (Svmax + 5);
 
 
-		seventh = 1.0*float(S2v) / 2 / (Svmax + 5);
+		seventh = (GLfloat)1.0*float(S2v) / 2 / (Svmax + 5);
 	}
 	else if (Scase == 3)
 	{
 
 
-		third = 1.0*float(S1v) / (Svmax + 5);
+		third = (GLfloat)1.0*float(S1v) / (Svmax + 5);
 
 
-		sixth = 1.0*float(S3v - S1v) / (Svmax + 5);
-		nineth = 1.0*float(S3v - 2 * S1v) / (Svmax + 5);
-		tenth = 1.0*float((S1v)) / (Svmax + 5);
+		sixth = (GLfloat)1.0*float(S3v - S1v) / (Svmax + 5);
+		nineth = (GLfloat)1.0*float(S3v - 2 * S1v) / (Svmax + 5);
+		tenth = (GLfloat)1.0*float((S1v)) / (Svmax + 5);
 
 
 	}
@@ -4873,7 +4861,7 @@ void lines_param()
 	{
 
 
-		third = 1.0*float(S1v) / (Svmax + 5);
+		third = (GLfloat)1.0*float(S1v) / (Svmax + 5);
 
 
 
@@ -4881,20 +4869,20 @@ void lines_param()
 	}
 	else if (Scase == 5)
 	{
-		first = 1.0*float(S3v - S2v) / (Svmax + 5);
+		first = (GLfloat)1.0*float(S3v - S2v) / (Svmax + 5);
 
 
-		forth = 1.0*float(S2v) / (Svmax + 5);
-		fifth = 1.0*float(2 * S2v - S3v) / (Svmax + 5);
+		forth = (GLfloat)1.0*float(S2v) / (Svmax + 5);
+		fifth = (GLfloat)1.0*float(2 * S2v - S3v) / (Svmax + 5);
 
 
 	}
 	else if (Scase == 6)
 	{
-		first = 1.0*float(S3v - S2v) / (Svmax + 5);
+		first = (GLfloat)1.0*float(S3v - S2v) / (Svmax + 5);
 
 
-		forth = 1.0*float(S2v) / (Svmax + 5);
+		forth = (GLfloat)1.0*float(S2v) / (Svmax + 5);
 
 		eleventh = 1.0*float(S2v) / ((Svmax + 5) * 2);
 
@@ -4909,18 +4897,18 @@ void lines_param()
 
 
 
-		eighth = 1.05*float(S3v) / (Svmax + 5);
+		eighth = (GLfloat)1.05*float(S3v) / (Svmax + 5);
 	}
 	else if (Scase == 0)
 	{
-		first = 1.0*float(S3v - S2v) / (Svmax + 5);
-		second = 1.0*float(S2v - S1v) / (Svmax + 5);
-		third = 1.0*float(S1v) / (Svmax + 5);
-		forth = 1.0*float(S2v) / (Svmax + 5);
-		fifth = 1.0*float(2 * S2v - S3v) / (Svmax + 5);
-		sixth = 1.0*float(S3v - S1v) / (Svmax + 5);
-		seventh = 1.0*float(S2v) / 2 / (Svmax + 5);
-		eighth = 1.0*float(S3v) / (Svmax + 5);
+		first = (GLfloat)1.0*float(S3v - S2v) / (Svmax + 5);
+		second = (GLfloat)1.0*float(S2v - S1v) / (Svmax + 5);
+		third = (GLfloat)1.0*float(S1v) / (Svmax + 5);
+		forth = (GLfloat)1.0*float(S2v) / (Svmax + 5);
+		fifth = (GLfloat)1.0*float(2 * S2v - S3v) / (Svmax + 5);
+		sixth = (GLfloat)1.0*float(S3v - S1v) / (Svmax + 5);
+		seventh = (GLfloat)1.0*float(S2v) / 2 / (Svmax + 5);
+		eighth = (GLfloat)1.0*float(S3v) / (Svmax + 5);
 	}
 
 

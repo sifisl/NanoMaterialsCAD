@@ -1,7 +1,5 @@
 #pragma once
 
-#include "stdafx.h"
-
 void BuildLammps(char* NewPC)
 {
 	time_t now = time(0);
@@ -55,9 +53,9 @@ void BuildLammps(char* NewPC)
 
 		}
 
-		float xlo = max, xhi = min,
-			ylo = max, yhi = min,
-			zlo = max, zhi = min;
+		float xlo = fl_max, xhi = fl_min,
+			ylo = fl_max, yhi = fl_min,
+			zlo = fl_max, zhi = fl_min;
 
 		for (ole = 0; ole < t*sized[0] * sized[1] * sized[2]; ole++)
 		{
@@ -219,9 +217,9 @@ void BuildLammps(char* NewPC)
 
 		}
 
-		float xlo = max, xhi = min,
-			ylo = max, yhi = min,
-			zlo = max, zhi = min;
+		float xlo = fl_max, xhi = fl_min,
+			ylo = fl_max, yhi = fl_min,
+			zlo = fl_max, zhi = fl_min;
 
 		for (ole = 0; ole < t*sized[0] * sized[1] * sized[2]; ole++)
 		{
@@ -861,9 +859,9 @@ void BuildLammps(char* NewPC)
 
 		}
 
-		float xlo = max, xhi = min,
-			ylo = max, yhi = min,
-			zlo = max, zhi = min;
+		float xlo = fl_max, xhi = fl_min,
+			ylo = fl_max, yhi = fl_min,
+			zlo = fl_max, zhi = fl_min;
 
 		for (ole = 0; ole < t*sized[0] * sized[1] * sized[2]; ole++)
 		{
@@ -1107,9 +1105,9 @@ void BuildLammps(char* NewPC)
 
 		}
 
-		float xlo = max, xhi = min,
-			ylo = max, yhi = min,
-			zlo = max, zhi = min;
+		float xlo = fl_max, xhi = fl_min,
+			ylo = fl_max, yhi = fl_min,
+			zlo = fl_max, zhi = fl_min;
 
 		for (ole = 0; ole < t*sized[0] * sized[1] * sized[2]; ole++)
 		{
@@ -1356,9 +1354,9 @@ void BuildLammps(char* NewPC)
 
 		}
 
-		float xlo = max, xhi = min,
-			ylo = max, yhi = min,
-			zlo = max, zhi = min;
+		float xlo = fl_max, xhi = fl_min,
+			ylo = fl_max, yhi = fl_min,
+			zlo = fl_max, zhi = fl_min;
 
 		for (ole = 0; ole < t*sized[0] * sized[1] * sized[2]; ole++)
 		{

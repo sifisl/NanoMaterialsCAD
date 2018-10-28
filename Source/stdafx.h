@@ -147,14 +147,14 @@ jgn::string LPTSTR2string(LPTSTR inp, char delimiter, int maxchars = 1000)
 #define glColor3fv glColor3dv
 #define glVertex3fv glVertex3dv
 #define printformat 15
-#define max DBL_MAX
-#define min DBL_MIN
+#define fl_max DBL_MAX
+#define fl_min DBL_MIN
 
 #else
 
 #define printformat 6
-#define max FLT_MAX
-#define min DBL_MIN
+#define fl_max FLT_MAX
+#define fl_min DBL_MIN
 
 
 #endif
@@ -194,17 +194,17 @@ float dipleft =- 1000.0 / 800.0;
 float perspective_on = 0;
 static GLfloat theta[3] = { 0.0, 0.0, 0.0 };
 int flagmax = 0;
-float first = 0;
-float second =0;
-float third = 0;
-float forth = 0;
-float fifth = 0;
-float sixth = 0;
-float seventh = 0;
-float eighth =0;
-float nineth = 0;
-float tenth = 0;
-float eleventh = 0;
+GLfloat first = 0;
+GLfloat second =0;
+GLfloat third = 0;
+GLfloat forth = 0;
+GLfloat fifth = 0;
+GLfloat sixth = 0;
+GLfloat seventh = 0;
+GLfloat eighth =0;
+GLfloat nineth = 0;
+GLfloat tenth = 0;
+GLfloat eleventh = 0;
 double xyz_range[3];
 double xyz_scale;
 double xyz_center[3];

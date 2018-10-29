@@ -69,7 +69,8 @@ void JGN_SolidSphere(float radius, int numStacks, int numSides)
 
 	glNormal3d(0, 1, 0);
 	glVertex3d(0, radius, 0);
-	for (t = 0; t<numSides; t++)
+
+	for (int t = 0; t<numSides; t++)
 	{
 		v[0] = points[t].x;
 		v[1] = points[t].y;
@@ -86,12 +87,12 @@ void JGN_SolidSphere(float radius, int numStacks, int numSides)
 
 	// part B - draw the 'sides' (quads)
 	int vertIndex;
-	for (curStack = 0; curStack<numStacks - 2; curStack++)
+	for (int curStack = 0; curStack<numStacks - 2; curStack++)
 	{
 		vertIndex = curStack * numSides;
 		glBegin(GL_QUAD_STRIP);
 
-		for (curSlice = 0; curSlice<numSides; curSlice++)
+		for (int curSlice = 0; curSlice<numSides; curSlice++)
 		{
 			v[0] = points[vertIndex + curSlice].x;
 			v[1] = points[vertIndex + curSlice].y;
@@ -120,17 +121,19 @@ void JGN_SolidSphere(float radius, int numStacks, int numSides)
 	glVertex3d(0, -radius, 0);
 
 
-
-	for (t = 0; t<numSides - 1; t++)
+	for (int t = 0; t<numSides - 1; t++)
 //		for (t = 0; t<8; t++)
 
 	{
+
 		curX = points[numVerts - 1 - t].x;
 		curY = points[numVerts - 1 - t].y;
 		curZ = points[numVerts - 1 - t].z;
 		glNormal3d(curX, curY, curZ);
 		glVertex3d(curX, curY, curZ);
+
 	}
+
 	glNormal3d(points[(numStacks - 2)*numSides].x, points[(numStacks - 2)*numSides].y, points[(numStacks - 2)*numSides].z);
 	glVertex3d(points[(numStacks - 2)*numSides].x, points[(numStacks - 2)*numSides].y, points[(numStacks - 2)*numSides].z);
 	

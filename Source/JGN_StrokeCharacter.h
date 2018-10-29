@@ -73,7 +73,7 @@ void JGN_StrokeCharacter(char c, bool hadv = true)
 
 			token = strtok(NULL, "=");
 			token = strtok(NULL, " \t");
-			cout << token << endl;
+			//cout << token << endl;
 			x = jgn::atof(token) / fontmapwidht;
 			
 			token = strtok(NULL, "=");

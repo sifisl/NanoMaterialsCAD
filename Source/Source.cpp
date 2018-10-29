@@ -1,4 +1,5 @@
 
+#include <omp.h>
 #include "stdafx.h"
 
 #include "JGN_Build.h"
@@ -13,7 +14,7 @@
 
 int main(int argc, char *argv[])
 {
-	
+
 
 #if NDEBUG
 	FreeConsole();
@@ -235,7 +236,8 @@ void display1(void)//generates the graphics output.
 		ball_atoms = 0;
 
 		int ajklsdfl = t * (sized[0])*(sized[1])*(sized[2]);
-		for (ole3 = 0; ole3 < ajklsdfl; ole3++)
+//#pragma omp parallel for firstprivate(ajklsdfl, p, CustomSurfacesCount, i, CustomSurfaces, anumber, render_is_on, colr, shperes_on,)
+		for (int ole3 = 0; ole3 < ajklsdfl; ole3++)
 		{
 			if (nanotube)
 			{

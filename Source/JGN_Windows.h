@@ -700,51 +700,57 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		//shorting bullshit
 		if (S1[3] != '\0')
 		{
-			__asm {
-				mov esi, [S1]
-				mov[esi + 3], 0
-			}
+			//__asm {
+			//	mov esi, [S1]
+			//	mov[esi + 3], 0
+			//}
+			S1[3] = '\0';
 		}
 		if (S2[3] != '\0') {
-			__asm {
-				mov esi, [S2]
-				mov[esi + 3], 0
-			}
+			//__asm {
+			//	mov esi, [S2]
+			//	mov[esi + 3], 0
+			//}
+			S2[3] = '\0';
+
 		}if (S3[3] != '\0')
 		{
-			__asm {
-				mov esi, [S3]
-				mov[esi + 3], 0
-			}
+			//__asm {
+			//	mov esi, [S3]
+			//	mov[esi + 3], 0
+			//}
+			S3[3] = '\0';
+
 		}
 
 		//define Svmax for a proper display (zoom)
-		__asm {
-			mov esi, [S1v]
-			mov[Svmax], esi
-		}
+		//__asm {
+		//	mov esi, [S1v]
+		//	mov[Svmax], esi
+		//}
+		Svmax = S1v;
 		//Svmax = S1v;
 		if (S2v > Svmax)
 		{
-			__asm {
+			/*__asm {
 				mov esi, [S2v]
 				mov[Svmax], esi
-			}
-			//Svmax = S2v;
+			}*/
+			Svmax = S2v;
 		}
 		if (S3v > Svmax)
 		{
-			__asm {
+			/*__asm {
 				mov esi, [S3v]
 				mov[Svmax], esi
-			}
-			//Svmax = S3v;
+			}*/
+			Svmax = S3v;
 		}
-		__asm {
+		/*__asm {
 			mov esi, [Svmax]
 			mov[Svmax_buckup], esi
-		}
-		//Svmax_buckup = Svmax;
+		}*/
+		Svmax_buckup = Svmax;
 
 		
 		JGN_DropFile();
@@ -881,10 +887,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_SIZE:
 		____JGN_ReshapeFunc(LOWORD(lParam), HIWORD(lParam), hWnd);
 		GetWindowRect(mnhwnd, glb_rct);
-		__asm {
-			mov esi, [glb_rct]
-			mov[mnrcpt], esi
-		}
+		//__asm {
+		//	mov esi, [glb_rct]
+		//	mov[mnrcpt], esi
+		//}
+		mnrcpt = (long*)glb_rct;
 
 		mainwndsize[0] = *(mnrcpt + 2) - *mnrcpt;
 		mainwndsize[1] = *(mnrcpt + 3) - *(mnrcpt + 1);
@@ -1955,7 +1962,7 @@ LRESULT __stdcall HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 		}
 		if (itemscnt > 6)
 		{
-			HINSTANCE hinst111 = (HINSTANCE)GetWindowLong(mnhwnd, GWL_HINSTANCE);
+			HINSTANCE hinst111 = (HINSTANCE)GetWindowLong(mnhwnd, GWLP_HINSTANCE);
 			hWndList = CreateWindow(L"LISTBOX",
 				0, WS_VISIBLE | WS_CHILD | WS_BORDER | LBS_EXTENDEDSEL | WS_VSCROLL,
 				0, 222 - 20 * 6, 250, 20 * 6,
@@ -3963,7 +3970,7 @@ peintit1:
 
 void jgn_initcmd()
 {
-	HINSTANCE hinst111 = (HINSTANCE)GetWindowLong(hWndCommandLine, GWL_HINSTANCE);
+	HINSTANCE hinst111 = (HINSTANCE)GetWindowLong(hWndCommandLine, GWLP_HINSTANCE);
 
 	char *enderrr = "\n";
 	mbstowcs(ucender, enderrr, 2);

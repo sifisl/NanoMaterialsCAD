@@ -1,7 +1,8 @@
 #pragma once
 
-#include "JGN_Resource.h"
+
 #include "stdafx.h"
+#include "JGN_DropFile.h"
 
 
 void JGN_DropFile()
@@ -449,107 +450,107 @@ void JGN_DropFile()
 				uccartesian[i * 3 + 2] = my_direct[2 + i * 5 + 0] * ijk[0][2] + my_direct[2 + i * 5 + 1] * ijk[1][2] + my_direct[2 + i * 5 + 2] * ijk[2][2];
 
 			}
-//#ifdef DOUBLE_MOD
-//			__asm {
-//				mov esi, [t]
-//				imul esi, 40
-//				mov ebx, 0//ole1
-//				mov ecx, 0//ole*5
-//
-//				/**/jmp loop2_b
-//				/**/loop2_s :
-//				/**/	/**/jmp loop1_b
-//					/**/	/**/loop1_s :
-//				/**/	/**/	/**/mov eax, ecx
-//					/**/	/**/	/**/mov edx, 0
-//					/**/	/**/	/**/mov edi, 5
-//					/**/	/**/	/**/div edi
-//					/**/	/**/	/**/mov edi, 3
-//					/**/	/**/	/**/mul edi//eax=ele*3+ole1
-//					/**/	/**/	/**/add eax, ebx
-//					/**/	/**/	/**/
-//					/**/	/**/	/**/movsd xmm0, [ijk + ebx]
-//					/**/	/**/	/**/mov edx, [my_direct]
-//					/**/	/**/	/**/mulsd xmm0, [edx + 16 + ecx]
-//					/**/	/**/	/**/movsd xmm1, [ijk + 24 + ebx]
-//					/**/	/**/	/**/mulsd xmm1, [edx + 24 + ecx]
-//					/**/	/**/	/**/addsd xmm0, xmm1
-//					/**/	/**/	/**/movsd xmm1, [ijk + 48 + ebx]
-//					/**/	/**/	/**/mulsd xmm1, [edx + 32 + ecx]
-//					/**/	/**/	/**/addsd xmm0, xmm1
-//					/**/	/**/	/**/mov edx, [uccartesian]
-//					/**/	/**/	/**/movsd[edx + eax], xmm0
-//					/**/	/**/	/**/
-//					/**/	/**/	/**/add ebx, 8
-//					/**/	/**/
-//					/**/	/**/loop1_b:
-//				/**/	/**/cmp ebx, 24
-//					/**/	/**/jge loop1_out
-//					/**/	/**/jmp loop1_s
-//					/**/	/**/loop1_out :
-//				/**/
-//				/**/	/**/mov ebx, 0
-//					/**/	/**/add ecx, 40
-//					/**/
-//					/**/loop2_b :
-//					/**/cmp ecx, esi
-//					/**/jge loop2_out
-//					/**/jmp loop2_s
-//					/**/loop2_out :
-//
-//
-//			}
-//#else
-//			__asm {
-//				mov esi, [t]
-//				imul esi, 20
-//				mov ebx, 0//ole1
-//				mov ecx, 0//ole*5
-//
-//				/**/jmp loop2_b
-//				/**/loop2_s :
-//				/**/	/**/jmp loop1_b
-//					/**/	/**/loop1_s :
-//				/**/	/**/	/**/mov eax, ecx
-//					/**/	/**/	/**/mov edx, 0
-//					/**/	/**/	/**/mov edi, 5
-//					/**/	/**/	/**/div edi
-//					/**/	/**/	/**/mov edi, 3
-//					/**/	/**/	/**/mul edi//eax=ele*3+ole1
-//					/**/	/**/	/**/add eax, ebx
-//					/**/	/**/	/**/
-//					/**/	/**/	/**/movss xmm0, [ijk + ebx]
-//					/**/	/**/	/**/mov edx, [my_direct]
-//					/**/	/**/	/**/mulss xmm0, [edx + 8 + ecx]
-//					/**/	/**/	/**/movss xmm1, [ijk + 12 + ebx]
-//					/**/	/**/	/**/mulss xmm1, [edx + 12 + ecx]
-//					/**/	/**/	/**/addss xmm0, xmm1
-//					/**/	/**/	/**/movss xmm1, [ijk + 24 + ebx]
-//					/**/	/**/	/**/mulss xmm1, [edx + 16 + ecx]
-//					/**/	/**/	/**/addss xmm0, xmm1
-//					/**/	/**/	/**/mov edx, [uccartesian]
-//					/**/	/**/	/**/movss[edx + eax], xmm0
-//					/**/	/**/	/**/
-//					/**/	/**/	/**/add ebx, 4
-//					/**/	/**/
-//					/**/	/**/loop1_b:
-//				/**/	/**/cmp ebx, 12
-//					/**/	/**/jge loop1_out
-//					/**/	/**/jmp loop1_s
-//					/**/	/**/loop1_out :
-//				/**/
-//				/**/	/**/mov ebx, 0
-//					/**/	/**/add ecx, 20
-//					/**/
-//					/**/loop2_b :
-//					/**/cmp ecx, esi
-//					/**/jge loop2_out
-//					/**/jmp loop2_s
-//					/**/loop2_out :
-//
-//
-//			}
-//#endif
+			//#ifdef DOUBLE_MOD
+			//			__asm {
+			//				mov esi, [t]
+			//				imul esi, 40
+			//				mov ebx, 0//ole1
+			//				mov ecx, 0//ole*5
+			//
+			//				/**/jmp loop2_b
+			//				/**/loop2_s :
+			//				/**/	/**/jmp loop1_b
+			//					/**/	/**/loop1_s :
+			//				/**/	/**/	/**/mov eax, ecx
+			//					/**/	/**/	/**/mov edx, 0
+			//					/**/	/**/	/**/mov edi, 5
+			//					/**/	/**/	/**/div edi
+			//					/**/	/**/	/**/mov edi, 3
+			//					/**/	/**/	/**/mul edi//eax=ele*3+ole1
+			//					/**/	/**/	/**/add eax, ebx
+			//					/**/	/**/	/**/
+			//					/**/	/**/	/**/movsd xmm0, [ijk + ebx]
+			//					/**/	/**/	/**/mov edx, [my_direct]
+			//					/**/	/**/	/**/mulsd xmm0, [edx + 16 + ecx]
+			//					/**/	/**/	/**/movsd xmm1, [ijk + 24 + ebx]
+			//					/**/	/**/	/**/mulsd xmm1, [edx + 24 + ecx]
+			//					/**/	/**/	/**/addsd xmm0, xmm1
+			//					/**/	/**/	/**/movsd xmm1, [ijk + 48 + ebx]
+			//					/**/	/**/	/**/mulsd xmm1, [edx + 32 + ecx]
+			//					/**/	/**/	/**/addsd xmm0, xmm1
+			//					/**/	/**/	/**/mov edx, [uccartesian]
+			//					/**/	/**/	/**/movsd[edx + eax], xmm0
+			//					/**/	/**/	/**/
+			//					/**/	/**/	/**/add ebx, 8
+			//					/**/	/**/
+			//					/**/	/**/loop1_b:
+			//				/**/	/**/cmp ebx, 24
+			//					/**/	/**/jge loop1_out
+			//					/**/	/**/jmp loop1_s
+			//					/**/	/**/loop1_out :
+			//				/**/
+			//				/**/	/**/mov ebx, 0
+			//					/**/	/**/add ecx, 40
+			//					/**/
+			//					/**/loop2_b :
+			//					/**/cmp ecx, esi
+			//					/**/jge loop2_out
+			//					/**/jmp loop2_s
+			//					/**/loop2_out :
+			//
+			//
+			//			}
+			//#else
+			//			__asm {
+			//				mov esi, [t]
+			//				imul esi, 20
+			//				mov ebx, 0//ole1
+			//				mov ecx, 0//ole*5
+			//
+			//				/**/jmp loop2_b
+			//				/**/loop2_s :
+			//				/**/	/**/jmp loop1_b
+			//					/**/	/**/loop1_s :
+			//				/**/	/**/	/**/mov eax, ecx
+			//					/**/	/**/	/**/mov edx, 0
+			//					/**/	/**/	/**/mov edi, 5
+			//					/**/	/**/	/**/div edi
+			//					/**/	/**/	/**/mov edi, 3
+			//					/**/	/**/	/**/mul edi//eax=ele*3+ole1
+			//					/**/	/**/	/**/add eax, ebx
+			//					/**/	/**/	/**/
+			//					/**/	/**/	/**/movss xmm0, [ijk + ebx]
+			//					/**/	/**/	/**/mov edx, [my_direct]
+			//					/**/	/**/	/**/mulss xmm0, [edx + 8 + ecx]
+			//					/**/	/**/	/**/movss xmm1, [ijk + 12 + ebx]
+			//					/**/	/**/	/**/mulss xmm1, [edx + 12 + ecx]
+			//					/**/	/**/	/**/addss xmm0, xmm1
+			//					/**/	/**/	/**/movss xmm1, [ijk + 24 + ebx]
+			//					/**/	/**/	/**/mulss xmm1, [edx + 16 + ecx]
+			//					/**/	/**/	/**/addss xmm0, xmm1
+			//					/**/	/**/	/**/mov edx, [uccartesian]
+			//					/**/	/**/	/**/movss[edx + eax], xmm0
+			//					/**/	/**/	/**/
+			//					/**/	/**/	/**/add ebx, 4
+			//					/**/	/**/
+			//					/**/	/**/loop1_b:
+			//				/**/	/**/cmp ebx, 12
+			//					/**/	/**/jge loop1_out
+			//					/**/	/**/jmp loop1_s
+			//					/**/	/**/loop1_out :
+			//				/**/
+			//				/**/	/**/mov ebx, 0
+			//					/**/	/**/add ecx, 20
+			//					/**/
+			//					/**/loop2_b :
+			//					/**/cmp ecx, esi
+			//					/**/jge loop2_out
+			//					/**/jmp loop2_s
+			//					/**/loop2_out :
+			//
+			//
+			//			}
+			//#endif
 		}
 		else if (inptype == 'c')
 		{
@@ -1266,7 +1267,7 @@ void JGN_DropFile()
 			token = strtok(s, "\t ");
 
 		}
-		line++;	
+		line++;
 		xlo = std::atof(token);
 		token = strtok(NULL, "\t ");
 		xhi = std::atof(token);
@@ -1286,7 +1287,7 @@ void JGN_DropFile()
 			token = strtok(s, "\t ");
 
 		}
-		line++;		
+		line++;
 
 		ylo = std::atof(token);
 		token = strtok(NULL, "\t ");
@@ -1480,7 +1481,7 @@ void JGN_DropFile()
 						else
 						{
 							atoms[strlen(atoms) - 1] = '\0';
-							if(atoms[strlen(atoms) - 1] != ' ')
+							if (atoms[strlen(atoms) - 1] != ' ')
 								atoms[strlen(atoms) - 1] = '\0';
 							if (atoms[strlen(atoms) - 1] != ' ')
 								atoms[strlen(atoms) - 1] = '\0';
@@ -2212,5 +2213,5 @@ void JGN_DropFile()
 
 		}
 	}
-	
+
 }

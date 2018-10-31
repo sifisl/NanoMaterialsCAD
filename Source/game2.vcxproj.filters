@@ -15,14 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="BmpLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="JGN_Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -38,9 +30,6 @@
     <ClInclude Include="help me.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="JNG_DropFile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="JGN_Build.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -53,10 +42,36 @@
     <ClInclude Include="JGN_StrokeCharacter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="JGN_DropFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="JGN_Resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JGN_StrokeCharacter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JGN_bmpLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JGN_Build.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JGN_SolidSphere.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JGN_Windows.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JGN_DropFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -2,6 +2,14 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define _USE_MATH_DEFINES
 
+
+#ifdef JGN_SOURCE_CPP
+#define EXT 
+#else
+#define EXT extern
+#endif //SOURCE_CPP
+
+
 //TODO: custom surface to buildposcar
 //TODO: custom surface and vacum^ to buildlammps
 
@@ -63,8 +71,14 @@ using namespace std;
 #include <memory.h>
 #include <tchar.h>
 
+
+
+
+
+
 char *
 ftoa(float f)
+#ifdef JGN_SOURCE_CPP
 {
 	static char        buf[17];
 	char *            cp = buf;
@@ -80,11 +94,17 @@ ftoa(float f)
 	sprintf(cp, "%lu.%6.6lu", l, rem);
 	return buf;
 }
+#else
+;
+#endif// JGN_SOURCE_CPP
+
+
 
 
 namespace jgn
 {
 	double atof(char* c)
+#ifdef JGN_SOURCE_CPP
 	{
 		if (c == NULL)
 		{
@@ -95,6 +115,11 @@ namespace jgn
 			return std::atof(c);
 		}
 	}
+#else
+;
+#endif// JGN_SOURCE_CPP
+
+
 
 	class string : public std::string {
 
@@ -121,9 +146,10 @@ namespace jgn
 }
 
 jgn::string LPTSTR2string(LPTSTR inp, char delimiter, int maxchars = 1000)
+#ifdef JGN_SOURCE_CPP
 {
 	jgn::string out;
-	while ((((char*)inp)[0] != delimiter) && maxchars!=0)
+	while ((((char*)inp)[0] != delimiter) && maxchars != 0)
 	{
 		out += ((char*)inp)[0];
 		inp = inp + 1;
@@ -131,6 +157,11 @@ jgn::string LPTSTR2string(LPTSTR inp, char delimiter, int maxchars = 1000)
 	}
 	return out;
 }
+#else
+;
+#endif// JGN_SOURCE_CPP
+
+
 
 /////////////////////////////////////////////////////////////
 //
@@ -174,155 +205,163 @@ void Sub_Menu(int c);
 void mouse_func(int b, int s, int x, int y);
 void lines_param();
 void jgnCommands(LPTSTR ttt, int d);
+void variableinit();
+void JGN_QRedisplay();
 //
 //  Global data.
 //
 
-std::size_t found;
-char ftype;// p=poscar, l=lammps
+EXT std::size_t found;
+EXT char ftype;// p=poscar, l=lammps
 #define SBYTES 200
 
 
-char* NewPC = (char*)malloc(sizeof(char)*(200));
+EXT char* NewPC;
 
-char* PCtype = (char*)malloc(sizeof(char)*100);
+EXT char* PCtype;
 
-int lmb = 0;
-int wasfullscreenflagin = 0, wasfullscreenflagout = -1;
-GLuint Font;
-GLuint vboId;
-float dipleft =- 1000.0 / 800.0;
-float perspective_on = 0;
-static GLfloat theta[3] = { 0.0, 0.0, 0.0 };
-int flagmax = 0;
-GLfloat first = 0;
-GLfloat second =0;
-GLfloat third = 0;
-GLfloat forth = 0;
-GLfloat fifth = 0;
-GLfloat sixth = 0;
-GLfloat seventh = 0;
-GLfloat eighth =0;
-GLfloat nineth = 0;
-GLfloat tenth = 0;
-GLfloat eleventh = 0;
-std::chrono::time_point<std::chrono::steady_clock> cl_start, cl_end;
-std::chrono::duration<float> cl_duration;
-int sphStacks = 10;
-int sphSides = 10;
-bool qredisplay = false;
-double xyz_range[3];
-double xyz_scale;
-double xyz_center[3];
-int allatoms;
-long int sized[3], t = 0/*how many atoms in the unit cell*/;
-long int prev_sized[3] = { 1,1,1 };
-float Truncated_Cube_max[] = { 0.0 , 0.0, 0.0 };
-float min_xyz[3] = { FLT_MAX,FLT_MAX,FLT_MAX }, max_xyz[3] = { FLT_MIN,FLT_MIN,FLT_MIN };
-int mouse_check = 0;
-float mouse_y, mouse_x;
-long int ole, ole1, ole2, ole3, ole4, ole5;
-float *crystal = NULL;
-float *crystal_backup = NULL;
-char *selective_dynamics = NULL;
+EXT int lmb;
+EXT int wasfullscreenflagin;
+EXT int wasfullscreenflagout;
+EXT GLuint Font;
+EXT GLuint vboId;
+EXT float dipleft;
+EXT float perspective_on;
+EXT GLfloat theta[3];
+EXT int flagmax;
+EXT GLfloat first;
+EXT GLfloat second;
+EXT GLfloat third;
+EXT GLfloat forth;
+EXT GLfloat fifth;
+EXT GLfloat sixth;
+EXT GLfloat seventh;
+EXT GLfloat eighth;
+EXT GLfloat nineth;
+EXT GLfloat tenth;
+EXT GLfloat eleventh;
+EXT std::chrono::time_point<std::chrono::steady_clock> cl_start;
+EXT std::chrono::time_point<std::chrono::steady_clock> cl_end;
+EXT std::chrono::duration<float> cl_duration;
+EXT int sphStacks;
+EXT int sphSides;
+EXT bool qredisplay;
+EXT double xyz_range[3];
+EXT double xyz_scale;
+EXT double xyz_center[3];
+EXT int allatoms;
+EXT long int sized[3];
+EXT long int t/*how many atoms in the unit cell*/;
+EXT long int prev_sized[3];
+EXT float Truncated_Cube_max[3];
+EXT float min_xyz[3];
+EXT float max_xyz[3];
+EXT int mouse_check;
+EXT float mouse_y, mouse_x;
+EXT long int ole, ole1, ole2, ole3, ole4, ole5;
+EXT float *crystal;
+EXT float *crystal_backup;
+EXT char *selective_dynamics;
 //float tube_rin = 20, tube_rout = 30, tube_param = 80;
-float colr[3], rad = 20;
-char want_cyrcle[5] = { 'n','o', 'l','l','l'};
-int nanotube = 0;
-int full = 0;
-float zmax100111[3] = { 0.0,0.0,0.0 };
-float zmax100111_[3] = { 0.0,0.0,0.0 };
-int Scase = 1000;
-float figure_1 = 1.0;
-float Right_Hexagonal = 1.0;
-float Right_Hexagonal_height = 20.0;
-float *aweights;
-float pointsize;
-float truepointsize;
-bool vacuum = false;// 0=false, 1=true
-int *anumber;//atomic number
-char ss[20];
-int *aatoms;// real time atoms cound
-int Svmax_buckup;
-float Rod_like = 1.0;
-int width = 1000, height = 800;
-int jgn_supercell = 0;
-int jgn_supercell_xyz[3] = { 10,10,10 };
-float *my_direct=NULL, *uccartesian=NULL;
-float ijk[3][3];//ta 3 dianismata symmetrias
+EXT float colr[3];
+EXT float rad;
+EXT char want_cyrcle[5];
+EXT int nanotube;
+EXT int full;
+EXT float zmax100111[3];
+EXT float zmax100111_[3];
+EXT int Scase;
+EXT float figure_1;
+EXT float Right_Hexagonal;
+EXT float Right_Hexagonal_height;
+EXT float *aweights;
+EXT float pointsize;
+EXT float truepointsize;
+EXT bool vacuum;// 0=false, 1=true
+EXT int *anumber;//atomic number
+EXT char ss[20];
+EXT int *aatoms;// real time atoms cound
+EXT int Svmax_buckup;
+EXT float Rod_like;
+EXT int width, height;
+EXT int jgn_supercell;
+EXT int jgn_supercell_xyz[3];
+EXT float *my_direct, *uccartesian;
+EXT float ijk[3][3];//ta 3 dianismata symmetrias
 				//dn kserw posa diaforetika atoma 9a exei...
 				//o kristallos. ypo8etw oti dn 8a einai panw apo 5
 				//kai ka8e ena exei 3 bytes gia na xwresei kai to \0
 
-int xexe[3] = { 0 };
-int sized_old[3];
-int was_supercell = 0;
-HWND hWndCommandLine = NULL;
-HWND hWndList = NULL;
+EXT int xexe[3];
+EXT int sized_old[3];
+EXT int was_supercell;
+EXT HWND hWndCommandLine;
+EXT HWND hWndList;
 
 
-char *S1 = (char*)malloc(sizeof(char) * 4);
-char *S2 = (char*)malloc(sizeof(char) * 4);
-char *S3 = (char*)malloc(sizeof(char) * 4);
-char *s1 = (char*)malloc(sizeof(char) * 50);
-bool render_is_on = true;
-int S1v = 25, S2v = 30, S3v = 40;
-int S1i[3] = { 0,0,0 }, S2i[3] = { 0,0,0 }, S3i[3] = { 0,0,0 };
-char S1a;
-int Svmax = 0;
-jmp_buf  build_posc_jmp;
-int jgn_file_dropd = 0;
-LPTSTR lpszFile = (LPTSTR)malloc(sizeof(char) * 500);
-char inpf[500] = { 0 };
-TCHAR CommandBuffer[500];
-INPUT keybinp;
-HWND CommandTextHistory = NULL;
-int my_postmessages_count = 0;
-int CustomSurfacesCount = 0;
-float **CustomSurfaces = NULL;
-int CustomSurfacesOn = 0;
-HBRUSH brush;
-HFONT fOnt;
-char *help;
-int loop = 0;
-int sizedprotector[3] = { 0 };
-int anotherokrender = 0;
-int wait = 0;
-int custom_sized[3] = { 1,1,1 };
-int itemsel = -1;
-int predicted = 0;
-wchar_t widechar[50];
-char* listboxcurent = 0;
-map<int, char*> boxlistmap;					// map hwnd of the parent windows created to an int counter
-wchar_t ucender[2];
-WNDPROC oldEditProc;
-int mainwndsize[2] = { 1016,858 };
-int cmdwndh = 300;
-long* mnrcpt;
-HWND hwndcmdjgn;
-HWND mnhwnd;
-HWND CommandTextField = NULL;
-LPRECT glb_rct = (LPRECT)malloc(sizeof(RECT));
+EXT char *S1;
+EXT char *S2;
+EXT char *S3;
+EXT char *s1;
+EXT bool render_is_on;
+EXT int S1v, S2v, S3v;
+EXT int S1i[3], S2i[3], S3i[3];
+EXT char S1a;
+EXT int Svmax;
+EXT jmp_buf  build_posc_jmp;
+EXT int jgn_file_dropd ;
+EXT LPTSTR lpszFile;
+EXT char inpf[500];
+EXT TCHAR CommandBuffer[500];
+EXT INPUT keybinp;
+EXT HWND CommandTextHistory;
+EXT int my_postmessages_count;
+EXT int CustomSurfacesCount;
+EXT float **CustomSurfaces;
+EXT int CustomSurfacesOn;
+EXT HBRUSH brush;
+EXT HFONT fOnt;
+EXT char *help;
+EXT int loop;
+EXT int sizedprotector[3];
+EXT int anotherokrender;
+EXT int wait;
+EXT int custom_sized[3];
+EXT int itemsel;
+EXT int predicted;
+EXT wchar_t widechar[50];
+EXT char* listboxcurent;
+EXT map<int, char*> boxlistmap;					// map hwnd of the parent windows created to an int counter
+EXT wchar_t ucender[2];
+EXT WNDPROC oldEditProc;
+EXT int mainwndsize[2];
+EXT int cmdwndh;
+EXT long* mnrcpt;
+EXT HWND hwndcmdjgn;
+EXT HWND mnhwnd;
+EXT HWND CommandTextField;
+EXT LPRECT glb_rct;
 
 
-int ball_atoms = 0;
-int ballflag = 0;
-char *uc_file_input;
-#define pi 3.141592
-float theta_pr[2] = { 0,0 };
-int *atomic_number=NULL;
-int *new_num_atoms=NULL;
-int i = 1, j = 1, k = 1;
-float fak;
-char *shelp = 0;
-char *atomshelp = NULL;
-char* token3 = 0;
-float sim_box_lo[3];
+EXT int ball_atoms;
+EXT int ballflag;
+EXT char *uc_file_input;
+EXT float theta_pr[2];
+EXT int *atomic_number;
+EXT int *new_num_atoms;
+EXT int i, j, k;
+EXT float fak;
+EXT char *shelp;
+EXT char *atomshelp;
+EXT char* token3;
+EXT float sim_box_lo[3];
 
-int shperes_on = 1;// render as spheres or points
+EXT int shperes_on;// render as spheres or points
 
-const int testsc = 10;
-char *test1[testsc] = { "vector(",
+#ifdef JGN_WINDOWS_CPP
+
+static const int testsc = 10;
+static char *test1[testsc] = { "vector(",
 "clean",
 "undo",
 "supercell(",
@@ -333,7 +372,7 @@ char *test1[testsc] = { "vector(",
 "rand(",
 "render "
 };
-char *test1low[testsc] = { "vector(",
+static char *test1low[testsc] = { "vector(",
 "clean",
 "undo",
 "supercell(",
@@ -344,7 +383,7 @@ char *test1low[testsc] = { "vector(",
 "rand(",
 "render "
 };
-wchar_t *helplist[testsc] = { L"vector(int h,int c,int l,int A)",
+static wchar_t *helplist[testsc] = { L"vector(int h,int c,int l,int A)",
 L"clean",
 L"undo",
 L"supercell(int a1,int a2,int a3)",
@@ -355,74 +394,87 @@ L"points",
 L"rand(float r)",
 L"render on/off"
 };
-bool selective_dynamics_bool;
-char* jgncmdfpath;
-FILE* jgncmdfile;
-char jgncmdfline[100];
-char inptype = '\0';
-float vec[3];
-int crystalh = 0;
-int crystalk = 0;
-int crystall = 0;
-int atomscc = 0;
-float* atoms_to_print = NULL;
-int atoms_to_print_c = 0;
-char* atoms=NULL;
-int a = 0;//a: posa eidi atomwn
-float *an_and_aw=NULL;
-float helping1, helping2, helping3;
-float helpme34[3][4];
-float helpme14[1][4];
-bool shift_down = false;
-float glob_translate[3] = { 0,0,0 };
-float glob_translate_prev[3] = { 0,0,0 };
-int db = 0;
+#endif	// JGN_SOURCE_CPP
 
-float JGN_Det3x3(float x1, float y1, float z1, 
-				float x2, float y2, float z2, 
-				float x3, float y3, float z3)
+
+
+EXT bool selective_dynamics_bool;
+EXT char* jgncmdfpath;
+EXT FILE* jgncmdfile;
+EXT char jgncmdfline[100];
+EXT char inptype;
+EXT float vec[3];
+EXT int crystalh;
+EXT int crystalk;
+EXT int crystall;
+EXT int atomscc;
+EXT float* atoms_to_print;
+EXT int atoms_to_print_c;
+EXT char* atoms;
+EXT int a;//a: posa eidi atomwn
+EXT float *an_and_aw;
+EXT float helping1, helping2, helping3;
+EXT float helpme34[3][4];
+EXT float helpme14[1][4];
+EXT bool shift_down ;
+EXT float glob_translate[3];
+EXT float glob_translate_prev[3];
+EXT int db;
+
+float JGN_Det3x3(float x1, float y1, float z1,
+	float x2, float y2, float z2,
+	float x3, float y3, float z3)
+#ifdef JGN_SOURCE_CPP
 {
-	float ans = x1*(y2*z3 - z2*y3) - y1*(x2*z3 - x3*z2) + z1*(x2*y3 - x3*y2);
+	float ans = x1 * (y2*z3 - z2 * y3) - y1 * (x2*z3 - x3 * z2) + z1 * (x2*y3 - x3 * y2);
 
 	return ans;
 
 }
+#else
+	;
+#endif //JGN_SOURCE_CPP
 
 
 ////////winproc
-HDC hdc;
-LARGE_INTEGER lpPerformanceCount;
+EXT HDC hdc;
+EXT LARGE_INTEGER lpPerformanceCount;
 
 //QueryPerformanceCounter(&lpPerformanceCount);
 
-int wmId, wmEvent;
-char* token, *token1, *s;
-int *ea=NULL;
-FILE* uc_file;
+EXT int wmId, wmEvent;
+EXT char* token, *token1, *s;
+EXT int *ea;
+EXT FILE* uc_file;
 
-int line = 2, p = 0;//line: gia na kserw se poia gramh eimai
+EXT int line, p;//line: gia na kserw se poia gramh eimai
 					//p:diksths gia ta dianismata
 
 					//t:ari8mos olwn twn atomwn sto unit cell
 					//ole1: voi8itikos
-float actor;//actor: einai aytos o pollaplasiasths panw apo ta vectors						
+EXT float actor;//actor: einai aytos o pollaplasiasths panw apo ta vectors						
 
 
-FILE* periodic_table;
-int alloena = 0;
-int ka8isterimenoflag = 0;
-FILE *NewPCF;
-int help0;
-int help1;
+EXT FILE* periodic_table;
+EXT int alloena;
+EXT int ka8isterimenoflag;
+EXT FILE *NewPCF;
+EXT int help0;
+EXT int help1;
 
 
 
 
 void debug(int num)
+#ifdef JGN_SOURCE_CPP
 {
 	cout << "debug: " << num << endl;
 	getchar();
 }
+#else
+;
+#endif// JGN_SOURCE_CPP
+
 
 
 

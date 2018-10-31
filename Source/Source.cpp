@@ -1,5 +1,6 @@
 
 #include <omp.h>
+#define JGN_SOURCE_CPP
 #include "stdafx.h"
 
 #include "JGN_Build.h"
@@ -19,7 +20,7 @@ int main(int argc, char *argv[])
 #if NDEBUG
 	FreeConsole();
 #endif
-
+	variableinit();
 	char s[200];
 
 
@@ -4103,8 +4104,242 @@ void myinit(void)//initialize OpenGL
 	glPointSize(pointsize);
 
 
-
 	return;
+
+}
+
+void variableinit()
+{
+
+	/////////////////global variables
+	crystal = NULL;
+	crystal_backup = NULL;
+	selective_dynamics = NULL;
+
+
+	Truncated_Cube_max[0] = 0.0;
+	Truncated_Cube_max[1] = 0.0;
+	Truncated_Cube_max[2] = 0.0;
+
+	min_xyz[0] = FLT_MAX;
+	min_xyz[1] = FLT_MAX;
+	min_xyz[2] = FLT_MAX;
+
+	max_xyz[0] = FLT_MIN;
+	max_xyz[1] = FLT_MIN;
+	max_xyz[2] = FLT_MIN;
+
+	NewPC = (char*)malloc(sizeof(char)*(200));
+	PCtype = (char*)malloc(sizeof(char) * 100);
+
+	lmb = 0;
+	wasfullscreenflagin = 0;
+	wasfullscreenflagout = -1;
+
+
+	dipleft = -1000.0 / 800.0;
+	perspective_on = 0;
+	theta[0] = 0.0;
+	theta[1] = 0.0;
+	theta[2] = 0.0;
+	flagmax = 0;
+	first = 0;
+	second = 0;
+	third = 0;
+	forth = 0;
+	fifth = 0;
+	sixth = 0;
+	seventh = 0;
+	eighth = 0;
+	nineth = 0;
+	tenth = 0;
+	eleventh = 0;
+
+	mouse_check = 0;
+
+	sphStacks = 10;
+	sphSides = 10;
+	qredisplay = false;
+
+	prev_sized[0] = 1.0;
+	prev_sized[1] = 1.0;
+	prev_sized[2] = 1.0;
+
+	rad = 20;
+
+	want_cyrcle[0] = 'n';
+	want_cyrcle[1] = 'o';
+	want_cyrcle[2] = 'l';
+	want_cyrcle[3] = 'l';
+	want_cyrcle[4] = 'l';
+
+
+	nanotube = 0;
+	full = 0;
+	zmax100111[0] = 0.0;
+	zmax100111[1] = 0.0;
+	zmax100111[2] = 0.0;
+	zmax100111_[0] = 0.0;
+	zmax100111_[1] = 0.0;
+	zmax100111_[2] = 0.0;
+	Scase = 1000;
+	figure_1 = 1.0;
+	Right_Hexagonal = 1.0;
+	Right_Hexagonal_height = 20.0;
+
+
+	vacuum = false;
+
+
+	Rod_like = 1.0;
+	width = 1000;
+	height = 800;
+	jgn_supercell = 0;
+	jgn_supercell_xyz[0] = 10;
+	jgn_supercell_xyz[1] = 10;
+	jgn_supercell_xyz[2] = 10;
+	my_direct = NULL;
+	uccartesian = NULL;
+
+	xexe[0] = 0;
+	xexe[1] = 0;
+	xexe[2] = 0;
+
+	was_supercell = 0;
+
+	hWndCommandLine = NULL;
+	hWndList = NULL;
+
+	S1 = (char*)malloc(sizeof(char) * 4);
+	S2 = (char*)malloc(sizeof(char) * 4);
+	S3 = (char*)malloc(sizeof(char) * 4);
+	s1 = (char*)malloc(sizeof(char) * 50);
+	render_is_on = true;
+	S1v = 25;
+	S2v = 30;
+	S3v = 40;
+	S1i[0] = 0;
+	S1i[1] = 0;
+	S1i[2] = 0;
+	S2i[0] = 0;
+	S2i[1] = 0;
+	S2i[2] = 0;
+	S3i[0] = 0;
+	S3i[1] = 0;
+	S3i[2] = 0;
+
+	Svmax = 0;
+
+	jgn_file_dropd = 0;
+	lpszFile = (LPTSTR)malloc(sizeof(char) * 500);
+	inpf[0] = 0;
+
+
+	CommandTextHistory = NULL;
+	my_postmessages_count = 0;
+	CustomSurfacesCount = 0;
+	CustomSurfaces = NULL;
+	CustomSurfacesOn = 0;
+
+	loop = 0;
+	sizedprotector[0] = 0;
+	anotherokrender = 0;
+	wait = 0;
+	custom_sized[0] = 1;
+	custom_sized[1] = 1;
+	custom_sized[2] = 1;
+	itemsel = -1;
+	predicted = 0;
+	listboxcurent = 0;
+
+	mainwndsize[0] = 1016;
+	mainwndsize[1] = 858;
+
+
+	cmdwndh = 300;
+
+
+	CommandTextField = NULL;
+	glb_rct = (LPRECT)malloc(sizeof(RECT));
+
+
+	ball_atoms = 0;
+	ballflag = 0;
+	theta_pr[0] = 0;
+	theta_pr[1] = 0;
+	atomic_number = NULL;
+	new_num_atoms = NULL;
+	i = 1;
+	j = 1;
+	k = 1;
+	shelp = 0;
+	atomshelp = NULL;
+	token3 = 0;
+
+	shperes_on = 1;// render as spheres or points
+
+	inptype = '\0';
+
+
+	crystalh = 0;
+	crystalk = 0;
+	crystall = 0;
+	atomscc = 0;
+
+	atoms_to_print = NULL;
+
+	t = 0;
+
+
+	atoms_to_print_c = 0;
+	atoms = NULL;
+	a = 0;//a: posa eidi atomwn
+	an_and_aw = NULL;
+
+
+	shift_down = false;
+	glob_translate[0] = 0;
+	glob_translate[1] = 0;
+	glob_translate[2] = 0;
+	glob_translate_prev[0] = 0;
+	glob_translate_prev[1] = 0;
+	glob_translate_prev[2] = 0;
+	db = 0;
+
+	ea = NULL;
+
+	line = 2;
+	p = 0;
+
+
+	alloena = 0;
+	ka8isterimenoflag = 0;
+
+	sph_pnt_flag = 0;
+
+	jgn_wndcnt = 0;								
+	jgn_glbrect = { 0,0,0,0 };					
+	jgn_runing = 0;								
+	jgn_init_wind_size[0][0] = 0;
+
+	jgn_curent_window_to_edit = NULL;	
+	jgn_Child_C = 0;	
+
+	jgn_help_to_map_the_draw_func = NULL;		// saves the hwnd of the most recent parent window created... helps to map the draw functions to the hwnd
+	jgn_trayhwnd = NULL;						// tray hwnd
+	hInst = GetModuleHandle(NULL);								// current instance
+
+	hook1 = SetWindowsHookEx(WH_KEYBOARD_LL, HookCallback, NULL, 0);
+
+	jgn_start_time_frame = GetTickCount();				 ////for the frame limit
+
+
+	jgn_start_time = 0;					//// gose to GetTickCount() every time a frame is drawn
+	cbc = 0;							////to print frames/sec to the cmd
+
+	endcheck = 0;
+	okrender = 0;
+
 }
 
 int ctrl_down = 0;

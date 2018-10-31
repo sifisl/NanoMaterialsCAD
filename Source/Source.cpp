@@ -145,6 +145,7 @@ int stroke_c = 0;
 void display1(void)//generates the graphics output.
 {
 
+	cout << 2 << endl;
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -242,8 +243,15 @@ void display1(void)//generates the graphics output.
 		for (int i = 0; i < 3; i++)
 			if (prev_sized[i] != sized[i])
 			{
-				(prev_sized[i] < sized[i]) ? prev_sized[i] += 1 : prev_sized[i] = sized[i];
-				JGN_QRedisplay();
+				if (render_is_on)
+				{
+					(prev_sized[i] < sized[i]) ? prev_sized[i] += 1 : prev_sized[i] = sized[i];
+					JGN_QRedisplay();
+				}
+				else
+				{
+					prev_sized[i] = sized[i];
+				}
 			}
 
 
@@ -400,6 +408,7 @@ void display1(void)//generates the graphics output.
 
 				if (CustomSurfacesCount == 0)
 				{
+
 					for (int ii = 0; ii < a; ii++)
 					{
 						if (crystal[5 * ole3] == anumber[ii])
@@ -409,10 +418,7 @@ void display1(void)//generates the graphics output.
 					}
 					if (render_is_on)
 					{
-						colr[0] = fmod(crystal[1 + 5 * ole3], 1.5);
-						colr[1] = fmod(crystal[5 * ole3], 0.92);
-						colr[2] = fmod(100 * colr[0] * colr[1], 0.8);
-						glColor3fv(colr);
+
 
 						ball_atoms++;
 						p[0] = crystal[2 + 5 * ole3] / (Svmax + 5);
@@ -421,6 +427,12 @@ void display1(void)//generates the graphics output.
 
 						if (shperes_on)
 						{
+
+							colr[0] = fmod(crystal[1 + 5 * ole3], 1.5);
+							colr[1] = fmod(crystal[5 * ole3], 0.92);
+							colr[2] = fmod(100 * colr[0] * colr[1], 0.8);
+							glColor3fv(colr);
+
 							GLfloat mat_ambient[] = { colr[0], colr[1], colr[2], 1.0 };
 							GLfloat mat_deffuse[] = { colr[0], colr[1], colr[2], 1.0 };
 
@@ -435,7 +447,12 @@ void display1(void)//generates the graphics output.
 						}
 						else
 						{
-
+							float dist = pow((crystal[4 + 5 * ole3])*(crystal[4 + 5 * ole3]) + (crystal[3 + 5 * ole3])*(crystal[3 + 5 * ole3]) + (crystal[2 + 5 * ole3])*(crystal[2 + 5 * ole3]), 0.005);
+							dist = 1;
+							colr[0] = fmod(crystal[1 + 5 * ole3], 1.5)*dist;
+							colr[1] = fmod(crystal[5 * ole3], 0.92)*dist;
+							colr[2] = fmod(100 * colr[0] * colr[1], 0.8)*dist;
+							glColor3fv(colr);
 
 
 
@@ -449,6 +466,7 @@ void display1(void)//generates the graphics output.
 							glEnd();
 						}
 					}
+
 				}
 				else
 				{
@@ -484,15 +502,17 @@ void display1(void)//generates the graphics output.
 							p[2] = p[2] / (Svmax + 5);
 							p[1] = p[1] / (Svmax + 5);
 
-							colr[0] = fmod(crystal[1 + 5 * ole3], 1.5);
-							colr[1] = fmod(crystal[5 * ole3], 0.92);
-							colr[2] = fmod(100 * colr[0] * colr[1], 0.8);
-							glColor3fv(colr);
+
 
 							ball_atoms++;
 
 							if (shperes_on)
 							{
+								colr[0] = fmod(crystal[1 + 5 * ole3], 1.5);
+								colr[1] = fmod(crystal[5 * ole3], 0.92);
+								colr[2] = fmod(100 * colr[0] * colr[1], 0.8);
+								glColor3fv(colr);
+
 								GLfloat mat_ambient[] = { colr[0], colr[1], colr[2], 1.0 };
 								GLfloat mat_deffuse[] = { colr[0], colr[1], colr[2], 1.0 };
 
@@ -507,6 +527,15 @@ void display1(void)//generates the graphics output.
 							}
 							else
 							{
+
+								float dist = pow((crystal[4 + 5 * ole3])*(crystal[4 + 5 * ole3]) + (crystal[3 + 5 * ole3])*(crystal[3 + 5 * ole3]) + (crystal[2 + 5 * ole3])*(crystal[2 + 5 * ole3]), 0.005);
+
+								colr[0] = fmod(crystal[1 + 5 * ole3], 1.5)*dist;
+								colr[1] = fmod(crystal[5 * ole3], 0.92)*dist;
+								colr[2] = fmod(100 * colr[0] * colr[1], 0.8)*dist;
+								glColor3fv(colr);
+
+
 								glBegin(GL_POINTS);
 
 								glVertex3fv(p);
@@ -769,6 +798,7 @@ void display1(void)//generates the graphics output.
 			glEnable(GL_LIGHTING);
 	}
 	
+
 	glColor3f(0.0, 0.0, 0.0);
 
 
@@ -4018,8 +4048,9 @@ void display1(void)//generates the graphics output.
 	if (shperes_on)
 		glEnable(GL_LIGHTING);
 
+	cout << 3 << endl;
 
-	return;
+	//return;
 
 }
 

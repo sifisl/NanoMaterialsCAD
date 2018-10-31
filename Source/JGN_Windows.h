@@ -406,6 +406,7 @@ void JGN_PostRedisplay()
 
 		____JGN_DisplayF();
 
+
 	}
 	else
 	{
@@ -548,7 +549,9 @@ void ____JGN_DisplayF()
 
 	for (int i = 0; i < jgn_wndcnt; i++)
 	{
+
 		jgn_curent_window_to_edit = JGN_Global_Draw[i];
+
 
 		HDC global_hdc = GetDC(jgn_dawfunc_hwnd_map[jgn_curent_window_to_edit]);
 
@@ -561,7 +564,11 @@ void ____JGN_DisplayF()
 
 		hOld = SelectObject(hdcMem, hbmMem);*/
 
-		JGN_Global_Draw[i]();
+		cout << 1 << endl;
+
+		JGN_Global_Draw[0]();
+		cout << 4 << endl;
+
 
 		//BitBlt(hdc, 0, 0, 1000, 1000, hdcMem, 0, 0, SRCCOPY);
 
@@ -579,6 +586,7 @@ void ____JGN_DisplayF()
 
 
 		DeleteDC(global_hdc);
+
 		//UpdateWindow(jgn_dawfunc_hwnd_map[jgn_curent_window_to_edit]);
 	}
 
@@ -609,7 +617,6 @@ LRESULT CALLBACK WndProcEditBox(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-
 
 
 
@@ -837,10 +844,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 	case WM_MOUSEMOVE:
+
 		if (wParam == -1)
 		{
+
 			my_postmessages_count--;
+
 			JGN_PostRedisplay();
+
 		}
 		else
 		{
@@ -868,6 +879,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			}
 			____JGN_PassiveMotionFunc((int)jgn_GlobalMouseCooX - help0, (int)jgn_GlobalMouseCooY - help1, hWnd);
 		}
+
 		break;
 	case WM_LBUTTONDOWN:
 		jgn_GlobalMouseCooX = LOWORD(lParam);
@@ -3667,6 +3679,8 @@ void jgnCommands(LPTSTR ttt, int d)
 		sphStacks = 2;
 		sphSides = 3;
 
+		goto peintit;
+
 	}
 
 	//char *test4 = "points";
@@ -3686,6 +3700,9 @@ void jgnCommands(LPTSTR ttt, int d)
 		okrender = 1;
 		shperes_on = 0;
 		glDisable(GL_LIGHTING);
+
+		goto peintit;
+
 	}
 
 	//char *test4 = "SuperCell(";
@@ -3835,7 +3852,7 @@ void jgnCommands(LPTSTR ttt, int d)
 			selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
 
 			//	crystal_backup = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
-			double ttest = omp_get_wtime();
+			//double ttest = omp_get_wtime();
 
 #pragma omp parallel for firstprivate(jgn_supercell_xyz, xexe, my_direct, inptype, uccartesian, ijk, t)
 			for (int ole3 = 0; ole3 < t; ole3++) {//for every atom in the unit cell
@@ -3903,8 +3920,8 @@ void jgnCommands(LPTSTR ttt, int d)
 					}
 				}
 			}
-			ttest =  omp_get_wtime() - ttest;
-			cout << ttest << endl;
+			//ttest =  omp_get_wtime() - ttest;
+			//cout << ttest << endl;
 			//fclose(periodic_table);
 
 
@@ -3931,6 +3948,7 @@ peintit:
 	SendMessage(CommandTextField, WM_SETFONT, (WPARAM)fOnt, TRUE);
 
 peintit1:
+
 
 	if (okrender)
 	{

@@ -156,6 +156,7 @@ void JGN_SolidSphere(float radius, int numStacks, int numSides)
 /////////////////////////////////////////////////
 
 
+int sph_pnt_flag = 0;
 void JGN_SolidSphereFpsCalibration()
 {
 	if (cl_duration.count() > 2)
@@ -177,7 +178,16 @@ void JGN_SolidSphereFpsCalibration()
 			c++;
 		}
 		if (c == 2)
+		{
+			sph_pnt_flag++; 
+			if (sph_pnt_flag >= 2)
+			{
+				shperes_on = 0;
+				glDisable(GL_LIGHTING);
+			}
+
 			return;
+		}
 
 		JGN_QRedisplay();
 
@@ -202,7 +212,17 @@ void JGN_SolidSphereFpsCalibration()
 			c++;
 		}
 		if (c == 2)
+		{
+			sph_pnt_flag++;
+			if (sph_pnt_flag >= 2)
+			{
+				shperes_on = 0;
+				glDisable(GL_LIGHTING);
+			}
+
+
 			return;
+		}
 
 		JGN_QRedisplay();
 
@@ -227,26 +247,48 @@ void JGN_SolidSphereFpsCalibration()
 			c++;
 		}
 		if (c == 2)
+		{
+			sph_pnt_flag++;
+			if (sph_pnt_flag >= 2)
+			{
+				shperes_on = 0;
+				glDisable(GL_LIGHTING);
+			}
+
 			return;
+		}
 
 		JGN_QRedisplay();
 
 	}
 	else if (cl_duration.count() < 0.03)
 	{
-		(sphStacks < sphSides) ? sphStacks++ : sphSides++;
 
-		if (sphStacks > 100)
+		if (shperes_on == 0 && cl_duration.count() < 0.015)
 		{
-			sphStacks = 100;
-			return;
+			shperes_on = 1;
+			sphStacks = 2;
+			sphSides = 3;
+			glEnable(GL_LIGHTING);
 
 		}
-		if (sphSides > 100)
+		else
 		{
-			sphSides = 100;
-			return;
+			sph_pnt_flag = 0;
+			(sphStacks < sphSides) ? sphStacks++ : sphSides++;
 
+			if (sphStacks > 100)
+			{
+				sphStacks = 100;
+				return;
+
+			}
+			if (sphSides > 100)
+			{
+				sphSides = 100;
+				return;
+
+			}
 		}
 
 		//JGN_QRedisplay();

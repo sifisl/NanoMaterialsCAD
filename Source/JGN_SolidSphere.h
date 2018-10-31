@@ -10,10 +10,15 @@ typedef struct {
 	GLdouble x, y, z;
 }vec3;
 
-vec3 points[90];
+vec3 points[10000];
+
 
 void JGN_SolidSphere(float radius, int numStacks, int numSides)
 {
+	//numStacks = 2;
+	//numSides = 3;
+
+
 	//glScalef(0.2*radius / CONST_COE, 0.2*radius / CONST_COE, 0.2*radius / CONST_COE);
 
 	//    vec3 points[sides * (sides-1)];
@@ -40,7 +45,6 @@ void JGN_SolidSphere(float radius, int numStacks, int numSides)
 			points[curVert++] = vec3{ curX,curY,curZ };
 		}
 	}
-
 	// option 1 - points only
 	/*
 	glBegin(GL_POINTS);
@@ -150,3 +154,102 @@ void JGN_SolidSphere(float radius, int numStacks, int numSides)
 }
 
 /////////////////////////////////////////////////
+
+
+void JGN_SolidSphereFpsCalibration()
+{
+	if (cl_duration.count() > 2)
+	{
+
+		sphStacks -= 100;
+		sphSides -= 100;
+
+		int c = 0;
+
+		if (sphStacks < 2)
+		{
+			sphStacks = 2;
+			c++;
+		}
+		if (sphSides < 3)
+		{
+			sphSides = 3;
+			c++;
+		}
+		if (c == 2)
+			return;
+
+		JGN_QRedisplay();
+
+	}
+	else if (cl_duration.count() > 0.5)
+	{
+
+		sphStacks -= 60;
+		sphSides -= 60;
+
+
+		int c = 0;
+
+		if (sphStacks < 2)
+		{
+			sphStacks = 2;
+			c++;
+		}
+		if (sphSides < 3)
+		{
+			sphSides = 3;
+			c++;
+		}
+		if (c == 2)
+			return;
+
+		JGN_QRedisplay();
+
+	}
+	else if (cl_duration.count() > 0.06)
+	{
+
+		sphStacks -= 30;
+		sphSides -= 30;
+
+
+		int c = 0;
+
+		if (sphStacks < 2)
+		{
+			sphStacks = 2;
+			c++;
+		}
+		if (sphSides < 3)
+		{
+			sphSides = 3;
+			c++;
+		}
+		if (c == 2)
+			return;
+
+		JGN_QRedisplay();
+
+	}
+	else if (cl_duration.count() < 0.03)
+	{
+		(sphStacks < sphSides) ? sphStacks++ : sphSides++;
+
+		if (sphStacks > 100)
+		{
+			sphStacks = 100;
+			return;
+
+		}
+		if (sphSides > 100)
+		{
+			sphSides = 100;
+			return;
+
+		}
+
+		//JGN_QRedisplay();
+
+	}
+}

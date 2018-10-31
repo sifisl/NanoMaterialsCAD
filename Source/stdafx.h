@@ -15,6 +15,7 @@
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 
 #include <iostream>
+#include <chrono>
 #include <map>
 #include <cstring>
 #include <string>
@@ -205,11 +206,17 @@ GLfloat eighth =0;
 GLfloat nineth = 0;
 GLfloat tenth = 0;
 GLfloat eleventh = 0;
+std::chrono::time_point<std::chrono::steady_clock> cl_start, cl_end;
+std::chrono::duration<float> cl_duration;
+int sphStacks = 10;
+int sphSides = 10;
+bool qredisplay = false;
 double xyz_range[3];
 double xyz_scale;
 double xyz_center[3];
 int allatoms;
 long int sized[3], t = 0/*how many atoms in the unit cell*/;
+long int prev_sized[3] = { 1,1,1 };
 float Truncated_Cube_max[] = { 0.0 , 0.0, 0.0 };
 float min_xyz[3] = { FLT_MAX,FLT_MAX,FLT_MAX }, max_xyz[3] = { FLT_MIN,FLT_MIN,FLT_MIN };
 int mouse_check = 0;
@@ -270,6 +277,7 @@ char inpf[500] = { 0 };
 TCHAR CommandBuffer[500];
 INPUT keybinp;
 HWND CommandTextHistory = NULL;
+int my_postmessages_count = 0;
 int CustomSurfacesCount = 0;
 float **CustomSurfaces = NULL;
 int CustomSurfacesOn = 0;

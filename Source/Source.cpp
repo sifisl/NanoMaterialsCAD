@@ -144,7 +144,11 @@ int stroke_c = 0;
 
 void display1(void)//generates the graphics output.
 {
+
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
 
 
 	for (int ii = 0; ii < a; ii++)
@@ -235,8 +239,19 @@ void display1(void)//generates the graphics output.
 
 		ball_atoms = 0;
 
-		int ajklsdfl = t * (sized[0])*(sized[1])*(sized[2]);
+		for (int i = 0; i < 3; i++)
+			if (prev_sized[i] != sized[i])
+			{
+				(prev_sized[i] < sized[i]) ? prev_sized[i] += 1 : prev_sized[i] = sized[i];
+				JGN_QRedisplay();
+			}
+
+
+		int ajklsdfl = t * (prev_sized[0])*(prev_sized[1])*(prev_sized[2]);
+
 //#pragma omp parallel for firstprivate(ajklsdfl, p, CustomSurfacesCount, i, CustomSurfaces, anumber, render_is_on, colr, shperes_on,)
+		cl_start = std::chrono::high_resolution_clock::now();
+
 		for (int ole3 = 0; ole3 < ajklsdfl; ole3++)
 		{
 			if (nanotube)
@@ -292,7 +307,7 @@ void display1(void)//generates the graphics output.
 
 							glTranslatef(p[0], p[1], p[2]);
 
-							glutSolidSphere(pointsize*0.001, 10, 10);
+							glutSolidSphere(pointsize*0.001, sphStacks, sphSides);
 
 							glTranslatef(-p[0], -p[1], -p[2]);
 						}
@@ -362,7 +377,7 @@ void display1(void)//generates the graphics output.
 
 								glTranslatef(p[0], p[1], p[2]);
 
-								glutSolidSphere(pointsize*0.001, 10, 10);
+								glutSolidSphere(pointsize*0.001, sphStacks, sphSides);
 
 								glTranslatef(-p[0], -p[1], -p[2]);
 							}
@@ -382,6 +397,7 @@ void display1(void)//generates the graphics output.
 			}
 			else if (CustomSurfacesOn)
 			{
+
 				if (CustomSurfacesCount == 0)
 				{
 					for (int ii = 0; ii < a; ii++)
@@ -413,7 +429,7 @@ void display1(void)//generates the graphics output.
 
 							glTranslatef(p[0], p[1], p[2]);
 
-							glutSolidSphere(pointsize*0.001, 10, 10);
+							glutSolidSphere(pointsize*0.001, sphStacks, sphSides);
 
 							glTranslatef(-p[0], -p[1], -p[2]);
 						}
@@ -485,7 +501,7 @@ void display1(void)//generates the graphics output.
 
 								glTranslatef(p[0], p[1], p[2]);
 
-								glutSolidSphere(pointsize*0.001, 10, 10);
+								glutSolidSphere(pointsize*0.001, sphStacks, sphSides);
 
 								glTranslatef(-p[0], -p[1], -p[2]);
 							}
@@ -501,7 +517,7 @@ void display1(void)//generates the graphics output.
 						}
 					}
 				}
-
+				
 			}
 			else if (jgn_supercell)
 			{
@@ -534,7 +550,7 @@ void display1(void)//generates the graphics output.
 
 						glTranslatef(p[0], p[1], p[2]);
 
-						glutSolidSphere(pointsize*0.001, 10, 10);
+						glutSolidSphere(pointsize*0.001, sphStacks, sphSides);
 
 						glTranslatef(-p[0], -p[1], -p[2]);
 					}
@@ -609,7 +625,7 @@ void display1(void)//generates the graphics output.
 
 									glTranslatef(p[0], p[1], p[2]);
 
-									glutSolidSphere(pointsize*0.001, 10, 10);
+									glutSolidSphere(pointsize*0.001, sphStacks, sphSides);
 
 									glTranslatef(-p[0], -p[1], -p[2]);
 								}
@@ -685,7 +701,7 @@ void display1(void)//generates the graphics output.
 
 									glTranslatef(p[0], p[1], p[2]);
 
-									glutSolidSphere(pointsize*0.001, 10, 10);
+									glutSolidSphere(pointsize*0.001, sphStacks, sphSides);
 
 									glTranslatef(-p[0], -p[1], -p[2]);
 								}
@@ -710,6 +726,13 @@ void display1(void)//generates the graphics output.
 
 			}
 		}
+
+		cl_end = std::chrono::high_resolution_clock::now();
+		cl_duration = cl_end - cl_start;
+
+		JGN_SolidSphereFpsCalibration();
+
+
 
 	if (CustomSurfacesOn)
 	{
@@ -3994,6 +4017,7 @@ void display1(void)//generates the graphics output.
 	}
 	if (shperes_on)
 		glEnable(GL_LIGHTING);
+
 
 	return;
 

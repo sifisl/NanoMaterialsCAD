@@ -387,12 +387,25 @@ HWND InitInstance(HINSTANCE hInstance, int nCmdShow)
 	return h;
 }
 
+void JGN_QRedisplay()
+{
+	qredisplay = true;
+	if (my_postmessages_count == 0)
+	{
+		PostMessage(jgn_help_to_map_the_draw_func, WM_MOUSEMOVE, -1, rand());
+		my_postmessages_count++;
+	}
+
+}
+
 void JGN_PostRedisplay()
 {
 
 	if (jgn_file_dropd)
 	{
+
 		____JGN_DisplayF();
+
 	}
 	else
 	{
@@ -599,6 +612,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 
 
+
 	switch (message)
 	{
 	case WM_CTLCOLORSTATIC://////paint child
@@ -623,7 +637,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_SIZING:
 
 		//JGN_PostRedisplay();
-
+		
 		break;
 	case WM_DROPFILES:
 
@@ -755,13 +769,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		
 		JGN_DropFile();
 
-		jgn_file_dropd = 1;
 		DragFinish((HDROP)wParam);
 
 		lines_param();
+		jgn_file_dropd = 1;
+
 
 		JGN_PostRedisplay();
 		SetForegroundWindow(hWnd);
+
 		break;
 	case WM_MOVE:
 		GetWindowRect(mnhwnd, glb_rct);
@@ -821,29 +837,37 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 	case WM_MOUSEMOVE:
-		jgn_GlobalMouseCooX = LOWORD(lParam);
-		jgn_GlobalMouseCooY = HIWORD(lParam);
-		if ((JGN_CHECK_NEGATIVE_16BIT & jgn_GlobalMouseCooX) == JGN_CHECK_NEGATIVE_16BIT)
+		if (wParam == -1)
 		{
-			jgn_GlobalMouseCooX = jgn_GlobalMouseCooX & 0x7fff;
-			help0 = 0x00007fff;
+			my_postmessages_count--;
+			JGN_PostRedisplay();
 		}
 		else
 		{
-			help0 = 0x00000000;
+			jgn_GlobalMouseCooX = LOWORD(lParam);
+			jgn_GlobalMouseCooY = HIWORD(lParam);
+			if ((JGN_CHECK_NEGATIVE_16BIT & jgn_GlobalMouseCooX) == JGN_CHECK_NEGATIVE_16BIT)
+			{
+				jgn_GlobalMouseCooX = jgn_GlobalMouseCooX & 0x7fff;
+				help0 = 0x00007fff;
+			}
+			else
+			{
+				help0 = 0x00000000;
 
-		}
-		if ((JGN_CHECK_NEGATIVE_16BIT & jgn_GlobalMouseCooY) == JGN_CHECK_NEGATIVE_16BIT)
-		{
-			jgn_GlobalMouseCooY = jgn_GlobalMouseCooY & 0x7fff;
-			help1 = 0x00007fff;
+			}
+			if ((JGN_CHECK_NEGATIVE_16BIT & jgn_GlobalMouseCooY) == JGN_CHECK_NEGATIVE_16BIT)
+			{
+				jgn_GlobalMouseCooY = jgn_GlobalMouseCooY & 0x7fff;
+				help1 = 0x00007fff;
 
+			}
+			else
+			{
+				help1 = 0x00000000;
+			}
+			____JGN_PassiveMotionFunc((int)jgn_GlobalMouseCooX - help0, (int)jgn_GlobalMouseCooY - help1, hWnd);
 		}
-		else
-		{
-			help1 = 0x00000000;
-		}
-		____JGN_PassiveMotionFunc((int)jgn_GlobalMouseCooX - help0, (int)jgn_GlobalMouseCooY - help1, hWnd);
 		break;
 	case WM_LBUTTONDOWN:
 		jgn_GlobalMouseCooX = LOWORD(lParam);
@@ -1899,8 +1923,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
 
-	
-	
+
+
 	//JGN_DisplayF(JGN_Global_Draw);
 
 	return 0;
@@ -2561,13 +2585,11 @@ void JGN_MainLoop()
 	//UINT_PTR timerId = SetTimer(NULL, NULL, 1, NULL);
 
 	while (GetMessage(&msg, NULL, 0, 0))
+	//while (PeekMessageA(&msg, NULL, 0, 0, PM_NOREMOVE))
 	{
-		
-
 
 		if ((!TranslateAccelerator(msg.hwnd, hAccelTable, &msg) || !IsDialogMessage(msg.hwnd, &msg)))
 		{
-
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
@@ -2887,7 +2909,6 @@ void jgnCommands(LPTSTR ttt, int d)
 		{
 			CustomSurfacesCount--;
 		}
-		JGN_PostRedisplay();
 
 		goto peintit;
 
@@ -2925,8 +2946,8 @@ void jgnCommands(LPTSTR ttt, int d)
 			okrender = 0;
 			return;
 		}
-		JGN_PostRedisplay();
-		
+		goto peintit;
+
 	}
 	//"rand("
 	for (i = 0; i < 5; i++)
@@ -2963,7 +2984,6 @@ void jgnCommands(LPTSTR ttt, int d)
 				crystal[3 + 5 * ole1] += r * (2 * (rand() / (float)RAND_MAX) - 1);
 				crystal[4 + 5 * ole1] += r * (2 * (rand() / (float)RAND_MAX) - 1);
 			}
-			JGN_PostRedisplay();
 		}
 		else
 		{
@@ -2971,6 +2991,7 @@ void jgnCommands(LPTSTR ttt, int d)
 			return;
 		}
 		
+		goto peintit;
 
 	}
 	//"Plane("
@@ -3365,7 +3386,6 @@ void jgnCommands(LPTSTR ttt, int d)
 		{
 			CustomSurfacesCount--;
 		}
-		JGN_PostRedisplay();
 
 		goto peintit;
 
@@ -3595,7 +3615,6 @@ void jgnCommands(LPTSTR ttt, int d)
 		}
 		delete(CustomSurfaces);
 		CustomSurfaces = NULL;
-		JGN_PostRedisplay();
 		goto peintit;
 
 
@@ -3622,7 +3641,6 @@ void jgnCommands(LPTSTR ttt, int d)
 		{
 			CustomSurfacesCount = 0;
 		}
-		JGN_PostRedisplay();
 
 		goto peintit;
 
@@ -3646,7 +3664,8 @@ void jgnCommands(LPTSTR ttt, int d)
 		shperes_on = 1;
 		glEnable(GL_LIGHTING);
 
-		JGN_PostRedisplay();
+		sphStacks = 2;
+		sphSides = 3;
 
 	}
 
@@ -3667,7 +3686,6 @@ void jgnCommands(LPTSTR ttt, int d)
 		okrender = 1;
 		shperes_on = 0;
 		glDisable(GL_LIGHTING);
-		JGN_PostRedisplay();
 	}
 
 	//char *test4 = "SuperCell(";
@@ -3889,7 +3907,6 @@ void jgnCommands(LPTSTR ttt, int d)
 			cout << ttest << endl;
 			//fclose(periodic_table);
 
-			JGN_PostRedisplay();
 
 		}
 
@@ -3959,6 +3976,8 @@ peintit1:
 			CommandBuffer[i] = 0;
 
 		}
+
+		JGN_PostRedisplay();
 
 	}
 	else

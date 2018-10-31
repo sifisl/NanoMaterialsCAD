@@ -447,8 +447,9 @@ void display1(void)//generates the graphics output.
 						}
 						else
 						{
+							//surface pattern
 							float dist = pow((crystal[4 + 5 * ole3])*(crystal[4 + 5 * ole3]) + (crystal[3 + 5 * ole3])*(crystal[3 + 5 * ole3]) + (crystal[2 + 5 * ole3])*(crystal[2 + 5 * ole3]), 0.005);
-							dist = 1;
+							
 							colr[0] = fmod(crystal[1 + 5 * ole3], 1.5)*dist;
 							colr[1] = fmod(crystal[5 * ole3], 0.92)*dist;
 							colr[2] = fmod(100 * colr[0] * colr[1], 0.8)*dist;
@@ -508,6 +509,7 @@ void display1(void)//generates the graphics output.
 
 							if (shperes_on)
 							{
+
 								colr[0] = fmod(crystal[1 + 5 * ole3], 1.5);
 								colr[1] = fmod(crystal[5 * ole3], 0.92);
 								colr[2] = fmod(100 * colr[0] * colr[1], 0.8);
@@ -527,7 +529,7 @@ void display1(void)//generates the graphics output.
 							}
 							else
 							{
-
+								//surface pattern
 								float dist = pow((crystal[4 + 5 * ole3])*(crystal[4 + 5 * ole3]) + (crystal[3 + 5 * ole3])*(crystal[3 + 5 * ole3]) + (crystal[2 + 5 * ole3])*(crystal[2 + 5 * ole3]), 0.005);
 
 								colr[0] = fmod(crystal[1 + 5 * ole3], 1.5)*dist;

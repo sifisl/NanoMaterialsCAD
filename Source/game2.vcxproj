@@ -211,11 +211,11 @@ move /Y "$(ProjectDir)..\$(Configuration)\*.pdb" "$(ProjectDir)$(Configuration)"
   <ItemGroup>
     <ClCompile Include="JGN_bmpLoader.cpp" />
     <ClCompile Include="JGN_Build.cpp" />
-    <CudaCompile Include="JGN_Commands.cpp" />
     <ClCompile Include="JGN_DropFile.cpp" />
     <ClCompile Include="JGN_SolidSphere.cpp" />
     <ClCompile Include="JGN_StrokeCharacter.cpp" />
     <ClCompile Include="JGN_Windows.cpp" />
+    <CudaCompile Include="JGN_Commands.cu" />
     <CudaCompile Include="Source.cpp">
       <FileType>CppCode</FileType>
       <CodeGeneration Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(CodeGeneration)</CodeGeneration>

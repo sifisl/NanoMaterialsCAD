@@ -10,6 +10,7 @@
 #include <device_launch_parameters.h>
 
 
+
 void jgnCommands(LPTSTR ttt, int d)
 {
 	
@@ -250,6 +251,9 @@ void jgnCommands(LPTSTR ttt, int d)
 		if (option == "on")
 		{
 			render_is_on = true;
+			shperes_on = 0;
+				sphStacks = 2;
+				sphSides = 3;
 		}
 		else if (option == "of")
 		{
@@ -1149,8 +1153,8 @@ void jgnCommands(LPTSTR ttt, int d)
 			}
 			//periodic_table = fopen("periodic_table.jgn", "r");
 
-			crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
-			crystal_backup = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
+			crystal = (float*)realloc(crystal, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
+			crystal_backup = (float*)realloc(crystal_backup, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 			selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
 
 			//	crystal_backup = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));

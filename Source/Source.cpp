@@ -3541,7 +3541,7 @@ void display1(void)//generates the graphics output.
 
 			glTranslated(-dipleft, float(ff) / float(a), 0);
 
-			glutSolidSphere(20 * 0.001, 10, 10);
+			glutSolidSphere(20 * 0.001, sphStacks, sphSides);
 
 			glTranslated(dipleft, -float(ff) / float(a), 0);
 
@@ -4100,6 +4100,8 @@ void myinit(void)//initialize OpenGL
 
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
+	glEnableClientState(GL_VERTEX_ARRAY);   
+	glEnableClientState(GL_NORMAL_ARRAY);   
 	//glEnable(GL_DEPTH_TEST);
 
 	truepointsize = 1000.0;
@@ -4342,6 +4344,13 @@ void variableinit()
 
 	endcheck = 0;
 	okrender = 0;
+
+	points[0] = { 0,1,0 };
+	for (int i = 0; i < 100; i++)
+		triangles_indices[i] = i;
+
+
+
 
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS
 #define _USE_MATH_DEFINES
+#define WIN32_LEAN_AND_MEAN
 
 
 #ifdef JGN_SOURCE_CPP

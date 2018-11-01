@@ -73,11 +73,11 @@
     <ClCompile Include="JGN_DropFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source.cu">
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="JGN_Commands.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    </CudaCompile>
+    <CudaCompile Include="JGN_Commands.cu" />
   </ItemGroup>
 </Project>

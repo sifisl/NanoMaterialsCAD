@@ -10,7 +10,12 @@ typedef struct {
 	GLdouble x, y, z;
 }vec3;
 
-EXT vec3 points[10000];
+EXT vec3 points[10001];
+EXT unsigned int triangles_indices[101];
+EXT unsigned int quads_indices[40000];
+
+
+
 
 
 void JGN_SolidSphere(float radius, int numStacks, int numSides);

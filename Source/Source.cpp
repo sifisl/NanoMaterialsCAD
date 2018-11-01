@@ -1,7 +1,10 @@
 
-#include <omp.h>
+
 #define JGN_SOURCE_CPP
 #include "stdafx.h"
+
+
+
 
 #include "JGN_Build.h"
 #include "JGN_Windows.h"
@@ -13,13 +16,15 @@
 // TODO: make a class instead of the crystal array
 //test
 
+
 int main(int argc, char *argv[])
 {
-
 
 #if NDEBUG
 	FreeConsole();
 #endif
+
+
 	variableinit();
 	char s[200];
 
@@ -146,8 +151,7 @@ int stroke_c = 0;
 void display1(void)//generates the graphics output.
 {
 
-	cout << 2 << endl;
-
+	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
@@ -4051,7 +4055,6 @@ void display1(void)//generates the graphics output.
 	if (shperes_on)
 		glEnable(GL_LIGHTING);
 
-	cout << 3 << endl;
 
 	//return;
 

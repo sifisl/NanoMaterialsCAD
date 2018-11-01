@@ -45,6 +45,9 @@
     <ClInclude Include="JGN_DropFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="JGN_Commands.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="JGN_Resource.rc">
@@ -52,9 +55,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="JGN_StrokeCharacter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -71,6 +71,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="JGN_DropFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source.cu">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JGN_Commands.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

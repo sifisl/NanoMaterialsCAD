@@ -358,7 +358,7 @@ EXT float sim_box_lo[3];
 
 EXT int shperes_on;// render as spheres or points
 
-#ifdef JGN_WINDOWS_CPP
+#if defined(JGN_COMMANDS_CPP) || defined(JGN_WINDOWS_CPP)
 
 static const int testsc = 10;
 static char *test1[testsc] = { "vector(",

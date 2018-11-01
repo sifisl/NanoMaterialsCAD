@@ -310,8 +310,6 @@ INT_PTR CALLBACK Choose_Format(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 INT_PTR CALLBACK TUT(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 
 
-void jgnCommands(LPTSTR ttt, int d);
-
 
 
 

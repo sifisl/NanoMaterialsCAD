@@ -826,6 +826,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_SIZE:
 		____JGN_ReshapeFunc(LOWORD(lParam), HIWORD(lParam), hWnd);
 		GetWindowRect(mnhwnd, glb_rct);
+		//width = - (*glb_rct).left + (*glb_rct).right - 20;
+		//height =  (*glb_rct).bottom - (*glb_rct).top - 50;
 		//__asm {
 		//	mov esi, [glb_rct]
 		//	mov[mnrcpt], esi
@@ -977,8 +979,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			periodic_table = fopen("periodic_table.jgn", "r");
 
-			crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
-			selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
+			crystal = (float*)realloc(NULL, sizeof(float)*(sized[0] * sized[1] * sized[2] * t * 5));
+			selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(sized[0] * sized[1] * sized[2] * t * 3));
+			isSelected = (bool*)realloc(isSelected, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+			for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
+			{
+				isSelected[i] = false;
+			}
+			selective_render = (bool*)realloc(selective_render, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+			for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
+			{
+				selective_render[i] = true;
+			}
+
 
 			//crystal_backup = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 
@@ -1091,6 +1104,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 			selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
+			isSelected = (bool*)realloc(isSelected, sizeof(bool)*t);
+			for (int i = 0; i < t; i++)
+			{
+				isSelected[i] = false;
+			}
+			selective_render = (bool*)realloc(selective_render, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+			for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
+			{
+				selective_render[i] = true;
+			}
+
 
 			//crystal_backup = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 
@@ -1232,6 +1256,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 				crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 				selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
+				isSelected = (bool*)realloc(isSelected, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+				for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
+				{
+					isSelected[i] = false;
+				}
+				selective_render = (bool*)realloc(selective_render, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+				for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
+				{
+					selective_render[i] = true;
+				}
+
 
 				//crystal_backup = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 
@@ -1348,6 +1383,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 				crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 				selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
+				isSelected = (bool*)realloc(isSelected, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+				for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
+				{
+					isSelected[i] = false;
+				}
+				selective_render = (bool*)realloc(selective_render, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+				for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
+				{
+					selective_render[i] = true;
+				}
+
 
 				//	crystal_backup = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 
@@ -1468,6 +1514,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 				crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 				selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
+				isSelected = (bool*)realloc(isSelected, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+				for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
+				{
+					isSelected[i] = false;
+				}
+				selective_render = (bool*)realloc(selective_render, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+				for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
+				{
+					selective_render[i] = true;
+				}
+
 
 				//	crystal_backup = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 
@@ -1587,6 +1644,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 				crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 				selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
+				isSelected = (bool*)realloc(isSelected, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+				for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
+				{
+					isSelected[i] = false;
+				}
+				selective_render = (bool*)realloc(selective_render, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+				for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
+				{
+					selective_render[i] = true;
+				}
+
 
 				//	crystal_backup = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 
@@ -1715,6 +1783,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 				crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 				selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
+				isSelected = (bool*)realloc(isSelected, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+				for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
+				{
+					isSelected[i] = false;
+				}
+				selective_render = (bool*)realloc(selective_render, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+				for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
+				{
+					selective_render[i] = true;
+				}
+
 
 				//	crystal_backup = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 
@@ -3769,6 +3848,17 @@ void jgnCommands(LPTSTR ttt, int d)
 			crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 			crystal_backup = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 			selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
+			isSelected = (bool*)realloc(isSelected, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+			for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
+			{
+				isSelected[i] = false;
+			}
+			selective_render = (bool*)realloc(selective_render, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+			for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
+			{
+				selective_render[i] = true;
+			}
+
 
 			//	crystal_backup = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 			//double ttest = omp_get_wtime();
@@ -3838,6 +3928,7 @@ void jgnCommands(LPTSTR ttt, int d)
 						}
 					}
 				}
+
 			}
 			//ttest =  omp_get_wtime() - ttest;
 			//cout << ttest << endl;

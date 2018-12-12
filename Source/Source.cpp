@@ -146,7 +146,6 @@ int stroke_c = 0;
 void display1(void)//generates the graphics output.
 {
 
-	cout << 2 << endl;
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -208,16 +207,7 @@ void display1(void)//generates the graphics output.
 
 	glLoadIdentity();
 	//glRotatef(theta[0], cos((pi*theta[1]) / 180), 0.0, sin((pi*theta[1]) / 180));
-	glTranslatef(0, .3, 0);
-	if (perspective_on)
-	{
-		glTranslated(0, 0, -3);
-		if (Rod_like == -1)
-		{
-			glTranslated(0, 0, 1);
 
-		}
-	}
 	if (CustomSurfacesOn)
 	{
 		glRotatef(theta[0], 1.0, 0.0, 0.0);
@@ -227,6 +217,16 @@ void display1(void)//generates the graphics output.
 	{
 		glRotatef(theta[0], 1.0, 0.0, 0.0);
 		glRotatef(theta[1], 0.0, 1.0, 0.0);
+	}
+	glTranslatef(model_translate[0], model_translate[1], model_translate[2]);
+	if (perspective_on)
+	{
+		glTranslated(0, 0, -3);
+		if (Rod_like == -1)
+		{
+			glTranslated(0, 0, 1);
+
+		}
 	}
 	//if (mouse_check == 1 ) {
 	//	glRotatef(sqrt(theta[1] * theta[1] + theta[0] * theta[0]), theta[0] - theta_pr[0], theta[1] - theta_pr[1], 0.0);
@@ -263,79 +263,12 @@ void display1(void)//generates the graphics output.
 
 		for (int ole3 = 0; ole3 < ajklsdfl; ole3++)
 		{
-			if (nanotube)
+			float ghost = 1.0;
+			if (selective_render[ole3] == false)
 			{
-				p[0] = crystal[2 + 5 * ole3];
-				p[1] = crystal[3 + 5 * ole3];
-				p[2] = crystal[4 + 5 * ole3];
-
-				for (i = 0; i < CustomSurfacesCount; i++)
-				{
-					if (CustomSurfaces[i][0] * (p[0] - CustomSurfaces[i][0] * CustomSurfaces[i][3]) + CustomSurfaces[i][1] * (p[1] - CustomSurfaces[i][1] * CustomSurfaces[i][3]) + CustomSurfaces[i][2] * (p[2] - CustomSurfaces[i][2] * CustomSurfaces[i][3]) <= 0)
-					{
-
-					}
-					else
-					{
-						i = 1000;
-					}
-
-				}
-
-				//if (i == CustomSurfacesCount)
-				if (true)
-				{
-					for (int ii = 0; ii < a; ii++)
-					{
-						if (crystal[5 * ole3] == anumber[ii])
-						{
-							aatoms[ii]++;
-						}
-					}
-					if (render_is_on)
-					{
-						colr[0] = fmod(crystal[1 + 5 * ole3], 1.5);
-						colr[1] = fmod(crystal[5 * ole3], 0.92);
-						colr[2] = fmod(100 * colr[0] * colr[1], 0.8);
-						glColor3fv(colr);
-						//glColor3f(1, 0.7, 0);
-						ball_atoms++;
-
-						p[0] = crystal[2 + 5 * ole3] / (Svmax + 5);
-						p[1] = crystal[3 + 5 * ole3] / (Svmax + 5);
-						p[2] = crystal[4 + 5 * ole3] / (Svmax + 5);
-
-
-						if (shperes_on)
-						{
-							GLfloat mat_ambient[] = { colr[0], colr[1], colr[2], 1.0 };
-							GLfloat mat_deffuse[] = { colr[0], colr[1], colr[2], 1.0 };
-
-							glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
-							glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_deffuse);
-
-							glTranslatef(p[0], p[1], p[2]);
-
-							glutSolidSphere(pointsize*0.001, sphStacks, sphSides);
-
-							glTranslatef(-p[0], -p[1], -p[2]);
-						}
-						else
-						{
-							glBegin(GL_POINTS);
-
-
-							glVertex3fv(p);
-
-
-							glEnd();
-						}
-					}
-				}
+				ghost = 0.1;
 			}
-			else if (want_cyrcle[0] == 'y' || want_cyrcle[0] == 'Y')
-			{
-				if (vacuum ^ (rad >= sqrt(crystal[2 + 5 * ole3] * crystal[2 + 5 * ole3] + crystal[3 + 5 * ole3] * crystal[3 + 5 * ole3] + crystal[4 + 5 * ole3] * crystal[4 + 5 * ole3])))
+				if (nanotube)
 				{
 					p[0] = crystal[2 + 5 * ole3];
 					p[1] = crystal[3 + 5 * ole3];
@@ -354,7 +287,8 @@ void display1(void)//generates the graphics output.
 
 					}
 
-					if (i == CustomSurfacesCount)
+					//if (i == CustomSurfacesCount)
+					if (true)
 					{
 						for (int ii = 0; ii < a; ii++)
 						{
@@ -369,12 +303,13 @@ void display1(void)//generates the graphics output.
 							colr[1] = fmod(crystal[5 * ole3], 0.92);
 							colr[2] = fmod(100 * colr[0] * colr[1], 0.8);
 							glColor3fv(colr);
-
+							//glColor3f(1, 0.7, 0);
 							ball_atoms++;
 
 							p[0] = crystal[2 + 5 * ole3] / (Svmax + 5);
-							p[2] = crystal[3 + 5 * ole3] / (Svmax + 5);
-							p[1] = crystal[4 + 5 * ole3] / (Svmax + 5);
+							p[1] = crystal[3 + 5 * ole3] / (Svmax + 5);
+							p[2] = crystal[4 + 5 * ole3] / (Svmax + 5);
+
 
 							if (shperes_on)
 							{
@@ -403,94 +338,83 @@ void display1(void)//generates the graphics output.
 						}
 					}
 				}
-			}
-			else if (CustomSurfacesOn)
-			{
-
-				if (CustomSurfacesCount == 0)
+				else if (want_cyrcle[0] == 'y' || want_cyrcle[0] == 'Y')
 				{
-
-					for (int ii = 0; ii < a; ii++)
+					if (vacuum ^ (rad >= sqrt(crystal[2 + 5 * ole3] * crystal[2 + 5 * ole3] + crystal[3 + 5 * ole3] * crystal[3 + 5 * ole3] + crystal[4 + 5 * ole3] * crystal[4 + 5 * ole3])))
 					{
-						if (crystal[5 * ole3] == anumber[ii])
+						p[0] = crystal[2 + 5 * ole3];
+						p[1] = crystal[3 + 5 * ole3];
+						p[2] = crystal[4 + 5 * ole3];
+
+						for (i = 0; i < CustomSurfacesCount; i++)
 						{
-							aatoms[ii]++;
+							if (CustomSurfaces[i][0] * (p[0] - CustomSurfaces[i][0] * CustomSurfaces[i][3]) + CustomSurfaces[i][1] * (p[1] - CustomSurfaces[i][1] * CustomSurfaces[i][3]) + CustomSurfaces[i][2] * (p[2] - CustomSurfaces[i][2] * CustomSurfaces[i][3]) <= 0)
+							{
+
+							}
+							else
+							{
+								i = 1000;
+							}
+
+						}
+
+						if (i == CustomSurfacesCount)
+						{
+							for (int ii = 0; ii < a; ii++)
+							{
+								if (crystal[5 * ole3] == anumber[ii])
+								{
+									aatoms[ii]++;
+								}
+							}
+							if (render_is_on)
+							{
+								colr[0] = fmod(crystal[1 + 5 * ole3], 1.5);
+								colr[1] = fmod(crystal[5 * ole3], 0.92);
+								colr[2] = fmod(100 * colr[0] * colr[1], 0.8);
+								glColor3fv(colr);
+
+								ball_atoms++;
+
+								p[0] = crystal[2 + 5 * ole3] / (Svmax + 5);
+								p[2] = crystal[3 + 5 * ole3] / (Svmax + 5);
+								p[1] = crystal[4 + 5 * ole3] / (Svmax + 5);
+
+								if (shperes_on)
+								{
+									GLfloat mat_ambient[] = { colr[0], colr[1], colr[2], 1.0 };
+									GLfloat mat_deffuse[] = { colr[0], colr[1], colr[2], 1.0 };
+
+									glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+									glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_deffuse);
+
+									glTranslatef(p[0], p[1], p[2]);
+
+									glutSolidSphere(pointsize*0.001, sphStacks, sphSides);
+
+									glTranslatef(-p[0], -p[1], -p[2]);
+								}
+								else
+								{
+									glBegin(GL_POINTS);
+
+
+									glVertex3fv(p);
+
+
+									glEnd();
+								}
+							}
 						}
 					}
-					if (render_is_on)
-					{
-
-
-						ball_atoms++;
-						p[0] = crystal[2 + 5 * ole3] / (Svmax + 5);
-						p[1] = crystal[3 + 5 * ole3] / (Svmax + 5);
-						p[2] = crystal[4 + 5 * ole3] / (Svmax + 5);
-
-						if (shperes_on)
-						{
-
-							colr[0] = fmod(crystal[1 + 5 * ole3], 1.5);
-							colr[1] = fmod(crystal[5 * ole3], 0.92);
-							colr[2] = fmod(100 * colr[0] * colr[1], 0.8);
-							glColor3fv(colr);
-
-							GLfloat mat_ambient[] = { colr[0], colr[1], colr[2], 1.0 };
-							GLfloat mat_deffuse[] = { colr[0], colr[1], colr[2], 1.0 };
-
-							glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
-							glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_deffuse);
-
-							glTranslatef(p[0], p[1], p[2]);
-
-							glutSolidSphere(pointsize*0.001, sphStacks, sphSides);
-
-							glTranslatef(-p[0], -p[1], -p[2]);
-						}
-						else
-						{
-							//surface pattern
-							float dist = pow((crystal[4 + 5 * ole3])*(crystal[4 + 5 * ole3]) + (crystal[3 + 5 * ole3])*(crystal[3 + 5 * ole3]) + (crystal[2 + 5 * ole3])*(crystal[2 + 5 * ole3]), 0.005);
-							
-							colr[0] = fmod(crystal[1 + 5 * ole3], 1.5)*dist;
-							colr[1] = fmod(crystal[5 * ole3], 0.92)*dist;
-							colr[2] = fmod(100 * colr[0] * colr[1], 0.8)*dist;
-							glColor3fv(colr);
-
-
-
-
-							glBegin(GL_POINTS);
-
-
-							glVertex3fv(p);
-
-
-							glEnd();
-						}
-					}
-
 				}
-				else
+				else if (CustomSurfacesOn)
 				{
-					p[0] = crystal[2 + 5 * ole3];
-					p[1] = crystal[3 + 5 * ole3];
-					p[2] = crystal[4 + 5 * ole3];
 
-					for (i = 0; i < CustomSurfacesCount; i++)
+					if (CustomSurfacesCount == 0)
 					{
-						if (CustomSurfaces[i][0] * (p[0] - CustomSurfaces[i][0] * CustomSurfaces[i][3]) + CustomSurfaces[i][1] * (p[1] - CustomSurfaces[i][1] * CustomSurfaces[i][3]) + CustomSurfaces[i][2] * (p[2] - CustomSurfaces[i][2] * CustomSurfaces[i][3]) <= 0)
-						{
 
-						}
-						else
-						{
-							i = 1000;
-						}
-
-					}
-
-					if (i == CustomSurfacesCount)
-					{
 						for (int ii = 0; ii < a; ii++)
 						{
 							if (crystal[5 * ole3] == anumber[ii])
@@ -500,13 +424,12 @@ void display1(void)//generates the graphics output.
 						}
 						if (render_is_on)
 						{
-							p[0] = p[0] / (Svmax + 5);
-							p[2] = p[2] / (Svmax + 5);
-							p[1] = p[1] / (Svmax + 5);
-
 
 
 							ball_atoms++;
+							p[0] = crystal[2 + 5 * ole3] / (Svmax + 5);
+							p[1] = crystal[3 + 5 * ole3] / (Svmax + 5);
+							p[2] = crystal[4 + 5 * ole3] / (Svmax + 5);
 
 							if (shperes_on)
 							{
@@ -514,10 +437,18 @@ void display1(void)//generates the graphics output.
 								colr[0] = fmod(crystal[1 + 5 * ole3], 1.5);
 								colr[1] = fmod(crystal[5 * ole3], 0.92);
 								colr[2] = fmod(100 * colr[0] * colr[1], 0.8);
-								glColor3fv(colr);
+								glColor4f(colr[0], colr[1], colr[2], ghost);
+								if (isSelected[ole3] == true)
+								{
+									colr[0] = 0.5;
+									colr[1] = 0.5;
+									colr[2] = 0.5;
+									glColor4f(colr[0], colr[1], colr[2], ghost);
 
-								GLfloat mat_ambient[] = { colr[0], colr[1], colr[2], 1.0 };
-								GLfloat mat_deffuse[] = { colr[0], colr[1], colr[2], 1.0 };
+								}
+
+								GLfloat mat_ambient[] = { colr[0], colr[1], colr[2], ghost };
+								GLfloat mat_deffuse[] = { colr[0], colr[1], colr[2], ghost };
 
 								glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
 								glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_deffuse);
@@ -539,7 +470,10 @@ void display1(void)//generates the graphics output.
 								glColor3fv(colr);
 
 
+
+
 								glBegin(GL_POINTS);
+
 
 								glVertex3fv(p);
 
@@ -547,67 +481,10 @@ void display1(void)//generates the graphics output.
 								glEnd();
 							}
 						}
-					}
-				}
-				
-			}
-			else if (jgn_supercell)
-			{
-				for (int ii = 0; ii < a; ii++)
-				{
-					if (crystal[5 * ole3] == anumber[ii])
-					{
-						aatoms[ii]++;
-					}
-				}
-				if (render_is_on)
-				{
-					colr[0] = fmod(crystal[1 + 5 * ole3], 1.5);
-					colr[1] = fmod(crystal[5 * ole3], 0.92);
-					colr[2] = fmod(100 * colr[0] * colr[1], 0.8);
-					glColor3fv(colr);
-					ball_atoms++;
 
-					p[0] = crystal[2 + 5 * ole3] / (Svmax + 5);
-					p[2] = crystal[3 + 5 * ole3] / (Svmax + 5);
-					p[1] = crystal[4 + 5 * ole3] / (Svmax + 5);
-
-					if (shperes_on)
-					{
-						GLfloat mat_ambient[] = { colr[0], colr[1], colr[2], 1.0 };
-						GLfloat mat_deffuse[] = { colr[0], colr[1], colr[2], 1.0 };
-
-						glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
-						glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_deffuse);
-
-						glTranslatef(p[0], p[1], p[2]);
-
-						glutSolidSphere(pointsize*0.001, sphStacks, sphSides);
-
-						glTranslatef(-p[0], -p[1], -p[2]);
 					}
 					else
 					{
-						glBegin(GL_POINTS);
-
-
-						glVertex3fv(p);
-
-
-						glEnd();
-					}
-				}
-			}
-			else
-			{
-
-				if (Right_Hexagonal == -1)
-				{
-					///if ((S1i[0] * figure_1*abs(crystal[2 + 0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S1v) && (S1i[0] * Right_Hexagonal*Rod_like* abs(crystal[2 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S1v) && (S1i[0] * figure_1*Right_Hexagonal*abs(crystal[2 + 1 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S1v) && S2i[0] * figure_1* abs(crystal[2 + 0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S2i[0] * figure_1* 2*abs(crystal[2 + 1 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S2v)
-					if (vacuum ^ (abs(crystal[4 + 5 * ole3]) < Right_Hexagonal_height && (S1i[0] * abs(crystal[2 + 5 * ole3]) <= S2v * 0.86602540378) && S2i[0] * abs(crystal[2 + 5 * ole3]) / 1.73205 + S2i[0] * abs(crystal[3 + 5 * ole3]) <= S2v &&
-						(S1i[0] * abs(crystal[3 + 5 * ole3]) < S1v *0.86602540378) && S2i[0] * abs(crystal[2 + 5 * ole3]) + S1i[0] * abs(crystal[3 + 5 * ole3]) / 1.73205 < S1v))
-
-					{
 						p[0] = crystal[2 + 5 * ole3];
 						p[1] = crystal[3 + 5 * ole3];
 						p[2] = crystal[4 + 5 * ole3];
@@ -636,19 +513,22 @@ void display1(void)//generates the graphics output.
 							}
 							if (render_is_on)
 							{
-								colr[0] = fmod(crystal[1 + 5 * ole3], 1.5);
-								colr[1] = fmod(crystal[5 * ole3], 0.92);
-								colr[2] = fmod(100 * colr[0] * colr[1], 0.8);
-								glColor3fv(colr);
+								p[0] = p[0] / (Svmax + 5);
+								p[2] = p[2] / (Svmax + 5);
+								p[1] = p[1] / (Svmax + 5);
+
+
+
 								ball_atoms++;
-
-								p[0] = crystal[2 + 5 * ole3] / (Svmax + 5);
-								p[2] = crystal[3 + 5 * ole3] / (Svmax + 5);
-								p[1] = crystal[4 + 5 * ole3] / (Svmax + 5);
-
 
 								if (shperes_on)
 								{
+
+									colr[0] = fmod(crystal[1 + 5 * ole3], 1.5);
+									colr[1] = fmod(crystal[5 * ole3], 0.92);
+									colr[2] = fmod(100 * colr[0] * colr[1], 0.8);
+									glColor3fv(colr);
+
 									GLfloat mat_ambient[] = { colr[0], colr[1], colr[2], 1.0 };
 									GLfloat mat_deffuse[] = { colr[0], colr[1], colr[2], 1.0 };
 
@@ -663,100 +543,236 @@ void display1(void)//generates the graphics output.
 								}
 								else
 								{
+									//surface pattern
+									float dist = pow((crystal[4 + 5 * ole3])*(crystal[4 + 5 * ole3]) + (crystal[3 + 5 * ole3])*(crystal[3 + 5 * ole3]) + (crystal[2 + 5 * ole3])*(crystal[2 + 5 * ole3]), 0.005);
+
+									colr[0] = fmod(crystal[1 + 5 * ole3], 1.5)*dist;
+									colr[1] = fmod(crystal[5 * ole3], 0.92)*dist;
+									colr[2] = fmod(100 * colr[0] * colr[1], 0.8)*dist;
+									glColor3fv(colr);
+
+
 									glBegin(GL_POINTS);
 
 									glVertex3fv(p);
+
+
 									glEnd();
 								}
-
 							}
 						}
 					}
 
+				}
+				else if (jgn_supercell)
+				{
+					for (int ii = 0; ii < a; ii++)
+					{
+						if (crystal[5 * ole3] == anumber[ii])
+						{
+							aatoms[ii]++;
+						}
+					}
+					if (render_is_on)
+					{
+						colr[0] = fmod(crystal[1 + 5 * ole3], 1.5);
+						colr[1] = fmod(crystal[5 * ole3], 0.92);
+						colr[2] = fmod(100 * colr[0] * colr[1], 0.8);
+						glColor3fv(colr);
+						ball_atoms++;
 
+						p[0] = crystal[2 + 5 * ole3] / (Svmax + 5);
+						p[2] = crystal[3 + 5 * ole3] / (Svmax + 5);
+						p[1] = crystal[4 + 5 * ole3] / (Svmax + 5);
+
+						if (shperes_on)
+						{
+							GLfloat mat_ambient[] = { colr[0], colr[1], colr[2], 1.0 };
+							GLfloat mat_deffuse[] = { colr[0], colr[1], colr[2], 1.0 };
+
+							glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+							glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_deffuse);
+
+							glTranslatef(p[0], p[1], p[2]);
+
+							glutSolidSphere(pointsize*0.001, sphStacks, sphSides);
+
+							glTranslatef(-p[0], -p[1], -p[2]);
+						}
+						else
+						{
+							glBegin(GL_POINTS);
+
+
+							glVertex3fv(p);
+
+
+							glEnd();
+						}
+					}
 				}
 				else
 				{
-					if (vacuum ^ ((S1i[0] * figure_1*abs(crystal[2 + 5 * ole3]) <= S1v) &&
-						(S1i[0] * Right_Hexagonal*Rod_like* abs(crystal[4 + 5 * ole3]) <= S1v) &&
-						(S1i[0] * figure_1*abs(crystal[3 + 5 * ole3]) <= S1v) &&
-						Rod_like*(S2i[0] * abs(crystal[2 + 5 * ole3]) + S2i[0] * Right_Hexagonal* abs(crystal[4 + 5 * ole3])) <= S2v &&
-						S2i[0] * figure_1* abs(crystal[2 + 5 * ole3]) + S2i[0] * figure_1* abs(crystal[3 + 5 * ole3]) <= S2v &&
-						Rod_like*(S2i[0] * Right_Hexagonal* abs(crystal[4 + 5 * ole3]) + S2i[0] * abs(crystal[3 + 5 * ole3])) <= S2v &&
-						Right_Hexagonal*(S3i[0] * abs(crystal[2 + 5 * ole3]) + S3i[1] * abs(crystal[4 + 5 * ole3]) + S3i[2] * abs(crystal[3 + 5 * ole3])) <= S3v))
+
+					if (Right_Hexagonal == -1)
 					{
-						p[0] = crystal[2 + 5 * ole3];
-						p[1] = crystal[3 + 5 * ole3];
-						p[2] = crystal[4 + 5 * ole3];
+						///if ((S1i[0] * figure_1*abs(crystal[2 + 0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S1v) && (S1i[0] * Right_Hexagonal*Rod_like* abs(crystal[2 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S1v) && (S1i[0] * figure_1*Right_Hexagonal*abs(crystal[2 + 1 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S1v) && S2i[0] * figure_1* abs(crystal[2 + 0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S2i[0] * figure_1* 2*abs(crystal[2 + 1 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S2v)
+						if (vacuum ^ (abs(crystal[4 + 5 * ole3]) < Right_Hexagonal_height && (S1i[0] * abs(crystal[2 + 5 * ole3]) <= S2v * 0.86602540378) && S2i[0] * abs(crystal[2 + 5 * ole3]) / 1.73205 + S2i[0] * abs(crystal[3 + 5 * ole3]) <= S2v &&
+							(S1i[0] * abs(crystal[3 + 5 * ole3]) < S1v *0.86602540378) && S2i[0] * abs(crystal[2 + 5 * ole3]) + S1i[0] * abs(crystal[3 + 5 * ole3]) / 1.73205 < S1v))
 
-						for (i = 0; i < CustomSurfacesCount; i++)
 						{
-							if (CustomSurfaces[i][0] * (p[0] - CustomSurfaces[i][0] * CustomSurfaces[i][3]) + CustomSurfaces[i][1] * (p[1] - CustomSurfaces[i][1] * CustomSurfaces[i][3]) + CustomSurfaces[i][2] * (p[2] - CustomSurfaces[i][2] * CustomSurfaces[i][3]) <= 0)
-							{
+							p[0] = crystal[2 + 5 * ole3];
+							p[1] = crystal[3 + 5 * ole3];
+							p[2] = crystal[4 + 5 * ole3];
 
-							}
-							else
+							for (i = 0; i < CustomSurfacesCount; i++)
 							{
-								i = 1000;
-							}
-
-						}
-
-						if (i == CustomSurfacesCount)
-						{
-							for (int ii = 0; ii < a; ii++)
-							{
-								if (crystal[5 * ole3] == anumber[ii])
+								if (CustomSurfaces[i][0] * (p[0] - CustomSurfaces[i][0] * CustomSurfaces[i][3]) + CustomSurfaces[i][1] * (p[1] - CustomSurfaces[i][1] * CustomSurfaces[i][3]) + CustomSurfaces[i][2] * (p[2] - CustomSurfaces[i][2] * CustomSurfaces[i][3]) <= 0)
 								{
-									aatoms[ii]++;
-								}
-							}
-							if (render_is_on)
-							{
-								colr[0] = fmod(crystal[1 + 5 * ole3], 1.5);
-								colr[1] = fmod(crystal[5 * ole3], 0.92);
-								colr[2] = fmod(100 * colr[0] * colr[1], 0.8);
-								glColor3fv(colr);
 
-								ball_atoms++;
-
-								p[0] = crystal[2 + 5 * ole3] / (Svmax + 5);
-								p[2] = crystal[3 + 5 * ole3] / (Svmax + 5);
-								p[1] = crystal[4 + 5 * ole3] / (Svmax + 5);
-								if (shperes_on)
-								{
-									GLfloat mat_ambient[] = { colr[0], colr[1], colr[2], 1.0 };
-									GLfloat mat_deffuse[] = { colr[0], colr[1], colr[2], 1.0 };
-
-									glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
-									glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_deffuse);
-
-									glTranslatef(p[0], p[1], p[2]);
-
-									glutSolidSphere(pointsize*0.001, sphStacks, sphSides);
-
-									glTranslatef(-p[0], -p[1], -p[2]);
 								}
 								else
 								{
-									glBegin(GL_POINTS);
+									i = 1000;
+								}
 
-									glVertex3fv(p);
-									glEnd();
+							}
+
+							if (i == CustomSurfacesCount)
+							{
+								for (int ii = 0; ii < a; ii++)
+								{
+									if (crystal[5 * ole3] == anumber[ii])
+									{
+										aatoms[ii]++;
+									}
+								}
+								if (render_is_on)
+								{
+									colr[0] = fmod(crystal[1 + 5 * ole3], 1.5);
+									colr[1] = fmod(crystal[5 * ole3], 0.92);
+									colr[2] = fmod(100 * colr[0] * colr[1], 0.8);
+									glColor3fv(colr);
+									ball_atoms++;
+
+									p[0] = crystal[2 + 5 * ole3] / (Svmax + 5);
+									p[2] = crystal[3 + 5 * ole3] / (Svmax + 5);
+									p[1] = crystal[4 + 5 * ole3] / (Svmax + 5);
+
+
+									if (shperes_on)
+									{
+										GLfloat mat_ambient[] = { colr[0], colr[1], colr[2], 1.0 };
+										GLfloat mat_deffuse[] = { colr[0], colr[1], colr[2], 1.0 };
+
+										glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+										glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_deffuse);
+
+										glTranslatef(p[0], p[1], p[2]);
+
+										glutSolidSphere(pointsize*0.001, sphStacks, sphSides);
+
+										glTranslatef(-p[0], -p[1], -p[2]);
+									}
+									else
+									{
+										glBegin(GL_POINTS);
+
+										glVertex3fv(p);
+										glEnd();
+									}
+
 								}
 							}
 						}
+
+
 					}
+					else
+					{
+						if (vacuum ^ ((S1i[0] * figure_1*abs(crystal[2 + 5 * ole3]) <= S1v) &&
+							(S1i[0] * Right_Hexagonal*Rod_like* abs(crystal[4 + 5 * ole3]) <= S1v) &&
+							(S1i[0] * figure_1*abs(crystal[3 + 5 * ole3]) <= S1v) &&
+							Rod_like*(S2i[0] * abs(crystal[2 + 5 * ole3]) + S2i[0] * Right_Hexagonal* abs(crystal[4 + 5 * ole3])) <= S2v &&
+							S2i[0] * figure_1* abs(crystal[2 + 5 * ole3]) + S2i[0] * figure_1* abs(crystal[3 + 5 * ole3]) <= S2v &&
+							Rod_like*(S2i[0] * Right_Hexagonal* abs(crystal[4 + 5 * ole3]) + S2i[0] * abs(crystal[3 + 5 * ole3])) <= S2v &&
+							Right_Hexagonal*(S3i[0] * abs(crystal[2 + 5 * ole3]) + S3i[1] * abs(crystal[4 + 5 * ole3]) + S3i[2] * abs(crystal[3 + 5 * ole3])) <= S3v))
+						{
+							p[0] = crystal[2 + 5 * ole3];
+							p[1] = crystal[3 + 5 * ole3];
+							p[2] = crystal[4 + 5 * ole3];
+
+							for (i = 0; i < CustomSurfacesCount; i++)
+							{
+								if (CustomSurfaces[i][0] * (p[0] - CustomSurfaces[i][0] * CustomSurfaces[i][3]) + CustomSurfaces[i][1] * (p[1] - CustomSurfaces[i][1] * CustomSurfaces[i][3]) + CustomSurfaces[i][2] * (p[2] - CustomSurfaces[i][2] * CustomSurfaces[i][3]) <= 0)
+								{
+
+								}
+								else
+								{
+									i = 1000;
+								}
+
+							}
+
+							if (i == CustomSurfacesCount)
+							{
+								for (int ii = 0; ii < a; ii++)
+								{
+									if (crystal[5 * ole3] == anumber[ii])
+									{
+										aatoms[ii]++;
+									}
+								}
+								if (render_is_on)
+								{
+									colr[0] = fmod(crystal[1 + 5 * ole3], 1.5);
+									colr[1] = fmod(crystal[5 * ole3], 0.92);
+									colr[2] = fmod(100 * colr[0] * colr[1], 0.8);
+									glColor3fv(colr);
+
+									ball_atoms++;
+
+									p[0] = crystal[2 + 5 * ole3] / (Svmax + 5);
+									p[2] = crystal[3 + 5 * ole3] / (Svmax + 5);
+									p[1] = crystal[4 + 5 * ole3] / (Svmax + 5);
+									if (shperes_on)
+									{
+										GLfloat mat_ambient[] = { colr[0], colr[1], colr[2], 1.0 };
+										GLfloat mat_deffuse[] = { colr[0], colr[1], colr[2], 1.0 };
+
+										glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+										glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_deffuse);
+
+										glTranslatef(p[0], p[1], p[2]);
+
+										glutSolidSphere(pointsize*0.001, sphStacks, sphSides);
+
+										glTranslatef(-p[0], -p[1], -p[2]);
+									}
+									else
+									{
+										glBegin(GL_POINTS);
+
+										glVertex3fv(p);
+										glEnd();
+									}
+								}
+							}
+						}
+
+					}
+
+
+
+
+
+
 
 				}
 
 
-
-
-
-
-
-			}
+			
 		}
 
 		cl_end = std::chrono::high_resolution_clock::now();
@@ -3563,6 +3579,121 @@ void display1(void)//generates the graphics output.
 	if (shperes_on)
 		glDisable(GL_LIGHTING);
 
+	if (mouse_mode=='s')
+	{//select
+		glLoadIdentity();
+		glColor3f(0, 0, 0);
+
+
+		glLineWidth(1);
+		glBegin(GL_LINE_STRIP);
+		glVertex2f(leftClick.start[0], leftClick.start[1]);
+		glVertex2f(leftClick.start[0], leftClick.finish[1]);
+		glVertex2f(leftClick.finish[0], leftClick.finish[1]);
+		glVertex2f(leftClick.finish[0], leftClick.start[1]);
+		glVertex2f(leftClick.start[0], leftClick.start[1]);
+		glEnd();
+		glLineWidth(4);
+
+
+		glTranslatef(-0.2, 0.95, 0);
+		JGN_StrokeString("Select");
+
+
+	}
+	else if (mouse_mode == 't')
+	{//translate
+		glLoadIdentity();
+		glColor3f(0, 0, 0);
+
+		glTranslatef(-0.3, 0.95, 0);
+		JGN_StrokeString("Translate");
+	}
+	else if (mouse_mode == 'o')
+	{//selected rotate
+
+		glLoadIdentity();
+		glColor3f(0, 0, 0);
+
+
+		glTranslatef(-0.2, 0.95, 0);
+		JGN_StrokeString("x    y    z");
+		glLoadIdentity();
+		glTranslatef(-0.25, 0.85, 0);
+		if (selected_rotate_axes == 1)
+		{
+			glColor4f(0, 0, 0, 1);
+		}
+		else
+		{
+			glColor4f(0, 0, 0, 0.5);
+		}
+		JGN_StrokeString(ftoa(selected_rotate[0]), 3);
+		JGN_StrokeCharacter(' ');
+		if (selected_rotate_axes == 2)
+		{
+			glColor4f(0, 0, 0, 1);
+		}
+		else
+		{
+			glColor4f(0, 0, 0, 0.5);
+		}
+		JGN_StrokeString(ftoa(selected_rotate[1]), 3);
+		JGN_StrokeCharacter(' ');
+		if (selected_rotate_axes == 3)
+		{
+			glColor4f(0, 0, 0, 1);
+		}
+		else
+		{
+			glColor4f(0, 0, 0, 0.5);
+		}
+		JGN_StrokeString(ftoa(selected_rotate[2]), 3);
+
+
+
+	}
+	else if (mouse_mode == 'a')
+	{//selected translate
+		glLoadIdentity();
+		glColor3f(0, 0, 0);
+
+
+		glTranslatef(-0.2, 0.95, 0);
+		if (selected_translate_direction == 0)
+		{
+			glColor4f(0, 0, 0, 1);
+		}
+		else
+		{
+			glColor4f(0, 0, 0, 0.5);
+		}
+		JGN_StrokeString("x ");
+		if (selected_translate_direction == 1)
+		{
+			glColor4f(0, 0, 0, 1);
+		}
+		else
+		{
+			glColor4f(0, 0, 0, 0.5);
+		}
+		JGN_StrokeString("y ");
+		if (selected_translate_direction == 2)
+		{
+			glColor4f(0, 0, 0, 1);
+		}
+		else
+		{
+			glColor4f(0, 0, 0, 0.5);
+		}
+		JGN_StrokeString("z ");
+
+
+
+	}
+
+	
+
 	if (nanotube)
 	{
 
@@ -4051,7 +4182,7 @@ void display1(void)//generates the graphics output.
 	if (shperes_on)
 		glEnable(GL_LIGHTING);
 
-	cout << 3 << endl;
+	//cout << 3 << endl;
 
 	//return;
 
@@ -4066,6 +4197,9 @@ void spin_image()
 
 float theta_start[2];
 float theta_prev[2] = { 0,0 };
+float translate_prev[3] = { 0,0,0 };
+float translate_start[3];
+
 
 
 
@@ -4079,7 +4213,7 @@ void myinit(void)//initialize OpenGL
 	glLineWidth(4.0);
 
 	//  Set the background color
-	glClearColor(0.9, 0.9, 0.9, 1.0);
+	glClearColor(1.0, 1.0, 1.0, 1.0);
 	//  The default size is 1.0.
 
 	GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
@@ -4112,6 +4246,15 @@ void variableinit()
 {
 
 	/////////////////global variables
+	selected_rotate_axes = 1;
+	model_translate[0] = 0;
+	model_translate[1] = 0.0;
+	model_translate[2] = 0;
+	leftClick.start[0] = 0;
+	leftClick.start[1] = 0;
+	leftClick.finish[0] = 0;
+	leftClick.finish[1] = 0;
+	mouse_mode = 'r';
 	crystal = NULL;
 	crystal_backup = NULL;
 	selective_dynamics = NULL;
@@ -4342,8 +4485,126 @@ void variableinit()
 
 }
 
+void translateTheSelected(char op)
+{
+	int asdf = t * sized[0] * sized[1] * sized[2];
+	for (int i = 0; i < asdf; i++)
+	{
+		if (isSelected[i])
+		{
+			float inp[3];
+			float trn[3];
+			float out[3];
+
+			inp[0] = crystal[2 + 5 * i] / (Svmax + 5);
+			inp[1] = crystal[3 + 5 * i] / (Svmax + 5);
+			inp[2] = crystal[4 + 5 * i] / (Svmax + 5);
+
+			trn[0] = 0;
+			trn[1] = 0;
+			trn[2] = 0;
+
+			if (op == '+')
+			{
+				trn[selected_translate_direction] = 0.5 / (Svmax + 5);
+			}
+			else
+			{
+				trn[selected_translate_direction] = -0.5 / (Svmax + 5);
+			}
+			cpu_translate(inp, trn, out);
+
+			crystal[2 + 5 * i] = out[0] * (Svmax + 5);
+			crystal[3 + 5 * i] = out[1] * (Svmax + 5);
+			crystal[4 + 5 * i] = out[2] * (Svmax + 5);
+		}
+	}
+}
+
+void rotateTheSelected(char op)
+{
+	float mean_coords[3];
+	for (int i = 0; i < 3; i++)
+	{
+		mean_coords[i] = 0;
+	}	
+	int asdf = t * sized[0] * sized[1] * sized[2];
+	int counter = 0;
+	for (int i = 0; i < asdf; i++)
+	{
+		if (isSelected[i])
+		{
+			counter++;
+			mean_coords[0] += crystal[2 + 5 * i] / (Svmax + 5);
+			mean_coords[1] += crystal[3 + 5 * i] / (Svmax + 5);
+			mean_coords[2] += crystal[4 + 5 * i] / (Svmax + 5);
+		}
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		mean_coords[i] /= counter;
+	}
+	for (int i = 0; i < asdf; i++)
+	{
+		if (isSelected[i])
+		{
+			float inp[3];
+			float rot[3];
+			float out[3];
+
+			inp[0] = crystal[2 + 5 * i] / (Svmax + 5);
+			inp[1] = crystal[3 + 5 * i] / (Svmax + 5);
+			inp[2] = crystal[4 + 5 * i] / (Svmax + 5);
+
+			rot[0] = 0;
+			rot[1] = 0;
+			rot[2] = 0;
+			if (op == '+')
+			{
+				rot[selected_rotate_axes - 1] = 0.5 * M_PI / 180;
+			}
+			else
+			{
+				rot[selected_rotate_axes - 1] = -0.5 * M_PI / 180;
+			}
+			for (int i = 0; i < 3; i++)
+			{
+				mean_coords[i] = -mean_coords[i];
+			}
+			cpu_translate(inp, mean_coords, out);
+			cpu_rotate(out, rot, inp);
+			for (int i = 0; i < 3; i++)
+			{
+				mean_coords[i] = -mean_coords[i];
+			}
+			cpu_translate(inp, mean_coords, out);
+
+
+			crystal[2 + 5 * i] = out[0] * (Svmax + 5);
+			crystal[3 + 5 * i] = out[1] * (Svmax + 5);
+			crystal[4 + 5 * i] = out[2] * (Svmax + 5);
+		}
+	}
+}
+
+void deleteSelected()
+{
+	int asdf = t * sized[0] * sized[1] * sized[2];
+	for (int i = 0; i < asdf; i++)
+	{
+		if (isSelected[i])
+		{
+			selective_render[i] = false;
+		}
+	}
+}
+
+
+
 int ctrl_down = 0;
 int s_down = 0;
+int r_down = 0;
+int t_down = 0;
 
 void keyboardgl(int key, int s, int x, int y)
 {
@@ -4372,6 +4633,33 @@ void keyboardgl(int key, int s, int x, int y)
 		}
 
 	}
+
+	if (key == 'r' || key == 'R')
+	{
+		if (s == JGN_DOWN)
+		{
+			r_down = JGN_DOWN;
+		}
+		else
+		{
+			r_down = JGN_UP;
+		}
+
+	}
+
+	if (key == 't' || key == 'T')
+	{
+		if (s == JGN_DOWN)
+		{
+			t_down = JGN_DOWN;
+		}
+		else
+		{
+			t_down = JGN_UP;
+		}
+
+	}
+
 	if (ctrl_down && s_down)
 	{
 		ctrl_down = 0;
@@ -4382,6 +4670,29 @@ void keyboardgl(int key, int s, int x, int y)
 		DialogBox(hInst, MAKEINTRESOURCE(IDD_BUILD_POSCAR), jgn_help_to_map_the_draw_func, Poscar_Build);
 
 
+	}
+	else if (ctrl_down && r_down)
+	{
+		mouse_mode = 'o';
+		selected_rotate[0] = 0;
+		selected_rotate[1] = 0;
+		selected_rotate[2] = 0;
+
+		JGN_PostRedisplay();
+	}
+	else if (ctrl_down && t_down)
+	{
+		mouse_mode = 'a';
+		selected_rotate[0] = 0;
+		selected_rotate[1] = 0;
+		selected_rotate[2] = 0;
+
+		JGN_PostRedisplay();
+	}
+	else if (key == VK_DELETE && s == JGN_DOWN)
+	{
+		deleteSelected();
+		JGN_PostRedisplay();
 	}
 	else
 	{
@@ -4471,36 +4782,105 @@ void keyboardgl(int key, int s, int x, int y)
 		}
 		if (key == VK_ADD && s == JGN_DOWN)
 		{
+			if (mouse_mode == 'o')
+			{
+				selected_rotate[selected_rotate_axes - 1] += 0.5;
+				rotateTheSelected('+');
 
+			}
+			else if (mouse_mode == 'a')
+			{
+				selected_translate[selected_translate_direction] += 0.5;
+				translateTheSelected('+');
 
-			truepointsize = truepointsize + 100;
-			pointsize = truepointsize / (Svmax + 5);
-			glPointSize(pointsize);
+			}
+			else
+			{
+				truepointsize = truepointsize + 100;
+				pointsize = truepointsize / (Svmax + 5);
+				glPointSize(pointsize);
+			}
 			JGN_PostRedisplay();
 		}
 		else if (key == VK_SUBTRACT && s == JGN_DOWN)
 		{
-			truepointsize = truepointsize - 100;
-			if (truepointsize < 0)
-				truepointsize = 0;
-			pointsize = truepointsize / (Svmax + 5);
+			if (mouse_mode == 'o')
+			{
+				selected_rotate[selected_rotate_axes - 1] -= 0.5;
+				rotateTheSelected('-');
+			}
+			else if (mouse_mode == 'a')
+			{
+				selected_translate[selected_translate_direction] -= 0.5;
+				translateTheSelected('-');
 
-			glPointSize(pointsize);
+			}
+			else
+			{
+				truepointsize = truepointsize - 100;
+				if (truepointsize < 0)
+					truepointsize = 0;
+				pointsize = truepointsize / (Svmax + 5);
+
+				glPointSize(pointsize);
+			}
 			JGN_PostRedisplay();
 		}	
+		else if (mouse_mode == 'o' && (key == '1' || key == VK_NUMPAD1))
+		{
+			selected_rotate_axes = 1;
+			JGN_PostRedisplay();
+
+		}
 		else if (key == '1' || key == VK_NUMPAD1)
 		{
-			glClearColor(0.5, 0.5, 0.5, 1);
+			if (mouse_mode == 'a')
+			{
+				selected_translate_direction = 0;
+			}
+			else
+			{
+				theta[0] = -90;
+				theta[1] = -90;
+			}
 			JGN_PostRedisplay();
+		}
+		else if (mouse_mode == 'o' && (key == '2' || key == VK_NUMPAD2))
+		{
+			selected_rotate_axes = 2;
+			JGN_PostRedisplay();
+
 		}
 		else if (key == '2' || key == VK_NUMPAD2)
 		{
-			glClearColor(0.9, 0.9, 0.9, 1);
+			if (mouse_mode == 'a')
+			{
+				selected_translate_direction = 1;
+			}
+			else
+			{
+				theta[0] = -90;
+				theta[1] = -180;
+			}
 			JGN_PostRedisplay();
+		}
+		else if (mouse_mode == 'o' && (key == '3' || key == VK_NUMPAD3))
+		{
+			selected_rotate_axes = 3;
+			JGN_PostRedisplay();
+
 		}
 		else if (key == '3' || key == VK_NUMPAD3)
 		{
-			glClearColor(1, 1, 1, 1);
+			if (mouse_mode == 'a')
+			{
+				selected_translate_direction = 2;
+			}
+			else
+			{
+				theta[0] = 0;
+				theta[1] = 0;
+			}
 			JGN_PostRedisplay();
 		}
 		if ((key == 'w' || key == 'W') && s == JGN_DOWN)
@@ -4658,8 +5038,24 @@ void keyboardgl(int key, int s, int x, int y)
 			check_if_to_redisplay = 1;
 
 		}
+		if((key == 'r' || key == 'R') && s == JGN_DOWN)
+		{
+			mouse_mode = 'r';
+			JGN_PostRedisplay();
+		}
+		if ((key == 't' || key == 'T') && s == JGN_DOWN)
+		{
+			mouse_mode = 't';
+			JGN_PostRedisplay();
+		}
 		if ((key == 's' || key == 'S') && s == JGN_DOWN)
 		{
+			mouse_mode = 's';
+			int asdf = t * sized[0] * sized[1] * sized[2];
+			for (int i = 0; i < asdf; i++)
+			{
+				isSelected[i] = false;
+			}
 			if (jgn_supercell)
 			{
 				jgn_supercell_xyz[1]--;
@@ -5327,30 +5723,151 @@ void Sub_Menu(int c)
 
 }
 
+void findSelected()
+{
+	int asdfjlk = t * sized[0] * sized[1] * sized[2];
+	for (int i = 0; i < asdfjlk; i++)
+	{
+		isSelected[i] = false;
+		float p1[3];
+		float p2[3];
+		float theta_rad[3];
+
+		p1[0] = crystal[2 + 5 * i] / (Svmax + 5);
+		p1[1] = crystal[3 + 5 * i] / (Svmax + 5);
+		p1[2] = crystal[4 + 5 * i] / (Svmax + 5);
+
+		theta_rad[0] = theta[0] * M_PI / 180;
+		theta_rad[1] = 0;
+		theta_rad[2] = theta[1] * M_PI / 180;
+
+		
+
+		cpu_translate(p1, (float*)model_translate, p2);
+		cpu_rotate(p2, (float*)theta_rad, p1);
+		p1[2] = -p1[2];
+
+		/////at this point p1 is the final product
+
+		if ((p1[0]<leftClick.start[0] && p1[0] > leftClick.finish[0]) || (p1[0] > leftClick.start[0] && p1[0] < leftClick.finish[0]))
+		{
+			if ((p1[1]<leftClick.start[1] && p1[1] > leftClick.finish[1]) || (p1[1] > leftClick.start[1] && p1[1] < leftClick.finish[1]))
+			{
+				isSelected[i] = true;
+			}
+		}
+
+
+
+	}
+}
+
 
 void mouse_pasive(int x, int y)
 {
+	float jgn_x;
+	float jgn_y;
+	if (width <= height)
+	{
+
+		jgn_x = 2.1 * ((x / (float)width) - 0.5);
+		jgn_y = 2 * (1.05 * (GLfloat)height / (GLfloat)width) * (-((y / (float)height) - 0.5));
+
+	}
+	else
+	{
+		jgn_x = 2 * (1.05 * (GLfloat)width / (GLfloat)height) * ((x / (float)width) - 0.5);
+		jgn_y = 2.1 * (-((y / (float)height) - 0.5));
+	}
+
+
+
 	if (lmb == JGN_UP)
 	{
 
-		theta_prev[0] = -theta[0];
-		theta_prev[1] = -theta[1];
-		
-		mouse_check = 0;
+		if (mouse_mode == 's')
+		{
+			if (mouse_check == 1)
+			{
+				findSelected();
+			}
+			leftClick.start[0] = jgn_x;
+			leftClick.start[1] = jgn_y;
+			leftClick.finish[0] = jgn_x;
+			leftClick.finish[1] = jgn_y;
+			mouse_check = 0;
+
+			JGN_PostRedisplay();
+
+		}
+		else if (mouse_mode == 'r' || mouse_mode == 'o' || mouse_mode == 'a')
+		{
+			theta_prev[0] = -theta[0];
+			theta_prev[1] = -theta[1];
+			mouse_check = 0;
+		}		
+		else if (mouse_mode == 't')
+		{
+			translate_prev[0] = -model_translate[0];
+			translate_prev[1] = -model_translate[1];
+			translate_prev[2] = -model_translate[2];
+			mouse_check = 0;
+		}
 		mouse_x = x;
 		mouse_y = y;
 	}
 	else
 	{
-		if (mouse_check == 0)
+		if(mouse_mode == 's')
 		{
-			theta_start[0] = y*0.2 + theta_prev[0];
-			theta_start[1] = 0.2*x + theta_prev[1];
-		}
-		mouse_check = 1;
+			if (mouse_check == 0)
+			{
+				leftClick.start[0] = jgn_x;
+				leftClick.start[1] = jgn_y;
+				leftClick.finish[0] = jgn_x;
+				leftClick.finish[1] = jgn_y;
 
-		theta[0] = y*.2 - theta_start[0];
-		theta[1] = x*.2 - theta_start[1];
+
+			}
+			else
+			{
+				leftClick.finish[0] = jgn_x;
+				leftClick.finish[1] = jgn_y;
+
+
+			}
+			mouse_check = 1;
+
+			findSelected();
+		}
+		else if (mouse_mode == 'r' || mouse_mode == 'o' || mouse_mode == 'a')
+		{
+			if (mouse_check == 0)
+			{
+				theta_start[0] = y * 0.2 + theta_prev[0];
+				theta_start[1] = 0.2*x + theta_prev[1];
+			}
+			mouse_check = 1;
+			theta[0] = y * .2 - theta_start[0];
+			theta[1] = x * .2 - theta_start[1];
+
+
+		}
+		else if (mouse_mode == 't')
+		{
+			if (mouse_check == 0)
+			{
+				translate_start[0] = jgn_x* cos(theta[1] * M_PI / 180) + jgn_y * cos(theta[0] * M_PI / 180)*sin(theta[1] * M_PI / 180) + translate_prev[0];
+				translate_start[1] = -jgn_x * sin(theta[1] * M_PI / 180) + jgn_y * cos(theta[0] * M_PI / 180)*cos(theta[1] * M_PI / 180) + translate_prev[1];
+				translate_start[2] = -sin(theta[0] * M_PI / 180)*jgn_y + translate_prev[2];
+			}
+			mouse_check = 1;
+			model_translate[0] = jgn_x * cos(theta[1]*M_PI/180) + jgn_y * cos(theta[0] * M_PI / 180)*sin(theta[1] * M_PI / 180) - translate_start[0];
+			model_translate[1] = -jgn_x * sin(theta[1] * M_PI / 180) + jgn_y * cos(theta[0] * M_PI / 180)*cos(theta[1] * M_PI / 180) - translate_start[1];
+			model_translate[2] = -jgn_y * sin(theta[0] * M_PI / 180)  - translate_start[2];
+
+		}
+		
 
 		JGN_PostRedisplay();
 	}

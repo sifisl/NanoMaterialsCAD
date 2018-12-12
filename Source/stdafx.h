@@ -262,12 +262,29 @@ EXT long int ole, ole1, ole2, ole3, ole4, ole5;
 EXT float *crystal;
 EXT float *crystal_backup;
 EXT char *selective_dynamics;
+EXT bool* isSelected;
 //float tube_rin = 20, tube_rout = 30, tube_param = 80;
 EXT float colr[3];
 EXT float rad;
 EXT char want_cyrcle[5];
 EXT int nanotube;
 EXT int full;
+EXT char mouse_mode;// 's'elect, 'r'otate, 't'ranclate, 
+					// selected r'o'tate, selected tr'a'nslate
+EXT float model_translate[3];
+EXT float selected_rotate[3];
+EXT float selected_translate[3];
+EXT int selected_rotate_axes;//1=x,2=y,3=z
+EXT int selected_translate_direction;//0=x,1=y,2=z
+EXT bool *selective_render;
+
+class MOUSECLICK
+{
+public:
+	float start[2];
+	float finish[2];
+};
+EXT MOUSECLICK leftClick;
 EXT float zmax100111[3];
 EXT float zmax100111_[3];
 EXT int Scase;
@@ -421,6 +438,7 @@ EXT float glob_translate[3];
 EXT float glob_translate_prev[3];
 EXT int db;
 
+
 float JGN_Det3x3(float x1, float y1, float z1,
 	float x2, float y2, float z2,
 	float x3, float y3, float z3)
@@ -433,6 +451,47 @@ float JGN_Det3x3(float x1, float y1, float z1,
 }
 #else
 	;
+#endif //JGN_SOURCE_CPP
+
+void cpu_rotate(float p[3], float a[3], float *out)
+#ifdef JGN_SOURCE_CPP
+
+{
+	float p_bck1[3];
+	float p_bck2[3];
+
+	//z rotation
+	p_bck1[0] = cos(a[2])*p[0] - sin(a[2])*p[1];
+	p_bck1[1] = sin(a[2])*p[0] + cos(a[2])*p[1];
+	p_bck1[2] = p[2];
+
+	//x rotation
+	p_bck2[0] = p_bck1[0];
+	p_bck2[1] = cos(a[0])*p_bck1[1] - sin(a[0])*p_bck1[2];
+	p_bck2[2] = sin(a[0])*p_bck1[1] + cos(a[0])*p_bck1[2];
+
+	//y rotation
+	out[0] = cos(a[1])*p_bck2[0] + sin(a[1])*p_bck2[2];
+	out[1] = p_bck2[1];
+	out[2] = -sin(a[1])*p_bck2[0] + cos(a[2])*p_bck2[2];
+
+
+
+}
+#else
+;
+#endif //JGN_SOURCE_CPP
+
+void cpu_translate(float p[3], float a[3], float *out)
+#ifdef JGN_SOURCE_CPP
+
+{
+	out[0] = p[0] + a[0];
+	out[1] = p[1] + a[1];
+	out[2] = p[2] + a[2];
+}
+#else
+;
 #endif //JGN_SOURCE_CPP
 
 

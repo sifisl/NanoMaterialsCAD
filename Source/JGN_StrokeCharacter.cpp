@@ -120,3 +120,17 @@ void JGN_StrokeCharacter(char c, bool hadv)
 	font.clear();
 	font.seekg(0);
 }
+
+
+void JGN_StrokeString(char* s, int maxchar)
+{
+	int counter = 0;
+
+	while (s[counter] != '\0')
+	{
+		if (counter >= maxchar)
+			break;
+		JGN_StrokeCharacter(s[counter]);
+		counter++;
+	}
+}

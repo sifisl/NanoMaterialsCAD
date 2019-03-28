@@ -692,15 +692,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_MOVE:
 		GetWindowRect(mnhwnd, glb_rct);
 		SetWindowPos(CommandTextField, HWND_TOP, (*glb_rct).left + 7, (*glb_rct).bottom - 42, (*glb_rct).right - (*glb_rct).left - 14, 35, SWP_ASYNCWINDOWPOS);
+#if !defined(JGN_NO_CMD_HISTORY) 
 		SetWindowPos(CommandTextHistory, HWND_TOP, (*glb_rct).left + 7, (*glb_rct).bottom - 286, (*glb_rct).right - (*glb_rct).left - 15, 242, SWP_ASYNCWINDOWPOS);
-
+#endif
 		//JGN_PostRedisplay();
 		break;
 	case WM_MOVING:
 
 		GetWindowRect(mnhwnd, glb_rct);
 		SetWindowPos(CommandTextField, HWND_TOP, (*glb_rct).left + 7, (*glb_rct).bottom - 42, (*glb_rct).right - (*glb_rct).left - 14, 35, SWP_ASYNCWINDOWPOS);
+#if !defined(JGN_NO_CMD_HISTORY) 
 		SetWindowPos(CommandTextHistory, HWND_TOP, (*glb_rct).left + 7, (*glb_rct).bottom - 286, (*glb_rct).right - (*glb_rct).left - 15, 242, SWP_ASYNCWINDOWPOS);
+#endif
 
 		//JGN_PostRedisplay();
 
@@ -838,7 +841,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		mainwndsize[1] = *(mnrcpt + 3) - *(mnrcpt + 1);
 
 		SetWindowPos(CommandTextField, HWND_TOP, (*glb_rct).left + 7, (*glb_rct).bottom - 42, (*glb_rct).right - (*glb_rct).left - 14, 35, SWP_ASYNCWINDOWPOS);
+#if !defined(JGN_NO_CMD_HISTORY) 
 		SetWindowPos(CommandTextHistory, HWND_TOP, (*glb_rct).left + 7, (*glb_rct).bottom - 286, (*glb_rct).right - (*glb_rct).left - 15, 242, SWP_ASYNCWINDOWPOS);
+#endif
 		RedrawWindow(CommandTextField, 0, 0, RDW_NOERASE);
 
 		wasfullscreenflagout++;
@@ -2002,6 +2007,7 @@ LRESULT __stdcall HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 				0, 222 - 20 * 6, 250, 20 * 6,
 				mnhwnd, NULL, hinst111, NULL);
 		}
+#if !defined(JGN_NO_CMD_HISTORY) 
 		else
 		{
 			/////////////////////////////////////////////
@@ -2014,7 +2020,7 @@ LRESULT __stdcall HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 			///////////////////////////////////////////
 
 		}
-
+#endif
 
 
 		ShowWindow(hWndList, SW_HIDE);
@@ -2239,12 +2245,16 @@ LRESULT __stdcall HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 
 				if (okrender)
 				{
-					SendMessage(CommandTextHistory, EM_SETREADONLY, FALSE, NULL);
+#if !defined(JGN_NO_CMD_HISTORY) 
 
+					SendMessage(CommandTextHistory, EM_SETREADONLY, FALSE, NULL);
+#endif
 					okrender = 0;
 
+#if !defined(JGN_NO_CMD_HISTORY) 
 					SendMessage(CommandTextHistory, EM_SETSEL, 0, -1);
 					SendMessage(CommandTextHistory, EM_SETSEL, -1, 0);
+#endif
 
 					for (i = 0; i < 50; i++)
 					{
@@ -2259,19 +2269,25 @@ LRESULT __stdcall HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 							{
 								i = 100;
 							}
+#if !defined(JGN_NO_CMD_HISTORY) 
 							else
 							{
 								SendMessage(CommandTextHistory, WM_CHAR, (TCHAR)ttt[i], 0);
 
 
 							}
+#endif
 						}
 					}
+#if !defined(JGN_NO_CMD_HISTORY) 
 
 					SendMessage(CommandTextHistory, WM_CHAR, (TCHAR)ucender[0], 0);
-
+#endif
 					SetFocus(CommandTextField);
+
+#if !defined(JGN_NO_CMD_HISTORY) 
 					SendMessage(CommandTextHistory, EM_SETREADONLY, TRUE, NULL);
+#endif
 
 					for (i = 0; i < 50; i++)
 					{
@@ -2731,7 +2747,9 @@ void jgnCommands(LPTSTR ttt, int d)
 		CustomSurfacesCount++;
 
 		CustomSurfaces = (float**)realloc(CustomSurfaces, sizeof(float*)*CustomSurfacesCount);
+		CustomSurfaces_hkl = (int**)realloc(CustomSurfaces, sizeof(float*)*CustomSurfacesCount);
 		CustomSurfaces[CustomSurfacesCount - 1] = (float*)malloc(sizeof(float) * 4);
+		CustomSurfaces_hkl[CustomSurfacesCount - 1] = (int*)malloc(sizeof(float) * 3);
 		CustomSurfaces[CustomSurfacesCount - 1][0] = 0;
 		CustomSurfaces[CustomSurfacesCount - 1][1] = 0;
 		CustomSurfaces[CustomSurfacesCount - 1][2] = 0;
@@ -3005,6 +3023,42 @@ void jgnCommands(LPTSTR ttt, int d)
 
 	}
 	//"Plane("
+	bool cont = true;
+	int Nnumbs = 0;//count 3 numbers
+	int ibuff = 0;
+	char buffer[10];
+	int iintbuff = 0;
+	int intbuff[3];
+	i = 6;
+	j = 0;
+	while (Nnumbs!=3)
+	{
+		if (isdigit(ttt[j]) )
+		{
+			Nnumbs++;
+			buffer[ibuff] = ttt[j];
+			buffer[ibuff + 1] = '\0';
+
+			intbuff[iintbuff] = atoi(buffer);
+			iintbuff++;
+			ibuff = 0;
+			j++;
+		}
+		else if (ttt[j] == '-')
+		{
+			buffer[ibuff] = ttt[j];
+			ibuff++;
+			j++;
+		}
+		else
+		{
+			Nnumbs = 3;
+			i = 0;
+		}
+	}
+
+
+#if !defined(JGN_CMD_PLANE) 
 	for (i = 0; i < 6; i++)
 	{
 		if (test1[4][i] == ttt[i])
@@ -3016,6 +3070,7 @@ void jgnCommands(LPTSTR ttt, int d)
 			i = 100;
 		}
 	}
+#endif
 	if (i == 6)
 	{
 
@@ -3023,11 +3078,20 @@ void jgnCommands(LPTSTR ttt, int d)
 		CustomSurfacesCount++;
 
 		CustomSurfaces = (float**)realloc(CustomSurfaces, sizeof(float*)*CustomSurfacesCount);
+		CustomSurfaces_hkl = (int**)realloc(CustomSurfaces_hkl, sizeof(int*)*CustomSurfacesCount);
 		CustomSurfaces[CustomSurfacesCount - 1] = (float*)malloc(sizeof(float) * 4);
+		CustomSurfaces_hkl[CustomSurfacesCount - 1] = (int*)malloc(sizeof(int) * 3);
 		CustomSurfaces[CustomSurfacesCount - 1][0] = 0;
 		CustomSurfaces[CustomSurfacesCount - 1][1] = 0;
 		CustomSurfaces[CustomSurfacesCount - 1][2] = 0;
 		CustomSurfaces[CustomSurfacesCount - 1][3] = 0;
+#if defined(JGN_CMD_PLANE)
+		CustomSurfaces_hkl[CustomSurfacesCount - 1][0] = crystalh = intbuff[0];
+		CustomSurfaces_hkl[CustomSurfacesCount - 1][1] = crystalk = intbuff[1];
+		CustomSurfaces_hkl[CustomSurfacesCount - 1][2] = crystall = intbuff[2];
+#endif
+
+#if !defined(JGN_CMD_PLANE)
 		crystalh = 0;
 		crystalk = 0;
 		crystall = 0;
@@ -3156,6 +3220,7 @@ void jgnCommands(LPTSTR ttt, int d)
 			crystall = -crystall;
 		}
 
+#endif
 		if (crystalh == 0)
 		{
 			if (crystalk == 0)
@@ -3197,6 +3262,7 @@ void jgnCommands(LPTSTR ttt, int d)
 					CustomSurfaces[CustomSurfacesCount - 1][0] = ijk[0][1] * (ijk[1][2] / crystalk - ijk[2][2] / crystall) - ijk[0][2] * (ijk[1][1] / crystalk - ijk[2][1] / crystall);
 					CustomSurfaces[CustomSurfacesCount - 1][1] = -ijk[0][0] * (ijk[1][2] / crystalk - ijk[2][2] / crystall) + ijk[0][2] * (ijk[1][0] / crystalk - ijk[2][0] / crystall);
 					CustomSurfaces[CustomSurfacesCount - 1][2] = ijk[0][0] * (ijk[1][1] / crystalk - ijk[2][1] / crystall) - ijk[0][1] * (ijk[1][0] / crystalk - ijk[2][0] / crystall);
+
 
 					CustomSurfaces[CustomSurfacesCount - 1][0] = crystalk * crystall*CustomSurfaces[CustomSurfacesCount - 1][0];
 					CustomSurfaces[CustomSurfacesCount - 1][1] = crystalk * crystall*CustomSurfaces[CustomSurfacesCount - 1][1];
@@ -3349,6 +3415,12 @@ void jgnCommands(LPTSTR ttt, int d)
 		CustomSurfaces[CustomSurfacesCount - 1][1] = CustomSurfaces[CustomSurfacesCount - 1][1] / sqrt(pow(helping1, 2) + pow(helping2, 2) + pow(helping3, 2));
 		CustomSurfaces[CustomSurfacesCount - 1][2] = CustomSurfaces[CustomSurfacesCount - 1][2] / sqrt(pow(helping1, 2) + pow(helping2, 2) + pow(helping3, 2));
 
+		//CustomSurfaces[CustomSurfacesCount - 1][0] = crystalh;
+		//CustomSurfaces[CustomSurfacesCount - 1][1] = crystalk;
+		//CustomSurfaces[CustomSurfacesCount - 1][2] = crystall;
+		//CustomSurfaces[CustomSurfacesCount - 1][3] = 10;
+
+#if !defined(JGN_NO_CMD_HISTORY)
 		help += 2;
 		isngtv = 0;
 
@@ -3390,12 +3462,14 @@ void jgnCommands(LPTSTR ttt, int d)
 		}
 		help += 2;
 		isngtv = 0;
-
+#endif
 
 		if (okrender == 0)
 		{
 			CustomSurfacesCount--;
 		}
+
+
 
 		goto peintit;
 
@@ -3404,199 +3478,6 @@ void jgnCommands(LPTSTR ttt, int d)
 
 
 
-	//"PlaneH("
-	/*for (i = 0; i < 7; i++)
-	{
-	if (test5[i] == ttt[i])
-	{
-
-	}
-	else
-	{
-	i = 100;
-	}
-	}
-	if (i == 7)
-	{
-	okrender = 1;
-	CustomSurfacesCount++;
-
-	CustomSurfaces = (float**)realloc(CustomSurfaces, sizeof(float*)*CustomSurfacesCount);
-	CustomSurfaces[CustomSurfacesCount - 1] = (float*)malloc(sizeof(float) * 4);
-	CustomSurfaces[CustomSurfacesCount - 1][0] = 0;
-	CustomSurfaces[CustomSurfacesCount - 1][1] = 0;
-	CustomSurfaces[CustomSurfacesCount - 1][2] = 0;
-	CustomSurfaces[CustomSurfacesCount - 1][3] = 0;
-
-	int u = 0;
-	int v = 0;
-
-	help = (char*)(ttt + 7);
-	if (help[0] >= 48 && help[0] <= 57)
-	{
-	u = help[0] - 48;
-	}
-	else if (help[0] == '-')
-	{
-	isngtv = 1;
-	}
-	else
-	{
-	okrender = 0;
-	}
-	help = help + 2;
-	loop = 0;
-	while (help[0] != ',' && loop<6)
-	{
-	loop++;
-	if (help[0] >= 48 && help[0] <= 57)
-	{
-	u = 10 * u + help[0] - 48;
-	help += 2;
-	}
-	else
-	{
-	okrender = 0;
-
-
-	}
-	}
-	loop = 0;
-	if (isngtv)
-	{
-	u = -u;
-	}
-	help += 2;
-	isngtv = 0;
-
-
-	if (help[0] >= 48 && help[0] <= 57)
-	{
-	v = help[0] - 48;
-	}
-	else if (help[0] == '-')
-	{
-	isngtv = 1;
-	}
-	else
-	{
-	okrender = 0;
-
-	}
-	help = help + 2;
-	while (help[0] != ',' && loop<6)
-
-	{
-	loop++;
-	if (help[0] >= 48 && help[0] <= 57)
-	{
-	v = 10 * v + help[0] - 48;
-	help += 2;
-	}
-	else
-	{
-	okrender = 0;
-
-
-	}
-	}
-	loop = 0;
-	if (isngtv)
-	{
-	v = -v;
-	}
-	help += 2;
-	isngtv = 0;
-
-	CustomSurfaces[CustomSurfacesCount - 1][0] = u;
-	CustomSurfaces[CustomSurfacesCount - 1][1] = u/sqrt(3) + v*2.0 / sqrt(3);
-
-	if (help[0] >= 48 && help[0] <= 57)
-	{
-	CustomSurfaces[CustomSurfacesCount - 1][2] = help[0] - 48;
-	}
-	else if (help[0] == '-')
-	{
-	isngtv = 1;
-	}
-	else
-	{
-	okrender = 0;
-
-	}
-	help = help + 2;
-	while (help[0] != ',' && loop<6)
-
-	{
-	loop++;
-	if (help[0] >= 48 && help[0] <= 57)
-	{
-	CustomSurfaces[CustomSurfacesCount - 1][2] = 10 * CustomSurfaces[CustomSurfacesCount - 1][2] + help[0] - 48;
-	help += 2;
-	}
-	else
-	{
-	okrender = 0;
-
-	}
-	}
-	loop = 0;
-	if (isngtv)
-	{
-	CustomSurfaces[CustomSurfacesCount - 1][2] = -CustomSurfaces[CustomSurfacesCount - 1][2];
-	}
-	help += 2;
-	isngtv = 0;
-
-
-
-	if (help[0] >= 48 && help[0] <= 57)
-	{
-	CustomSurfaces[CustomSurfacesCount - 1][3] = help[0] - 48;
-	}
-	else if (help[0] == '-')
-	{
-	isngtv = 1;
-	}
-	else
-	{
-	okrender = 0;
-
-	}
-	help = help + 2;
-	while (help[0] != ')' && loop<6)
-
-	{
-	loop++;
-	if (help[0] >= 48 && help[0] <= 57)
-	{
-	CustomSurfaces[CustomSurfacesCount - 1][3] = 10 * CustomSurfaces[CustomSurfacesCount - 1][3] + help[0] - 48;
-	help += 2;
-	}
-	else
-	{
-	okrender = 0;
-
-	}
-	}
-	loop = 0;
-	if (isngtv)
-	{
-	CustomSurfaces[CustomSurfacesCount - 1][3] = -CustomSurfaces[CustomSurfacesCount - 1][3];
-	}
-	help += 2;
-	isngtv = 0;
-
-
-	if (okrender == 0)
-	{
-	CustomSurfacesCount--;
-	}
-	JGN_PostRedisplay();
-
-	goto peintit;
-
-	}*/
 
 
 
@@ -3962,12 +3843,16 @@ peintit1:
 
 	if (okrender)
 	{
+#if !defined(JGN_NO_CMD_HISTORY) 
 		SendMessage(CommandTextHistory, EM_SETREADONLY, FALSE, NULL);
+#endif
 
 		okrender = 0;
 
+#if !defined(JGN_NO_CMD_HISTORY) 
 		SendMessage(CommandTextHistory, EM_SETSEL, 0, -1);
 		SendMessage(CommandTextHistory, EM_SETSEL, -1, 0);
+#endif
 
 		for (i = 0; i < 50; i++)
 		{
@@ -3982,22 +3867,28 @@ peintit1:
 				{
 					i = 100;
 				}
+#if !defined(JGN_NO_CMD_HISTORY) 
 				else
 				{
 					SendMessage(CommandTextHistory, WM_CHAR, (TCHAR)ttt[i], 0);
 
 
 				}
+#endif
 			}
 		}
 
+#if !defined(JGN_NO_CMD_HISTORY) 
 		if (d == 1)
 		{
 			SendMessage(CommandTextHistory, WM_CHAR, (TCHAR)ucender[0], 0);
 		}
+#endif
 
 		SetFocus(CommandTextField);
+#if !defined(JGN_NO_CMD_HISTORY) 
 		SendMessage(CommandTextHistory, EM_SETREADONLY, TRUE, NULL);
+#endif
 
 		for (i = 0; i < 50; i++)
 		{
@@ -4027,17 +3918,19 @@ void jgn_initcmd()
 
 
 	GetWindowRect(mnhwnd, glb_rct);
-
+#if !defined(JGN_NO_CMD_HISTORY) 
 	CommandTextHistory = CreateWindow(L"EDIT",
 		0, WS_VISIBLE | WS_POPUP | WS_VSCROLL | ES_MULTILINE,
 		(*glb_rct).left + 7, (*glb_rct).bottom - 286, (*glb_rct).right - (*glb_rct).left - 15, 242,
 		mnhwnd, NULL, hinst111, NULL);
+#endif
 
 	fOnt = CreateFont(30, 0, 0, 0, 0, TRUE, 0, 0, 0, 0, 0, 0, 0, L"Arial");
 
-
+#if !defined(JGN_NO_CMD_HISTORY) 
 	SendMessage(CommandTextHistory, EM_SETREADONLY, TRUE, NULL);
 	SendMessage(CommandTextHistory, WM_SETFONT, (WPARAM)fOnt, TRUE);
+#endif
 
 
 	CommandTextField = CreateWindow(L"EDIT",

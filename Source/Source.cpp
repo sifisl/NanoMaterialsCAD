@@ -117,6 +117,7 @@ void myReshape(int w, int h)// window reshape
 				-1.05 * (GLfloat)h / (GLfloat)w, +1.05 * (GLfloat)h / (GLfloat)w,
 				-10.0, 10.0);
 			dipleft = -1;
+			dipapan = (GLfloat)h / (GLfloat)w;
 
 		}
 		else
@@ -126,6 +127,7 @@ void myReshape(int w, int h)// window reshape
 				-1.05, +1.05,
 				-10.0, 10.0);
 			dipleft = -(GLfloat)w / (GLfloat)h;
+			dipapan = 1;
 
 		}
 	}
@@ -171,6 +173,7 @@ void display1(void)//generates the graphics output.
 				-1.05 * (GLfloat)height / (GLfloat)width, +1.05 * (GLfloat)height / (GLfloat)width,
 				-10.0, 10.0);
 			dipleft = -1;
+			dipapan = (GLfloat)height / (GLfloat)width;
 
 
 		}
@@ -181,6 +184,7 @@ void display1(void)//generates the graphics output.
 				-1.05, +1.05,
 				-10.0, 10.0);
 			dipleft = -(GLfloat)width / (GLfloat)height;
+			dipapan = 1;
 
 		}
 		glMatrixMode(GL_MODELVIEW);
@@ -778,7 +782,7 @@ void display1(void)//generates the graphics output.
 		cl_end = std::chrono::high_resolution_clock::now();
 		cl_duration = cl_end - cl_start;
 
-		JGN_SolidSphereFpsCalibration();
+		//JGN_SolidSphereFpsCalibration();
 
 
 
@@ -3481,6 +3485,7 @@ void display1(void)//generates the graphics output.
 				-1.05 * (GLfloat)height / (GLfloat)width, +1.05 * (GLfloat)height / (GLfloat)width,
 				-10.0, 10.0);
 			dipleft = -1;
+			dipapan = (GLfloat)height / (GLfloat)width;
 
 
 		}
@@ -3491,6 +3496,8 @@ void display1(void)//generates the graphics output.
 				-1.05, +1.05,
 				-10.0, 10.0);
 			dipleft = -(GLfloat)width / (GLfloat)height;
+			dipapan = 1;
+
 
 		}
 		glMatrixMode(GL_MODELVIEW);
@@ -3609,6 +3616,14 @@ void display1(void)//generates the graphics output.
 		glTranslatef(-0.3, 0.95, 0);
 		JGN_StrokeString("Translate");
 	}
+	else if (mouse_mode == 'd')
+	{//distance
+		glLoadIdentity();
+		glColor3f(0, 0, 0);
+
+		glTranslatef(-0.3, 0.95, 0);
+		JGN_StrokeString("Distance");
+	}
 	else if (mouse_mode == 'o')
 	{//selected rotate
 
@@ -3692,6 +3707,39 @@ void display1(void)//generates the graphics output.
 
 	}
 
+	//print custom surfaces
+	int Nline = 0;
+	for (i = 0; i < CustomSurfacesCount; i++)
+	{
+		glLoadIdentity();
+		glScalef(0.5, 0.5, 0);
+		glTranslatef(2 * dipleft, 2 * dipapan- Nline*0.15, 0);
+		i == CustomSurfaceSelected ? glColor3f(1.0, 0.0, 0.0) : glColor3f(0.0, 0.0, 0.0);
+
+
+		char buf[100];
+		itoa(CustomSurfaces_hkl[i][0], buf, 10);
+		JGN_StrokeString(buf);
+		itoa(CustomSurfaces_hkl[i][1], buf, 10);
+		JGN_StrokeString(buf);
+		itoa(CustomSurfaces_hkl[i][2], buf, 10);
+		JGN_StrokeString(buf);
+		JGN_StrokeCharacter(' ');
+		itoa(CustomSurfaces[i][3], buf, 10);
+		JGN_StrokeString(buf);
+
+		Nline++;
+	}
+	////test
+	//glLoadIdentity();
+	//glLineWidth(1);
+	//for (i = 0; i < CustomSurfacesCount; i++)
+	//{
+	//	glBegin(GL_LINES);
+	//	glVertex2d(dipleft, dipapan-0.01 - i*(0.075) );
+	//	glVertex2d(dipleft+0.2, dipapan-0.01 - i*(0.075));
+	//	glEnd();
+	//}
 	
 
 	if (nanotube)
@@ -4246,6 +4294,10 @@ void variableinit()
 {
 
 	/////////////////global variables
+	ClickedForDistance[0] = -1;
+	ClickedForDistance[1] = -1;
+	Dist2Disp = 0;
+	iClickedForDistance = 2;
 	selected_rotate_axes = 1;
 	model_translate[0] = 0;
 	model_translate[1] = 0.0;
@@ -4281,6 +4333,7 @@ void variableinit()
 
 
 	dipleft = -1000.0 / 800.0;
+	dipapan = 1;
 	perspective_on = 0;
 	theta[0] = 0.0;
 	theta[1] = 0.0;
@@ -4300,8 +4353,8 @@ void variableinit()
 
 	mouse_check = 0;
 
-	sphStacks = 10;
-	sphSides = 10;
+	sphStacks = 5;
+	sphSides = 5;
 	qredisplay = false;
 
 	prev_sized[0] = 1.0;
@@ -4377,11 +4430,13 @@ void variableinit()
 	lpszFile = (LPTSTR)malloc(sizeof(char) * 500);
 	inpf[0] = 0;
 
-
+#if !defined(JGN_NO_CMD_HISTORY) 
 	CommandTextHistory = NULL;
+#endif
 	my_postmessages_count = 0;
 	CustomSurfacesCount = 0;
 	CustomSurfaces = NULL;
+	CustomSurfaceSelected = -1;
 	CustomSurfacesOn = 0;
 
 	loop = 0;
@@ -4670,6 +4725,30 @@ void keyboardgl(int key, int s, int x, int y)
 		DialogBox(hInst, MAKEINTRESOURCE(IDD_BUILD_POSCAR), jgn_help_to_map_the_draw_func, Poscar_Build);
 
 
+	}
+	else if (CustomSurfaceSelected != -1 && (isdigit(key) || key == VK_BACK || (key >= VK_NUMPAD0 && key <= VK_NUMPAD9)) && s == JGN_DOWN)
+	{
+		char buf[100];
+		itoa(CustomSurfaces[CustomSurfaceSelected][3], buf, 10);
+		int len = strlen(buf);
+		if (key == VK_BACK)
+		{
+			buf[len - 1] = '\0';
+			CustomSurfaces[CustomSurfaceSelected][3] = atoi(buf);
+		}
+		else if (key >= VK_NUMPAD0 && key <= VK_NUMPAD9)
+		{	
+			buf[len] = key - 48;
+			buf[len + 1] = '\0';
+			CustomSurfaces[CustomSurfaceSelected][3] = atoi(buf);
+		}
+		else
+		{
+			buf[len] = key;
+			buf[len + 1] = '\0';
+			CustomSurfaces[CustomSurfaceSelected][3] = atoi(buf);
+		}
+		JGN_PostRedisplay();
 	}
 	else if (ctrl_down && r_down)
 	{
@@ -5047,6 +5126,11 @@ void keyboardgl(int key, int s, int x, int y)
 		{
 			mouse_mode = 't';
 			JGN_PostRedisplay();
+		}
+		if ((key == 'd' || key == 'D') && s == JGN_DOWN)
+		{
+			mouse_mode = 'd';
+			iClickedForDistance = 2;
 		}
 		if ((key == 's' || key == 'S') && s == JGN_DOWN)
 		{
@@ -5630,7 +5714,7 @@ void menuf(int c)
 					-1.05 * (GLfloat)height / (GLfloat)width, +1.05 * (GLfloat)height / (GLfloat)width,
 					-10.0, 10.0);
 				dipleft = -1;
-
+				dipapan = (GLfloat)height / (GLfloat)width;
 
 			}
 			else
@@ -5640,6 +5724,8 @@ void menuf(int c)
 					-1.05, +1.05,
 					-10.0, 10.0);
 				dipleft = -(GLfloat)width / (GLfloat)height;
+				dipapan = 1;
+
 
 			}
 			glMatrixMode(GL_MODELVIEW);
@@ -5762,6 +5848,92 @@ void findSelected()
 	}
 }
 
+void findClicked()
+{
+	int asdfjlk = t * sized[0] * sized[1] * sized[2];
+
+	iClickedForDistance++;
+	if (iClickedForDistance > 1)
+	{
+		iClickedForDistance = 0;
+		isSelected[ClickedForDistance[0]] = false;
+		isSelected[ClickedForDistance[1]] = false;
+		ClickedForDistance[0] = -1;
+		ClickedForDistance[1] = -1;
+	}
+	float prevp1[3];
+	prevp1[0] = 0;
+	prevp1[1] = 0;
+	prevp1[2] = 0;
+	for (int i = 0; i < asdfjlk; i++)
+	{
+		float p1[3];
+		float p2[3];
+		float theta_rad[3];
+
+		p1[0] = crystal[2 + 5 * i] / (Svmax + 5);
+		p1[1] = crystal[3 + 5 * i] / (Svmax + 5);
+		p1[2] = crystal[4 + 5 * i] / (Svmax + 5);
+
+		theta_rad[0] = theta[0] * M_PI / 180;
+		theta_rad[1] = 0;
+		theta_rad[2] = theta[1] * M_PI / 180;
+
+
+
+		cpu_translate(p1, (float*)model_translate, p2);
+		cpu_rotate(p2, (float*)theta_rad, p1);
+		p1[2] = -p1[2];
+
+		///at this point p1 is the final product
+
+
+		if (dist2d(leftClick.finish, p1) < pointsize*0.001)
+		{
+			if (ClickedForDistance[iClickedForDistance] == -1)
+			{
+				ClickedForDistance[iClickedForDistance] = i;
+				prevp1[0] = p1[0];
+				prevp1[1] = p1[1];
+				prevp1[2] = p1[2];
+
+
+			}
+			else if(p1[2]>prevp1[2]){
+				ClickedForDistance[iClickedForDistance] = i;
+				prevp1[0] = p1[0];
+				prevp1[1] = p1[1];
+				prevp1[2] = p1[2];
+
+			}
+		}
+
+
+
+	}
+	if (ClickedForDistance[iClickedForDistance] != -1)
+	{
+		isSelected[ClickedForDistance[iClickedForDistance]] = true;
+
+
+	}
+
+	if (iClickedForDistance == 1)
+	{
+		mouse_mode = 'r';
+		pForDistance[ 0] = crystal[2 + 5 * ClickedForDistance[0]];
+		pForDistance[ 1] = crystal[3 + 5 * ClickedForDistance[0]];
+		pForDistance[ 2] = crystal[4 + 5 * ClickedForDistance[0]];
+		pForDistance[3] = crystal[2 + 5 * ClickedForDistance[1]];
+		pForDistance[4] = crystal[3 + 5 * ClickedForDistance[1]];
+		pForDistance[5] = crystal[4 + 5 * ClickedForDistance[1]];
+		//TODO:
+		//correct distance clean the trash!!!!
+		Dist2Disp = dist3d(&crystal[2 + 5 * ClickedForDistance[0]], &crystal[2 + 5 * ClickedForDistance[1]]);
+		cout << "Dist2Disp" << Dist2Disp << endl;
+	}
+}
+
 
 void mouse_pasive(int x, int y)
 {
@@ -5784,12 +5956,15 @@ void mouse_pasive(int x, int y)
 
 	if (lmb == JGN_UP)
 	{
-
-		if (mouse_mode == 's')
+		if (mouse_mode == 's' || mouse_mode == 'd')
 		{
-			if (mouse_check == 1)
+			if (mouse_mode == 's' && mouse_check == 1)
 			{
 				findSelected();
+			}
+			else if (mouse_mode == 'd' && mouse_check == 1)
+			{
+				findClicked();
 			}
 			leftClick.start[0] = jgn_x;
 			leftClick.start[1] = jgn_y;
@@ -5800,10 +5975,11 @@ void mouse_pasive(int x, int y)
 			JGN_PostRedisplay();
 
 		}
-		else if (mouse_mode == 'r' || mouse_mode == 'o' || mouse_mode == 'a')
+		else if (mouse_mode == 'r' || mouse_mode == 'o' || mouse_mode == 'a' || mouse_mode == 'd')
 		{
 			theta_prev[0] = -theta[0];
 			theta_prev[1] = -theta[1];
+
 			mouse_check = 0;
 		}		
 		else if (mouse_mode == 't')
@@ -5818,7 +5994,7 @@ void mouse_pasive(int x, int y)
 	}
 	else
 	{
-		if(mouse_mode == 's')
+		if(mouse_mode == 's' || mouse_mode == 'd')
 		{
 			if (mouse_check == 0)
 			{
@@ -5837,10 +6013,10 @@ void mouse_pasive(int x, int y)
 
 			}
 			mouse_check = 1;
-
-			findSelected();
+			if(mouse_check == 's')
+				findSelected();
 		}
-		else if (mouse_mode == 'r' || mouse_mode == 'o' || mouse_mode == 'a')
+		else if (mouse_mode == 'r' || mouse_mode == 'o' || mouse_mode == 'a' || mouse_mode == 'd')
 		{
 			if (mouse_check == 0)
 			{
@@ -5876,12 +6052,26 @@ void mouse_pasive(int x, int y)
 
 void mouse_func(int b, int s, int x, int y)
 {
+	float xnorm = ((float)x / (float)width - 0.5)*2.1;
+	float ynorm = -((float)y / (float)height - 0.5)*2.1;
+
 	if (b == JGN_LEFT_MOUSE_BUTTON)
 	{
+		CustomSurfaceSelected = -1;
+		for (i = 0; i < CustomSurfacesCount; i++)
+		{//select a surface
+			if (xnorm < dipleft + 0.4 && ynorm< dipapan - 0.01 - (i - 1) * (0.075) && ynorm>dipapan - 0.01 - i * (0.075))
+			{
+				CustomSurfaceSelected = i;
+
+				
+			}
+		}
 		lmb = s;
+
 	}
 	
-
+	
 	if (b == JGN_MOUSE_WHEEL && s == JGN_UP)//zoom out
 	{
 		Svmax = Svmax - 5;

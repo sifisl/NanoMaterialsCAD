@@ -2,6 +2,10 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define _USE_MATH_DEFINES
 
+//don't compile old code
+#define JGN_NO_CMD_HISTORY
+#define JGN_CMD_PLANE
+
 
 #ifdef JGN_SOURCE_CPP
 #define EXT 
@@ -220,12 +224,13 @@ EXT char* NewPC;
 
 EXT char* PCtype;
 
-EXT int lmb;
+EXT int lmb;//left mouse button
 EXT int wasfullscreenflagin;
 EXT int wasfullscreenflagout;
 EXT GLuint Font;
 EXT GLuint vboId;
 EXT float dipleft;
+EXT float dipapan;
 EXT float perspective_on;
 EXT GLfloat theta[3];
 EXT int flagmax;
@@ -275,6 +280,10 @@ EXT float model_translate[3];
 EXT float selected_rotate[3];
 EXT float selected_translate[3];
 EXT int selected_rotate_axes;//1=x,2=y,3=z
+EXT int ClickedForDistance[2];
+EXT float Dist2Disp;
+EXT int iClickedForDistance;
+EXT float pForDistance[6];
 EXT int selected_translate_direction;//0=x,1=y,2=z
 EXT bool *selective_render;
 
@@ -331,10 +340,14 @@ EXT LPTSTR lpszFile;
 EXT char inpf[500];
 EXT TCHAR CommandBuffer[500];
 EXT INPUT keybinp;
-EXT HWND CommandTextHistory;
+#if !defined(JGN_NO_CMD_HISTORY) 
+	EXT HWND CommandTextHistory;
+#endif
 EXT int my_postmessages_count;
 EXT int CustomSurfacesCount;
+EXT int CustomSurfaceSelected;
 EXT float **CustomSurfaces;
+EXT int **CustomSurfaces_hkl;
 EXT int CustomSurfacesOn;
 EXT HBRUSH brush;
 EXT HFONT fOnt;
@@ -489,6 +502,27 @@ void cpu_translate(float p[3], float a[3], float *out)
 	out[0] = p[0] + a[0];
 	out[1] = p[1] + a[1];
 	out[2] = p[2] + a[2];
+}
+#else
+;
+#endif //JGN_SOURCE_CPP
+
+
+float dist2d(float* p1, float* p2)
+#ifdef JGN_SOURCE_CPP
+
+{
+	return sqrt((p1[0] - p2[0])*(p1[0] - p2[0]) + (p1[1] - p2[1])*(p1[1] - p2[1]));
+}
+#else
+;
+#endif //JGN_SOURCE_CPP
+
+float dist3d(float* p1, float* p2)
+#ifdef JGN_SOURCE_CPP
+
+{
+	return sqrt((p1[0] - p2[0])*(p1[0] - p2[0]) + (p1[1] - p2[1])*(p1[1] - p2[1])+ (p1[2] - p2[2])*(p1[2] - p2[2]));
 }
 #else
 ;

@@ -467,10 +467,10 @@ void ____JGN_DisplayF()
 
 		hOld = SelectObject(hdcMem, hbmMem);*/
 
-		cout << 1 << endl;
+
 
 		JGN_Global_Draw[0]();
-		cout << 4 << endl;
+
 
 
 		//BitBlt(hdc, 0, 0, 1000, 1000, hdcMem, 0, 0, SRCCOPY);
@@ -984,18 +984,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			periodic_table = fopen("periodic_table.jgn", "r");
 
-			crystal = (float*)realloc(NULL, sizeof(float)*(sized[0] * sized[1] * sized[2] * t * 5));
+			heapRealloc();
+			/*crystal = (float*)realloc(NULL, sizeof(float)*(sized[0] * sized[1] * sized[2] * t * 5));
 			selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(sized[0] * sized[1] * sized[2] * t * 3));
 			isSelected = (bool*)realloc(isSelected, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
 			for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
 			{
 				isSelected[i] = false;
 			}
-			selective_render = (bool*)realloc(selective_render, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+			isdeleted = (bool*)realloc(isdeleted, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
 			for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
 			{
-				selective_render[i] = true;
-			}
+				isdeleted[i] = false;
+			}*/
 
 
 			//crystal_backup = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
@@ -1107,18 +1108,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			periodic_table = fopen("periodic_table.jgn", "r");
 
-			crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
+
+			heapRealloc();
+			/*crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 			selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
 			isSelected = (bool*)realloc(isSelected, sizeof(bool)*t);
 			for (int i = 0; i < t; i++)
 			{
 				isSelected[i] = false;
 			}
-			selective_render = (bool*)realloc(selective_render, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+			isdeleted = (bool*)realloc(isdeleted, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
 			for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
 			{
-				selective_render[i] = true;
-			}
+				isdeleted[i] = false;
+			}*/
 
 
 			//crystal_backup = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
@@ -1259,18 +1262,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 				periodic_table = fopen("periodic_table.jgn", "r");
 
-				crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
+				heapRealloc();
+				/*crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 				selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
 				isSelected = (bool*)realloc(isSelected, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
 				for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
 				{
 					isSelected[i] = false;
 				}
-				selective_render = (bool*)realloc(selective_render, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+				isdeleted = (bool*)realloc(isdeleted, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
 				for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
 				{
-					selective_render[i] = true;
-				}
+					isdeleted[i] = false;
+				}*/
 
 
 				//crystal_backup = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
@@ -1386,18 +1390,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 				periodic_table = fopen("periodic_table.jgn", "r");
 
-				crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
+				heapRealloc();
+				/*crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 				selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
 				isSelected = (bool*)realloc(isSelected, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
 				for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
 				{
 					isSelected[i] = false;
 				}
-				selective_render = (bool*)realloc(selective_render, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+				isdeleted = (bool*)realloc(isdeleted, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
 				for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
 				{
-					selective_render[i] = true;
-				}
+					isdeleted[i] = false;
+				}*/
 
 
 				//	crystal_backup = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
@@ -1517,18 +1522,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 				periodic_table = fopen("periodic_table.jgn", "r");
 
-				crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
+				heapRealloc();
+				/*crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 				selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
 				isSelected = (bool*)realloc(isSelected, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
 				for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
 				{
 					isSelected[i] = false;
 				}
-				selective_render = (bool*)realloc(selective_render, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+				isdeleted = (bool*)realloc(isdeleted, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
 				for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
 				{
-					selective_render[i] = true;
-				}
+					isdeleted[i] = false;
+				}*/
 
 
 				//	crystal_backup = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
@@ -1647,18 +1653,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 				periodic_table = fopen("periodic_table.jgn", "r");
 
-				crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
+				heapRealloc();
+				/*crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 				selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
 				isSelected = (bool*)realloc(isSelected, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
 				for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
 				{
 					isSelected[i] = false;
 				}
-				selective_render = (bool*)realloc(selective_render, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+				isdeleted = (bool*)realloc(isdeleted, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
 				for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
 				{
-					selective_render[i] = true;
-				}
+					isdeleted[i] = false;
+				}*/
 
 
 				//	crystal_backup = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
@@ -1786,18 +1793,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 				periodic_table = fopen("periodic_table.jgn", "r");
 
-				crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
+				heapRealloc();
+				/*crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 				selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
 				isSelected = (bool*)realloc(isSelected, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
 				for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
 				{
 					isSelected[i] = false;
 				}
-				selective_render = (bool*)realloc(selective_render, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+				isdeleted = (bool*)realloc(isdeleted, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
 				for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
 				{
-					selective_render[i] = true;
-				}
+					isdeleted[i] = false;
+				}*/
 
 
 				//	crystal_backup = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
@@ -3726,7 +3734,8 @@ void jgnCommands(LPTSTR ttt, int d)
 			}
 			//periodic_table = fopen("periodic_table.jgn", "r");
 
-			crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
+			heapRealloc();
+			/*crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 			crystal_backup = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 			selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
 			isSelected = (bool*)realloc(isSelected, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
@@ -3734,11 +3743,11 @@ void jgnCommands(LPTSTR ttt, int d)
 			{
 				isSelected[i] = false;
 			}
-			selective_render = (bool*)realloc(selective_render, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+			isdeleted = (bool*)realloc(NULL, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
 			for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
 			{
-				selective_render[i] = true;
-			}
+				isdeleted[i] = false;
+			}*/
 
 
 			//	crystal_backup = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
@@ -4005,10 +4014,10 @@ void MakeScroll()
 	S3v = ((max_xyz[0] - min_xyz[0]) * 2 * M_PI) / max_theta;
 	S3v = S3v + ((max_xyz[0] - min_xyz[0]) * 2 * M_PI) / min_theta;
 
-	cout << S3v << endl;
+
 
 	//S3v = max_theta / (max_xyz[0]);
-	cout << S3v << endl;
+
 
 	for (ole3 = 0; ole3 < ajklsdfl; ole3++)
 	{

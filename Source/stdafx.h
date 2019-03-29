@@ -285,7 +285,9 @@ EXT float Dist2Disp;
 EXT int iClickedForDistance;
 EXT float pForDistance[6];
 EXT int selected_translate_direction;//0=x,1=y,2=z
-EXT bool *selective_render;
+EXT bool *isdeleted;
+EXT int *deletedHistory;//which atom is deleted
+EXT int Ndeletes;//how many time did I delete? help to ctrl+z
 
 class MOUSECLICK
 {
@@ -523,6 +525,31 @@ float dist3d(float* p1, float* p2)
 
 {
 	return sqrt((p1[0] - p2[0])*(p1[0] - p2[0]) + (p1[1] - p2[1])*(p1[1] - p2[1])+ (p1[2] - p2[2])*(p1[2] - p2[2]));
+}
+#else
+;
+#endif //JGN_SOURCE_CPP
+
+
+void heapRealloc()
+#ifdef JGN_SOURCE_CPP
+{
+	crystal = (float*)realloc(crystal, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
+	crystal_backup = (float*)realloc(NULL, sizeof(float)*(sized[0] * sized[1] * sized[2] * t * 5));
+	selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
+	isSelected = (bool*)realloc(isSelected, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+	for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
+	{
+		isSelected[i] = false;
+	}
+	//isdeleted = (bool*)realloc(isdeleted, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+	isdeleted = (bool*)realloc(isdeleted, sizeof(bool)*t*jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2]);
+	deletedHistory = (int*)realloc(deletedHistory, sizeof(int)*t*sized[0] * sized[1] * sized[2]);
+	for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
+	{
+		isdeleted[i] = false;
+		deletedHistory[i] = 0;
+	}
 }
 #else
 ;

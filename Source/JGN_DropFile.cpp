@@ -9,11 +9,12 @@ void JGN_DropFile()
 {
 	if (ftype == 'p')
 	{
+
 		///line 1
-		fgets(s, SBYTES, uc_file);
+		std::fgets(s, SBYTES, uc_file);
 		while (strtok(s, "\t ")[0] == '\n')
 		{
-			fgets(s, SBYTES, uc_file);
+			std::fgets(s, SBYTES, uc_file);
 		}
 
 		//tsekarw posa einai ta eidi twn atomwn xrhsimopoiwdas ta kena gia na xrhsimopoihsw thn malloc
@@ -22,11 +23,11 @@ void JGN_DropFile()
 
 
 		///grammh 2
-		fgets(s, SBYTES, uc_file);
+		std::fgets(s, SBYTES, uc_file);
 		token = strtok(s, "\t ");
 		while (token[0] == '\n')
 		{
-			fgets(s, SBYTES, uc_file);
+			std::fgets(s, SBYTES, uc_file);
 			token = strtok(s, "\t ");
 
 		}
@@ -36,11 +37,11 @@ void JGN_DropFile()
 
 
 							///grammh 3
-		fgets(s, SBYTES, uc_file);
+		std::fgets(s, SBYTES, uc_file);
 		token = strtok(s, "\t ");
 		while (token[0] == '\n')
 		{
-			fgets(s, SBYTES, uc_file);
+			std::fgets(s, SBYTES, uc_file);
 			token = strtok(s, "\t ");
 
 		}
@@ -58,11 +59,11 @@ void JGN_DropFile()
 
 
 		///grammh 4
-		fgets(s, SBYTES, uc_file);
+		std::fgets(s, SBYTES, uc_file);
 		token = strtok(s, "\t ");
 		while (token[0] == '\n')
 		{
-			fgets(s, SBYTES, uc_file);
+			std::fgets(s, SBYTES, uc_file);
 			token = strtok(s, "\t ");
 
 		}
@@ -78,11 +79,11 @@ void JGN_DropFile()
 
 
 		///grammh 5
-		fgets(s, SBYTES, uc_file);
+		std::fgets(s, SBYTES, uc_file);
 		token = strtok(s, "\t ");
 		while (token[0] == '\n')
 		{
-			fgets(s, SBYTES, uc_file);
+			std::fgets(s, SBYTES, uc_file);
 			token = strtok(s, "\t ");
 
 		}
@@ -97,11 +98,11 @@ void JGN_DropFile()
 		}
 
 		///grammh 6			
-		fgets(s, SBYTES, uc_file);
+		std::fgets(s, SBYTES, uc_file);
 		token = strtok(s, "\t ");
 		while (token[0] == '\n')
 		{
-			fgets(s, SBYTES, uc_file);
+			std::fgets(s, SBYTES, uc_file);
 			token = strtok(s, "\t ");
 
 		}
@@ -208,11 +209,11 @@ void JGN_DropFile()
 		//atomshelp[3 * a - 1] = ' ';
 
 		///grammh7		
-		fgets(s, SBYTES, uc_file);
+		std::fgets(s, SBYTES, uc_file);
 		token = strtok(s, "\t ");
 		while (token[0] == '\n')
 		{
-			fgets(s, SBYTES, uc_file);
+			std::fgets(s, SBYTES, uc_file);
 			token = strtok(s, "\t ");
 
 		}
@@ -247,11 +248,11 @@ void JGN_DropFile()
 		///gramh 8			
 
 		// "direct" "cartasian" or "selective dynamics" ?
-		fgets(s, SBYTES, uc_file);
+		std::fgets(s, SBYTES, uc_file);
 		token = strtok(s, "\t ");
 		while (token[0] == '\n')
 		{
-			fgets(s, SBYTES, uc_file);
+			std::fgets(s, SBYTES, uc_file);
 			token = strtok(s, "\t ");
 
 		}
@@ -262,11 +263,11 @@ void JGN_DropFile()
 		{
 			selective_dynamics_bool = true;
 			// "direct" or "cartasian" ?
-			fgets(s, SBYTES, uc_file);
+			std::fgets(s, SBYTES, uc_file);
 			token = strtok(s, "\t ");
 			while (token[0] == '\n')
 			{
-				fgets(s, SBYTES, uc_file);
+				std::fgets(s, SBYTES, uc_file);
 				token = strtok(s, "\t ");
 
 			}
@@ -311,11 +312,11 @@ void JGN_DropFile()
 		for (ole = 0; ole < t; ole++) {
 
 
-			fgets(s, SBYTES, uc_file);
+			std::fgets(s, SBYTES, uc_file);
 			token = strtok(s, "\t ");
 			while (token[0] == '\n')
 			{
-				fgets(s, SBYTES, uc_file);
+				std::fgets(s, SBYTES, uc_file);
 				token = strtok(s, "\t ");
 
 			}
@@ -347,7 +348,7 @@ void JGN_DropFile()
 
 			while (ole1 == 0) {
 
-				fgets(s1, 50, periodic_table);
+				std::fgets(s1, 50, periodic_table);
 				token1 = strtok(s1, " ");
 
 
@@ -562,7 +563,8 @@ void JGN_DropFile()
 		sized[1] = 1;
 		sized[2] = 1;
 
-		crystal = (float*)realloc(NULL, sizeof(float)*(sized[0] * sized[1] * sized[2] * t * 5));
+		heapRealloc();
+		/*crystal = (float*)realloc(NULL, sizeof(float)*(sized[0] * sized[1] * sized[2] * t * 5));
 		crystal_backup = (float*)realloc(NULL, sizeof(float)*(sized[0] * sized[1] * sized[2] * t * 5));
 		selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(sized[0] * sized[1] * sized[2] * t * 3));
 		isSelected = (bool*)realloc(isSelected, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
@@ -570,18 +572,15 @@ void JGN_DropFile()
 		{
 			isSelected[i] = false;
 		}
-		selective_render = (bool*)realloc(selective_render, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+		isdeleted = (bool*)realloc(NULL, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+		deletedHistory = (int*)realloc(isdeleted, sizeof(int)*t*sized[0] * sized[1] * sized[2]);
 		for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
 		{
-			selective_render[i] = true;
-		}
+			isdeleted[i] = false;
+			deletedHistory[i] = 0;
+		}*/
 
-		//	float crystal[sized[0]][sized[1]][sized[2]][t][5];//mas leei se poio unit cell eimaste size[0]][size[1]][size[2]]
-		//poio atomo sto unit cell t;
-		//atomikos ari8mos kai varos [2];
-		//kai tis kartesianes tou xyz[3]
 
-		//crystal[5+5*(t+t*(sized[2]+sized[2](sized[1]+sized[1]*sized[0])))];
 
 
 
@@ -1085,18 +1084,21 @@ void JGN_DropFile()
 
 			periodic_table = fopen("periodic_table.jgn", "r");
 
-			crystal = (float*)realloc(crystal, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
+			heapRealloc();
+			/*crystal = (float*)realloc(crystal, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 			selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
 			isSelected = (bool*)realloc(isSelected, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
 			for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
 			{
 				isSelected[i] = false;
 			}
-			selective_render = (bool*)realloc(selective_render, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+			isdeleted = (bool*)realloc(NULL, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+			deletedHistory = (int*)realloc(NULL, sizeof(int)*t*sized[0] * sized[1] * sized[2]);
 			for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
 			{
-				selective_render[i] = true;
-			}
+				isdeleted[i] = false;
+				deletedHistory[i] = 0;
+			}*/
 
 
 			//crystal_backup = (float*)realloc(crystal, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
@@ -1242,10 +1244,10 @@ void JGN_DropFile()
 	{
 
 		///line 1
-		fgets(s, SBYTES, uc_file);
+		std::fgets(s, SBYTES, uc_file);
 		while (strtok(s, "\t ")[0] == '\n')
 		{
-			fgets(s, SBYTES, uc_file);
+			std::fgets(s, SBYTES, uc_file);
 		}
 
 		//tsekarw posa einai ta eidi twn atomwn xrhsimopoiwdas ta kena gia na xrhsimopoihsw thn malloc
@@ -1254,11 +1256,11 @@ void JGN_DropFile()
 
 
 		///grammh 2 read t
-		fgets(s, SBYTES, uc_file);
+		std::fgets(s, SBYTES, uc_file);
 		token = strtok(s, "\t ");
 		while (token[0] == '\n')
 		{
-			fgets(s, SBYTES, uc_file);
+			std::fgets(s, SBYTES, uc_file);
 			token = strtok(s, "\t ");
 
 		}
@@ -1267,11 +1269,11 @@ void JGN_DropFile()
 
 
 		///grammh 3
-		fgets(s, SBYTES, uc_file);
+		std::fgets(s, SBYTES, uc_file);
 		token = strtok(s, "\t ");
 		while (token[0] == '\n')
 		{
-			fgets(s, SBYTES, uc_file);
+			std::fgets(s, SBYTES, uc_file);
 			token = strtok(s, "\t ");
 
 		}
@@ -1281,11 +1283,11 @@ void JGN_DropFile()
 
 		float xlo, xhi, ylo, yhi, zlo, zhi;
 		///grammh 4 xlo xhi
-		fgets(s, SBYTES, uc_file);
+		std::fgets(s, SBYTES, uc_file);
 		token = strtok(s, "\t ");
 		while (token[0] == '\n')
 		{
-			fgets(s, SBYTES, uc_file);
+			std::fgets(s, SBYTES, uc_file);
 			token = strtok(s, "\t ");
 
 		}
@@ -1301,11 +1303,11 @@ void JGN_DropFile()
 
 
 		///grammh 5 yhi ylo
-		fgets(s, SBYTES, uc_file);
+		std::fgets(s, SBYTES, uc_file);
 		token = strtok(s, "\t ");
 		while (token[0] == '\n')
 		{
-			fgets(s, SBYTES, uc_file);
+			std::fgets(s, SBYTES, uc_file);
 			token = strtok(s, "\t ");
 
 		}
@@ -1321,11 +1323,11 @@ void JGN_DropFile()
 
 
 		///grammh 6 zlo zhi	
-		fgets(s, SBYTES, uc_file);
+		std::fgets(s, SBYTES, uc_file);
 		token = strtok(s, "\t ");
 		while (token[0] == '\n')
 		{
-			fgets(s, SBYTES, uc_file);
+			std::fgets(s, SBYTES, uc_file);
 			token = strtok(s, "\t ");
 
 		}
@@ -1367,11 +1369,11 @@ void JGN_DropFile()
 
 
 		///grammh 7 xy xz yz (if it exists), Masses if exist, Atoms
-		fgets(s, SBYTES, uc_file);
+		std::fgets(s, SBYTES, uc_file);
 		token = strtok(s, "\t ");
 		while (token[0] == '\n')
 		{
-			fgets(s, SBYTES, uc_file);
+			std::fgets(s, SBYTES, uc_file);
 			token = strtok(s, "\t ");
 
 		}
@@ -1387,18 +1389,18 @@ void JGN_DropFile()
 				for (i = 0; i < a; i++)
 				{
 					found = false;
-					fgets(s, SBYTES, uc_file);
+					std::fgets(s, SBYTES, uc_file);
 					token = strtok(s, "\t ");
 					while (token[0] == '\n')
 					{
-						fgets(s, SBYTES, uc_file);
+						std::fgets(s, SBYTES, uc_file);
 						token = strtok(s, "\t ");
 
 					}
 					token = strtok(NULL, "\t ");
 					while (!found)
 					{
-						fgets(s1, SBYTES, periodic_table);
+						std::fgets(s1, SBYTES, periodic_table);
 						token1 = strtok(s1, " ");
 						strcat(atoms, token1);
 						strcat(atoms, " ");
@@ -1452,11 +1454,11 @@ void JGN_DropFile()
 			token = strtok(NULL, "\t ");
 			ijk[2][1] = std::atof(token);
 
-			fgets(s, SBYTES, uc_file);
+			std::fgets(s, SBYTES, uc_file);
 			token = strtok(s, "\t ");
 			while (token[0] == '\n')
 			{
-				fgets(s, SBYTES, uc_file);
+				std::fgets(s, SBYTES, uc_file);
 				token = strtok(s, "\t ");
 
 			}
@@ -1469,18 +1471,18 @@ void JGN_DropFile()
 				for (i = 0; i < a; i++)
 				{
 					found = false;
-					fgets(s, SBYTES, uc_file);
+					std::fgets(s, SBYTES, uc_file);
 					token = strtok(s, "\t ");
 					while (token[0] == '\n')
 					{
-						fgets(s, SBYTES, uc_file);
+						std::fgets(s, SBYTES, uc_file);
 						token = strtok(s, "\t ");
 
 					}
 					token = strtok(NULL, "\t ");
 					while (!found)
 					{
-						fgets(s1, SBYTES, periodic_table);
+						std::fgets(s1, SBYTES, periodic_table);
 						token1 = strtok(s1, " ");
 						strcat(atoms, token1);
 						strcat(atoms, " ");
@@ -1556,11 +1558,11 @@ void JGN_DropFile()
 		///gammh 9 kai meta	
 		inptype = 'c';
 
-		fgets(s, SBYTES, uc_file);
+		std::fgets(s, SBYTES, uc_file);
 		token = strtok(s, "\t ");
 		while (token[0] == '\n')
 		{
-			fgets(s, SBYTES, uc_file);
+			std::fgets(s, SBYTES, uc_file);
 			token = strtok(s, "\t ");
 
 		}
@@ -1577,11 +1579,11 @@ void JGN_DropFile()
 		for (ole = 0; ole < t; ole++) {
 
 
-			fgets(s, SBYTES, uc_file);
+			std::fgets(s, SBYTES, uc_file);
 			token = strtok(s, "\t ");
 			while (token[0] == '\n')
 			{
-				fgets(s, SBYTES, uc_file);
+				std::fgets(s, SBYTES, uc_file);
 				token = strtok(s, "\t ");
 
 			}
@@ -1649,7 +1651,8 @@ void JGN_DropFile()
 		sized[1] = 1;
 		sized[2] = 1;
 
-		crystal = (float*)realloc(NULL, sizeof(float)*(sized[0] * sized[1] * sized[2] * t * 5));
+		heapRealloc();
+		/*crystal = (float*)realloc(NULL, sizeof(float)*(sized[0] * sized[1] * sized[2] * t * 5));
 		crystal_backup = (float*)realloc(NULL, sizeof(float)*(sized[0] * sized[1] * sized[2] * t * 5));
 		selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(sized[0] * sized[1] * sized[2] * t * 3));
 		isSelected = (bool*)realloc(isSelected, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
@@ -1657,19 +1660,13 @@ void JGN_DropFile()
 		{
 			isSelected[i] = false;
 		}
-		selective_render = (bool*)realloc(selective_render, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+		isdeleted = (bool*)realloc(isdeleted, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
+		deletedHistory = (int*)realloc(isdeleted, sizeof(int)*t*sized[0] * sized[1] * sized[2]);
 		for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
 		{
-			selective_render[i] = true;
-		}
-
-
-		//	float crystal[sized[0]][sized[1]][sized[2]][t][5];//mas leei se poio unit cell eimaste size[0]][size[1]][size[2]]
-		//poio atomo sto unit cell t;
-		//atomikos ari8mos kai varos [2];
-		//kai tis kartesianes tou xyz[3]
-
-		//crystal[5+5*(t+t*(sized[2]+sized[2](sized[1]+sized[1]*sized[0])))];
+			isdeleted[i] = false;
+			deletedHistory[i] = 0;
+		}*/
 
 
 

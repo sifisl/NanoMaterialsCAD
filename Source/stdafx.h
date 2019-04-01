@@ -283,6 +283,7 @@ EXT int selected_rotate_axes;//1=x,2=y,3=z
 EXT int ClickedForDistance[2];
 EXT float Dist2Disp;
 EXT int iClickedForDistance;
+EXT bool DrawDistanceLine;
 EXT float pForDistance[6];
 EXT int selected_translate_direction;//0=x,1=y,2=z
 EXT bool *isdeleted;

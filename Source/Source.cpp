@@ -203,6 +203,7 @@ void display1(void)//generates the graphics output.
 
 	/////////////////
 	float p[3];
+	float p1[3];
 	//int point;
 
 	//  indicates default buffers
@@ -924,7 +925,35 @@ void display1(void)//generates the graphics output.
 	}
 	else if (CustomSurfacesOn)
 	{
+		if (DrawDistanceLine)
+		{
+			colr[0] = 0;
+			colr[1] = 0;
+			colr[2] = 0;
+			GLfloat mat_ambient[] = { colr[0], colr[1], colr[2], 1.0 };
+			GLfloat mat_deffuse[] = { colr[0], colr[1], colr[2], 1.0 };
 
+			glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+			glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_deffuse);
+			ole3 = ClickedForDistance[0];
+			p[0] = crystal[2 + 5 * ole3] / (Svmax + 5);
+			p[1] = crystal[3 + 5 * ole3] / (Svmax + 5);
+			p[2] = crystal[4 + 5 * ole3] / (Svmax + 5);
+			cout << ClickedForDistance[0] << " " << ClickedForDistance[1] << endl;
+			cout << "p = " << p[0] << " " << p[1] << " " << p[2] << endl;
+			ole3 = ClickedForDistance[1];
+			p1[0] = crystal[2 + 5 * ole3] / (Svmax + 5);
+			p1[1] = crystal[3 + 5 * ole3] / (Svmax + 5);
+			p1[2] = crystal[4 + 5 * ole3] / (Svmax + 5);
+			cout << "p1 = " << p1[0] << " " << p1[1] << " " << p1[2] << endl;
+
+
+			glBegin(GL_LINES);
+			glVertex3fv(p);
+			glVertex3fv(p1);
+			glEnd();
+
+		}
 	}
 	else if (want_cyrcle[0] == 'y' || want_cyrcle[0] == 'Y')
 	{
@@ -4293,6 +4322,7 @@ void variableinit()
 {
 
 	/////////////////global variables
+	DrawDistanceLine = false;
 	Ndeletes = 0;
 	ClickedForDistance[0] = -1;
 	ClickedForDistance[1] = -1;
@@ -5176,10 +5206,12 @@ void keyboardgl(int key, int s, int x, int y)
 		{
 			mouse_mode = 'd';
 			iClickedForDistance = 2;
+
 		}
 		if ((key == 's' || key == 'S') && s == JGN_DOWN)
 		{
 			mouse_mode = 's';
+			DrawDistanceLine = false;
 			int asdf = t * sized[0] * sized[1] * sized[2];
 			for (int i = 0; i < asdf; i++)
 			{
@@ -5905,6 +5937,12 @@ void findClicked()
 		isSelected[ClickedForDistance[1]] = false;
 		ClickedForDistance[0] = -1;
 		ClickedForDistance[1] = -1;
+		DrawDistanceLine = false;
+		JGN_PostRedisplay();
+	}
+	else if (iClickedForDistance == 1)
+	{
+		DrawDistanceLine = true;
 	}
 	float prevp1[3];
 	prevp1[0] = 0;

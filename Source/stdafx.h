@@ -175,13 +175,16 @@ jgn::string LPTSTR2string(LPTSTR inp, char delimiter, int maxchars = 1000)
 
 #pragma warning (disable : 4996)
 
-#define DOUBLE_MOD
+//#define DOUBLE_MOD
 
 #ifdef DOUBLE_MOD
 
 #define float double
 #define glColor3fv glColor3dv
 #define glVertex3fv glVertex3dv
+#define glNormal3fv glNormal3dv
+#define glNormal3f glNormal3d
+#define glVertex3f glVertex3d
 #define printformat 15
 #define fl_max DBL_MAX
 #define fl_min DBL_MIN
@@ -190,7 +193,7 @@ jgn::string LPTSTR2string(LPTSTR inp, char delimiter, int maxchars = 1000)
 
 #define printformat 6
 #define fl_max FLT_MAX
-#define fl_min DBL_MIN
+#define fl_min FLT_MIN
 
 
 #endif
@@ -289,6 +292,7 @@ EXT int selected_translate_direction;//0=x,1=y,2=z
 EXT bool *isdeleted;
 EXT int *deletedHistory;//which atom is deleted
 EXT int Ndeletes;//how many time did I delete? help to ctrl+z
+EXT float sinTable32[31], cosTable32[31], sincurTheta32[32], coscurTheta32[32];//Hard codes sin and cos for JGN_SolidSphere performance
 
 class MOUSECLICK
 {

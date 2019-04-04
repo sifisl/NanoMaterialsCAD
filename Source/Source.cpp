@@ -4322,6 +4322,19 @@ void variableinit()
 {
 
 	/////////////////global variables
+	for (i = 1; i < 32; i++)
+	{
+		float coef = (3.141 / 2.0) - i * M_PI / 32;
+		sinTable32[i-1] = sin(coef);
+		cosTable32[i-1] = cos(coef);
+
+	}
+	for (i = 0; i < 32; i++)
+	{
+		sincurTheta32[i] = sin(i * (2 * M_PI) / 32);
+		coscurTheta32[i] = cos(i * (2 * M_PI) / 32);
+	}
+
 	DrawDistanceLine = false;
 	Ndeletes = 0;
 	ClickedForDistance[0] = -1;
@@ -4383,8 +4396,8 @@ void variableinit()
 
 	mouse_check = 0;
 
-	sphStacks = 5;
-	sphSides = 5;
+	sphStacks = 32;
+	sphSides = 32;
 	qredisplay = false;
 
 	prev_sized[0] = 1.0;

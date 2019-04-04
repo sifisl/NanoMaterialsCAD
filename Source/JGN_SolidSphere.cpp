@@ -3,7 +3,7 @@
 
 
 void JGN_SolidSphere(float radius, int numStacks, int numSides)
-{
+{///Hard code numStacks=32 numSides=32 for performance
 	//numStacks = 2;
 	//numSides = 3;
 
@@ -23,59 +23,38 @@ void JGN_SolidSphere(float radius, int numStacks, int numSides)
 
 	for (curStack = 1; curStack < numStacks; curStack++)
 	{
-		curRho = (3.141 / 2.0) - curStack * deltaRho;
-		curY = sin(curRho) * radius;
-		curRadius = cos(curRho) * radius;
+		//curRho = (3.141 / 2.0) - curStack * deltaRho; // optimazation 1
+		curY = sinTable32[curStack - 1] * radius;
+		curRadius = cosTable32[curStack - 1] * radius;
+
 		for (curSlice = 0; curSlice < numSides; curSlice++)
 		{
-			curTheta = curSlice * deltaTheta;
-			curX = curRadius * cos(curTheta);
-			curZ = -curRadius * sin(curTheta);
+			//curTheta = curSlice * deltaTheta;
+			curX = curRadius * coscurTheta32[curSlice];
+			curZ = -curRadius * sincurTheta32[curSlice];
 			points[curVert++] = vec3{ curX,curY,curZ };
 		}
 	}
-	// option 1 - points only
-	/*
-	glBegin(GL_POINTS);
-	glNormal3d(0,1,0);
-	glVertex3d(0,radius,0);
-	for (t=0; t<numVerts; t++)
-	{
-	curX = points[t].x;
-	curY = points[t].y;
-	curZ = points[t].z;
-	glNormal3d(curX, curY, curZ);
-	glVertex3d(curX, curY, curZ);
-	}
-	glNormal3d(0,-1,0);
-	glVertex3d(0,-radius,0);
-	glEnd();
-	*/
 
-	///////////////////////////////
-	// option 2 - solid
-	///////////////////////////////
-	// part A - draw the top 'lid' (tris)
-	//glBegin(GL_POLYGON);
 
 	glBegin(GL_TRIANGLE_FAN);
 
-	glNormal3d(0, 1, 0);
-	glVertex3d(0, radius, 0);
+	glNormal3f(0, 1, 0);
+	glVertex3f(0, radius, 0);
 
 	for (int t = 0; t < numSides; t++)
 	{
 		v[0] = points[t].x;
 		v[1] = points[t].y;
 		v[2] = points[t].z;
-		glNormal3dv(v);
-		glVertex3dv(v);
+		glNormal3fv(v);
+		glVertex3fv(v);
 	}
 	v[0] = points[0].x;
 	v[1] = points[0].y;
 	v[2] = points[0].z;
-	glNormal3dv(v);
-	glVertex3dv(v);
+	glNormal3fv(v);
+	glVertex3fv(v);
 	glEnd();
 
 	// part B - draw the 'sides' (quads)
@@ -90,28 +69,35 @@ void JGN_SolidSphere(float radius, int numStacks, int numSides)
 			v[0] = points[vertIndex + curSlice].x;
 			v[1] = points[vertIndex + curSlice].y;
 			v[2] = points[vertIndex + curSlice].z;
-			glNormal3dv((GLdouble*)v);
-			glVertex3dv(v);
+#ifdef DOUBLE_MOD
+			glNormal3fv((GLdouble*)v);
+#else
+			glNormal3fv(v);
+#endif
+			glVertex3fv(v);
 
 			v[0] = points[vertIndex + numSides + curSlice].x;
 			v[1] = points[vertIndex + numSides + curSlice].y;
 			v[2] = points[vertIndex + numSides + curSlice].z;
-
-			glNormal3dv((GLdouble*)v);
-			glVertex3dv(v);
+#ifdef DOUBLE_MOD
+			glNormal3fv((GLdouble*)v);
+#else
+			glNormal3fv(v);
+#endif
+			glVertex3fv(v);
 		}
-		glNormal3d(points[vertIndex].x, points[vertIndex].y, points[vertIndex].z);
-		glVertex3d(points[vertIndex].x, points[vertIndex].y, points[vertIndex].z);
-		glNormal3d(points[vertIndex + numSides].x, points[vertIndex + numSides].y, points[vertIndex + numSides].z);
-		glVertex3d(points[vertIndex + numSides].x, points[vertIndex + numSides].y, points[vertIndex + numSides].z);
+		glNormal3f(points[vertIndex].x, points[vertIndex].y, points[vertIndex].z);
+		glVertex3f(points[vertIndex].x, points[vertIndex].y, points[vertIndex].z);
+		glNormal3f(points[vertIndex + numSides].x, points[vertIndex + numSides].y, points[vertIndex + numSides].z);
+		glVertex3f(points[vertIndex + numSides].x, points[vertIndex + numSides].y, points[vertIndex + numSides].z);
 		glEnd();
 	}
 
 	// part C - draw the bottom 'lid' (tris)
 	glBegin(GL_TRIANGLE_FAN);
 	//glBegin(GL_POLYGON);
-	glNormal3d(0, -1, 0);
-	glVertex3d(0, -radius, 0);
+	glNormal3f(0, -1, 0);
+	glVertex3f(0, -radius, 0);
 
 
 	for (int t = 0; t < numSides - 1; t++)
@@ -122,20 +108,20 @@ void JGN_SolidSphere(float radius, int numStacks, int numSides)
 		curX = points[numVerts - 1 - t].x;
 		curY = points[numVerts - 1 - t].y;
 		curZ = points[numVerts - 1 - t].z;
-		glNormal3d(curX, curY, curZ);
-		glVertex3d(curX, curY, curZ);
+		glNormal3f(curX, curY, curZ);
+		glVertex3f(curX, curY, curZ);
 
 	}
 
-	glNormal3d(points[(numStacks - 2)*numSides].x, points[(numStacks - 2)*numSides].y, points[(numStacks - 2)*numSides].z);
-	glVertex3d(points[(numStacks - 2)*numSides].x, points[(numStacks - 2)*numSides].y, points[(numStacks - 2)*numSides].z);
+	glNormal3f(points[(numStacks - 2)*numSides].x, points[(numStacks - 2)*numSides].y, points[(numStacks - 2)*numSides].z);
+	glVertex3f(points[(numStacks - 2)*numSides].x, points[(numStacks - 2)*numSides].y, points[(numStacks - 2)*numSides].z);
 
 
 	curX = points[numVerts - 1].x;
 	curY = points[numVerts - 1].y;
 	curZ = points[numVerts - 1].z;
-	glNormal3d(curX, curY, curZ);
-	glVertex3d(curX, curY, curZ);
+	glNormal3f(curX, curY, curZ);
+	glVertex3f(curX, curY, curZ);
 	glEnd();
 
 	//glScalef(5 * CONST_COE / radius, 5 * CONST_COE / radius, 5 * CONST_COE / radius);

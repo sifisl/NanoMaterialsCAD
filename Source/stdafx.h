@@ -227,6 +227,7 @@ EXT char* NewPC;
 
 EXT char* PCtype;
 
+EXT float ttest[81000000];
 EXT int lmb;//left mouse button
 EXT int wasfullscreenflagin;
 EXT int wasfullscreenflagout;

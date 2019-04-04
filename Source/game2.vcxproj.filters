@@ -45,6 +45,9 @@
     <ClInclude Include="JGN_DropFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="VSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="JGN_Resource.rc">
@@ -71,6 +74,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="JGN_DropFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

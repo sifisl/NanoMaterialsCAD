@@ -4335,6 +4335,11 @@ void variableinit()
 		coscurTheta32[i] = cos(i * (2 * M_PI) / 32);
 	}
 
+	for (i = 0; i < 81000000; i++)
+	{
+		ttest[i] = 0;
+	}
+
 	DrawDistanceLine = false;
 	Ndeletes = 0;
 	ClickedForDistance[0] = -1;

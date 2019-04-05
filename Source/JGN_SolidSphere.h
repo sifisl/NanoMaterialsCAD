@@ -7,7 +7,7 @@
 
 
 typedef struct {
-	GLdouble x, y, z;
+	GLfloat x, y, z;
 }vec3;
 
 EXT vec3 points[10000];

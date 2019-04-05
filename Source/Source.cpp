@@ -454,8 +454,10 @@ void display1(void)//generates the graphics output.
 							GLfloat mat_ambient[] = { colr[0], colr[1], colr[2], 1.0 };
 							GLfloat mat_deffuse[] = { colr[0], colr[1], colr[2], 1.0 };
 
+
 							glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
 							glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_deffuse);
+
 
 							glTranslatef(p[0], p[1], p[2]);
 
@@ -534,6 +536,14 @@ void display1(void)//generates the graphics output.
 								colr[1] = fmod(crystal[5 * ole3], 0.92);
 								colr[2] = fmod(100 * colr[0] * colr[1], 0.8);
 								glColor3fv(colr);
+								if (isSelected[ole3] == true)
+								{
+									colr[0] = 0.;
+									colr[1] = 0.;
+									colr[2] = 0.;
+									glColor3f(colr[0], colr[1], colr[2]);
+
+								}
 
 								GLfloat mat_ambient[] = { colr[0], colr[1], colr[2], 1.0 };
 								GLfloat mat_deffuse[] = { colr[0], colr[1], colr[2], 1.0 };
@@ -3590,7 +3600,7 @@ void display1(void)//generates the graphics output.
 
 			glTranslated(-dipleft, float(ff) / float(a), 0);
 
-			glutSolidSphere(20 * 0.001, 10, 10);
+			glutSolidSphere(20 * 0.001, 32, 32);
 
 			glTranslated(dipleft, -float(ff) / float(a), 0);
 
@@ -4297,7 +4307,7 @@ void myinit(void)//initialize OpenGL
 	GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
 	GLfloat mat_ambient[] = { 1.0, 0.0, 0.0, 1.0 };
 	GLfloat mat_deffuse[] = {1.0, 0.0, 0.0, 1.0 };
-	GLfloat mat_shininess[] = { 50.0 };
+	GLfloat mat_shininess[] = { 120.0 };
 	GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 };
 	glShadeModel(GL_SMOOTH);
 
@@ -4309,6 +4319,8 @@ void myinit(void)//initialize OpenGL
 
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
 	//glEnable(GL_DEPTH_TEST);
 
 	truepointsize = 1000.0;
@@ -5229,7 +5241,7 @@ void keyboardgl(int key, int s, int x, int y)
 		{
 			mouse_mode = 'd';
 			iClickedForDistance = 2;
-
+			JGN_PostRedisplay();
 		}
 		if ((key == 's' || key == 'S') && s == JGN_DOWN)
 		{

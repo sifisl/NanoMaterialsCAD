@@ -128,6 +128,9 @@ void JGN_SolidSphere(float radius, int numStacks, int numSides)
 
 }
 
+
+
+
 /////////////////////////////////////////////////
 
 

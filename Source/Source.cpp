@@ -459,7 +459,9 @@ void display1(void)//generates the graphics output.
 
 							glTranslatef(p[0], p[1], p[2]);
 
+							//glutSolidSphere(pointsize*0.001, sphStacks, sphSides);
 							glutSolidSphere(pointsize*0.001, sphStacks, sphSides);
+
 
 							glTranslatef(-p[0], -p[1], -p[2]);
 						}
@@ -4586,6 +4588,9 @@ void variableinit()
 	endcheck = 0;
 	okrender = 0;
 
+	points[0] = { 0,1,0 };
+	for (int i = 0; i < 100; i++)
+		triangles_indices[i] = i;
 }
 
 void translateTheSelected(char op)

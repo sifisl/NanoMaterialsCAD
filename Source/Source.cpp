@@ -139,6 +139,105 @@ void myReshape(int w, int h)// window reshape
 	return;
 }
 
+void drawCubicPlanesCase1_1(int i, int j, int k)
+{
+	//{110}
+
+//011
+	glColor4f(0, 1, 0, 0.5);
+	glVertex3f(i*third, j*second, k*second);
+	glVertex3f(i*fifth, j*first, k*first);
+	glVertex3f(i*second, j*third, k*second);
+
+	glVertex3f(i*third, j*second, k*second);
+	glVertex3f(i*second, j*third, k*second);
+	glVertex3f(i*second, j*third, 0);
+
+	glVertex3f(i*third, j*second, k*second);
+	glVertex3f(i*third, j*second, 0);
+	glVertex3f(i*second, j*third, 0);
+
+	glVertex3f(i*fifth, j*first, k*first);
+	glVertex3f(i*first, j*fifth, k*first);
+	glVertex3f(i*second, j*third, k*second);
+
+	//101
+	glVertex3f(i*second, j*third, k*second);
+	glVertex3f(i*first, j*fifth, k*first);
+	glVertex3f(i*second, j*second, k*third);
+
+	glVertex3f(i*first, j*first, k*fifth);
+	glVertex3f(i*first, j*fifth, k*first);
+	glVertex3f(i*second, j*second, k*third);
+
+	glVertex3f(0, j*third, k*second);
+	glVertex3f(i*second, j*third, k*second);
+	glVertex3f(i*second, j*second, k*third);
+
+	glVertex3f(0, j*third, k*second);
+	glVertex3f(i*second, j*second, k*third);
+	glVertex3f(0, j*second, k*third);
+
+
+	//110
+	glVertex3f(i*second, j*second, k*third);
+	glVertex3f(i*first, j*first, k*fifth);
+	glVertex3f(i*third, j*second, k*second);
+
+	glVertex3f(i*fifth, j*first, k*first);
+	glVertex3f(i*first, j*first, k*fifth);
+	glVertex3f(i*third, j*second, k*second);
+
+
+	glVertex3f(i*second, j*second, k*third);
+	glVertex3f(i*third, j*second, k*second);
+	glVertex3f(i*third, 0, k*second);
+
+	glVertex3f(i*second, j*second, k*third);
+	glVertex3f(i*third, 0, k*second);
+	glVertex3f(i*second, 0, k*third);
+
+	//{100}
+	glColor4f(1, 0, 0, 0.5);
+
+	//100
+	glVertex3f(0, j*second, k*third);
+	glVertex3f(i*second, 0, k*third);
+	glVertex3f(i*second, j*second, k*third);
+
+	glVertex3f(0, j*second, k*third);
+	glVertex3f(i*second, 0, k*third);
+	glVertex3f(0, 0, k*third);
+
+	//001
+	glVertex3f(i*second, j*third, k*second);
+	glVertex3f(0, j*third, k*second);
+	glVertex3f(i*second, j*third, 0);
+
+	glVertex3f(0, j*third, k*second);
+	glVertex3f(i*second, j*third, 0);
+	glVertex3f(0, j*third, 0);
+
+	//010
+
+	glVertex3f(i*third, j*second, k*second);
+	glVertex3f(i*third, 0, k*second);
+	glVertex3f(i*third, j*second, 0);
+
+	glVertex3f(i*third, 0, k*second);
+	glVertex3f(i*third, j*second, 0);
+	glVertex3f(i*third, 0, 0);
+
+
+	//010
+
+	//{111}
+	glColor4f(0, 0, 1, 0.5);
+
+	glVertex3f(i*first, j*first, k*fifth);
+	glVertex3f(i*fifth, j*first, k*first);
+	glVertex3f(i*first, j*fifth, k*first);
+}
 
 char *s1itoa = (char*)malloc(sizeof(char) * 5);
 int Scounter = 0;

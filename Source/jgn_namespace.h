@@ -169,7 +169,9 @@ namespace jgn
 	class string : public std::string {
 
 	public:
-		bool isnumber()
+		string() {};
+		string(char* c) : std::string(c) {};
+			bool isnumber()
 		{
 			std::string::const_iterator it = this->begin();
 			int dotread = 0;
@@ -206,18 +208,18 @@ namespace jgn
 #endif// JGN_SOURCE_CPP
 
 	///////////////////////////////////////////////////////////////////////just a vec3
-	class vec3d
+	class vec3
 	{
 	public:
 		float x, y, z;
-		vec3d() {};
-		vec3d(float i, float j, float k)
+		vec3() {};
+		vec3(float i, float j, float k)
 		{
 			x = i;
 			y = j;
 			z = k;
 		}
-		vec3d(const vec3d& other)
+		vec3(const vec3& other)
 		{
 			x = other.x;
 			y = other.y;
@@ -229,8 +231,8 @@ namespace jgn
 	class vec6d
 	{
 	public:
-		vec3d start;
-		vec3d fin;
+		vec3 start;
+		vec3 fin;
 
 		vec6d(float i, float j, float k, float ii, float jj, float kk)
 		{
@@ -256,7 +258,7 @@ namespace jgn
 	void debug(int num)
 #ifdef JGN_SOURCE_CPP
 	{
-		cout << "debug: " << num << endl;
+		std::cout << "debug: " << num << std::endl;
 		getchar();
 	}
 #else
@@ -271,7 +273,7 @@ namespace jgn
 //////////////operators overload/////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////
 
-std::ostream& operator<<(std::ostream& stream, const jgn::vec3d& vect)
+std::ostream& operator<<(std::ostream& stream, const jgn::vec3& vect)
 #ifdef JGN_SOURCE_CPP
 
 {
@@ -293,7 +295,7 @@ std::ostream& operator<<(std::ostream& stream, const jgn::vec6d& vect)
 ;
 #endif// JGN_SOURCE_CPP
 
-std::ostream& operator<<(std::ostream& stream, const vector<jgn::vec6d>& vect)
+std::ostream& operator<<(std::ostream& stream, const std::vector<jgn::vec6d>& vect)
 #ifdef JGN_SOURCE_CPP
 
 {
@@ -307,3 +309,7 @@ std::ostream& operator<<(std::ostream& stream, const vector<jgn::vec6d>& vect)
 #else
 ;
 #endif// JGN_SOURCE_CPP
+
+#define vec3ToGlfloat(v) {v.x, v.y, v.z, 1.0}
+
+#define glTranslatefvec3(v) glTranslatef(v.x/(Svmax + 5) , v.y/(Svmax + 5) , v.z/(Svmax + 5))

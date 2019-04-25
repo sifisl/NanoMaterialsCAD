@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "JGN_DropFile.h"
+#include "VSystem.h"
 
 
 void JGN_DropFile()
@@ -97,6 +98,11 @@ void JGN_DropFile()
 			token = strtok(NULL, "\t ");
 		}
 
+
+
+
+
+		
 		///grammh 6			
 		std::fgets(s, SBYTES, uc_file);
 		token = strtok(s, "\t ");
@@ -132,7 +138,7 @@ void JGN_DropFile()
 
 
 		}
-
+		
 
 
 
@@ -208,6 +214,9 @@ void JGN_DropFile()
 		}
 		//atomshelp[3 * a - 1] = ' ';
 
+
+
+
 		///grammh7		
 		std::fgets(s, SBYTES, uc_file);
 		token = strtok(s, "\t ");
@@ -229,19 +238,20 @@ void JGN_DropFile()
 			if (ole == a) break;
 		}
 
+
 		//debuging print
 		//#define MY_DEBUG_1
 #ifdef MY_DEBUG_1
-		cout << actor << endl;
-		cout << ijk[0][0] << '\t' << ijk[0][1] << '\t' << ijk[0][2] << endl;
-		cout << ijk[1][0] << '\t' << ijk[1][1] << '\t' << ijk[1][2] << endl;
-		cout << ijk[2][0] << '\t' << ijk[2][1] << '\t' << ijk[2][2] << endl;
+		std::cout << actor << endl;
+		std::cout << ijk[0][0] << '\t' << ijk[0][1] << '\t' << ijk[0][2] << endl;
+		std::cout << ijk[1][0] << '\t' << ijk[1][1] << '\t' << ijk[1][2] << endl;
+		std::cout << ijk[2][0] << '\t' << ijk[2][1] << '\t' << ijk[2][2] << endl;
 		for (int i = 0; i < a; i++)
 		{
-			cout << ea[i] << '\t';
+			std::cout << ea[i] << '\t';
 		}
-		cout << endl;
-		cout << "yeah 1" << endl;
+		std::cout << endl;
+		std::cout << "yeah 1" << endl;
 #endif
 
 
@@ -342,6 +352,11 @@ void JGN_DropFile()
 					token = strtok(NULL, "\t ");
 				}
 			}
+			else
+			{
+				for (ole1 = 0; ole1 < 3; ole1++)
+					selective_dynamics[ole1 + 3 * ole] = true;
+			}
 
 
 			ole1 = 0;
@@ -359,15 +374,15 @@ void JGN_DropFile()
 					if (alloena == 0)
 					{
 						an_and_aw[alloena * 2] = std::atof(token1);
-						//cout << 1 << "\n";
+						//std::cout << 1 << "\n";
 					}
 					else if (an_and_aw[alloena * 2 - 2] != std::atof(token1))
 					{
-						//cout << an_and_aw[alloena * 2 - 2] << " " << std::atof(token1); getchar();
+						//std::cout << an_and_aw[alloena * 2 - 2] << " " << std::atof(token1); getchar();
 						an_and_aw[alloena * 2] = std::atof(token1);
 						ka8isterimenoflag = 1;
 
-						//cout << 2 << "\n";
+						//std::cout << 2 << "\n";
 
 					}
 
@@ -392,7 +407,7 @@ void JGN_DropFile()
 					{
 						an_and_aw[alloena * 2 + 1] = std::atof(token1);
 						alloena++;
-						//cout << 3 << "\n";
+						//std::cout << 3 << "\n";
 
 					}
 
@@ -401,7 +416,7 @@ void JGN_DropFile()
 						an_and_aw[alloena * 2 + 1] = std::atof(token1);
 						alloena++;
 						ka8isterimenoflag = 0;
-						//cout << 4 << "\n";
+						//std::cout << 4 << "\n";
 					}
 
 
@@ -433,7 +448,7 @@ void JGN_DropFile()
 #ifdef MY_DEBUG_2
 		for (ole = 0; ole < t; ole++)
 		{
-			cout << selective_dynamics[0 + 3 * ole] << ' ' << selective_dynamics[1 + 3 * ole] << " " << selective_dynamics[2 + 3 * ole] << endl;
+			std::cout << selective_dynamics[0 + 3 * ole] << ' ' << selective_dynamics[1 + 3 * ole] << " " << selective_dynamics[2 + 3 * ole] << endl;
 		}
 		getchar();
 #endif
@@ -564,23 +579,6 @@ void JGN_DropFile()
 		sized[2] = 1;
 
 		jgn::heapRealloc();
-		/*crystal = (float*)realloc(NULL, sizeof(float)*(sized[0] * sized[1] * sized[2] * t * 5));
-		crystal_backup = (float*)realloc(NULL, sizeof(float)*(sized[0] * sized[1] * sized[2] * t * 5));
-		selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(sized[0] * sized[1] * sized[2] * t * 3));
-		isSelected = (bool*)realloc(isSelected, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
-		for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
-		{
-			isSelected[i] = false;
-		}
-		isdeleted = (bool*)realloc(NULL, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
-		deletedHistory = (int*)realloc(isdeleted, sizeof(int)*t*sized[0] * sized[1] * sized[2]);
-		for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
-		{
-			isdeleted[i] = false;
-			deletedHistory[i] = 0;
-		}*/
-
-
 
 
 
@@ -755,8 +753,8 @@ void JGN_DropFile()
 		//diavazw to arxeio
 
 
-		cout << "\n";
-		cout << "The number of atoms are " << allatoms << "\n";
+		std::cout << "\n";
+		std::cout << "The number of atoms are " << allatoms << "\n";
 
 
 
@@ -765,14 +763,14 @@ void JGN_DropFile()
 		xyz_range[1] = max_xyz[1] - min_xyz[1];//ogos
 		xyz_range[2] = max_xyz[2] - min_xyz[2];//
 
-		cout << "\n";
-		cout << "  Minimum: " << min_xyz[0]
+		std::cout << "\n";
+		std::cout << "  Minimum: " << min_xyz[0]
 			<< "  " << min_xyz[1]
 			<< "  " << min_xyz[2] << "\n";
-		cout << "  Maximum: " << max_xyz[0]
+		std::cout << "  Maximum: " << max_xyz[0]
 			<< "  " << max_xyz[1]
 			<< "  " << max_xyz[2] << "\n";
-		cout << "  Range:   " << xyz_range[0]
+		std::cout << "  Range:   " << xyz_range[0]
 			<< "  " << xyz_range[1]
 			<< "  " << xyz_range[2] << "\n";
 
@@ -795,175 +793,13 @@ void JGN_DropFile()
 
 
 
-		/*
-		if (want_cyrcle[0] == 'y')
-		{
 
-		for (ole = 0; ole < t*sized[0] * sized[1] * sized[2]; ole++)
-		{
-
-		if (sqrt(crystal[2 + 5 * ole] * crystal[2 + 5 * ole] + crystal[3 + 5 * ole] * crystal[3 + 5 * ole] + crystal[4 + 5 * ole] * crystal[4 + 5 * ole]) <= rad)
-		{
-		for (ole1 = 0; ole1 < a; ole1++)
-		{
-		if (atomic_number[ole1] == (int)crystal[0 + 5 * ole])
-		{
-		new_num_atoms[ole1] = new_num_atoms[ole1] + 1;
-		atomscc++;
-
-		}
-
-		}
-
-		}
-
-		}
-
-		for (ole = 0; ole < a; ole++)
-		{
-		//fprintf(NewPCF, "%d ", new_num_atoms[ole]);
-
-		}
-		//fprintf(NewPCF, "\n");
-
-		}
-		else
-		{
-
-
-		for (ole = 0; ole < t*sized[0] * sized[1] * sized[2]; ole++)
-		{
-
-		if ((S1i[0] * abs(crystal[2 + 5 * ole]) <= S1v) && (S1i[0] * abs(crystal[3 + 5 * ole]) <= S1v) && (S1i[0] * abs(crystal[4 + 5 * ole]) <= S1v) && S2i[0] * abs(crystal[2 + 5 * ole]) + S2i[1] * abs(crystal[3 + 5 * ole]) <= S2v && S2i[0] * abs(crystal[2 + 5 * ole]) + S2i[1] * abs(crystal[4 + 5 * ole]) <= S2v && S2i[0] * abs(crystal[3 + 5 * ole]) + S2i[1] * abs(crystal[4 + 5 * ole]) <= S2v && S3i[0] * abs(crystal[2 + 5 * ole]) + S3i[1] * abs(crystal[3 + 5 * ole]) + S3i[2] * abs(crystal[4 + 5 * ole]) <= S3v)
-		{
-
-		for (ole1 = 0; ole1 < a; ole1++)
-		{
-		if (atomic_number[ole1] == (int)crystal[0 + 5 * ole])
-		{
-		new_num_atoms[ole1] = new_num_atoms[ole1] + 1;
-		atomscc++;
-
-
-		}
-
-		}
-
-		}
-
-		}
-
-		for (ole = 0; ole < a; ole++)
-		{
-		//fprintf(NewPCF, "%d ", new_num_atoms[ole]);
-
-		}
-		//fprintf(NewPCF, "\n");
-
-
-		}
-
-		*/
 
 
 		fclose(uc_file);
 
 
-		/*
-		atoms_to_print = (float*)realloc(atoms_to_print, sizeof(float)*atomscc * 4);
 
-
-
-
-
-		if (want_cyrcle[0] == 'y') {
-
-		for (ole5 = 0; ole5 < a; ole5++) {
-		for (ole4 = -sized[2] / 2; ole4 < sized[2] / 2; ole4++) {
-		for (ole2 = -sized[1] / 2; ole2 < sized[1] / 2; ole2++) {
-		for (ole = -sized[0] / 2; ole < sized[0] / 2; ole++) {
-		for (ole3 = 0; ole3 < t; ole3++) {
-		if (rad >= sqrt(crystal[0 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] * crystal[0 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] + crystal[1 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] * crystal[1 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] + crystal[2 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] * crystal[2 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]))
-		{
-
-		//crystal[ole + sized[0] / 2][ole2 + sized[1] / 2][ole4 + sized[2] / 2][ole3][1] = direct[1+5*ole3];
-		for (ole1 = 0; ole1 < 3; ole1++) {
-
-		if (crystal[0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] == atomic_number[ole5])
-		{
-		atoms_to_print[atoms_to_print_c + ole1] = crystal[ole1 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))];
-		//fprintf(NewPCF, "%f ", -min_xyz[ole1] + crystal[ole1 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]);
-		}
-		}
-		if (crystal[0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] == atomic_number[ole5])
-		{
-		atoms_to_print[atoms_to_print_c + 3] = atomic_number[ole5];
-		atoms_to_print_c = atoms_to_print_c + 4;
-		}
-		}
-		if (rad >= sqrt(crystal[0 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] * crystal[0 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] + crystal[1 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] * crystal[1 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] + crystal[2 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] * crystal[2 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))])) {
-		if (crystal[0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] == atomic_number[ole5])
-		{
-		//fprintf(NewPCF, "\n");
-		}
-		}
-
-		}
-		}
-		}
-		}
-		}
-
-
-
-		}
-		else {
-		for (ole5 = 0; ole5 < a; ole5++) {
-		for (ole4 = -sized[2] / 2; ole4 < sized[2] / 2; ole4++) {
-		for (ole2 = -sized[1] / 2; ole2 < sized[1] / 2; ole2++) {
-		for (ole = -sized[0] / 2; ole < sized[0] / 2; ole++) {
-		for (ole3 = 0; ole3 < t; ole3++) {
-		if ((S1i[0] * abs(crystal[2 + 0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S1v) && (S1i[0] * abs(crystal[2 + 1 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S1v) && (S1i[0] * abs(crystal[2 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S1v) && S2i[0] * abs(crystal[2 + 0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S2i[1] * abs(crystal[2 + 1 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S2v && S2i[0] * abs(crystal[2 + 0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S2i[1] * abs(crystal[2 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S2v && S2i[0] * abs(crystal[2 + 1 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S2i[1] * abs(crystal[2 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S2v && S3i[0] * abs(crystal[2 + 0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S3i[1] * abs(crystal[2 + 1 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S3i[2] * abs(crystal[2 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S3v)
-
-		{
-
-		//crystal[ole + sized[0] / 2][ole2 + sized[1] / 2][ole4 + sized[2] / 2][ole3][1] = direct[1+5*ole3];
-		for (ole1 = 0; ole1 < 3; ole1++) {
-
-		if (crystal[0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] == atomic_number[ole5])
-		{
-		atoms_to_print[atoms_to_print_c + ole1] = crystal[ole1 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))];
-		//cout << -min_xyz[ole1] + atoms_to_print[atoms_to_print_c + ole1] << " ";
-		//fprintf(NewPCF, "%f ", -min_xyz[ole1] + crystal[ole1 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]);
-		//cout << min_xyz[ole1] << endl;
-		}
-		}
-		if (crystal[0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] == atomic_number[ole5])
-		{
-		atoms_to_print[atoms_to_print_c + 3] = atomic_number[ole5];
-		//cout << atoms_to_print[atoms_to_print_c + 3] << "\n";
-		atoms_to_print_c = atoms_to_print_c + 4;
-		}
-
-		}
-		if ((S1i[0] * abs(crystal[2 + 0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S1v) && (S1i[0] * abs(crystal[2 + 1 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S1v) && (S1i[0] * abs(crystal[2 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S1v) && S2i[0] * abs(crystal[2 + 0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S2i[1] * abs(crystal[2 + 1 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S2v && S2i[0] * abs(crystal[2 + 0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S2i[1] * abs(crystal[2 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S2v && S2i[0] * abs(crystal[2 + 1 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S2i[1] * abs(crystal[2 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S2v && S3i[0] * abs(crystal[2 + 0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S3i[1] * abs(crystal[2 + 1 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S3i[2] * abs(crystal[2 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S3v)
-
-		{
-		if (crystal[0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] == atomic_number[ole5])
-		{
-		//fprintf(NewPCF, "\n");
-		}
-		}
-
-		}
-		}
-		}
-		}
-		full = 1;
-		}
-
-		}
-		*/
 		atoms_to_print_c = 0;
 		//fclose(NewPCF);
 
@@ -1085,23 +921,9 @@ void JGN_DropFile()
 			periodic_table = fopen("periodic_table.jgn", "r");
 
 			jgn::heapRealloc();
-			/*crystal = (float*)realloc(crystal, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
-			selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
-			isSelected = (bool*)realloc(isSelected, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
-			for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
-			{
-				isSelected[i] = false;
-			}
-			isdeleted = (bool*)realloc(NULL, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
-			deletedHistory = (int*)realloc(NULL, sizeof(int)*t*sized[0] * sized[1] * sized[2]);
-			for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
-			{
-				isdeleted[i] = false;
-				deletedHistory[i] = 0;
-			}*/
 
 
-			//crystal_backup = (float*)realloc(crystal, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
+
 
 			for (ole4 = -jgn_supercell_xyz[2] / 2; ole4 < jgn_supercell_xyz[2] / 2 + xexe[2]; ole4++) {
 				for (ole2 = -jgn_supercell_xyz[1] / 2; ole2 < jgn_supercell_xyz[1] / 2 + xexe[1]; ole2++) {
@@ -1492,7 +1314,7 @@ void JGN_DropFile()
 
 						token1 = strtok(NULL, " ");
 						aweights[i] = std::atof(token1);
-						cout << atoms << endl;
+						std::cout << atoms << std::endl;
 						if (int(10 * std::atof(token1)) == int(10 * std::atof(token)))
 						{
 							found = true;
@@ -1542,16 +1364,16 @@ void JGN_DropFile()
 		//debuging print
 		//#define MY_DEBUG_1
 #ifdef MY_DEBUG_1
-		cout << actor << endl;
-		cout << ijk[0][0] << '\t' << ijk[0][1] << '\t' << ijk[0][2] << endl;
-		cout << ijk[1][0] << '\t' << ijk[1][1] << '\t' << ijk[1][2] << endl;
-		cout << ijk[2][0] << '\t' << ijk[2][1] << '\t' << ijk[2][2] << endl;
+		std::cout << actor << endl;
+		std::cout << ijk[0][0] << '\t' << ijk[0][1] << '\t' << ijk[0][2] << endl;
+		std::cout << ijk[1][0] << '\t' << ijk[1][1] << '\t' << ijk[1][2] << endl;
+		std::cout << ijk[2][0] << '\t' << ijk[2][1] << '\t' << ijk[2][2] << endl;
 		for (int i = 0; i < a; i++)
 		{
-			cout << ea[i] << '\t';
+			std::cout << ea[i] << '\t';
 		}
-		cout << endl;
-		cout << "yeah 1" << endl;
+		std::cout << endl;
+		std::cout << "yeah 1" << endl;
 #endif
 		my_direct = (float*)realloc(NULL, sizeof(float)*(t * 5));//t einai ola ta atoma tou unit cell.. 3 gia h,c,l kai dio gia atomiko ari8mo kai varos
 
@@ -1608,8 +1430,10 @@ void JGN_DropFile()
 
 
 			ole1 = 0;
-
-
+									
+			for (ole1 = 0; ole1 < 3; ole1++)
+				selective_dynamics[ole1 + 3 * ole] = true;
+			
 			//if (ole2 == ea[ole3])
 			//{
 
@@ -1631,7 +1455,7 @@ void JGN_DropFile()
 #ifdef MY_DEBUG_2
 		for (ole = 0; ole < t; ole++)
 		{
-			cout << selective_dynamics[0 + 3 * ole] << ' ' << selective_dynamics[1 + 3 * ole] << " " << selective_dynamics[2 + 3 * ole] << endl;
+			std::cout << selective_dynamics[0 + 3 * ole] << ' ' << selective_dynamics[1 + 3 * ole] << " " << selective_dynamics[2 + 3 * ole] << endl;
 		}
 		getchar();
 #endif
@@ -1652,21 +1476,7 @@ void JGN_DropFile()
 		sized[2] = 1;
 
 		jgn::heapRealloc();
-		/*crystal = (float*)realloc(NULL, sizeof(float)*(sized[0] * sized[1] * sized[2] * t * 5));
-		crystal_backup = (float*)realloc(NULL, sizeof(float)*(sized[0] * sized[1] * sized[2] * t * 5));
-		selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(sized[0] * sized[1] * sized[2] * t * 3));
-		isSelected = (bool*)realloc(isSelected, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
-		for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
-		{
-			isSelected[i] = false;
-		}
-		isdeleted = (bool*)realloc(isdeleted, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
-		deletedHistory = (int*)realloc(isdeleted, sizeof(int)*t*sized[0] * sized[1] * sized[2]);
-		for (int i = 0; i < t*sized[0] * sized[1] * sized[2]; i++)
-		{
-			isdeleted[i] = false;
-			deletedHistory[i] = 0;
-		}*/
+
 
 
 
@@ -1840,8 +1650,8 @@ void JGN_DropFile()
 		//diavazw to arxeio
 
 
-		cout << "\n";
-		cout << "The number of atoms are " << allatoms << "\n";
+		std::cout << "\n";
+		std::cout << "The number of atoms are " << allatoms << "\n";
 
 
 
@@ -1850,14 +1660,14 @@ void JGN_DropFile()
 		xyz_range[1] = max_xyz[1] - min_xyz[1];//ogos
 		xyz_range[2] = max_xyz[2] - min_xyz[2];//
 
-		cout << "\n";
-		cout << "  Minimum: " << min_xyz[0]
+		std::cout << "\n";
+		std::cout << "  Minimum: " << min_xyz[0]
 			<< "  " << min_xyz[1]
 			<< "  " << min_xyz[2] << "\n";
-		cout << "  Maximum: " << max_xyz[0]
+		std::cout << "  Maximum: " << max_xyz[0]
 			<< "  " << max_xyz[1]
 			<< "  " << max_xyz[2] << "\n";
-		cout << "  Range:   " << xyz_range[0]
+		std::cout << "  Range:   " << xyz_range[0]
 			<< "  " << xyz_range[1]
 			<< "  " << xyz_range[2] << "\n";
 
@@ -1880,175 +1690,11 @@ void JGN_DropFile()
 
 
 
-		/*
-		if (want_cyrcle[0] == 'y')
-		{
-
-		for (ole = 0; ole < t*sized[0] * sized[1] * sized[2]; ole++)
-		{
-
-		if (sqrt(crystal[2 + 5 * ole] * crystal[2 + 5 * ole] + crystal[3 + 5 * ole] * crystal[3 + 5 * ole] + crystal[4 + 5 * ole] * crystal[4 + 5 * ole]) <= rad)
-		{
-		for (ole1 = 0; ole1 < a; ole1++)
-		{
-		if (atomic_number[ole1] == (int)crystal[0 + 5 * ole])
-		{
-		new_num_atoms[ole1] = new_num_atoms[ole1] + 1;
-		atomscc++;
-
-		}
-
-		}
-
-		}
-
-		}
-
-		for (ole = 0; ole < a; ole++)
-		{
-		//fprintf(NewPCF, "%d ", new_num_atoms[ole]);
-
-		}
-		//fprintf(NewPCF, "\n");
-
-		}
-		else
-		{
-
-
-		for (ole = 0; ole < t*sized[0] * sized[1] * sized[2]; ole++)
-		{
-
-		if ((S1i[0] * abs(crystal[2 + 5 * ole]) <= S1v) && (S1i[0] * abs(crystal[3 + 5 * ole]) <= S1v) && (S1i[0] * abs(crystal[4 + 5 * ole]) <= S1v) && S2i[0] * abs(crystal[2 + 5 * ole]) + S2i[1] * abs(crystal[3 + 5 * ole]) <= S2v && S2i[0] * abs(crystal[2 + 5 * ole]) + S2i[1] * abs(crystal[4 + 5 * ole]) <= S2v && S2i[0] * abs(crystal[3 + 5 * ole]) + S2i[1] * abs(crystal[4 + 5 * ole]) <= S2v && S3i[0] * abs(crystal[2 + 5 * ole]) + S3i[1] * abs(crystal[3 + 5 * ole]) + S3i[2] * abs(crystal[4 + 5 * ole]) <= S3v)
-		{
-
-		for (ole1 = 0; ole1 < a; ole1++)
-		{
-		if (atomic_number[ole1] == (int)crystal[0 + 5 * ole])
-		{
-		new_num_atoms[ole1] = new_num_atoms[ole1] + 1;
-		atomscc++;
-
-
-		}
-
-		}
-
-		}
-
-		}
-
-		for (ole = 0; ole < a; ole++)
-		{
-		//fprintf(NewPCF, "%d ", new_num_atoms[ole]);
-
-		}
-		//fprintf(NewPCF, "\n");
-
-
-		}
-
-		*/
+	
 
 
 		fclose(uc_file);
 
-
-		/*
-		atoms_to_print = (float*)realloc(atoms_to_print, sizeof(float)*atomscc * 4);
-
-
-
-
-
-		if (want_cyrcle[0] == 'y') {
-
-		for (ole5 = 0; ole5 < a; ole5++) {
-		for (ole4 = -sized[2] / 2; ole4 < sized[2] / 2; ole4++) {
-		for (ole2 = -sized[1] / 2; ole2 < sized[1] / 2; ole2++) {
-		for (ole = -sized[0] / 2; ole < sized[0] / 2; ole++) {
-		for (ole3 = 0; ole3 < t; ole3++) {
-		if (rad >= sqrt(crystal[0 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] * crystal[0 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] + crystal[1 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] * crystal[1 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] + crystal[2 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] * crystal[2 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]))
-		{
-
-		//crystal[ole + sized[0] / 2][ole2 + sized[1] / 2][ole4 + sized[2] / 2][ole3][1] = direct[1+5*ole3];
-		for (ole1 = 0; ole1 < 3; ole1++) {
-
-		if (crystal[0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] == atomic_number[ole5])
-		{
-		atoms_to_print[atoms_to_print_c + ole1] = crystal[ole1 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))];
-		//fprintf(NewPCF, "%f ", -min_xyz[ole1] + crystal[ole1 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]);
-		}
-		}
-		if (crystal[0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] == atomic_number[ole5])
-		{
-		atoms_to_print[atoms_to_print_c + 3] = atomic_number[ole5];
-		atoms_to_print_c = atoms_to_print_c + 4;
-		}
-		}
-		if (rad >= sqrt(crystal[0 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] * crystal[0 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] + crystal[1 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] * crystal[1 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] + crystal[2 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] * crystal[2 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))])) {
-		if (crystal[0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] == atomic_number[ole5])
-		{
-		//fprintf(NewPCF, "\n");
-		}
-		}
-
-		}
-		}
-		}
-		}
-		}
-
-
-
-		}
-		else {
-		for (ole5 = 0; ole5 < a; ole5++) {
-		for (ole4 = -sized[2] / 2; ole4 < sized[2] / 2; ole4++) {
-		for (ole2 = -sized[1] / 2; ole2 < sized[1] / 2; ole2++) {
-		for (ole = -sized[0] / 2; ole < sized[0] / 2; ole++) {
-		for (ole3 = 0; ole3 < t; ole3++) {
-		if ((S1i[0] * abs(crystal[2 + 0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S1v) && (S1i[0] * abs(crystal[2 + 1 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S1v) && (S1i[0] * abs(crystal[2 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S1v) && S2i[0] * abs(crystal[2 + 0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S2i[1] * abs(crystal[2 + 1 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S2v && S2i[0] * abs(crystal[2 + 0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S2i[1] * abs(crystal[2 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S2v && S2i[0] * abs(crystal[2 + 1 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S2i[1] * abs(crystal[2 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S2v && S3i[0] * abs(crystal[2 + 0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S3i[1] * abs(crystal[2 + 1 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S3i[2] * abs(crystal[2 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S3v)
-
-		{
-
-		//crystal[ole + sized[0] / 2][ole2 + sized[1] / 2][ole4 + sized[2] / 2][ole3][1] = direct[1+5*ole3];
-		for (ole1 = 0; ole1 < 3; ole1++) {
-
-		if (crystal[0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] == atomic_number[ole5])
-		{
-		atoms_to_print[atoms_to_print_c + ole1] = crystal[ole1 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))];
-		//cout << -min_xyz[ole1] + atoms_to_print[atoms_to_print_c + ole1] << " ";
-		//fprintf(NewPCF, "%f ", -min_xyz[ole1] + crystal[ole1 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]);
-		//cout << min_xyz[ole1] << endl;
-		}
-		}
-		if (crystal[0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] == atomic_number[ole5])
-		{
-		atoms_to_print[atoms_to_print_c + 3] = atomic_number[ole5];
-		//cout << atoms_to_print[atoms_to_print_c + 3] << "\n";
-		atoms_to_print_c = atoms_to_print_c + 4;
-		}
-
-		}
-		if ((S1i[0] * abs(crystal[2 + 0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S1v) && (S1i[0] * abs(crystal[2 + 1 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S1v) && (S1i[0] * abs(crystal[2 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S1v) && S2i[0] * abs(crystal[2 + 0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S2i[1] * abs(crystal[2 + 1 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S2v && S2i[0] * abs(crystal[2 + 0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S2i[1] * abs(crystal[2 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S2v && S2i[0] * abs(crystal[2 + 1 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S2i[1] * abs(crystal[2 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S2v && S3i[0] * abs(crystal[2 + 0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S3i[1] * abs(crystal[2 + 1 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S3i[2] * abs(crystal[2 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S3v)
-
-		{
-		if (crystal[0 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] == atomic_number[ole5])
-		{
-		//fprintf(NewPCF, "\n");
-		}
-		}
-
-		}
-		}
-		}
-		}
-		full = 1;
-		}
-
-		}
-		*/
 		atoms_to_print_c = 0;
 		//fclose(NewPCF);
 
@@ -2153,103 +1799,74 @@ void JGN_DropFile()
 
 
 
-
-		//if (jgn_supercell)
-		//{
-		//	was_supercell = 1;
-		//	jgn_supercell = 1;
-		//	Right_Hexagonal = 1;
-		//	figure_1 = 1;
-		//	Rod_like = 1;
-
-		//	sized[0] = jgn_supercell_xyz[0];
-		//	sized[1] = jgn_supercell_xyz[1];
-		//	sized[2] = jgn_supercell_xyz[2];
-
-
-		//	periodic_table = fopen("periodic_table.jgn", "r");
-
-		//	crystal = (float*)realloc(crystal, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
-		//	selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
-		//	selected = (bool*)realloc(selected, sizeof(bool)*t);
-		//	for (int i = 0; i < t; i++)
-		//	{
-		//		selected[i] = false;
-		//	}
-
-		//	//crystal_backup = (float*)realloc(crystal, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
-
-		//	for (ole4 = -jgn_supercell_xyz[2] / 2; ole4 < jgn_supercell_xyz[2] / 2 + xexe[2]; ole4++) {
-		//		for (ole2 = -jgn_supercell_xyz[1] / 2; ole2 < jgn_supercell_xyz[1] / 2 + xexe[1]; ole2++) {
-		//			for (ole = -jgn_supercell_xyz[0] / 2; ole < jgn_supercell_xyz[0] / 2 + xexe[0]; ole++) {
-		//				for (ole3 = 0; ole3 < t; ole3++) {
-		//					crystal[0 + 5 * (ole3 + t * (ole4 + jgn_supercell_xyz[2] / 2 + jgn_supercell_xyz[2] * (ole2 + jgn_supercell_xyz[1] / 2 + jgn_supercell_xyz[1] * (ole + jgn_supercell_xyz[0] / 2))))] = my_direct[0 + 5 * ole3];//atomikos ari8mos
-		//																																																								   //crystal_backup[0 + 5 * (ole3 + t*(ole4 + jgn_supercell_xyz[2] / 2 + jgn_supercell_xyz[2] * (ole2 + jgn_supercell_xyz[1] / 2 + jgn_supercell_xyz[1] * (ole + jgn_supercell_xyz[0] / 2))))] = my_direct[0 + 5 * ole3];//atomikos ari8mos
-
-		//																																																								   //crystal[ole + sized[0] / 2][ole2 + sized[1] / 2][ole4 + sized[2] / 2][ole3][0] = direct[0+5*ole3];
-		//					crystal[1 + 5 * (ole3 + t * (ole4 + jgn_supercell_xyz[2] / 2 + jgn_supercell_xyz[2] * (ole2 + jgn_supercell_xyz[1] / 2 + jgn_supercell_xyz[1] * (ole + jgn_supercell_xyz[0] / 2))))] = my_direct[1 + 5 * ole3];//atomiko varos
-		//																																																								   //crystal_backup[1 + 5 * (ole3 + t*(ole4 + jgn_supercell_xyz[2] / 2 + jgn_supercell_xyz[2] * (ole2 + jgn_supercell_xyz[1] / 2 + jgn_supercell_xyz[1] * (ole + jgn_supercell_xyz[0] / 2))))] = my_direct[1 + 5 * ole3];//atomiko varos
-
-		//																																																								   //selective dynamics
-		//					selective_dynamics[0 + 3 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] = selective_dynamics[0 + 3 * (ole3)];
-		//					selective_dynamics[1 + 3 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] = selective_dynamics[1 + 3 * (ole3)];
-		//					selective_dynamics[2 + 3 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] = selective_dynamics[2 + 3 * (ole3)];
-
-		//					if (inptype == 'd')
-		//					{
-		//						//crystal[ole + sized[0] / 2][ole2 + sized[1] / 2][ole4 + sized[2] / 2][ole3][1] = direct[1+5*ole3];
-		//						for (ole1 = 0; ole1 < 3; ole1++) {
-		//							crystal[ole1 + 2 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] = uccartesian[ole1 + 3 * ole3] + ole * ijk[0][ole1] + ole2 * ijk[1][ole1] + ole4 * ijk[2][ole1];//cartesians
-		//																																																															//crystal_backup[ole1 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] = uccartesian[ole1 + 3 * ole3] + ole*ijk[0][ole1] + ole2*ijk[1][ole1] + ole4*ijk[2][ole1];//cartesians
-
-		//							if (crystal[ole1 + 2 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] < min_xyz[ole1])
-		//							{
-		//								min_xyz[ole1] = crystal[ole1 + 2 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))];
-
-		//							}
-		//							if (crystal[ole1 + 2 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] > max_xyz[ole1])
-		//							{
-		//								max_xyz[ole1] = crystal[ole1 + 2 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))];
-
-		//							}
-
-		//						}
-
-		//					}
-		//					else if (inptype == 'c')
-		//					{
-		//						for (ole1 = 0; ole1 < 3; ole1++) {
-		//							crystal[ole1 + 2 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] = my_direct[ole1 + 2 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))];//cartesians
-		//							crystal_backup[ole1 + 2 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] = my_direct[ole1 + 2 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))];//cartesians
-
-		//																																																																									   //crystal[ole + sized[0] / 2][ole2 + sized[1] / 2][ole4 + sized[2] / 2][ole3][ole1 + 2] = uccartesian[ole1+3*ole3] + ole*ijk[0][ole1] + ole2*ijk[1][ole1] + ole4*ijk[2][ole1];
-		//							if (crystal[ole1 + 2 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] < min_xyz[ole1])
-		//							{
-		//								min_xyz[ole1] = crystal[ole1 + 2 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))];
-
-		//							}
-		//							if (crystal[ole1 + 2 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] > max_xyz[ole1])
-		//							{
-		//								max_xyz[ole1] = crystal[ole1 + 2 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))];
-
-		//							}
-
-		//						}
-		//					}
-
-
-		//					rewind(periodic_table);
-
-		//				}
-		//			}
-		//		}
-		//	}
-
-
-		//	fclose(periodic_table);
-
-
-		//}
+	}
+	Group groupInit;
+	groupInit.primitiveVec[0] = jgn::vec3(ijk[0][0], ijk[0][1], ijk[0][2]);
+	groupInit.primitiveVec[1] = jgn::vec3(ijk[1][0], ijk[1][1], ijk[1][2]);
+	groupInit.primitiveVec[2] = jgn::vec3(ijk[2][0], ijk[2][1], ijk[2][2]);
+	groupInit._N_types = a;
+	for (int i = 0; i < groupInit._N_types; i++)
+	{
+		groupInit._alltype.emplace_back(jgn::string(atoms));
+		for (int j = 0; j < i; j++)
+		{
+			groupInit._alltype[i].erase(0, groupInit._alltype[i].find(" ") + 1);
+		}
+		groupInit._alltype[i].resize(groupInit._alltype[i].find(" ") + 1);
+	}
+	groupInit.N_atoms = t;
+	groupInit._reserve(groupInit.N_atoms);
+	for (int i = 0; i < groupInit.N_atoms; i++)
+	{
+		groupInit.position.emplace_back(jgn::vec3(crystal[2 + 5 * i], crystal[3 + 5 * i], crystal[4 + 5 * i]));
+		jgn::string s;
+		s.push_back(selective_dynamics[3 * i]);
+		s.push_back(selective_dynamics[1 + 3 * i]);
+		s.push_back(selective_dynamics[2 + 3 * i]);
+		groupInit.selective_dynamics.emplace_back(s);
+		groupInit.number.emplace_back( crystal[5 * i]);
+		groupInit.weight.emplace_back(crystal[1 + 5 * i]);
+		groupInit.isdeleted.emplace_back(false);
+		groupInit.isSelected.emplace_back(false);
+		groupInit.iscut.emplace_back(false);
+		for (int ii = 0; ii < groupInit._N_types; ii++)
+		{
+			if (groupInit.number[i] == anumber[ii])
+			{
+				groupInit.type.emplace_back(groupInit._alltype[ii]);
+			}
+		}
+		groupInit.radius.emplace_back(1);
+		groupInit.color.emplace_back(jgn::vec3(fmod(groupInit.weight[i], 1.5), fmod(groupInit.number[i], 0.92), fmod(100 * fmod(groupInit.weight[i], 1.5) * fmod(groupInit.number[i], 0.92), 0.8)));
 	}
 
+	vsystem.group.push_back(groupInit);
+	vsystem.N_groups++;
+	vsystem.N_atoms += vsystem.group[vsystem.N_groups - 1].N_atoms;
+	if (vsystem.N_types == 0)
+	{
+		vsystem.N_types = vsystem.group[vsystem.N_groups - 1]._N_types;
+		vsystem.types.reserve(vsystem.N_types);
+		for (int i = 0; i < vsystem.N_types; i++)
+		{
+			vsystem.types.emplace_back(vsystem.group[vsystem.N_groups - 1]._alltype[i]);
+		}
+	}
+	else
+	{
+		for (int i = 0; i < vsystem.group[vsystem.N_groups - 1]._N_types; i++)
+		{
+			bool writeit = true;
+			for (int j = 0; j < vsystem.N_types; j++)
+			{
+				if (vsystem.types[j].compare(vsystem.group[vsystem.N_groups - 1]._alltype[i]) == 0)
+					writeit = false;
+			}
+			if (writeit)
+			{
+				vsystem.N_types++;
+				vsystem.types.push_back(jgn::string(vsystem.group[vsystem.N_groups - 1]._alltype[i]));
+			}
+		}
+	}
 }

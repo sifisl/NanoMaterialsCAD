@@ -8,7 +8,6 @@
 #include <string>
 #include <ctime>
 #include <cctype>
-using namespace std;
 
 #include <stdlib.h>
 # include <cstdlib>

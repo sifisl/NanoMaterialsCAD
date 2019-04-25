@@ -7,7 +7,7 @@ public:
 	Bonds();
 	~Bonds();
 
-	vector<jgn::vec6d> edges;// starting and fin vector for bond
+	std::vector<jgn::vec6d> edges;// starting and fin vector for bond
 
 
 

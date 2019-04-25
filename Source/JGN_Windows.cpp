@@ -2166,7 +2166,7 @@ LRESULT __stdcall HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 
 					if (help[0] != '\"')
 					{
-						cout << "expecting a \"" << endl;
+						std::cout << "expecting a \"" << std::endl;
 						okrender = 0;
 						goto peintit;
 					}
@@ -2186,13 +2186,13 @@ LRESULT __stdcall HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 					}
 					if (ole1 == 1)
 					{
-						cout << "expecting a \"" << endl;
+						std::cout << "expecting a \"" << std::endl;
 						okrender = 0;
 						goto peintit;
 					}
 					else
 					{
-						cout << ole << endl;
+						std::cout << ole << std::endl;
 						help = help - 2 * ole;
 						jgncmdfpath = (char*)malloc(sizeof(char)*(ole + 1));
 
@@ -2360,7 +2360,7 @@ LRESULT __stdcall HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 //
 //Tray
 //
-HWND JGN_CreateTray(string traytitle, HINSTANCE hInstance)
+HWND JGN_CreateTray(std::string traytitle, HINSTANCE hInstance)
 {
 	// prepare for XP style controls
 	InitCommonControls();
@@ -3823,7 +3823,7 @@ void jgnCommands(LPTSTR ttt, int d)
 
 			}
 			//ttest =  omp_get_wtime() - ttest;
-			//cout << ttest << endl;
+			//std::cout << ttest << std::endl;
 			//fclose(periodic_table);
 
 
@@ -3982,7 +3982,7 @@ float find_theta(float R)
 	//for (int i = 0; i < 100; i++)
 	//{
 	//
-	//	//cout << f(x0, R)*f(x1, R) << endl;
+	//	//std::cout << f(x0, R)*f(x1, R) << std::endl;
 	//	float xnew = (x0 + x1) / 2.0;
 	//	if (f(x0,R)*f(xnew,R) <= 0)
 	//	{
@@ -4009,8 +4009,8 @@ void MakeScroll()
 	//S3v=tube_param
 
 	int S2vforreal = S2v - S1v;
-	//cout << S1v << ' ' << S2v << ' ' << S3v << endl;
-	//cout << (max_xyz[0] - min_xyz[0]) << ' ' << S3v << endl;
+	//std::cout << S1v << ' ' << S2v << ' ' << S3v << std::endl;
+	//std::cout << (max_xyz[0] - min_xyz[0]) << ' ' << S3v << std::endl;
 	int ajklsdfl = t * (sized[0])*(sized[1])*(sized[2]);
 
 	//Bisection to find max_theta

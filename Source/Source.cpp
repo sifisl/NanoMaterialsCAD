@@ -9,6 +9,7 @@
 #include "JGN_bmpLoader.h"
 #include "JGN_StrokeCharacter.h"
 #include "Bonds.h"
+#include "VSystem.h"
 
 #define glutSolidSphere JGN_SolidSphere
 // TODO: make a class instead of the crystal array
@@ -17,6 +18,7 @@
 int main(int argc, char *argv[])
 {
 
+	
 #if NDEBUG
 	FreeConsole();
 #endif
@@ -365,6 +367,9 @@ void display1(void)//generates the graphics output.
 //#pragma omp parallel for firstprivate(ajklsdfl, p, CustomSurfacesCount, i, CustomSurfaces, anumber, render_is_on, colr, shperes_on,)
 		cl_start = std::chrono::high_resolution_clock::now();
 
+		vsystem.draw();
+
+		if(false)
 		for (int ole3 = 0; ole3 < ajklsdfl; ole3++)
 		{
 			if (!isdeleted[ole3])
@@ -1050,17 +1055,9 @@ void display1(void)//generates the graphics output.
 			p[0] = crystal[2 + 5 * ole3] / (Svmax + 5);
 			p[1] = crystal[3 + 5 * ole3] / (Svmax + 5);
 			p[2] = crystal[4 + 5 * ole3] / (Svmax + 5);
-			cout << ClickedForDistance[0] << " " << ClickedForDistance[1] << endl;
-			cout << "p = " << p[0] << " " << p[1] << " " << p[2] << endl;
+			//cout << ClickedForDistance[0] << " " << ClickedForDistance[1] << endl;
+			//cout << "p = " << p[0] << " " << p[1] << " " << p[2] << endl;
 			ole3 = ClickedForDistance[1];
-			p1[0] = crystal[2 + 5 * ole3] / (Svmax + 5);
-			p1[1] = crystal[3 + 5 * ole3] / (Svmax + 5);
-			p1[2] = crystal[4 + 5 * ole3] / (Svmax + 5);
-			cout << "p1 = " << p1[0] << " " << p1[1] << " " << p1[2] << endl;
-
-
-			glBegin(GL_LINES);
-			glVertex3fv(p);
 			glVertex3fv(p1);
 			glEnd();
 

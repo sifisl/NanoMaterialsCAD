@@ -6,7 +6,7 @@
 #define fontmapwidht 512
 #define fontmapheight 512
 
-ifstream font;
+std::ifstream font;
 void openfont(char* f)
 {
 	font.open(f);

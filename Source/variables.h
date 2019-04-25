@@ -194,7 +194,7 @@ EXT int itemsel;
 EXT int predicted;
 EXT wchar_t widechar[50];
 EXT char* listboxcurent;
-EXT map<int, char*> boxlistmap;					// map hwnd of the parent windows created to an int counter
+EXT std::map<int, char*> boxlistmap;					// map hwnd of the parent windows created to an int counter
 EXT wchar_t ucender[2];
 EXT WNDPROC oldEditProc;
 EXT int mainwndsize[2];

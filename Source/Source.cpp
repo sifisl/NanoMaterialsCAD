@@ -8,6 +8,7 @@
 #include "JGN_SolidSphere.h"
 #include "JGN_bmpLoader.h"
 #include "JGN_StrokeCharacter.h"
+#include "Bonds.h"
 
 #define glutSolidSphere JGN_SolidSphere
 // TODO: make a class instead of the crystal array
@@ -15,8 +16,12 @@
 
 int main(int argc, char *argv[])
 {
+	vector<jgn::vec6d> edges;
+	edges.emplace_back(1, 2, 3, 4, 5, 6);
 
+	cout << edges;
 
+	getchar();
 #if NDEBUG
 	FreeConsole();
 #endif
@@ -4369,6 +4374,7 @@ void display1(void)//generates the graphics output.
 	if (shperes_on)
 		glEnable(GL_LIGHTING);
 
+	bonds.CalcBonds(3);
 	//cout << 3 << endl;
 
 	//return;
@@ -6146,7 +6152,7 @@ void findClicked()
 		pForDistance[5] = crystal[4 + 5 * ClickedForDistance[1]];
 		//TODO:
 		//correct distance clean the trash!!!!
-		Dist2Disp = dist3d(&crystal[2 + 5 * ClickedForDistance[0]], &crystal[2 + 5 * ClickedForDistance[1]]);
+		Dist2Disp = sqrt(dist3dSquare(crystal[2 + 5 * ClickedForDistance[0]], crystal[2 + 5 * ClickedForDistance[1]]));
 	}
 }
 

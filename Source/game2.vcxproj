@@ -177,6 +177,7 @@ move /Y "$(ProjectDir)..\$(Configuration)\*.pdb" "$(ProjectDir)$(Configuration)"
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Bonds.h" />
     <ClInclude Include="help me.h" />
     <ClInclude Include="JGN_bmpLoader.h" />
     <ClInclude Include="JGN_Build.h" />
@@ -193,6 +194,7 @@ move /Y "$(ProjectDir)..\$(Configuration)\*.pdb" "$(ProjectDir)$(Configuration)"
     <ResourceCompile Include="JGN_Resource.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Bonds.cpp" />
     <ClCompile Include="JGN_bmpLoader.cpp" />
     <ClCompile Include="JGN_Build.cpp" />
     <ClCompile Include="JGN_DropFile.cpp" />

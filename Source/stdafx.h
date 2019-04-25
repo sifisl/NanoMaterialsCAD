@@ -74,6 +74,7 @@ using namespace std;
 #include <malloc.h>
 #include <memory.h>
 #include <tchar.h>
+#include <vector>
 
 
 
@@ -147,7 +148,92 @@ namespace jgn
 		}
 	};
 
+	class vec3d
+	{
+	public:
+		float x, y, z;
+		vec3d() {};
+		vec3d(float i, float j, float k)
+		{
+			x = i;
+			y = j;
+			z = k;
+		}
+		vec3d(const vec3d& other)
+		{
+			x = other.x;
+			y = other.y;
+			z = other.z;
+		}
+	};
+
+	class vec6d
+	{
+	public:
+		vec3d start;
+		vec3d fin;
+
+		vec6d(float i, float j, float k, float ii, float jj, float kk)
+		{
+			this->start.x = i;
+			this->start.y = j;
+			this->start.z = k;
+
+			this->fin.z = ii;
+			this->fin.z = jj;
+			this->fin.z = kk;
+
+		}
+		vec6d(const vec6d& other)
+		{
+			this->start = other.start;
+			this->fin = other.fin;
+		}
+	};
+
+};
+
+
+
+std::ostream& operator<<(std::ostream& stream, const jgn::vec3d& vect)
+#ifdef JGN_SOURCE_CPP
+
+{
+	stream << vect.x << " , " << vect.y << " , " << vect.z;
+	return stream;
 }
+#else
+;
+#endif// JGN_SOURCE_CPP
+
+std::ostream& operator<<(std::ostream& stream, const jgn::vec6d& vect)
+#ifdef JGN_SOURCE_CPP
+
+{
+	stream << vect.start << vect.fin;
+	return stream;
+}
+#else
+;
+#endif// JGN_SOURCE_CPP
+
+std::ostream& operator<<(std::ostream& stream, const vector<jgn::vec6d>& vect)
+#ifdef JGN_SOURCE_CPP
+
+{
+	for (std::vector<jgn::vec6d>::const_iterator i = vect.begin(); i != vect.end(); i++)
+	{
+		stream << " , " << *i;
+	}
+
+	return stream;
+}
+#else
+;
+#endif// JGN_SOURCE_CPP
+
+
+
 
 jgn::string LPTSTR2string(LPTSTR inp, char delimiter, int maxchars = 1000)
 #ifdef JGN_SOURCE_CPP
@@ -526,11 +612,11 @@ float dist2d(float* p1, float* p2)
 ;
 #endif //JGN_SOURCE_CPP
 
-float dist3d(float* p1, float* p2)
+float dist3dSquare(float& p1, float& p2)//I don't use sqrt for optimization
 #ifdef JGN_SOURCE_CPP
 
 {
-	return sqrt((p1[0] - p2[0])*(p1[0] - p2[0]) + (p1[1] - p2[1])*(p1[1] - p2[1])+ (p1[2] - p2[2])*(p1[2] - p2[2]));
+	return /*sqrt(*/((&p1)[0] - (&p2)[0])*((&p1)[0] - (&p2)[0]) + ((&p1)[1] - (&p2)[1])*((&p1)[1] - (&p2)[1])+ ((&p1)[2] - (&p2)[2])*((&p1)[2] - (&p2)[2])/*)*/;
 }
 #else
 ;

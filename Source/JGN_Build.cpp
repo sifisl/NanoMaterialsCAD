@@ -1679,7 +1679,7 @@ void BuildPoscar(char* NewPC)
 			token = strtok(s, "\t ");
 
 		}
-		std::fprintf(NewPCF, ftoa(actor));
+		std::fprintf(NewPCF, jgn::ftoa(actor));
 		std::fprintf(NewPCF, "\n");
 
 
@@ -1914,7 +1914,7 @@ void BuildPoscar(char* NewPC)
 			token = strtok(s, "\t ");
 
 		}
-		std::fprintf(NewPCF, ftoa(actor));
+		std::fprintf(NewPCF, jgn::ftoa(actor));
 		std::fprintf(NewPCF, "\n");
 
 
@@ -2630,7 +2630,7 @@ void BuildPoscar(char* NewPC)
 			token = strtok(s, "\t ");
 
 		}
-		std::fprintf(NewPCF, ftoa(actor));
+		std::fprintf(NewPCF, jgn::ftoa(actor));
 		std::fprintf(NewPCF, "\n");
 
 
@@ -2926,7 +2926,7 @@ void BuildPoscar(char* NewPC)
 
 		}
 
-		std::fprintf(NewPCF, ftoa(actor));
+		std::fprintf(NewPCF, jgn::ftoa(actor));
 		std::fprintf(NewPCF, "\n");
 
 
@@ -3224,7 +3224,7 @@ void BuildPoscar(char* NewPC)
 
 		}
 
-		std::fprintf(NewPCF, ftoa(actor));
+		std::fprintf(NewPCF, jgn::ftoa(actor));
 		std::fprintf(NewPCF, "\n");
 
 

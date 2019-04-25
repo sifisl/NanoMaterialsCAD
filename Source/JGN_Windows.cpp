@@ -142,7 +142,6 @@ ATOM JGN_RegisterClass(HINSTANCE hInstance)
 {
 	WNDCLASSEX wcex;
 
-
 	wcex.cbSize = sizeof(WNDCLASSEX);
 	wcex.style = CS_DBLCLKS; //CS_HREDRAW | CS_VREDRAW | redraws the hall screen when resized, couses flicks
 	wcex.lpfnWndProc = WndProc;
@@ -284,7 +283,10 @@ HWND InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 	jgn_glbrect = { 0,0,0,0 };
 
-
+	hdc = GetDC((HWND)menu);
+	SetTextColor(hdc, RGB(0, 255, 255));
+	SetBkColor(hdc, RGB(50, 50, 50));
+	DeleteDC(hdc);
 
 
 	return h;
@@ -984,7 +986,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			periodic_table = fopen("periodic_table.jgn", "r");
 
-			heapRealloc();
+			jgn::heapRealloc();
 			/*crystal = (float*)realloc(NULL, sizeof(float)*(sized[0] * sized[1] * sized[2] * t * 5));
 			selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(sized[0] * sized[1] * sized[2] * t * 3));
 			isSelected = (bool*)realloc(isSelected, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
@@ -1109,7 +1111,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			periodic_table = fopen("periodic_table.jgn", "r");
 
 
-			heapRealloc();
+			jgn::heapRealloc();
 			/*crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 			selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
 			isSelected = (bool*)realloc(isSelected, sizeof(bool)*t);
@@ -1262,7 +1264,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 				periodic_table = fopen("periodic_table.jgn", "r");
 
-				heapRealloc();
+				jgn::heapRealloc();
 				/*crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 				selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
 				isSelected = (bool*)realloc(isSelected, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
@@ -1390,7 +1392,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 				periodic_table = fopen("periodic_table.jgn", "r");
 
-				heapRealloc();
+				jgn::heapRealloc();
 				/*crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 				selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
 				isSelected = (bool*)realloc(isSelected, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
@@ -1522,7 +1524,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 				periodic_table = fopen("periodic_table.jgn", "r");
 
-				heapRealloc();
+				jgn::heapRealloc();
 				/*crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 				selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
 				isSelected = (bool*)realloc(isSelected, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
@@ -1653,7 +1655,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 				periodic_table = fopen("periodic_table.jgn", "r");
 
-				heapRealloc();
+				jgn::heapRealloc();
 				/*crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 				selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
 				isSelected = (bool*)realloc(isSelected, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
@@ -1793,7 +1795,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 				periodic_table = fopen("periodic_table.jgn", "r");
 
-				heapRealloc();
+				jgn::heapRealloc();
 				/*crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 				selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
 				isSelected = (bool*)realloc(isSelected, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
@@ -2967,7 +2969,7 @@ void jgnCommands(LPTSTR ttt, int d)
 		okrender = 1;
 		help = (char*)(ttt + 7);
 
-		jgn::string option = LPTSTR2string((LPTSTR)help, ')', 2);
+		jgn::string option = jgn::LPTSTR2string((LPTSTR)help, ')', 2);
 
 		if (option == "on")
 		{
@@ -3005,7 +3007,7 @@ void jgnCommands(LPTSTR ttt, int d)
 
 		help = (char*)(ttt + 5);
 
-		jgn::string rstr = LPTSTR2string((LPTSTR)help, ')');
+		jgn::string rstr = jgn::LPTSTR2string((LPTSTR)help, ')');
 
 		if (rstr.isnumber())
 		{
@@ -3734,7 +3736,7 @@ void jgnCommands(LPTSTR ttt, int d)
 			}
 			//periodic_table = fopen("periodic_table.jgn", "r");
 
-			heapRealloc();
+			jgn::heapRealloc();
 			/*crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 			crystal_backup = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 			selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
@@ -3951,6 +3953,12 @@ void jgn_initcmd()
 	oldEditProc = (WNDPROC)SetWindowLongPtr(CommandTextField, GWLP_WNDPROC, (LONG_PTR)WndProcEditBox);
 
 	SendMessage(CommandTextField, WM_SETFONT, (WPARAM)fOnt, TRUE);
+
+	//create tool bar
+	HWND ToolBar = CreateWindowEx(0, TOOLBARCLASSNAME, NULL, WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_DLGFRAME | TBSTYLE_TOOLTIPS, 0, 0, 0, 0, mnhwnd, NULL, GetModuleHandle(NULL), NULL);
+	SendMessage(ToolBar, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0);
+
+
 
 	JGN_PostRedisplay();
 }

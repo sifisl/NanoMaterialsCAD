@@ -16,12 +16,7 @@
 
 int main(int argc, char *argv[])
 {
-	vector<jgn::vec6d> edges;
-	edges.emplace_back(1, 2, 3, 4, 5, 6);
 
-	cout << edges;
-
-	getchar();
 #if NDEBUG
 	FreeConsole();
 #endif
@@ -3787,7 +3782,7 @@ void display1(void)//generates the graphics output.
 		{
 			glColor4f(0, 0, 0, 0.5);
 		}
-		JGN_StrokeString(ftoa(selected_rotate[0]), 3);
+		JGN_StrokeString(jgn::ftoa(selected_rotate[0]), 3);
 		JGN_StrokeCharacter(' ');
 		if (selected_rotate_axes == 2)
 		{
@@ -3797,7 +3792,7 @@ void display1(void)//generates the graphics output.
 		{
 			glColor4f(0, 0, 0, 0.5);
 		}
-		JGN_StrokeString(ftoa(selected_rotate[1]), 3);
+		JGN_StrokeString(jgn::ftoa(selected_rotate[1]), 3);
 		JGN_StrokeCharacter(' ');
 		if (selected_rotate_axes == 3)
 		{
@@ -3807,7 +3802,7 @@ void display1(void)//generates the graphics output.
 		{
 			glColor4f(0, 0, 0, 0.5);
 		}
-		JGN_StrokeString(ftoa(selected_rotate[2]), 3);
+		JGN_StrokeString(jgn::ftoa(selected_rotate[2]), 3);
 
 
 
@@ -4374,7 +4369,7 @@ void display1(void)//generates the graphics output.
 	if (shperes_on)
 		glEnable(GL_LIGHTING);
 
-	bonds.CalcBonds(3);
+	//bonds.CalcBonds(3);
 	//cout << 3 << endl;
 
 	//return;
@@ -4737,7 +4732,7 @@ void translateTheSelected(char op)
 			{
 				trn[selected_translate_direction] = -0.5 / (Svmax + 5);
 			}
-			cpu_translate(inp, trn, out);
+			jgn::cpu_translate(inp, trn, out);
 
 			crystal[2 + 5 * i] = out[0] * (Svmax + 5);
 			crystal[3 + 5 * i] = out[1] * (Svmax + 5);
@@ -4796,13 +4791,13 @@ void rotateTheSelected(char op)
 			{
 				mean_coords[i] = -mean_coords[i];
 			}
-			cpu_translate(inp, mean_coords, out);
-			cpu_rotate(out, rot, inp);
+			jgn::cpu_translate(inp, mean_coords, out);
+			jgn::cpu_rotate(out, rot, inp);
 			for (int i = 0; i < 3; i++)
 			{
 				mean_coords[i] = -mean_coords[i];
 			}
-			cpu_translate(inp, mean_coords, out);
+			jgn::cpu_translate(inp, mean_coords, out);
 
 
 			crystal[2 + 5 * i] = out[0] * (Svmax + 5);
@@ -6046,8 +6041,8 @@ void findSelected()
 
 		
 
-		cpu_translate(p1, (float*)model_translate, p2);
-		cpu_rotate(p2, (float*)theta_rad, p1);
+		jgn::cpu_translate(p1, (float*)model_translate, p2);
+		jgn::cpu_rotate(p2, (float*)theta_rad, p1);
 		p1[2] = -p1[2];
 
 		/////at this point p1 is the final product
@@ -6104,14 +6099,14 @@ void findClicked()
 
 
 
-		cpu_translate(p1, (float*)model_translate, p2);
-		cpu_rotate(p2, (float*)theta_rad, p1);
+		jgn::cpu_translate(p1, (float*)model_translate, p2);
+		jgn::cpu_rotate(p2, (float*)theta_rad, p1);
 		p1[2] = -p1[2];
 
 		///at this point p1 is the final product
 
 
-		if (dist2d(leftClick.finish, p1) < pointsize*0.001)
+		if (jgn::dist2d(leftClick.finish, p1) < pointsize*0.001)
 		{
 			if (ClickedForDistance[iClickedForDistance] == -1)
 			{
@@ -6152,7 +6147,7 @@ void findClicked()
 		pForDistance[5] = crystal[4 + 5 * ClickedForDistance[1]];
 		//TODO:
 		//correct distance clean the trash!!!!
-		Dist2Disp = sqrt(dist3dSquare(crystal[2 + 5 * ClickedForDistance[0]], crystal[2 + 5 * ClickedForDistance[1]]));
+		Dist2Disp = sqrt(jgn::dist3dSquare(crystal[2 + 5 * ClickedForDistance[0]], crystal[2 + 5 * ClickedForDistance[1]]));
 	}
 }
 

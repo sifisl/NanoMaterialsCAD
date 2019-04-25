@@ -563,7 +563,7 @@ void JGN_DropFile()
 		sized[1] = 1;
 		sized[2] = 1;
 
-		heapRealloc();
+		jgn::heapRealloc();
 		/*crystal = (float*)realloc(NULL, sizeof(float)*(sized[0] * sized[1] * sized[2] * t * 5));
 		crystal_backup = (float*)realloc(NULL, sizeof(float)*(sized[0] * sized[1] * sized[2] * t * 5));
 		selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(sized[0] * sized[1] * sized[2] * t * 3));
@@ -1084,7 +1084,7 @@ void JGN_DropFile()
 
 			periodic_table = fopen("periodic_table.jgn", "r");
 
-			heapRealloc();
+			jgn::heapRealloc();
 			/*crystal = (float*)realloc(crystal, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
 			selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 3));
 			isSelected = (bool*)realloc(isSelected, sizeof(bool)*t*sized[0] * sized[1] * sized[2]);
@@ -1651,7 +1651,7 @@ void JGN_DropFile()
 		sized[1] = 1;
 		sized[2] = 1;
 
-		heapRealloc();
+		jgn::heapRealloc();
 		/*crystal = (float*)realloc(NULL, sizeof(float)*(sized[0] * sized[1] * sized[2] * t * 5));
 		crystal_backup = (float*)realloc(NULL, sizeof(float)*(sized[0] * sized[1] * sized[2] * t * 5));
 		selective_dynamics = (char*)realloc(selective_dynamics, sizeof(char)*(sized[0] * sized[1] * sized[2] * t * 3));

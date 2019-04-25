@@ -17,12 +17,13 @@ void Bonds::CalcBonds(float maxDist)
 {
 	int maxIt = t * (prev_sized[0])*(prev_sized[1])*(prev_sized[2]);
 	maxDist *= maxDist;
+	NBonds = 0;
 
 	for (int i = 0; i < maxIt - 1; i++)
 	{
 		for (int j = i + 1; j < maxIt; j++)
 		{
-			if (dist3dSquare(crystal[2 + 5 * i], crystal[2 + 5 * j]) <= maxDist)
+			if (jgn::dist3dSquare(crystal[2 + 5 * i], crystal[2 + 5 * j]) <= maxDist)
 			{
 				ibondstartbuf[NBonds] = i;
 				ibondfinbuf[NBonds] = j;
@@ -30,14 +31,14 @@ void Bonds::CalcBonds(float maxDist)
 			}
 		}
 	}
-	this->edges.reserve(NBonds);
+	/*this->edges.reserve(NBonds);
 	this->edges.reserve(NBonds);
 
 	for (int i = 0; i < this->NBonds; i++)
 	{
 		edges.emplace_back(crystal[2 + 5 * ibondstartbuf[i]], crystal[3 + 5 * ibondstartbuf[i]], crystal[4 + 5 * ibondstartbuf[i]],
 			crystal[2 + 5 * ibondfinbuf[i]], crystal[3 + 5 * ibondfinbuf[i]], crystal[4 + 5 * ibondfinbuf[i]]);
-	}
+	}*/
 
 
 }

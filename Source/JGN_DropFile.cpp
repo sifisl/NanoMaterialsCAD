@@ -1804,6 +1804,10 @@ void JGN_DropFile()
 	groupInit.primitiveVec[0] = jgn::vec3(ijk[0][0], ijk[0][1], ijk[0][2]);
 	groupInit.primitiveVec[1] = jgn::vec3(ijk[1][0], ijk[1][1], ijk[1][2]);
 	groupInit.primitiveVec[2] = jgn::vec3(ijk[2][0], ijk[2][1], ijk[2][2]);
+	groupInit.primitiveBase[0] = groupInit.primitiveVec[0] / groupInit.primitiveVec[0].abs();
+	groupInit.primitiveBase[1] = groupInit.primitiveVec[1] / groupInit.primitiveVec[1].abs();
+	groupInit.primitiveBase[2] = groupInit.primitiveVec[2] / groupInit.primitiveVec[2].abs();
+
 	groupInit._N_types = a;
 	for (int i = 0; i < groupInit._N_types; i++)
 	{
@@ -1840,33 +1844,40 @@ void JGN_DropFile()
 		groupInit.color.emplace_back(jgn::vec3(fmod(groupInit.weight[i], 1.5), fmod(groupInit.number[i], 0.92), fmod(100 * fmod(groupInit.weight[i], 1.5) * fmod(groupInit.number[i], 0.92), 0.8)));
 	}
 
-	vsystem.group.push_back(groupInit);
-	vsystem.N_groups++;
-	vsystem.N_atoms += vsystem.group[vsystem.N_groups - 1].N_atoms;
-	if (vsystem.N_types == 0)
+	vs.group.push_back(groupInit);
+	vs.setSimulationBox(vs.N_groups);
+	vs.N_groups++;
+	vs.N_atoms += vs.group[vs.N_groups - 1].N_atoms;
+	if (vs.N_types == 0)
 	{
-		vsystem.N_types = vsystem.group[vsystem.N_groups - 1]._N_types;
-		vsystem.types.reserve(vsystem.N_types);
-		for (int i = 0; i < vsystem.N_types; i++)
+		vs.N_types = vs.group[vs.N_groups - 1]._N_types;
+		vs.types.reserve(vs.N_types);
+		for (int i = 0; i < vs.N_types; i++)
 		{
-			vsystem.types.emplace_back(vsystem.group[vsystem.N_groups - 1]._alltype[i]);
+			vs.types.emplace_back(vs.group[vs.N_groups - 1]._alltype[i]);
 		}
 	}
 	else
 	{
-		for (int i = 0; i < vsystem.group[vsystem.N_groups - 1]._N_types; i++)
+		for (int i = 0; i < vs.group[vs.N_groups - 1]._N_types; i++)
 		{
 			bool writeit = true;
-			for (int j = 0; j < vsystem.N_types; j++)
+			for (int j = 0; j < vs.N_types; j++)
 			{
-				if (vsystem.types[j].compare(vsystem.group[vsystem.N_groups - 1]._alltype[i]) == 0)
+				if (vs.types[j].compare(vs.group[vs.N_groups - 1]._alltype[i]) == 0)
 					writeit = false;
 			}
 			if (writeit)
 			{
-				vsystem.N_types++;
-				vsystem.types.push_back(jgn::string(vsystem.group[vsystem.N_groups - 1]._alltype[i]));
+				vs.N_types++;
+				vs.types.push_back(jgn::string(vs.group[vs.N_groups - 1]._alltype[i]));
 			}
 		}
 	}
+	vs._sellectHistory.reserve(vs.N_atoms);
+	for (int i = 0; i < vs.group[vs.N_groups - 1].N_atoms; i++)
+	{
+		vs._sellectHistory.emplace_back(jgn::vec3(vs.N_groups - 1, i, -1));
+	}
+
 }

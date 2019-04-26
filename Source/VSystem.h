@@ -12,7 +12,8 @@ public:
 	~Group() {};
 
 	unsigned int N_atoms;//number of atoms
-	jgn::vec3 primitiveVec[3];//the simumation box
+	jgn::vec3 primitiveVec[3];//the primitiveVec
+	jgn::vec3 primitiveBase[3];//the primitiveVec/|primitiveVec|
 	std::vector<jgn::vec3> position;
 	std::vector<jgn::string> type;
 	int _N_types;
@@ -38,18 +39,31 @@ public:
 	VSystem();
 	~VSystem();
 
-	int N_groups = 0;//#N of groups
 	int N_types = 0;//#N of different elements
 	std::vector<jgn::string> types;//#N of different elements
 	int N_atoms = 0;// total #N of the system
+
+	int N_groups = 0;//#N of groups
+	int _isimulationBox = 0;
+	jgn::vec3 simulationBoxEdges[8];//the simumation box 2 draw;
+	std::vector<jgn::vec3> _sellectHistory;//(group,atom,history)
+	int _sellectHistory2undo = 1;//
 
 
 	std::vector<Group> group;
 	std::vector<int> deletedHistory;
 
 	void draw();
+	void cut();
+	void _drawSimulationBox();
+	void _updateSimulationBox();
+	void setSimulationBox(int s);
+	void _drawBase();
+	void unsellectAll();
+	void undoSellect();
 
-}EXT vsystem;
+
+}EXT vs;
 
 
 

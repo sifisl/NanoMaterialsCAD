@@ -5,6 +5,7 @@
 #include "JGN_Resource.h"
 #include "JGN_DropFile.h"
 #include "JGN_Windows.h"
+#include "ToolBar.h"
 
 /////////////////////////////////////////////////
 //
@@ -52,6 +53,7 @@ HWND JGN_CreateWindow(char* EszTitle,
 
 	DragAcceptFiles(jgn_help_to_map_the_draw_func, TRUE);
 	//wglDeleteContext(hglrc);
+
 	return jgn_help_to_map_the_draw_func;
 }
 void JGN_InitOpenGL()
@@ -232,7 +234,8 @@ HWND InitInstance(HINSTANCE hInstance, int nCmdShow)
 			-1.05, +1.05,
 			-1.05 * (GLfloat)he / (GLfloat)w, +1.05 * (GLfloat)he / (GLfloat)w,
 			-10.0, 10.0);
-
+		dipleft = -1.05;
+		dipapan = -1.05 * (GLfloat)he / (GLfloat)w;
 	}
 	else
 	{
@@ -240,6 +243,8 @@ HWND InitInstance(HINSTANCE hInstance, int nCmdShow)
 			-1.05 * (GLfloat)w / (GLfloat)he, +1.05 * (GLfloat)w / (GLfloat)he,
 			-1.05, +1.05,
 			-10.0, 10.0);
+		dipleft = -1.05*(GLfloat)w / (GLfloat)he;
+		dipapan = 1.05;
 	}
 	glMatrixMode(GL_MODELVIEW);
 
@@ -454,45 +459,14 @@ void ____JGN_DisplayF()
 
 	for (int i = 0; i < jgn_wndcnt; i++)
 	{
-
-		jgn_curent_window_to_edit = JGN_Global_Draw[i];
-
-
-		HDC global_hdc = GetDC(jgn_dawfunc_hwnd_map[jgn_curent_window_to_edit]);
-
-
-
-		//hdc = BeginPaint(jgn_dawfunc_hwnd_map[jgn_curent_window_to_edit], &ps);
-
-		/*hdcMem = CreateCompatibleDC(hdc);
-		hbmMem = CreateCompatibleBitmap(hdc, 1000, 1000);
-
-		hOld = SelectObject(hdcMem, hbmMem);*/
-
-
+	
 
 		JGN_Global_Draw[0]();
 
-
-
-		//BitBlt(hdc, 0, 0, 1000, 1000, hdcMem, 0, 0, SRCCOPY);
-
-		//// Free-up the off-screen DC
-		//SelectObject(hdcMem, hOld);
-		//DeleteObject(hbmMem);
-		//DeleteDC(hdcMem);
-
-		//EndPaint(jgn_dawfunc_hwnd_map[jgn_curent_window_to_edit], &ps);
-
-
-
 		SwapBuffers(global_hdc);
 
+		//DeleteDC(global_hdc);
 
-
-		DeleteDC(global_hdc);
-
-		//UpdateWindow(jgn_dawfunc_hwnd_map[jgn_curent_window_to_edit]);
 	}
 
 	//RedrawWindow(hWnd, NULL, NULL, RDW_INTERNALPAINT);
@@ -849,6 +823,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		RedrawWindow(CommandTextField, 0, 0, RDW_NOERASE);
 
 		wasfullscreenflagout++;
+		tb.initPositions();
 
 		if (wParam == SIZE_MAXIMIZED)
 		{
@@ -868,8 +843,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 		}
 
-
-
+		
 
 		break;
 	case WM_EXITSIZEMOVE:
@@ -1213,8 +1187,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 						-1.05, +1.05,
 						-1.05 * (GLfloat)height / (GLfloat)width, +1.05 * (GLfloat)height / (GLfloat)width,
 						-10.0, 10.0);
-					dipleft = -1;
-
+					dipleft = -1.05;
+					dipapan = -1.05 * (GLfloat)height / (GLfloat)width;
 
 				}
 				else
@@ -1223,8 +1197,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 						-1.05 * (GLfloat)width / (GLfloat)height, +1.05 * (GLfloat)width / (GLfloat)height,
 						-1.05, +1.05,
 						-10.0, 10.0);
-					dipleft = -(GLfloat)width / (GLfloat)height;
-
+					dipleft = -1.05*(GLfloat)width / (GLfloat)height;
+					dipapan = 1.05 * (GLfloat)width / (GLfloat)height;
 				}
 				glMatrixMode(GL_MODELVIEW);
 
@@ -3955,8 +3929,8 @@ void jgn_initcmd()
 	SendMessage(CommandTextField, WM_SETFONT, (WPARAM)fOnt, TRUE);
 
 	//create tool bar
-	HWND ToolBar = CreateWindowEx(0, TOOLBARCLASSNAME, NULL, WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_DLGFRAME | TBSTYLE_TOOLTIPS, 0, 0, 0, 0, mnhwnd, NULL, GetModuleHandle(NULL), NULL);
-	SendMessage(ToolBar, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0);
+	//HWND ToolBar = CreateWindowEx(0, TOOLBARCLASSNAME, NULL, WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_DLGFRAME | TBSTYLE_TOOLTIPS, 0, 0, 0, 0, mnhwnd, NULL, GetModuleHandle(NULL), NULL);
+	//SendMessage(ToolBar, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0);
 
 
 

@@ -58,6 +58,7 @@ EXT int lmb;//left mouse button
 EXT int wasfullscreenflagin;
 EXT int wasfullscreenflagout;
 EXT GLuint Font;
+EXT GLuint cursorToolsImg[4];
 EXT GLuint vboId;
 EXT float dipleft;
 EXT float dipapan;
@@ -105,7 +106,7 @@ EXT char want_cyrcle[5];
 EXT int nanotube;
 EXT int full;
 EXT char mouse_mode;// 's'elect, 'r'otate, 't'ranclate, 
-					// selected r'o'tate, selected tr'a'nslate
+//					// selected r'o'tate, selected tr'a'nslate
 EXT float model_translate[3];
 EXT float selected_rotate[3];
 EXT float selected_translate[3];
@@ -156,6 +157,7 @@ EXT int sized_old[3];
 EXT int was_supercell;
 EXT HWND hWndCommandLine;
 EXT HWND hWndList;
+EXT HDC global_hdc;
 
 
 EXT char *S1;

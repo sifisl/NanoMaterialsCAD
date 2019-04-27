@@ -1809,14 +1809,25 @@ void JGN_DropFile()
 	groupInit.primitiveBase[2] = groupInit.primitiveVec[2] / groupInit.primitiveVec[2].abs();
 
 	groupInit._N_types = a;
+	groupInit.N_atoms_per_type.reserve(groupInit._N_types);
+	groupInit.color_per_type.reserve(groupInit._N_types);
+	for (int i = 0; i < groupInit._N_types; i++)
+	{
+		groupInit.N_atoms_per_type.emplace_back(ea[i]);
+		groupInit.color_per_type.emplace_back(jgn::vec3(fmod(aweights[i], 1.5), fmod(anumber[i], 0.92), fmod(100 * fmod(aweights[i], 1.5) * fmod(anumber[i], 0.92), 0.8)));
+	}
 	for (int i = 0; i < groupInit._N_types; i++)
 	{
 		groupInit._alltype.emplace_back(jgn::string(atoms));
 		for (int j = 0; j < i; j++)
 		{
-			groupInit._alltype[i].erase(0, groupInit._alltype[i].find(" ") + 1);
+			size_t sp = groupInit._alltype[i].find(" ");
+			if (sp != std::string::npos)
+				groupInit._alltype[i].erase(0, sp + 1);
 		}
-		groupInit._alltype[i].resize(groupInit._alltype[i].find(" ") + 1);
+		size_t sp = groupInit._alltype[i].find(" ");
+		if (sp != std::string::npos)
+		groupInit._alltype[i].resize(sp + 1);
 	}
 	groupInit.N_atoms = t;
 	groupInit._reserve(groupInit.N_atoms);
@@ -1852,9 +1863,12 @@ void JGN_DropFile()
 	{
 		vs.N_types = vs.group[vs.N_groups - 1]._N_types;
 		vs.types.reserve(vs.N_types);
+		vs.N_atoms_per_type.reserve(vs.N_types);
 		for (int i = 0; i < vs.N_types; i++)
 		{
 			vs.types.emplace_back(vs.group[vs.N_groups - 1]._alltype[i]);
+			vs.N_atoms_per_type.emplace_back(vs.group[vs.N_groups - 1].N_atoms_per_type[i]);
+			vs.color_per_type.emplace_back(vs.group[vs.N_groups - 1].color_per_type[i]);
 		}
 	}
 	else
@@ -1865,12 +1879,17 @@ void JGN_DropFile()
 			for (int j = 0; j < vs.N_types; j++)
 			{
 				if (vs.types[j].compare(vs.group[vs.N_groups - 1]._alltype[i]) == 0)
+				{
 					writeit = false;
+					vs.N_atoms_per_type[i] = vs.N_atoms_per_type[i] + vs.group[vs.N_groups - 1].N_atoms_per_type[i];
+				}
 			}
 			if (writeit)
 			{
 				vs.N_types++;
 				vs.types.push_back(jgn::string(vs.group[vs.N_groups - 1]._alltype[i]));
+				vs.N_atoms_per_type.push_back(vs.group[vs.N_groups - 1].N_atoms_per_type[i]);
+				vs.color_per_type.push_back(vs.group[vs.N_groups - 1].color_per_type[i]);
 			}
 		}
 	}

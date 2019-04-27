@@ -122,7 +122,7 @@ void JGN_StrokeCharacter(char c, bool hadv)
 }
 
 
-void JGN_StrokeString(char* s, int maxchar)
+void JGN_StrokeString(const char* s, int maxchar)
 {
 	int counter = 0;
 

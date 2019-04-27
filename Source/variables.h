@@ -58,6 +58,7 @@ EXT int lmb;//left mouse button
 EXT int wasfullscreenflagin;
 EXT int wasfullscreenflagout;
 EXT GLuint Font;
+EXT GLuint button1ID;
 EXT GLuint cursorToolsImg[4];
 EXT GLuint vboId;
 EXT float dipleft;

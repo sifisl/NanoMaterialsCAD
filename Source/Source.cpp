@@ -69,6 +69,7 @@ int main(int argc, char *argv[])
 	LoadBMP("cm_select.bmp", &cursorToolsImg[1]);
 	LoadBMP("cm_translate.bmp", &cursorToolsImg[2]);
 	LoadBMP("cm_distance.bmp", &cursorToolsImg[3]);
+	LoadBMP("button1.bmp", &button1ID);
 	LoadBMP("JGN_Font.bmp", &Font);
 
 	tb.initPositions();
@@ -309,7 +310,6 @@ void display1(void)//generates the graphics output.
 
 
 
-	glLoadIdentity();
 	//glRotatef(theta[0], cos((pi*theta[1]) / 180), 0.0, sin((pi*theta[1]) / 180));
 
 	if (CustomSurfacesOn)
@@ -364,8 +364,10 @@ void display1(void)//generates the graphics output.
 
 	drawMoldsLines(p, p1);
 	vs.cut();//TODO: move that from here
+
 	vs.draw();
 	
+	tb.draw();
 
 	glColor3f(0.0, 0.0, 0.0);
 
@@ -401,93 +403,14 @@ void display1(void)//generates the graphics output.
 		glMatrixMode(GL_MODELVIEW);
 	}
 //
-	for (int ff = 0; ff < a; ff++)
-	{
-		glLoadIdentity();
-		glColor3f(0, 0, 0);
-
-		glTranslatef(-dipleft - 0.2, float(ff) / float(a) - 0.1, 0);
-
-		glScalef(0.5, 0.5, 0.5);
-		itoa(aatoms[ff], ss, 10);
-
-		stroke_c = 0;
-		while (ss[stroke_c] != '\0')
-		{
-			JGN_StrokeCharacter(ss[stroke_c]);
-			stroke_c++;
-
-		}
-
-		stroke_c = 0;
-
-	}
-
-	tb.draw();
-
-
-	glBindTexture(GL_TEXTURE_2D, Font);
-	glPointSize(10);
-	for (int ff = 0; ff < a; ff++)
-	{
-		glLoadIdentity();
-		glColor3f(0, 0, 0);
-
-		glTranslatef(-dipleft - 0.2, float(ff) / float(a), 0);
-
-
-		while (atoms[stroke_c] != ' ')
-		{
-			JGN_StrokeCharacter(atoms[stroke_c]);
-			stroke_c++;
-
-		}
-		stroke_c++;
-
-		glLoadIdentity();
-
-		if (shperes_on)
-		{
-			colr[0] = fmod(aweights[ff], 1.5);
-			colr[1] = fmod(anumber[ff], 0.92);
-			colr[2] = fmod(100 * colr[0] * colr[1], 0.8);
-
-			GLfloat mat_ambient[] = { colr[0], colr[1], colr[2], 1.0 };
-			GLfloat mat_deffuse[] = { colr[0], colr[1], colr[2], 1.0 };
-
-			glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
-			glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_deffuse);
-
-
-			glTranslated(-dipleft, float(ff) / float(a), 0);
-
-			glutSolidSphere(20 * 0.001, 32, 32);
-
-			glTranslated(dipleft, -float(ff) / float(a), 0);
-
-		}
-		else
-		{
-			glBegin(GL_POINTS);
-
-			colr[0] = fmod(aweights[ff], 1.5);
-			colr[1] = fmod(anumber[ff], 0.92);
-			colr[2] = fmod(100 * colr[0] * colr[1], 0.8);
-			glColor3fv(colr);
-
-			glVertex3f(-dipleft, float(ff) / float(a), 0);
 
 
 
-			glEnd();
-		}
-
-	}
 
 	if (shperes_on)
 		glDisable(GL_LIGHTING);
 
-	if (tb.selectedTool==ToolBar::Tool::SELECT)
+	if (tb.sellectedTool==ToolBar::Tool::SELECT)
 	{//select
 		glLoadIdentity();
 		glColor3f(0, 0, 0);
@@ -504,109 +427,109 @@ void display1(void)//generates the graphics output.
 		glLineWidth(4);
 
 
-		glTranslatef(-0.2, 0.95, 0);
-		JGN_StrokeString("Select");
+		//glTranslatef(-0.2, 0.95, 0);
+		//JGN_StrokeString("Select");
 
 
 	}
-	else if (tb.selectedTool == ToolBar::Tool::TRANSLATE)
-	{//translate
-		glLoadIdentity();
-		glColor3f(0, 0, 0);
+	//else if (tb.sellectedTool == ToolBar::Tool::TRANSLATE)
+	//{//translate
+	//	glLoadIdentity();
+	//	glColor3f(0, 0, 0);
 
-		glTranslatef(-0.3, 0.95, 0);
-		JGN_StrokeString("Translate");
-	}
-	else if (tb.selectedTool == ToolBar::Tool::DISTANCE)
-	{//distance
-		glLoadIdentity();
-		glColor3f(0, 0, 0);
+	//	glTranslatef(-0.3, 0.95, 0);
+	//	JGN_StrokeString("Translate");
+	//}
+	//else if (tb.sellectedTool == ToolBar::Tool::DISTANCE)
+	//{//distance
+	//	glLoadIdentity();
+	//	glColor3f(0, 0, 0);
 
-		glTranslatef(-0.3, 0.95, 0);
-		JGN_StrokeString("Distance");
-	}
-	else if (mouse_mode == 'o')
-	{//selected rotate
+	//	glTranslatef(-0.3, 0.95, 0);
+	//	JGN_StrokeString("Distance");
+	//}
+	//else if (mouse_mode == 'o')
+	//{//selected rotate
 
-		glLoadIdentity();
-		glColor3f(0, 0, 0);
-
-
-		glTranslatef(-0.2, 0.95, 0);
-		JGN_StrokeString("x    y    z");
-		glLoadIdentity();
-		glTranslatef(-0.25, 0.85, 0);
-		if (selected_rotate_axes == 1)
-		{
-			glColor4f(0, 0, 0, 1);
-		}
-		else
-		{
-			glColor4f(0, 0, 0, 0.5);
-		}
-		JGN_StrokeString(jgn::ftoa(selected_rotate[0]), 3);
-		JGN_StrokeCharacter(' ');
-		if (selected_rotate_axes == 2)
-		{
-			glColor4f(0, 0, 0, 1);
-		}
-		else
-		{
-			glColor4f(0, 0, 0, 0.5);
-		}
-		JGN_StrokeString(jgn::ftoa(selected_rotate[1]), 3);
-		JGN_StrokeCharacter(' ');
-		if (selected_rotate_axes == 3)
-		{
-			glColor4f(0, 0, 0, 1);
-		}
-		else
-		{
-			glColor4f(0, 0, 0, 0.5);
-		}
-		JGN_StrokeString(jgn::ftoa(selected_rotate[2]), 3);
+	//	glLoadIdentity();
+	//	glColor3f(0, 0, 0);
 
 
-
-	}
-	else if (mouse_mode == 'a')
-	{//selected translate
-		glLoadIdentity();
-		glColor3f(0, 0, 0);
-
-
-		glTranslatef(-0.2, 0.95, 0);
-		if (selected_translate_direction == 0)
-		{
-			glColor4f(0, 0, 0, 1);
-		}
-		else
-		{
-			glColor4f(0, 0, 0, 0.5);
-		}
-		JGN_StrokeString("x ");
-		if (selected_translate_direction == 1)
-		{
-			glColor4f(0, 0, 0, 1);
-		}
-		else
-		{
-			glColor4f(0, 0, 0, 0.5);
-		}
-		JGN_StrokeString("y ");
-		if (selected_translate_direction == 2)
-		{
-			glColor4f(0, 0, 0, 1);
-		}
-		else
-		{
-			glColor4f(0, 0, 0, 0.5);
-		}
-		JGN_StrokeString("z ");
+	//	glTranslatef(-0.2, 0.95, 0);
+	//	JGN_StrokeString("x    y    z");
+	//	glLoadIdentity();
+	//	glTranslatef(-0.25, 0.85, 0);
+	//	if (selected_rotate_axes == 1)
+	//	{
+	//		glColor4f(0, 0, 0, 1);
+	//	}
+	//	else
+	//	{
+	//		glColor4f(0, 0, 0, 0.5);
+	//	}
+	//	JGN_StrokeString(jgn::ftoa(selected_rotate[0]), 3);
+	//	JGN_StrokeCharacter(' ');
+	//	if (selected_rotate_axes == 2)
+	//	{
+	//		glColor4f(0, 0, 0, 1);
+	//	}
+	//	else
+	//	{
+	//		glColor4f(0, 0, 0, 0.5);
+	//	}
+	//	JGN_StrokeString(jgn::ftoa(selected_rotate[1]), 3);
+	//	JGN_StrokeCharacter(' ');
+	//	if (selected_rotate_axes == 3)
+	//	{
+	//		glColor4f(0, 0, 0, 1);
+	//	}
+	//	else
+	//	{
+	//		glColor4f(0, 0, 0, 0.5);
+	//	}
+	//	JGN_StrokeString(jgn::ftoa(selected_rotate[2]), 3);
 
 
 
-	}
+	//}
+	//else if (mouse_mode == 'a')
+	//{//selected translate
+	//	glLoadIdentity();
+	//	glColor3f(0, 0, 0);
+
+
+	//	glTranslatef(-0.2, 0.95, 0);
+	//	if (selected_translate_direction == 0)
+	//	{
+	//		glColor4f(0, 0, 0, 1);
+	//	}
+	//	else
+	//	{
+	//		glColor4f(0, 0, 0, 0.5);
+	//	}
+	//	JGN_StrokeString("x ");
+	//	if (selected_translate_direction == 1)
+	//	{
+	//		glColor4f(0, 0, 0, 1);
+	//	}
+	//	else
+	//	{
+	//		glColor4f(0, 0, 0, 0.5);
+	//	}
+	//	JGN_StrokeString("y ");
+	//	if (selected_translate_direction == 2)
+	//	{
+	//		glColor4f(0, 0, 0, 1);
+	//	}
+	//	else
+	//	{
+	//		glColor4f(0, 0, 0, 0.5);
+	//	}
+	//	JGN_StrokeString("z ");
+
+
+
+	//}
 
 	//print custom surfaces
 	int Nline = 0;
@@ -1470,6 +1393,8 @@ void variableinit()
 	vs.simulationBoxEdges[0].abs();
 	jgn::vec3 irot = jgn::vec3(0, 0, 0);
 	irot.rotate(irot);
+	tb._sellectedfordistance[0] = jgn::vec2(-1, -1);
+	tb._sellectedfordistance[1] = jgn::vec2(-1, -1);
 }
 
 void translateTheSelected(char op)
@@ -2097,24 +2022,26 @@ void keyboardgl(int key, int s, int x, int y)
 		}
 		else if((key == 'r' || key == 'R') && s == JGN_DOWN)
 		{
-			tb.selectedTool = ToolBar::Tool::ROTATE;
+			tb.sellectedTool = ToolBar::Tool::ROTATE;
 			JGN_PostRedisplay();
 		}
 		else if ((key == 't' || key == 'T') && s == JGN_DOWN)
 		{
-			tb.selectedTool = ToolBar::Tool::TRANSLATE;
+			tb.sellectedTool = ToolBar::Tool::TRANSLATE;
 			JGN_PostRedisplay();
 		}
 		else if ((key == 'd' || key == 'D') && s == JGN_DOWN)
 		{
-			tb.selectedTool = ToolBar::Tool::DISTANCE;
+			vs.unsellectAll();
+			tb._Nsellectedfordistance = 0;
+			tb.sellectedTool = ToolBar::Tool::DISTANCE;
 			iClickedForDistance = 2;
 			JGN_PostRedisplay();
 		}
 		else if ((key == 's' || key == 'S') && s == JGN_DOWN)
 		{
 
-			tb.selectedTool = ToolBar::Tool::SELECT;
+			tb.sellectedTool = ToolBar::Tool::SELECT;
 
 			DrawDistanceLine = false;
 			int asdf = t * sized[0] * sized[1] * sized[2];
@@ -2868,7 +2795,7 @@ void findClicked()
 
 	if (iClickedForDistance == 1)
 	{
-		tb.selectedTool = ToolBar::Tool::ROTATE;
+		tb.sellectedTool = ToolBar::Tool::ROTATE;
 		pForDistance[ 0] = crystal[2 + 5 * ClickedForDistance[0]];
 		pForDistance[ 1] = crystal[3 + 5 * ClickedForDistance[0]];
 		pForDistance[ 2] = crystal[4 + 5 * ClickedForDistance[0]];
@@ -2903,9 +2830,9 @@ void mouse_pasive(int x, int y)
 
 	if (lmb == JGN_UP)
 	{
-		if (tb.selectedTool == ToolBar::Tool::SELECT || tb.selectedTool == ToolBar::Tool::DISTANCE)
+		if (tb.sellectedTool == ToolBar::Tool::SELECT || tb.sellectedTool == ToolBar::Tool::DISTANCE)
 		{
-			if (tb.selectedTool == ToolBar::Tool::SELECT && mouse_check == 1)
+			if (tb.sellectedTool == ToolBar::Tool::SELECT && mouse_check == 1)
 			{
 				//if (leftClick.start[0] == leftClick.finish[0] && leftClick.start[1] == leftClick.finish[1])
 				//{
@@ -2914,9 +2841,16 @@ void mouse_pasive(int x, int y)
 					tb.usetool.sellect();
 				//}
 			}
-			else if (tb.selectedTool == ToolBar::Tool::DISTANCE && mouse_check == 1)
+			else if (tb.sellectedTool == ToolBar::Tool::DISTANCE && mouse_check == 1)
 			{
-				findClicked();
+				tb._sellectedfordistance[tb._Nsellectedfordistance] = tb.usetool._singlesellect();
+				if (tb._sellectedfordistance[tb._Nsellectedfordistance].y != -1)
+					tb._Nsellectedfordistance++;
+				if (tb._Nsellectedfordistance == 2)
+				{
+					tb._Nsellectedfordistance = 0;
+					tb.sellectedTool = ToolBar::Tool::ROTATE;
+				}
 			}
 			leftClick.start[0] = jgn_x;
 			leftClick.start[1] = jgn_y;
@@ -2927,14 +2861,14 @@ void mouse_pasive(int x, int y)
 			JGN_PostRedisplay();
 
 		}
-		else if (tb.selectedTool == ToolBar::Tool::ROTATE || mouse_mode == 'o' || mouse_mode == 'a' || tb.selectedTool == ToolBar::Tool::DISTANCE)
+		else if (tb.sellectedTool == ToolBar::Tool::ROTATE || mouse_mode == 'o' || mouse_mode == 'a' || tb.sellectedTool == ToolBar::Tool::DISTANCE)
 		{
 			theta_prev[0] = -theta[0];
 			theta_prev[1] = -theta[1];
 
 			mouse_check = 0;
 		}		
-		else if (tb.selectedTool == ToolBar::Tool::TRANSLATE)
+		else if (tb.sellectedTool == ToolBar::Tool::TRANSLATE)
 		{
 			translate_prev[0] = -model_translate[0];
 			translate_prev[1] = -model_translate[1];
@@ -2947,7 +2881,7 @@ void mouse_pasive(int x, int y)
 	else
 	{
 
-		if(tb.selectedTool == ToolBar::Tool::SELECT || tb.selectedTool == ToolBar::Tool::DISTANCE)
+		if(tb.sellectedTool == ToolBar::Tool::SELECT || tb.sellectedTool == ToolBar::Tool::DISTANCE)
 		{
 			if (mouse_check == 0)
 			{
@@ -2966,17 +2900,17 @@ void mouse_pasive(int x, int y)
 
 			}
 			mouse_check = 1;
-			if (tb.selectedTool == ToolBar::Tool::SELECT)
+			if (tb.sellectedTool == ToolBar::Tool::SELECT)
 			{
 				if (!(leftClick.start[0] == leftClick.finish[0] && leftClick.start[1] == leftClick.finish[1]))
 				{
 					if(!shift_down)
 						vs.unsellectAll();
-					tb.usetool.sellect();
+						tb.usetool.sellect();
 				}
 			}
 		}
-		else if (tb.selectedTool == ToolBar::Tool::ROTATE || mouse_mode == 'o' || mouse_mode == 'a' || tb.selectedTool == ToolBar::Tool::DISTANCE)
+		else if (tb.sellectedTool == ToolBar::Tool::ROTATE || mouse_mode == 'o' || mouse_mode == 'a' || tb.sellectedTool == ToolBar::Tool::DISTANCE)
 		{
 			if (mouse_check == 0)
 			{
@@ -2989,7 +2923,7 @@ void mouse_pasive(int x, int y)
 
 
 		}
-		else if (tb.selectedTool == ToolBar::Tool::TRANSLATE)
+		else if (tb.sellectedTool == ToolBar::Tool::TRANSLATE)
 		{
 			if (mouse_check == 0)
 			{
@@ -3028,15 +2962,20 @@ void mouse_func(int b, int s, int x, int y)
 		//		
 		//	}
 		//}
-		if(s==JGN_DOWN)
-			tb.toolclicked(xnorm, ynorm);
+		if (s == JGN_DOWN)
+		{
+			if(tb.toolclicked(xnorm, ynorm))
+				if (tb.sellectedTool == ToolBar::Tool::DISTANCE)
+				{
+					vs.unsellectAll();
+					tb._Nsellectedfordistance = 0;
+				}
+		}
 
 		lmb = s;
 
 	}
-	
-	
-	if (b == JGN_MOUSE_WHEEL && s == JGN_UP)//zoom out
+	else if (b == JGN_MOUSE_WHEEL && s == JGN_UP)//zoom out
 	{
 		Svmax = Svmax - 5;
 		if (Svmax < 0)

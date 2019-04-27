@@ -1,6 +1,8 @@
 ////Virtual System
 #include "VSystem.h"
 #include "JGN_SolidSphere.h"
+#include "ToolBar.h"
+#include "JGN_StrokeCharacter.h"
 
 VSystem::VSystem()
 {
@@ -37,6 +39,8 @@ void Group::N_types(const unsigned int N_t)
 void VSystem::unsellectAll()
 {
 	_sellectHistory2undo = -1;
+	tb._sellectedfordistance[0] = jgn::vec2(-1, -1);
+	tb._sellectedfordistance[1] = jgn::vec2(-1, -1);
 	for (int g = 0; g < this->N_groups; g++)
 	{
 		for (int i = 0; i < this->group[g].N_atoms; i++)
@@ -51,6 +55,23 @@ void VSystem::unsellectAll()
 void VSystem::draw()
 {
 	//Draw atoms
+	this->_drawatoms();
+
+	//Draw simulation box
+	this->_drawSimulationBox();
+	this->_drawBase();
+
+	//Draw distance tool line
+	this->_drawDistanceToolLine();
+
+	//Draw system info
+	this->_drawsysteminfo();
+
+}
+
+
+void VSystem::_drawatoms()
+{
 	for (int g = 0; g < this->N_groups; g++)
 	{
 		for (int i = 0; i < this->group[g].N_atoms; i++)
@@ -91,23 +112,141 @@ void VSystem::draw()
 				}
 		}
 	}
+}
 
-	//Draw simulation box
-	this->_drawSimulationBox();
-	this->_drawBase();
+void VSystem::_drawDistanceToolLine()
+{
+	if (tb._sellectedfordistance[1].y != -1)
+	{
+		glDisable(GL_LIGHTING);
+		jgn::vec3 p1 = vs.group[tb._sellectedfordistance[0].x].position[tb._sellectedfordistance[0].y] / (Svmax + 5);
+		jgn::vec3 p2 = vs.group[tb._sellectedfordistance[1].x].position[tb._sellectedfordistance[1].y] / (Svmax + 5);
+
+		glColor3f(0, 1, 0);
+
+		glEnable(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, button1ID);
+		glBegin(GL_QUADS);
+		glTexCoord2d(0, 1);
+		glVertex3f(dipleft + tb.size + 0.027, tb.position[static_cast<int>(ToolBar::Tool::DISTANCE)][1].y-0.055, 5);
+		glTexCoord2d(1, 1);
+
+		glVertex3f(dipleft + tb.size + 0.36, tb.position[static_cast<int>(ToolBar::Tool::DISTANCE)][1].y - 0.055, 5);
+		glTexCoord2d(1, 0);
+
+		glVertex3f(dipleft + tb.size + 0.36, tb.position[static_cast<int>(ToolBar::Tool::DISTANCE)][1].y - 0.125, 5);
+		glTexCoord2d(0, 0);
+
+		glVertex3f(dipleft + tb.size + 0.027, tb.position[static_cast<int>(ToolBar::Tool::DISTANCE)][1].y - 0.125, 5);
+		glEnd();
+		glDisable(GL_TEXTURE_2D);
+
+		glBindTexture(GL_TEXTURE_2D, Font);
+		glColor3f(0, 0, 0);
+		glTranslatef(dipleft + tb.size + 0.027, tb.position[static_cast<int>(ToolBar::Tool::DISTANCE)][1].y - 0.12, 6);
+		glScalef(0.5, 0.5, 0.5);
+		float d = sqrt(jgn::dist3dSquare((vs.group[tb._sellectedfordistance[0].x].position[tb._sellectedfordistance[0].y].x), (vs.group[tb._sellectedfordistance[1].x].position[tb._sellectedfordistance[1].y].x)));
+		int di = (int)d;
+		char dia[30];
+		itoa(di, dia, 10);
+		JGN_StrokeString(dia);
+		JGN_StrokeCharacter('.');
+		d -= di;
+		JGN_StrokeString(&(jgn::ftoa(d))[2], 5);
+		JGN_StrokeCharacter(Angstrom);
+		glLoadIdentity();
 
 
+
+		glColor3f(0, 0, 0);
+		if (CustomSurfacesOn)
+		{
+			glRotatef(theta[0], 1.0, 0.0, 0.0);
+			glRotatef(theta[1], 0.0, 0.0, 1.0);
+		}
+		else
+		{
+			glRotatef(theta[0], 1.0, 0.0, 0.0);
+			glRotatef(theta[1], 0.0, 1.0, 0.0);
+		}
+		glTranslatef(model_translate[0], model_translate[1], model_translate[2]);
+		glBegin(GL_LINES);
+		glVertex3fvec3(p1);
+		glVertex3fvec3(p2);
+		glEnd();
+		glEnable(GL_LIGHTING);
+	}
+}
+void VSystem::_drawsysteminfo()
+{
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, Font);
+	glDisable(GL_LIGHTING);
+	int stroke_c = 0;
+	//write the element type
+	for (int ff = 0; ff < vs.N_types; ff++)
+	{
+		glLoadIdentity();
+		glColor3f(0, 0, 0);
+		glTranslatef(-dipleft - 0.4, dipapan - 0.08 - 0.1*ff, 6);
+		glScalef(0.5, 0.5, 0.5);
+		itoa(vs.N_atoms_per_type[ff], ss, 10);
+		stroke_c = 0;
+		while (ss[stroke_c] != '\0')
+		{
+			JGN_StrokeCharacter(ss[stroke_c]);
+			stroke_c++;
+		}
+		stroke_c = 0;
+	}
+	glEnable(GL_LIGHTING);
+	glPointSize(10);
+	//draw sphere color and write the number of atoms per type
+	for (int ff = 0; ff < vs.N_types; ff++)
+	{
+		glLoadIdentity();
+		glColor3f(0, 0, 0);
+		glTranslatef(-dipleft - 0.25, dipapan - 0.1 - 0.1*ff, 6);
+		glDisable(GL_LIGHTING);
+		JGN_StrokeString(std::string(vs.types[ff]).c_str());
+		glEnable(GL_LIGHTING);
+		glLoadIdentity();
+		if (shperes_on)
+		{
+			colr[0] = vs.color_per_type[ff].x;
+			colr[1] = vs.color_per_type[ff].y;
+			colr[2] = vs.color_per_type[ff].z;
+			GLfloat mat_ambient[] = { colr[0], colr[1], colr[2], 1.0 };
+			GLfloat mat_deffuse[] = { colr[0], colr[1], colr[2], 1.0 };
+			glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+			glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_deffuse);
+			glTranslatef(-dipleft - 0.42, dipapan - 0.06 - 0.1*ff, 6);
+			JGN_SolidSphere(20 * 0.001, 32, 32);
+		}
+		else
+		{
+			glBegin(GL_POINTS);
+			colr[0] = fmod(aweights[ff], 1.5);
+			colr[1] = fmod(anumber[ff], 0.92);
+			colr[2] = fmod(100 * colr[0] * colr[1], 0.8);
+			glColor3fv(colr);
+			glVertex3f(-dipleft, float(ff) / float(vs.N_types), 0);
+			glEnd();
+		}
+
+	}
 }
 
 void VSystem::_drawBase()
 {
 	glLoadIdentity();
-	glTranslatef(0.2, 0, 0);
+	glDisable(GL_LIGHTING);
+	//glTranslatef(0.2, 0, 0);
 	glLineWidth(5);
-	GLfloat mat_ambient[] = { 1,0,0,1 };
-	GLfloat mat_deffuse[] = { 1,0,0,1 };
-	glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
-	glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_deffuse);
+	//GLfloat mat_ambient[] = { 1,0,0,1 };
+	//GLfloat mat_deffuse[] = { 1,0,0,1 };
+	//glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+	//glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_deffuse);
 
 	unsigned int indexes[6] = { 0,1,
 								0,2,
@@ -121,7 +260,7 @@ void VSystem::_drawBase()
 
 	glVertexPointer(3, GL_FLOAT, 0, &sb[0].x);
 	glNormalPointer(GL_FLOAT, 0, &sb[0].x);
-	glTranslatef(dipleft, -dipapan+0.1, 0);
+	glTranslatef(dipleft+0.08, -dipapan+0.16, 7);
 	if (CustomSurfacesOn)
 	{
 		glRotatef(theta[0], 1.0, 0.0, 0.0);
@@ -132,23 +271,37 @@ void VSystem::_drawBase()
 		glRotatef(theta[0], 1.0, 0.0, 0.0);
 		glRotatef(theta[1], 0.0, 1.0, 0.0);
 	}
-	glScalef(0.2, 0.2, 0.2);
-	glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, indexes);
-	mat_ambient[0] = 0;
-	mat_deffuse[0] = 0;
-	mat_ambient[1] = 1;
-	mat_deffuse[1] = 1;
-	glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
-	glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_deffuse);
-	glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, &indexes[2]);
-	mat_ambient[1] = 0;
-	mat_deffuse[1] = 0;
-	mat_ambient[2] = 1;
-	mat_deffuse[2] = 1;
-	glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
-	glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_deffuse);
-	glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, &indexes[4]);
+	glScalef(0.07, 0.07, 0.07);
+	//glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, indexes);
+	glBegin(GL_LINES);
+	glColor4f(0., 0., 0., 1);
+	glVertex3fvec3(sb[0]);
+	glColor4f(1, 0, 0,1);
+	glVertex3fvec3(sb[1]);
+	glEnd();
+
+	//glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, indexes);
+	glBegin(GL_LINES);
+	glColor4f(0., 0., 0., 1);
+	glVertex3fvec3(sb[0]);
+	glColor4f(0, 1, 0,1);
+	glVertex3fvec3(sb[2]);
+	glEnd();
+	//mat_ambient[1] = 0;
+	//mat_deffuse[1] = 0;
+	//mat_ambient[2] = 1;
+	//mat_deffuse[2] = 1;
+	//glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+	//glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_deffuse);
+	//glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, indexes);
+	glBegin(GL_LINES);
+	glColor4f(0., 0., 0., 1);
+	glVertex3fvec3(sb[0]);
+	glColor4f(0, 0, 1, 1);
+	glVertex3fvec3(sb[3]);
+	glEnd();
 	glLoadIdentity();
+
 }
 
 void VSystem::setSimulationBox(int s)

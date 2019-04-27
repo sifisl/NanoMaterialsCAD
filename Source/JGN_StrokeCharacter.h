@@ -11,4 +11,4 @@ void openfont(char* f);
 void closefont();
 
 void JGN_StrokeCharacter(char c, bool hadv = true);
-void JGN_StrokeString(char* s, int maxchar = 100000);
+void JGN_StrokeString(const char* s, int maxchar = 100000);

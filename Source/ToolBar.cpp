@@ -13,21 +13,13 @@ void ToolBar::_drawButton(const int i)
 {
 	glBegin(GL_QUADS);
 	glTexCoord2d(0, 1);
-	//glVertex2d(dipleft, dipapan);
-	glVertex2dvec3(this->position[i][1]);
-
+	glVertex2fvec3(this->position[i][1]);
 	glTexCoord2d(1, 1);
-	//glVertex2d(dipleft + this->size, dipapan);
-	glVertex2dvec3(this->position[i][2]);
-
+	glVertex2fvec3(this->position[i][2]);
 	glTexCoord2d(1, 0);
-	//glVertex2d(dipleft + this->size, dipapan - this->size);
-	glVertex2dvec3(this->position[i][3]);
-
+	glVertex2fvec3(this->position[i][3]);
 	glTexCoord2d(0, 0);
-	//glVertex2d(dipleft, dipapan - this->size);
-	glVertex2dvec3(this->position[i][0]);
-
+	glVertex2fvec3(this->position[i][0]);
 	glEnd();
 }
 void ToolBar::initPositions()
@@ -43,16 +35,17 @@ void ToolBar::initPositions()
 	}
 }
 
-void ToolBar::toolclicked(const float x, const float y)
+bool ToolBar::toolclicked(const float x, const float y)
 {
 	for (int i = 0; i < this->N_tools; i++)
 	{
 		if (x > tb.position[i][0].x && x < tb.position[i][2].x && y > tb.position[i][0].y && y < tb.position[i][1].y)
 		{
-			this->selectedTool = static_cast<ToolBar::Tool>(i);
-			return;
+			this->sellectedTool = static_cast<ToolBar::Tool>(i);
+			return true;
 		}
 	}
+	return false;
 }
 
 
@@ -70,10 +63,25 @@ void ToolBar::draw()
 	glEnd();
 
 	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, button1ID);
+	glColor3f(0, 0, 0);
+	glBegin(GL_QUADS);
+	glTexCoord2d(0, 0);
+	glVertex2d(dipleft - 1, dipapan + 1);
+	glTexCoord2d(0, 1);
+	glVertex2d(dipleft + this->size + 0.027, dipapan + 1);
+	glTexCoord2d(1, 1);
+	glVertex2d(dipleft + this->size + 0.027, -dipapan - 1);
+	glTexCoord2d(1, 0);
+	glVertex2d(dipleft - 1, -dipapan - 1);
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
+
+	glEnable(GL_TEXTURE_2D);
 	for (int i = 0; i < this->N_tools; i++)
 	{
 		glBindTexture(GL_TEXTURE_2D, cursorToolsImg[i]);
-		this->selectedTool == static_cast<ToolBar::Tool>(i) ? glColor3f(0.2, 1, 0.2) : glColor3f(1, 1, 1);
+		this->sellectedTool == static_cast<ToolBar::Tool>(i) ? glColor3f(0.2, 1, 0.2) : glColor3f(1, 1, 1);
 		this->_drawButton(i);
 	}
 	glDisable(GL_TEXTURE_2D);
@@ -84,7 +92,7 @@ void ToolBar::draw()
 
 //////////////////////////////////////
 //Utool
-bool Utool::_singlesellect()
+jgn::vec2 Utool::_singlesellect()
 {
 	jgn::vec2 finalclicked = jgn::vec2(-1, -1);//x=group, y=atom
 	int iatom = -1;
@@ -128,11 +136,17 @@ bool Utool::_singlesellect()
 	}
 	if (finalclicked.y != -1)
 	{
-		vs.group[finalclicked.x].isSelected[finalclicked.y] = true;
-		vs._sellectHistory[iatomtosellect].z = vs._sellectHistory2undo;
-		return true;
+		if (shift_down)
+		{
+			vs.group[finalclicked.x].isSelected[finalclicked.y] = vs.group[finalclicked.x].isSelected[finalclicked.y] ^ true;
+			vs.group[finalclicked.x].isSelected[finalclicked.y] ? vs._sellectHistory[iatomtosellect].z = vs._sellectHistory2undo : vs._sellectHistory[iatomtosellect].z = false;
+		}
+		else{
+			vs.group[finalclicked.x].isSelected[finalclicked.y] = true;
+			vs._sellectHistory[iatomtosellect].z = vs._sellectHistory2undo;
+		}
 	}
-	return false;
+	return finalclicked;
 }
 
 bool Utool::_multisellect()
@@ -188,7 +202,8 @@ bool Utool::sellect()
 	bool atleast1isSellected = false;
 			if (leftClick.start[0] == leftClick.finish[0] && leftClick.start[1] == leftClick.finish[1])
 			{//click
-				atleast1isSellected = this->_singlesellect();
+				jgn::vec2 s = this->_singlesellect();
+				s.y != -1 ? atleast1isSellected = true : atleast1isSellected = false;
 			}
 			else
 			{//multisellect

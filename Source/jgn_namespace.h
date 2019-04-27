@@ -222,6 +222,27 @@ namespace jgn
 			y = other.y;
 		}
 	};
+	///////////////////////////////////////////////////////////////////////just a vec4
+	class vec4
+	{
+	public:
+		float x, y, z, i;
+		vec4() {}
+		vec4(float i, float j, float k, float h)
+		{
+			x = i;
+			y = j;
+			z = k;
+			i = h;
+		}
+		vec4(const jgn::vec4& other)
+		{
+			x = other.x;
+			y = other.y;
+			z = other.z;
+			i = other.i;
+		}
+	};
 	///////////////////////////////////////////////////////////////////////just a vec3
 	class vec3
 	{
@@ -415,8 +436,8 @@ jgn::vec3 jgn::vec3::translate(jgn::vec3 v)
 
 #define vec3ToGlfloat4(v) {v.x, v.y, v.z, 1.0}
 #define glTranslatefvec3(v) glTranslatef(v.x/(Svmax + 5) , v.y/(Svmax + 5) , v.z/(Svmax + 5))
-#define glVertex3dvec3(v) glVertex3d(v.x, v.y, v.z)
-#define glVertex2dvec3(v) glVertex2d(v.x, v.y)
+#define glVertex3fvec3(v) glVertex3f(v.x, v.y, v.z)
+#define glVertex2fvec3(v) glVertex2f(v.x, v.y)
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////

@@ -8,7 +8,7 @@ class Utool
 public:
 	bool sellect();
 	void distance();
-	bool _singlesellect();//single select and returns if there are any sellected items
+	jgn::vec2 _singlesellect();//single select and returns if there group,atom that was clicked
 	bool _multisellect();//real time select and returns if there are any sellected items
 };
 
@@ -26,14 +26,18 @@ public:
 		DISTANCE
 	};
 	const int N_tools = 4;//Number of tools
-	jgn::vec3 position[4/*N_tools*/][4];//top left corner of the button
+	jgn::vec3 position[4/*N_tools*/][4];//all corners of the button//1 2
+																   //0 3
 	const float size = 0.15;
-	Tool selectedTool = Tool::ROTATE;//0=rotate 1=
+	Tool sellectedTool = Tool::ROTATE;//0=rotate 1=
 	Utool usetool;
+	int _Nsellectedfordistance = 0;//how many atoms are currently sellected for distance? values:0,1,2
+	jgn::vec2 _sellectedfordistance[2];//group,atom that is sellected. -1=non sellected
+
 
 	void draw();
 	void _drawButton(const int i);
 	void initPositions();
-	void toolclicked(const float x, const float y);//takes the mouse parameters 
+	bool toolclicked(const float x, const float y);//takes the mouse parameters, returns if the user clicked a tool
 }EXT tb;
 

@@ -12,6 +12,8 @@ public:
 	~Group() {};
 
 	unsigned int N_atoms;//number of atoms
+	std::vector<unsigned int> N_atoms_per_type;//number of atoms
+	std::vector<jgn::vec3> color_per_type;//color of atoms
 	jgn::vec3 primitiveVec[3];//the primitiveVec
 	jgn::vec3 primitiveBase[3];//the primitiveVec/|primitiveVec|
 	std::vector<jgn::vec3> position;
@@ -42,6 +44,9 @@ public:
 	int N_types = 0;//#N of different elements
 	std::vector<jgn::string> types;//#N of different elements
 	int N_atoms = 0;// total #N of the system
+	std::vector<int> N_atoms_per_type;
+	std::vector<jgn::vec3> color_per_type;//color of atoms
+
 
 	int N_groups = 0;//#N of groups
 	int _isimulationBox = 0;
@@ -59,6 +64,9 @@ public:
 	void _updateSimulationBox();
 	void setSimulationBox(int s);
 	void _drawBase();
+	void _drawDistanceToolLine();
+	void _drawatoms();
+	void _drawsysteminfo();
 	void unsellectAll();
 	void undoSellect();
 

@@ -33,11 +33,14 @@ public:
 	Utool usetool;
 	int _Nsellectedfordistance = 0;//how many atoms are currently sellected for distance? values:0,1,2
 	jgn::vec2 _sellectedfordistance[2];//group,atom that is sellected. -1=non sellected
+	int hoveringTool = -1;
+	int prevhoveringTool = -1;
 
 
 	void draw();
 	void _drawButton(const int i);
 	void initPositions();
 	bool toolclicked(const float x, const float y);//takes the mouse parameters, returns if the user clicked a tool
+	bool hoveringAtool(const float x, const float y);//takes the mouse parameters, returns if the user hovers a tool
 }EXT tb;
 

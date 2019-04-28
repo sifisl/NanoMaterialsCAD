@@ -178,6 +178,7 @@ move /Y "$(ProjectDir)..\$(Configuration)\*.pdb" "$(ProjectDir)$(Configuration)"
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Bonds.h" />
+    <ClInclude Include="fontInfo.h" />
     <ClInclude Include="help me.h" />
     <ClInclude Include="JGN_bmpLoader.h" />
     <ClInclude Include="JGN_Build.h" />
@@ -188,6 +189,7 @@ move /Y "$(ProjectDir)..\$(Configuration)\*.pdb" "$(ProjectDir)$(Configuration)"
     <ClInclude Include="JGN_Windows.h" />
     <ClInclude Include="JGN_DropFile.h" />
     <ClInclude Include="libs.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="predefines.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -206,6 +208,7 @@ move /Y "$(ProjectDir)..\$(Configuration)\*.pdb" "$(ProjectDir)$(Configuration)"
     <ClCompile Include="JGN_SolidSphere.cpp" />
     <ClCompile Include="JGN_StrokeCharacter.cpp" />
     <ClCompile Include="JGN_Windows.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="ToolBar.cpp" />
     <ClCompile Include="VSystem.cpp" />

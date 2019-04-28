@@ -19,7 +19,6 @@
 int main(int argc, char *argv[])
 {
 
-	
 #if NDEBUG
 	FreeConsole();
 #endif
@@ -65,6 +64,8 @@ int main(int argc, char *argv[])
 
 	CustomSurfacesOn = 1;
 	
+	LoadBMP("showmore.bmp", &showmoreID);
+	LoadBMP("showless.bmp", &showlessID);
 	LoadBMP("cm_rotate.bmp", &cursorToolsImg[0]);
 	LoadBMP("cm_select.bmp", &cursorToolsImg[1]);
 	LoadBMP("cm_translate.bmp", &cursorToolsImg[2]);
@@ -428,7 +429,7 @@ void display1(void)//generates the graphics output.
 
 
 		//glTranslatef(-0.2, 0.95, 0);
-		//JGN_StrokeString("Select");
+		//write::string("Select");
 
 
 	}
@@ -438,7 +439,7 @@ void display1(void)//generates the graphics output.
 	//	glColor3f(0, 0, 0);
 
 	//	glTranslatef(-0.3, 0.95, 0);
-	//	JGN_StrokeString("Translate");
+	//	write::string("Translate");
 	//}
 	//else if (tb.sellectedTool == ToolBar::Tool::DISTANCE)
 	//{//distance
@@ -446,7 +447,7 @@ void display1(void)//generates the graphics output.
 	//	glColor3f(0, 0, 0);
 
 	//	glTranslatef(-0.3, 0.95, 0);
-	//	JGN_StrokeString("Distance");
+	//	write::string("Distance");
 	//}
 	//else if (mouse_mode == 'o')
 	//{//selected rotate
@@ -456,7 +457,7 @@ void display1(void)//generates the graphics output.
 
 
 	//	glTranslatef(-0.2, 0.95, 0);
-	//	JGN_StrokeString("x    y    z");
+	//	write::string("x    y    z");
 	//	glLoadIdentity();
 	//	glTranslatef(-0.25, 0.85, 0);
 	//	if (selected_rotate_axes == 1)
@@ -467,8 +468,8 @@ void display1(void)//generates the graphics output.
 	//	{
 	//		glColor4f(0, 0, 0, 0.5);
 	//	}
-	//	JGN_StrokeString(jgn::ftoa(selected_rotate[0]), 3);
-	//	JGN_StrokeCharacter(' ');
+	//	write::string(jgn::ftoa(selected_rotate[0]), 3);
+	//	write::character(' ');
 	//	if (selected_rotate_axes == 2)
 	//	{
 	//		glColor4f(0, 0, 0, 1);
@@ -477,8 +478,8 @@ void display1(void)//generates the graphics output.
 	//	{
 	//		glColor4f(0, 0, 0, 0.5);
 	//	}
-	//	JGN_StrokeString(jgn::ftoa(selected_rotate[1]), 3);
-	//	JGN_StrokeCharacter(' ');
+	//	write::string(jgn::ftoa(selected_rotate[1]), 3);
+	//	write::character(' ');
 	//	if (selected_rotate_axes == 3)
 	//	{
 	//		glColor4f(0, 0, 0, 1);
@@ -487,7 +488,7 @@ void display1(void)//generates the graphics output.
 	//	{
 	//		glColor4f(0, 0, 0, 0.5);
 	//	}
-	//	JGN_StrokeString(jgn::ftoa(selected_rotate[2]), 3);
+	//	write::string(jgn::ftoa(selected_rotate[2]), 3);
 
 
 
@@ -507,7 +508,7 @@ void display1(void)//generates the graphics output.
 	//	{
 	//		glColor4f(0, 0, 0, 0.5);
 	//	}
-	//	JGN_StrokeString("x ");
+	//	write::string("x ");
 	//	if (selected_translate_direction == 1)
 	//	{
 	//		glColor4f(0, 0, 0, 1);
@@ -516,7 +517,7 @@ void display1(void)//generates the graphics output.
 	//	{
 	//		glColor4f(0, 0, 0, 0.5);
 	//	}
-	//	JGN_StrokeString("y ");
+	//	write::string("y ");
 	//	if (selected_translate_direction == 2)
 	//	{
 	//		glColor4f(0, 0, 0, 1);
@@ -525,7 +526,7 @@ void display1(void)//generates the graphics output.
 	//	{
 	//		glColor4f(0, 0, 0, 0.5);
 	//	}
-	//	JGN_StrokeString("z ");
+	//	write::string("z ");
 
 
 
@@ -543,14 +544,14 @@ void display1(void)//generates the graphics output.
 
 		char buf[100];
 		itoa(CustomSurfaces_hkl[i][0], buf, 10);
-		JGN_StrokeString(buf);
+		write::string(buf);
 		itoa(CustomSurfaces_hkl[i][1], buf, 10);
-		JGN_StrokeString(buf);
+		write::string(buf);
 		itoa(CustomSurfaces_hkl[i][2], buf, 10);
-		JGN_StrokeString(buf);
-		JGN_StrokeCharacter(' ');
+		write::string(buf);
+		write::character(' ');
 		itoa(CustomSurfaces[i][3], buf, 10);
-		JGN_StrokeString(buf);
+		write::string(buf);
 
 		Nline++;
 	}
@@ -573,9 +574,9 @@ void display1(void)//generates the graphics output.
 		glLoadIdentity();
 
 		glTranslatef(dipleft, 0.8, 0);
-		JGN_StrokeCharacter('R');
-		JGN_StrokeCharacter('1');
-		JGN_StrokeCharacter(' ');
+		write::character('R');
+		write::character('1');
+		write::character(' ');
 
 
 
@@ -584,13 +585,13 @@ void display1(void)//generates the graphics output.
 
 		for (Scounter = 0; Scounter < 5; Scounter++)
 		{
-			JGN_StrokeCharacter(s1itoa[Scounter]);
+			write::character(s1itoa[Scounter]);
 			if (s1itoa[Scounter] == '\0')
 			{
 				break;
 			}
 		}
-		JGN_StrokeCharacter(Angstrom);
+		write::character(Angstrom);
 
 
 		glLoadIdentity();
@@ -598,9 +599,9 @@ void display1(void)//generates the graphics output.
 		glTranslatef(dipleft, 0.6, 0);
 
 
-		JGN_StrokeCharacter('R');
-		JGN_StrokeCharacter('2');
-		JGN_StrokeCharacter(' ');
+		write::character('R');
+		write::character('2');
+		write::character(' ');
 
 
 		itoa(S2v, s1itoa, 10);
@@ -608,13 +609,13 @@ void display1(void)//generates the graphics output.
 		for (Scounter = 0; Scounter < 5; Scounter++)
 		{
 
-			JGN_StrokeCharacter(s1itoa[Scounter]);
+			write::character(s1itoa[Scounter]);
 			if (s1itoa[Scounter] == '\0')
 			{
 				break;
 			}
 		}
-		JGN_StrokeCharacter(Angstrom);
+		write::character(Angstrom);
 
 	}
 	/*else if (jgn_supercell)
@@ -718,25 +719,25 @@ void display1(void)//generates the graphics output.
 		}
 		glTranslatef(dipleft, 0.8, 0);
 
-		JGN_StrokeCharacter('{');
-		JGN_StrokeCharacter('1');
-		JGN_StrokeCharacter('0');
-		JGN_StrokeCharacter('0');
-		JGN_StrokeCharacter('}');
-		JGN_StrokeCharacter(' ');
+		write::character('{');
+		write::character('1');
+		write::character('0');
+		write::character('0');
+		write::character('}');
+		write::character(' ');
 
 		itoa(S1v, s1itoa, 10);
 
 		for (Scounter = 0; Scounter < 5; Scounter++)
 		{
 
-			JGN_StrokeCharacter(s1itoa[Scounter]);
+			write::character(s1itoa[Scounter]);
 			if (s1itoa[Scounter] == '\0')
 			{
 				break;
 			}
 		}
-		JGN_StrokeCharacter(Angstrom);
+		write::character(Angstrom);
 
 
 
@@ -754,25 +755,25 @@ void display1(void)//generates the graphics output.
 
 		glTranslatef(dipleft, 0.6, 0);
 
-		JGN_StrokeCharacter('{');
-		JGN_StrokeCharacter('1');
-		JGN_StrokeCharacter('1');
-		JGN_StrokeCharacter('0');
-		JGN_StrokeCharacter('}');
-		JGN_StrokeCharacter(' ');
+		write::character('{');
+		write::character('1');
+		write::character('1');
+		write::character('0');
+		write::character('}');
+		write::character(' ');
 
 		itoa(S2v, s1itoa, 10);
 
 		for (Scounter = 0; Scounter < 5; Scounter++)
 		{
 
-			JGN_StrokeCharacter(s1itoa[Scounter]);
+			write::character(s1itoa[Scounter]);
 			if (s1itoa[Scounter] == '\0')
 			{
 				break;
 			}
 		}
-		JGN_StrokeCharacter(Angstrom);
+		write::character(Angstrom);
 
 		glLoadIdentity();
 
@@ -780,25 +781,25 @@ void display1(void)//generates the graphics output.
 		glTranslatef(dipleft, 0.4, 0);
 
 		glColor3f(0, 0, 0);
-		JGN_StrokeCharacter('{');
-		JGN_StrokeCharacter('1');
-		JGN_StrokeCharacter('1');
-		JGN_StrokeCharacter('1');
-		JGN_StrokeCharacter('}');
-		JGN_StrokeCharacter(' ');
+		write::character('{');
+		write::character('1');
+		write::character('1');
+		write::character('1');
+		write::character('}');
+		write::character(' ');
 
 		itoa(S3v, s1itoa, 10);
 
 		for (Scounter = 0; Scounter < 5; Scounter++)
 		{
 
-			JGN_StrokeCharacter(s1itoa[Scounter]);
+			write::character(s1itoa[Scounter]);
 			if (s1itoa[Scounter] == '\0')
 			{
 				break;
 			}
 		}
-		JGN_StrokeCharacter(Angstrom);
+		write::character(Angstrom);
 
 	}
 	else if (Right_Hexagonal == -1)
@@ -816,26 +817,26 @@ void display1(void)//generates the graphics output.
 
 		}
 
-		JGN_StrokeCharacter('{');
-		JGN_StrokeCharacter('1');
-		JGN_StrokeCharacter('0');
-		JGN_StrokeCharacter(one_bar);
-		JGN_StrokeCharacter('0');
-		JGN_StrokeCharacter('}');
-		JGN_StrokeCharacter(' ');
+		write::character('{');
+		write::character('1');
+		write::character('0');
+		write::character(one_bar);
+		write::character('0');
+		write::character('}');
+		write::character(' ');
 
 		itoa(S1v, s1itoa, 10);
 
 		for (Scounter = 0; Scounter < 5; Scounter++)
 		{
 
-			JGN_StrokeCharacter(s1itoa[Scounter]);
+			write::character(s1itoa[Scounter]);
 			if (s1itoa[Scounter] == '\0')
 			{
 				break;
 			}
 		}
-		JGN_StrokeCharacter(Angstrom);
+		write::character(Angstrom);
 
 
 
@@ -856,26 +857,26 @@ void display1(void)//generates the graphics output.
 		}
 
 
-		JGN_StrokeCharacter('{');
-		JGN_StrokeCharacter('1');
-		JGN_StrokeCharacter('1');
-		JGN_StrokeCharacter(two_bar);
-		JGN_StrokeCharacter('0');
-		JGN_StrokeCharacter('}');
-		JGN_StrokeCharacter(' ');
+		write::character('{');
+		write::character('1');
+		write::character('1');
+		write::character(two_bar);
+		write::character('0');
+		write::character('}');
+		write::character(' ');
 
 		itoa(S2v, s1itoa, 10);
 
 		for (Scounter = 0; Scounter < 5; Scounter++)
 		{
 
-			JGN_StrokeCharacter(s1itoa[Scounter]);
+			write::character(s1itoa[Scounter]);
 			if (s1itoa[Scounter] == '\0')
 			{
 				break;
 			}
 		}
-		JGN_StrokeCharacter(Angstrom);
+		write::character(Angstrom);
 
 
 		glLoadIdentity();
@@ -886,26 +887,26 @@ void display1(void)//generates the graphics output.
 
 		glColor3f(0, 0, 0);
 
-		JGN_StrokeCharacter('{');
-		JGN_StrokeCharacter('0');
-		JGN_StrokeCharacter('0');
-		JGN_StrokeCharacter('0');
-		JGN_StrokeCharacter('1');
-		JGN_StrokeCharacter('}');
-		JGN_StrokeCharacter(' ');
+		write::character('{');
+		write::character('0');
+		write::character('0');
+		write::character('0');
+		write::character('1');
+		write::character('}');
+		write::character(' ');
 
 		itoa(Right_Hexagonal_height, s1itoa, 10);
 
 		for (Scounter = 0; Scounter < 5; Scounter++)
 		{
 
-			JGN_StrokeCharacter(s1itoa[Scounter]);
+			write::character(s1itoa[Scounter]);
 			if (s1itoa[Scounter] == '\0')
 			{
 				break;
 			}
 		}
-		JGN_StrokeCharacter(Angstrom);
+		write::character(Angstrom);
 	}
 	else if (want_cyrcle[0] == 'y')
 	{
@@ -914,8 +915,8 @@ void display1(void)//generates the graphics output.
 
 		glColor3f(0, 0, 0);
 
-		JGN_StrokeCharacter('R');
-		JGN_StrokeCharacter(' ');
+		write::character('R');
+		write::character(' ');
 
 
 		itoa((int)rad, s1itoa, 10);
@@ -923,13 +924,13 @@ void display1(void)//generates the graphics output.
 		for (Scounter = 0; Scounter < 5; Scounter++)
 		{
 
-			JGN_StrokeCharacter(s1itoa[Scounter]);
+			write::character(s1itoa[Scounter]);
 			if (s1itoa[Scounter] == '\0')
 			{
 				break;
 			}
 		}
-		JGN_StrokeCharacter(Angstrom);
+		write::character(Angstrom);
 
 	}
 	else
@@ -951,25 +952,25 @@ void display1(void)//generates the graphics output.
 
 			}
 
-			JGN_StrokeCharacter('{');
-			JGN_StrokeCharacter('1');
-			JGN_StrokeCharacter('0');
-			JGN_StrokeCharacter('0');
-			JGN_StrokeCharacter('}');
-			JGN_StrokeCharacter(' ');
+			write::character('{');
+			write::character('1');
+			write::character('0');
+			write::character('0');
+			write::character('}');
+			write::character(' ');
 
 			itoa(S1v, s1itoa, 10);
 
 			for (Scounter = 0; Scounter < 5; Scounter++)
 			{
 
-				JGN_StrokeCharacter(s1itoa[Scounter]);
+				write::character(s1itoa[Scounter]);
 				if (s1itoa[Scounter] == '\0')
 				{
 					break;
 				}
 			}
-			JGN_StrokeCharacter(Angstrom);
+			write::character(Angstrom);
 		}
 
 		if (S2[0] != '0')
@@ -991,25 +992,25 @@ void display1(void)//generates the graphics output.
 
 			}
 
-			JGN_StrokeCharacter('{');
-			JGN_StrokeCharacter('1');
-			JGN_StrokeCharacter('1');
-			JGN_StrokeCharacter('0');
-			JGN_StrokeCharacter('}');
-			JGN_StrokeCharacter(' ');
+			write::character('{');
+			write::character('1');
+			write::character('1');
+			write::character('0');
+			write::character('}');
+			write::character(' ');
 
 			itoa(S2v, s1itoa, 10);
 
 			for (Scounter = 0; Scounter < 5; Scounter++)
 			{
 
-				JGN_StrokeCharacter(s1itoa[Scounter]);
+				write::character(s1itoa[Scounter]);
 				if (s1itoa[Scounter] == '\0')
 				{
 					break;
 				}
 			}
-			JGN_StrokeCharacter(Angstrom);
+			write::character(Angstrom);
 		}
 		if (S3[0] != '0')
 		{
@@ -1030,25 +1031,25 @@ void display1(void)//generates the graphics output.
 
 			}
 
-			JGN_StrokeCharacter('{');
-			JGN_StrokeCharacter('1');
-			JGN_StrokeCharacter('1');
-			JGN_StrokeCharacter('1');
-			JGN_StrokeCharacter('}');
-			JGN_StrokeCharacter(' ');
+			write::character('{');
+			write::character('1');
+			write::character('1');
+			write::character('1');
+			write::character('}');
+			write::character(' ');
 
 			itoa(S3v, s1itoa, 10);
 
 			for (Scounter = 0; Scounter < 5; Scounter++)
 			{
 
-				JGN_StrokeCharacter(s1itoa[Scounter]);
+				write::character(s1itoa[Scounter]);
 				if (s1itoa[Scounter] == '\0')
 				{
 					break;
 				}
 			}
-			JGN_StrokeCharacter(Angstrom);
+			write::character(Angstrom);
 		}
 	}
 	if (shperes_on)
@@ -2017,7 +2018,7 @@ void keyboardgl(int key, int s, int x, int y)
 				}
 
 			}
-			check_if_to_redisplay = 1;
+			//check_if_to_redisplay = 1;
 
 		}
 		else if((key == 'r' || key == 'R') && s == JGN_DOWN)
@@ -2196,7 +2197,7 @@ void keyboardgl(int key, int s, int x, int y)
 				}
 
 			}
-			check_if_to_redisplay = 1;
+			//check_if_to_redisplay = 1;
 
 		}
 		else if ((key == 'x' || key == 'X') && s == JGN_DOWN)
@@ -2282,7 +2283,7 @@ void keyboardgl(int key, int s, int x, int y)
 					}
 
 				}
-			check_if_to_redisplay = 1;
+			//check_if_to_redisplay = 1;
 
 		}
 		else if (S1[0] == '1')
@@ -2381,10 +2382,10 @@ void keyboardgl(int key, int s, int x, int y)
 		lines_param();
 
 	
-		//if (check_if_to_redisplay)
-		//{
+		if (check_if_to_redisplay)
+		{
 			JGN_PostRedisplay();
-		//}
+		}
 		
 	}
 
@@ -2828,6 +2829,10 @@ void mouse_pasive(int x, int y)
 	}
 
 
+	tb.hoveringAtool(jgn_x, jgn_y);
+	vs._hoveringAnatom(jgn::vec2(jgn_x, jgn_y));
+	vs.grouplist.checkhoverstatus(jgn::vec2(jgn_x, jgn_y));
+	vs.grouplist.options.checkhoverstatus(jgn::vec2(jgn_x, jgn_y));
 	if (lmb == JGN_UP)
 	{
 		if (tb.sellectedTool == ToolBar::Tool::SELECT || tb.sellectedTool == ToolBar::Tool::DISTANCE)
@@ -2840,6 +2845,7 @@ void mouse_pasive(int x, int y)
 						vs.unsellectAll();
 					tb.usetool.sellect();
 				//}
+
 			}
 			else if (tb.sellectedTool == ToolBar::Tool::DISTANCE && mouse_check == 1)
 			{
@@ -2858,8 +2864,8 @@ void mouse_pasive(int x, int y)
 			leftClick.finish[1] = jgn_y;
 			mouse_check = 0;
 
-			JGN_PostRedisplay();
 
+			JGN_PostRedisplay();
 		}
 		else if (tb.sellectedTool == ToolBar::Tool::ROTATE || mouse_mode == 'o' || mouse_mode == 'a' || tb.sellectedTool == ToolBar::Tool::DISTANCE)
 		{
@@ -2964,12 +2970,27 @@ void mouse_func(int b, int s, int x, int y)
 		//}
 		if (s == JGN_DOWN)
 		{
-			if(tb.toolclicked(xnorm, ynorm))
+			if (tb.toolclicked(xnorm, ynorm))
+			{
 				if (tb.sellectedTool == ToolBar::Tool::DISTANCE)
 				{
 					vs.unsellectAll();
 					tb._Nsellectedfordistance = 0;
 				}
+			}
+			else if (vs.grouplist.hovering)
+			{
+				vs.grouplist.open = vs.grouplist.open ^ true;
+			}
+			else if (vs.grouplist.options.hovering != -1)
+			{
+					vs.unsellectAll();
+				for (int i = 0; i < vs.group[vs.grouplist.options.hovering].N_atoms; i++)
+				{
+					vs.group[vs.grouplist.options.hovering].isSelected[i] = true;
+				}
+				JGN_PostRedisplay();
+			}
 		}
 
 		lmb = s;

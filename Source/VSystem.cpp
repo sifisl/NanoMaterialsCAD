@@ -3,6 +3,7 @@
 #include "JGN_SolidSphere.h"
 #include "ToolBar.h"
 #include "JGN_StrokeCharacter.h"
+#include "JGN_Windows.h"
 
 VSystem::VSystem()
 {
@@ -29,6 +30,63 @@ void Group::_reserve(const unsigned int r)
 
 }
 
+jgn::vec2 VSystem::_hoveringAnatom(const jgn::vec2 m)
+{
+	jgn::vec2 finalclicked = jgn::vec2(-1, -1);//x=group, y=atom
+	int iatom = -1;
+	int iatomtosellect = -1;
+	for (int g = 0; g < vs.N_groups; g++)
+	{
+		for (int i = 0; i < vs.group[g].N_atoms; i++)
+		{
+			iatom++;
+			jgn::vec3 p1;
+			jgn::vec3 p2;
+			jgn::vec3 theta_rad;
+			jgn::vec3 prevp1;
+
+			p1 = vs.group[g].position[i] / (Svmax + 5);
+			theta_rad = jgn::vec3(theta[0] * M_PI / 180, 0, theta[1] * M_PI / 180);
+
+
+			p2 = p1.translate(jgn::vec3(model_translate[0], model_translate[1], model_translate[2]));
+			p1 = p2.rotate(theta_rad);
+			p1.z = -p1.z;
+
+			///at this point p1 is the final product
+
+
+			if (jgn::dist2d((float*)(&(m.x)), &(p1.x)) < vs.group[g].radius[i] / (Svmax + 5))
+			{
+				if (finalclicked.y == -1)
+				{
+					finalclicked = jgn::vec2(g, i);
+					prevp1 = p1;
+					iatomtosellect = iatom;
+				}
+				else if (p1.z < prevp1.z) {
+					finalclicked = jgn::vec2(g, i);
+					prevp1 = p1;
+					iatomtosellect = iatom;
+				}
+			}
+		}
+	}
+	if (finalclicked.y != -1)
+	{
+		vs.group[finalclicked.x].ishovered[finalclicked.y] = true;
+	}
+
+	vs.hoveredatom = finalclicked;
+	if (!(vs.hoveredatom == vs.hoveredatom_prev))
+	{
+		if(vs.hoveredatom_prev.x!=-1)
+			vs.group[vs.hoveredatom_prev.x].ishovered[vs.hoveredatom_prev.y] = false;
+		JGN_PostRedisplay();
+	}
+	vs.hoveredatom_prev = vs.hoveredatom;
+	return finalclicked;
+}
 
 
 void Group::N_types(const unsigned int N_t)
@@ -67,8 +125,106 @@ void VSystem::draw()
 	//Draw system info
 	this->_drawsysteminfo();
 
+	//Draw group list
+	this->grouplist.draw();
+
 }
 
+void VSystem::Grouplist::draw()
+{
+	glLoadIdentity();
+	if (vs.N_groups > 1)
+	{
+		glEnable(GL_TEXTURE_2D);
+		glDisable(GL_LIGHTING);
+		if(this->open)
+		{ 
+
+			glBindTexture(GL_TEXTURE_2D, button1ID);
+			glColor3f(0.2, 0.2, 0.2);
+			glBegin(GL_QUADS);
+			glTexCoord2d(0, 1);
+			glVertex3f(dipleft + tb.size + 0.4, dipapan - 0.01, 5);
+			glTexCoord2d(0.99, 0.99);
+			glVertex3f(dipleft + tb.size + 0.4, dipapan - 0.3, 5);
+			glTexCoord2d(0.99, 0);
+			glVertex3f(dipleft + tb.size + 0.05, dipapan - 0.3, 5);
+			glTexCoord2d(0, 0);
+			glVertex3f(dipleft + tb.size + 0.05, dipapan - 0.01, 5);
+			glEnd();
+			glBindTexture(GL_TEXTURE_2D, Font);
+			for (int i = 0; i < vs.N_groups; i++)
+			{
+				this->options.hovering == i ? glColor3f(1, 0.2, 0.2) : glColor3f(0, 0, 0);
+				glTranslatef(dipleft + tb.size + 0.13, dipapan - 0.08 -i*0.05, 5);
+				glScalef(0.5, 0.5, 0.5);
+				write::string("group ");
+				write::character(i + 49);
+				glLoadIdentity();
+			}
+			glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, showlessID);
+		}
+		else {
+			glBindTexture(GL_TEXTURE_2D, showmoreID);
+		}
+		this->hovering ? glColor3f(0.2, 0.2, 0.2) : glColor3f(0, 0, 0);
+		glBegin(GL_QUADS);
+		glTexCoord2d(0.99, 0.99);
+		glVertex3f(dipleft + tb.size + 0.05 + 0.05, dipapan-0.01 , 5);
+		glTexCoord2d(0.99, 0);
+		glVertex3f(dipleft + tb.size + 0.05 + 0.05, dipapan - 0.06, 5);
+		glTexCoord2d(0, 0);
+		glVertex3f(dipleft + tb.size + 0.05, dipapan - 0.06, 5);
+		glTexCoord2d(0, 1);
+		glVertex3f(dipleft + tb.size + 0.05, dipapan- 0.01, 5);
+		glEnd();
+
+		
+	}
+}
+
+bool VSystem::Grouplist::Options::checkhoverstatus(const jgn::vec2 m)
+{
+	this->hovering = -1;
+	for (int i = 0; i < vs.N_groups; i++)
+	{
+		if (m.x > dipleft + tb.size + 0.13 && m.x < dipleft + tb.size + 0.3 + 0.05 && m.y>dipapan - 0.08 - i * 0.05 && m.y < dipapan - 0.08 - (i-1) * 0.05)
+		{
+			this->hovering = i;
+			if (this->hovering_prev != i)
+				JGN_PostRedisplay();
+			this->hovering_prev = this->hovering;
+			return true;
+		}
+	}
+	if(this->hovering_prev!=-1)
+		JGN_PostRedisplay();
+	this->hovering_prev = -1;
+		
+
+		return false;
+}
+
+bool VSystem::Grouplist::checkhoverstatus(const jgn::vec2 m)
+{
+	if (m.x > dipleft + tb.size + 0.05 && m.x < dipleft + tb.size + 0.05 + 0.05 && m.y>dipapan - 0.06 && m.y < dipapan - 0.01)
+	{
+		this->hovering = true;
+		if (this->hovering_prev == false)
+			JGN_PostRedisplay();
+		hovering_prev = hovering;
+
+	}
+	else
+	{
+		this->hovering = false;
+		if (this->hovering_prev == true)
+			JGN_PostRedisplay();
+		hovering_prev = hovering;
+	}
+		return hovering;
+}
 
 void VSystem::_drawatoms()
 {
@@ -102,6 +258,16 @@ void VSystem::_drawatoms()
 						mat_deffuse[1] = this->group[g].color[i].y;
 						mat_deffuse[2] = this->group[g].color[i].z;
 						mat_deffuse[3] = 1;
+					}
+
+					if (this->group[g].ishovered[i])
+					{
+						mat_ambient[0] += 0.3;
+						mat_ambient[1] += 0.3;
+						mat_ambient[2] += 0.3;
+						mat_deffuse[0] += 0.3;
+						mat_deffuse[1] += 0.3;
+						mat_deffuse[2] += 0.3;
 					}
 					glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
 					glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_deffuse);
@@ -149,11 +315,11 @@ void VSystem::_drawDistanceToolLine()
 		int di = (int)d;
 		char dia[30];
 		itoa(di, dia, 10);
-		JGN_StrokeString(dia);
-		JGN_StrokeCharacter('.');
+		write::string(dia);
+		write::character('.');
 		d -= di;
-		JGN_StrokeString(&(jgn::ftoa(d))[2], 5);
-		JGN_StrokeCharacter(Angstrom);
+		write::string(&(jgn::ftoa(d))[2], 5);
+		write::character(Angstrom);
 		glLoadIdentity();
 
 
@@ -194,7 +360,7 @@ void VSystem::_drawsysteminfo()
 		stroke_c = 0;
 		while (ss[stroke_c] != '\0')
 		{
-			JGN_StrokeCharacter(ss[stroke_c]);
+			write::character(ss[stroke_c]);
 			stroke_c++;
 		}
 		stroke_c = 0;
@@ -208,7 +374,7 @@ void VSystem::_drawsysteminfo()
 		glColor3f(0, 0, 0);
 		glTranslatef(-dipleft - 0.25, dipapan - 0.1 - 0.1*ff, 6);
 		glDisable(GL_LIGHTING);
-		JGN_StrokeString(std::string(vs.types[ff]).c_str());
+		write::string(std::string(vs.types[ff]).c_str());
 		glEnable(GL_LIGHTING);
 		glLoadIdentity();
 		if (shperes_on)
@@ -235,6 +401,37 @@ void VSystem::_drawsysteminfo()
 		}
 
 	}
+	////////////write simulation box volume
+	glDisable(GL_LIGHTING);
+	glLoadIdentity();
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, button1ID);
+	glColor3f(0, 1, 1);
+	glBegin(GL_QUADS);
+	glTexCoord2d(0.99, 0.99);
+	glVertex3f(-dipleft - 0.4, -dipapan + 2 * dipapan*(36.0 / mainwndsize[1]), 5);
+	glTexCoord2d(0.99, 0);
+	glVertex3f(-dipleft - 0.4, -dipapan + 2 * dipapan*(36.0 / mainwndsize[1]) + 0.07, 5);
+	glTexCoord2d(0, 0);
+	glVertex3f(-dipleft, -dipapan + 2 * dipapan*(36.0 / mainwndsize[1]) + 0.07, 5);
+	glTexCoord2d(0, 1);
+	glVertex3f(-dipleft, -dipapan + 2 * dipapan*(36.0 / mainwndsize[1]), 5);
+	glEnd();
+	glBindTexture(GL_TEXTURE_2D, Font);
+	glColor3f(0, 0, 0);
+	glLoadIdentity();
+	glTranslatef(-dipleft, -dipapan + 2 * dipapan*(40.0 / mainwndsize[1]), 6);
+	glScalef(0.4, 0.4, 0.2);
+
+	glTranslatef(-0.02, 0.06, 0);
+	glScalef(0.8, 0.8, 0.8);
+	write::rtl::character('3');
+	glScalef(1.25, 1.25, 1.25);
+	glTranslatef(0.02, -0.06, 0);
+
+	write::rtl::character(Angstrom);
+	write::rtl::string(jgn::ftoa(vs.simulationboxVolume));
+	glEnable(GL_LIGHTING);
 }
 
 void VSystem::_drawBase()
@@ -260,7 +457,7 @@ void VSystem::_drawBase()
 
 	glVertexPointer(3, GL_FLOAT, 0, &sb[0].x);
 	glNormalPointer(GL_FLOAT, 0, &sb[0].x);
-	glTranslatef(dipleft+0.08, -dipapan+0.16, 7);
+	glTranslatef(dipleft+0.08, -dipapan + 2*dipapan*(70.0/mainwndsize[1]), 7);
 	if (CustomSurfacesOn)
 	{
 		glRotatef(theta[0], 1.0, 0.0, 0.0);
@@ -308,6 +505,7 @@ void VSystem::setSimulationBox(int s)
 {
 	this->_isimulationBox = s;
 	this->_updateSimulationBox();
+	vs.simulationboxVolume = jgn::volume(vs.simulationBoxEdges[1], vs.simulationBoxEdges[2], vs.simulationBoxEdges[3]);
 }
 void VSystem::undoSellect()
 {

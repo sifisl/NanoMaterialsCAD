@@ -56,11 +56,11 @@ namespace jgn
 		;
 #endif// JGN_SOURCE_CPP
 
-	///////////////////////////////////////////////////////////////////////3x3 determinant
+	///////////////////////////////////////////////////////////////////////3x3 2x2 determinant
 
 	float Det3x3(float x1, float y1, float z1,
-		float x2, float y2, float z2,
-		float x3, float y3, float z3)
+				 float x2, float y2, float z2,
+				 float x3, float y3, float z3)
 #ifdef JGN_SOURCE_CPP
 	{
 		float ans = x1 * (y2*z3 - z2 * y3) - y1 * (x2*z3 - x3 * z2) + z1 * (x2*y3 - x3 * y2);
@@ -72,6 +72,36 @@ namespace jgn
 		;
 #endif //JGN_SOURCE_CPP
 
+	float Det2x2(float x1, float y1,
+				 float x2, float y2)
+#ifdef JGN_SOURCE_CPP
+	{
+		float ans = x1 * y2 - x2 * y1;
+
+		return ans;
+
+	}
+#else
+		;
+#endif //JGN_SOURCE_CPP
+
+	///////////////////////////////////////////////////////////////////////my sin cos
+//	float sin(float x)
+//#ifdef JGN_SOURCE_CPP
+//	{
+//		return x - x * x*x / 6.0 + x * x*x*x*x / 120.0 - x * x*x*x*x*x*x / 5040.0;
+//	}
+//#else
+//		;
+//#endif //JGN_SOURCE_CPP
+//		float cos(float x)
+//#ifdef JGN_SOURCE_CPP
+//		{
+//			return 1 - x * x / 2 + x * x*x*x / 24 - x * x*x*x*x*x / 720.0;
+//	}
+//#else
+//			;
+//#endif //JGN_SOURCE_CPP
 	///////////////////////////////////////////////////////////////////////3d space rotation operation
 
 	void cpu_rotate(float p[3], float a[3], float *out)
@@ -298,7 +328,38 @@ namespace jgn
 			;
 #endif// JGN_SOURCE_CPP
 	};
+	/////////////////////////////////////////////////////////////////////////////xproduct and dotproduct of 2 jgn::vec3
+	jgn::vec3 xproduct(jgn::vec3 v1, jgn::vec3 v2)
+#ifdef JGN_SOURCE_CPP
+	{
+		jgn::vec3 ans;
+		ans.x = jgn::Det2x2(v1.y, v1.z, v2.y, v2.z);
+		ans.y = -jgn::Det2x2(v1.x, v1.z, v2.x, v2.z);
+		ans.z = jgn::Det2x2(v1.x, v1.y, v2.x, v2.y);
+		return ans;
+	}
+#else
+		;
+#endif// JGN_SOURCE_CPP
 
+	float dotproduct(jgn::vec3 v1, jgn::vec3 v2)
+#ifdef JGN_SOURCE_CPP
+	{
+		return v1.x*v2.x + v1.y*v2.y + v1.z*v2.z;
+	}
+#else
+		;
+#endif// JGN_SOURCE_CPP
+	/////////////////////////////////////////////////////////////////////////////volume of 3 jgn::vec3
+
+	float volume(jgn::vec3 v1, jgn::vec3 v2, jgn::vec3 v3)
+#ifdef JGN_SOURCE_CPP
+	{
+		return abs(jgn::dotproduct(v1, jgn::xproduct(v2,v3)));
+	}
+#else
+		;
+#endif// JGN_SOURCE_CPP
 	///////////////////////////////////////////////////////////////////////just a vec6
 	class vec6d
 	{
@@ -377,6 +438,16 @@ std::ostream& operator<<(std::ostream& stream, const std::vector<jgn::vec6d>& ve
 	}
 
 	return stream;
+}
+#else
+;
+#endif// JGN_SOURCE_CPP
+
+bool operator==(const jgn::vec2& v1, const jgn::vec2& v2)
+#ifdef JGN_SOURCE_CPP
+
+{
+	return (v1.x == v2.x && v1.y == v2.y);
 }
 #else
 ;

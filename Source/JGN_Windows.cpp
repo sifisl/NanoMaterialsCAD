@@ -820,6 +820,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 #if !defined(JGN_NO_CMD_HISTORY) 
 		SetWindowPos(CommandTextHistory, HWND_TOP, (*glb_rct).left + 7, (*glb_rct).bottom - 286, (*glb_rct).right - (*glb_rct).left - 15, 242, SWP_ASYNCWINDOWPOS);
 #endif
+		SetWindowPos(CommandTextField, HWND_TOP, (*glb_rct).left + 7, (*glb_rct).bottom - 42, (*glb_rct).right - (*glb_rct).left - 14, 35, SWP_ASYNCWINDOWPOS);
+		DestroyWindow(hWndList);
 		RedrawWindow(CommandTextField, 0, 0, RDW_NOERASE);
 
 		wasfullscreenflagout++;
@@ -1983,14 +1985,18 @@ LRESULT __stdcall HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 				itemscnt++;
 			}
 		}
-		if (itemscnt > 6)
-		{
+		//if (itemscnt > 6)
+		//{
 			HINSTANCE hinst111 = (HINSTANCE)GetWindowLong(mnhwnd, GWLP_HINSTANCE);
 			hWndList = CreateWindow(L"LISTBOX",
 				0, WS_VISIBLE | WS_CHILD | WS_BORDER | LBS_EXTENDEDSEL | WS_VSCROLL,
-				0, 222 - 20 * 6, 250, 20 * 6,
+				0, mainwndsize[1] -90 - 20 * itemscnt, 250, 20 * itemscnt,
 				mnhwnd, NULL, hinst111, NULL);
-		}
+			//hWndList = CreateWindow(L"LISTBOX",
+			//	0, WS_VISIBLE | WS_CHILD | WS_BORDER | LBS_EXTENDEDSEL | WS_VSCROLL,
+			//	0, 222 - 20 * 6, 250, 20 * 6,
+			//	mnhwnd, NULL, hinst111, NULL);
+		//}
 #if !defined(JGN_NO_CMD_HISTORY) 
 		else
 		{
@@ -2067,6 +2073,7 @@ LRESULT __stdcall HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 						i++;
 					}
 					db = 1;
+					JGN_PostRedisplay();
 
 					goto peintit1;
 				}
@@ -2078,6 +2085,7 @@ LRESULT __stdcall HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 			if (itemsel != -1)
 			{
 				SendMessage(hWndList, LB_SETSEL, TRUE, itemsel);
+
 			}
 
 
@@ -2099,6 +2107,7 @@ LRESULT __stdcall HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 			{
 				DestroyWindow(hWndList);
 				itemsel = -1;
+				JGN_PostRedisplay();
 			}
 		}
 

@@ -6,6 +6,7 @@
 #include <map>
 #include <cstring>
 #include <string>
+#include <sstream>
 #include <ctime>
 #include <cctype>
 

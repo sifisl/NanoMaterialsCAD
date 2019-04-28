@@ -27,6 +27,7 @@ public:
 	std::vector<float> radius;
 	std::vector<bool> isSelected;
 	std::vector<bool> isdeleted;
+	std::vector<bool> ishovered;
 	std::vector<bool> iscut;//if the atoms is cut by a surface
 
 	void _reserve(const unsigned int N_a);
@@ -46,6 +47,9 @@ public:
 	int N_atoms = 0;// total #N of the system
 	std::vector<int> N_atoms_per_type;
 	std::vector<jgn::vec3> color_per_type;//color of atoms
+	jgn::vec2 hoveredatom = jgn::vec2(-1, -1);// group,atoms of the atom that is currently hovered
+	jgn::vec2 hoveredatom_prev = jgn::vec2(-1, -1);
+	float simulationboxVolume;
 
 
 	int N_groups = 0;//#N of groups
@@ -69,8 +73,23 @@ public:
 	void _drawsysteminfo();
 	void unsellectAll();
 	void undoSellect();
-
-
+	jgn::vec2 _hoveringAnatom(const jgn::vec2 m);
+	class Grouplist
+	{
+	public:
+		bool hovering_prev = false;
+		bool hovering = false;
+		bool open = false;//if the list is showing
+		void draw();
+		bool checkhoverstatus(const jgn::vec2 m);// the input is the mouse
+		class Options
+		{
+		public:
+			int hovering_prev = -1;
+			int hovering = -1;
+			bool checkhoverstatus(const jgn::vec2 m);// the input is the mouse
+		} options;
+	} grouplist;
 }EXT vs;
 
 

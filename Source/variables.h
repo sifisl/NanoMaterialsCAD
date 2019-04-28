@@ -60,6 +60,8 @@ EXT int wasfullscreenflagout;
 EXT GLuint Font;
 EXT GLuint button1ID;
 EXT GLuint cursorToolsImg[4];
+EXT GLuint showmoreID;
+EXT GLuint showlessID;
 EXT GLuint vboId;
 EXT float dipleft;
 EXT float dipapan;

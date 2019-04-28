@@ -1843,6 +1843,7 @@ void JGN_DropFile()
 		groupInit.weight.emplace_back(crystal[1 + 5 * i]);
 		groupInit.isdeleted.emplace_back(false);
 		groupInit.isSelected.emplace_back(false);
+		groupInit.ishovered.emplace_back(false);
 		groupInit.iscut.emplace_back(false);
 		for (int ii = 0; ii < groupInit._N_types; ii++)
 		{
@@ -1855,9 +1856,19 @@ void JGN_DropFile()
 		groupInit.color.emplace_back(jgn::vec3(fmod(groupInit.weight[i], 1.5), fmod(groupInit.number[i], 0.92), fmod(100 * fmod(groupInit.weight[i], 1.5) * fmod(groupInit.number[i], 0.92), 0.8)));
 	}
 
+	///////////push new group to vs
 	vs.group.push_back(groupInit);
-	vs.setSimulationBox(vs.N_groups);
 	vs.N_groups++;
+	///////////sellect the simulation box with the biggest volume for the vs
+	if (vs.N_groups == 1)
+	{
+		vs.setSimulationBox(vs.N_groups - 1);
+	}
+	else if (jgn::volume(vs.group[vs.N_groups - 1].primitiveVec[0], vs.group[vs.N_groups - 1].primitiveVec[1], vs.group[vs.N_groups - 1].primitiveVec[2]) > vs.simulationboxVolume)
+	{
+		vs.setSimulationBox(vs.N_groups-1);
+	}
+	///////////////////
 	vs.N_atoms += vs.group[vs.N_groups - 1].N_atoms;
 	if (vs.N_types == 0)
 	{

@@ -1,4 +1,5 @@
 #include "ToolBar.h"
+#include "JGN_Windows.h"
 
 
 ToolBar::ToolBar()
@@ -48,6 +49,30 @@ bool ToolBar::toolclicked(const float x, const float y)
 	return false;
 }
 
+bool ToolBar::hoveringAtool(const float x, const float y)
+{
+	for (int i = 0; i < this->N_tools; i++)
+	{
+		if (x > tb.position[i][0].x && x < tb.position[i][2].x && y > tb.position[i][0].y && y < tb.position[i][1].y)
+		{
+			this->hoveringTool = i;
+			if (this->prevhoveringTool == -1)
+			{
+				JGN_PostRedisplay();
+			}
+			this->prevhoveringTool = this->hoveringTool;
+			return true;
+		}
+	}
+	this->hoveringTool = -1;
+	if (this->prevhoveringTool != -1)
+	{
+		this->prevhoveringTool = this->hoveringTool;
+		JGN_PostRedisplay();
+	}
+	return false;
+}
+
 
 void ToolBar::draw()
 {
@@ -81,7 +106,12 @@ void ToolBar::draw()
 	for (int i = 0; i < this->N_tools; i++)
 	{
 		glBindTexture(GL_TEXTURE_2D, cursorToolsImg[i]);
-		this->sellectedTool == static_cast<ToolBar::Tool>(i) ? glColor3f(0.2, 1, 0.2) : glColor3f(1, 1, 1);
+		if (this->sellectedTool == static_cast<ToolBar::Tool>(i)) {
+			glColor3f(0.2, 1, 0.2);}
+		else if (this->hoveringTool==i) { 
+			glColor3f(1, 1, 1); }
+		else {  
+			glColor3f(0.9, 0.9, 0.9); }
 		this->_drawButton(i);
 	}
 	glDisable(GL_TEXTURE_2D);

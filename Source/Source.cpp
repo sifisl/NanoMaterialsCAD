@@ -11,6 +11,7 @@
 #include "Bonds.h"
 #include "VSystem.h"
 #include "ToolBar.h"
+#include "Menu.h"
 
 #define glutSolidSphere JGN_SolidSphere
 // TODO: make a class instead of the crystal array
@@ -312,6 +313,7 @@ void display1(void)//generates the graphics output.
 
 
 	//glRotatef(theta[0], cos((pi*theta[1]) / 180), 0.0, sin((pi*theta[1]) / 180));
+	menu.draw();
 
 	if (CustomSurfacesOn)
 	{
@@ -361,8 +363,7 @@ void display1(void)//generates the graphics output.
 			}
 
 
-
-
+		glEnable(GL_LIGHTING);
 	drawMoldsLines(p, p1);
 	vs.cut();//TODO: move that from here
 
@@ -1396,6 +1397,7 @@ void variableinit()
 	irot.rotate(irot);
 	tb._sellectedfordistance[0] = jgn::vec2(-1, -1);
 	tb._sellectedfordistance[1] = jgn::vec2(-1, -1);
+	menu.init();
 }
 
 void translateTheSelected(char op)
@@ -2995,6 +2997,13 @@ void mouse_func(int b, int s, int x, int y)
 
 		lmb = s;
 
+		JGN_PostRedisplay();
+	}
+	else if (b == JGN_RIGHT_MOUSE_BUTTON && s == JGN_UP)
+	{
+		menu.show = true;
+		menu.coords = jgn::vec2(xnorm, ynorm);
+		JGN_PostRedisplay();
 	}
 	else if (b == JGN_MOUSE_WHEEL && s == JGN_UP)//zoom out
 	{
@@ -3004,6 +3013,7 @@ void mouse_func(int b, int s, int x, int y)
 			Svmax = 0;
 		}
 		pointsize = truepointsize/(Svmax + 5);
+		JGN_PostRedisplay();
 
 	}
 	else if (b == JGN_MOUSE_WHEEL)//zoom in
@@ -3013,6 +3023,7 @@ void mouse_func(int b, int s, int x, int y)
 
 		pointsize = truepointsize/(Svmax + 5);
 
+		JGN_PostRedisplay();
 
 	}
 
@@ -3024,7 +3035,6 @@ void mouse_func(int b, int s, int x, int y)
 
 
 	//cout << Svmax << endl;
-	JGN_PostRedisplay();
 
 }
 

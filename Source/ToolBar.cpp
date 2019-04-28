@@ -77,6 +77,7 @@ bool ToolBar::hoveringAtool(const float x, const float y)
 void ToolBar::draw()
 {
 	glLoadIdentity();
+	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_LIGHTING);
 	glTranslatef(0, 0, 5);
 	glColor3f(.9, .9, .9);

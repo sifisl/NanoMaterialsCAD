@@ -21,7 +21,8 @@ void closefont()
 
 namespace write
 {
-
+	
+	const float max_height = 0.115234375;
 	void character(char c, bool hadv)
 	{
 		char line[len];
@@ -102,7 +103,7 @@ namespace write
 				token = strtok(NULL, "=");
 				token = strtok(NULL, " \t");
 				yoffset = -(float)(atoi(token)) / (float)fontmapheight;
-				yoffset = yoffset - h + 0.11;
+				yoffset = yoffset - h + write::max_height;
 				token = strtok(NULL, "=");
 				token = strtok(NULL, " \t");
 				adv = (float)atoi(token) / (float)fontmapwidht;
@@ -161,7 +162,7 @@ namespace write
 			char line[len];
 			char* token;
 			bool done = false;
-			float x, y, w, h, adv;
+			float x, y, w, h, adv, xoffset, yoffset;
 			if (c == 0)
 			{
 				return;
@@ -232,8 +233,11 @@ namespace write
 
 					token = strtok(NULL, "=");
 					token = strtok(NULL, " \t");
+					xoffset = (float)atoi(token) / (float)fontmapwidht;
 					token = strtok(NULL, "=");
 					token = strtok(NULL, " \t");
+					yoffset = -(float)(atoi(token)) / (float)fontmapheight;
+					yoffset = yoffset - h + 0.11;
 					token = strtok(NULL, "=");
 					token = strtok(NULL, " \t");
 					adv = jgn::atof(token) / fontmapwidht;
@@ -241,6 +245,8 @@ namespace write
 					{
 						glTranslatef(-adv, 0, 0);
 					}
+					glTranslatef(0, yoffset, 0);
+
 					glEnable(GL_TEXTURE_2D);
 					glBegin(GL_QUADS);
 					glTexCoord2d(x, y);
@@ -252,8 +258,8 @@ namespace write
 					glTexCoord2d(x, y - h);
 					glVertex2d(0, 0);
 					glEnd();
+					glTranslatef(0, -yoffset, 0);
 					glDisable(GL_TEXTURE_2D);
-
 
 				}
 			}

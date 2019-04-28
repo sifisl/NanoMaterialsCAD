@@ -12,6 +12,7 @@ void closefont();
 
 namespace write
 {
+	extern const float max_height;
 	//EXT float index_advanced;
 	void character(char c, bool hadv = true);
 	void string(const char* s, int maxchar = 100000);

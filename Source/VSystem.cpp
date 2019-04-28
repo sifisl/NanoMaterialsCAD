@@ -139,7 +139,7 @@ void VSystem::Grouplist::draw()
 		glDisable(GL_LIGHTING);
 		if(this->open)
 		{ 
-
+			//back ground
 			glBindTexture(GL_TEXTURE_2D, button1ID);
 			glColor3f(0.2, 0.2, 0.2);
 			glBegin(GL_QUADS);
@@ -152,6 +152,7 @@ void VSystem::Grouplist::draw()
 			glTexCoord2d(0, 0);
 			glVertex3f(dipleft + tb.size + 0.05, dipapan - 0.01, 5);
 			glEnd();
+			//write
 			glBindTexture(GL_TEXTURE_2D, Font);
 			for (int i = 0; i < vs.N_groups; i++)
 			{

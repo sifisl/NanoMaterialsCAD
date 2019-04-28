@@ -27,7 +27,7 @@ namespace write
 		char line[len];
 		char* token;
 		bool done = false;
-		float x, y, w, h, adv;
+		float x, y, w, h, adv, xoffset=0, yoffset=0;
 		if (c == 0)
 		{
 			return;
@@ -81,28 +81,33 @@ namespace write
 				token = strtok(NULL, "=");
 				token = strtok(NULL, " \t");
 				//cout << token << endl;
-				x = jgn::atof(token) / fontmapwidht;
+				
+				x = (float)atoi(token) / (float)fontmapwidht;
 
 				token = strtok(NULL, "=");
 				token = strtok(NULL, " \t");
-				y = (512 - jgn::atof(token)) / fontmapheight;
+				y = (float)(512 - atoi(token)) / (float)fontmapheight;
 
 				token = strtok(NULL, "=");
 				token = strtok(NULL, " \t");
-				w = jgn::atof(token) / fontmapwidht;
+				w = (float)atoi(token) / (float)fontmapwidht;
 
 				token = strtok(NULL, "=");
 				token = strtok(NULL, " \t");
-				h = jgn::atof(token) / fontmapheight;
+				h = (float)atoi(token) / (float)fontmapheight;
 
 				token = strtok(NULL, "=");
 				token = strtok(NULL, " \t");
+				xoffset= (float)atoi(token) / (float)fontmapwidht;
 				token = strtok(NULL, "=");
 				token = strtok(NULL, " \t");
+				yoffset = -(float)(atoi(token)) / (float)fontmapheight;
+				yoffset = yoffset - h + 0.11;
 				token = strtok(NULL, "=");
 				token = strtok(NULL, " \t");
-				adv = jgn::atof(token) / fontmapwidht;
+				adv = (float)atoi(token) / (float)fontmapwidht;
 
+				glTranslatef(0, yoffset, 0);
 				glEnable(GL_TEXTURE_2D);
 				glBegin(GL_QUADS);
 
@@ -119,6 +124,8 @@ namespace write
 				glVertex2d(0, 0);
 
 				glEnd();
+				glTranslatef(0, -yoffset, 0);
+
 				glDisable(GL_TEXTURE_2D);
 				if (hadv)
 				{

@@ -127,7 +127,6 @@ namespace write
 				glEnd();
 				glTranslatef(0, -yoffset, 0);
 
-				glDisable(GL_TEXTURE_2D);
 				if (hadv)
 				{
 					glTranslatef(adv, 0, 0);
@@ -247,7 +246,6 @@ namespace write
 					}
 					glTranslatef(0, yoffset, 0);
 
-					glEnable(GL_TEXTURE_2D);
 					glBegin(GL_QUADS);
 					glTexCoord2d(x, y);
 					glVertex2d(0, h);
@@ -259,7 +257,6 @@ namespace write
 					glVertex2d(0, 0);
 					glEnd();
 					glTranslatef(0, -yoffset, 0);
-					glDisable(GL_TEXTURE_2D);
 
 				}
 			}

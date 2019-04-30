@@ -113,6 +113,8 @@ void VSystem::unsellectAll()
 void VSystem::draw()
 {
 	//Draw atoms
+	glEnable(GL_LIGHTING);
+	glDisable(GL_TEXTURE_2D);
 	this->_drawatoms();
 
 	//Draw simulation box
@@ -290,7 +292,7 @@ void VSystem::_drawDistanceToolLine()
 		jgn::vec3 p2 = vs.group[tb._sellectedfordistance[1].x].position[tb._sellectedfordistance[1].y] / (Svmax + 5);
 
 		glColor3f(0, 1, 0);
-
+		//write the distance
 		glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, button1ID);
 		glBegin(GL_QUADS);
@@ -306,7 +308,6 @@ void VSystem::_drawDistanceToolLine()
 
 		glVertex3f(dipleft + tb.size + 0.027, tb.position[static_cast<int>(ToolBar::Tool::DISTANCE)][1].y - 0.125, 5);
 		glEnd();
-		glDisable(GL_TEXTURE_2D);
 
 		glBindTexture(GL_TEXTURE_2D, Font);
 		glColor3f(0, 0, 0);
@@ -337,6 +338,7 @@ void VSystem::_drawDistanceToolLine()
 			glRotatef(theta[1], 0.0, 1.0, 0.0);
 		}
 		glTranslatef(model_translate[0], model_translate[1], model_translate[2]);
+		glDisable(GL_TEXTURE_2D);
 		glBegin(GL_LINES);
 		glVertex3fvec3(p1);
 		glVertex3fvec3(p2);
@@ -377,6 +379,7 @@ void VSystem::_drawsysteminfo()
 		glDisable(GL_LIGHTING);
 		write::string(std::string(vs.types[ff]).c_str());
 		glEnable(GL_LIGHTING);
+		glDisable(GL_TEXTURE_2D);
 		glLoadIdentity();
 		if (shperes_on)
 		{

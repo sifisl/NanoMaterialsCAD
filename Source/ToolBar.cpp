@@ -43,6 +43,20 @@ bool ToolBar::toolclicked(const float x, const float y)
 		if (x > tb.position[i][0].x && x < tb.position[i][2].x && y > tb.position[i][0].y && y < tb.position[i][1].y)
 		{
 			this->sellectedTool = static_cast<ToolBar::Tool>(i);
+			this->downclicked = Tool::NONE;
+			return true;
+		}
+	}
+	return false;
+}
+
+bool ToolBar::tooldownclicked(const float x, const float y)
+{
+	for (int i = 0; i < this->N_tools; i++)
+	{
+		if (x > tb.position[i][0].x && x < tb.position[i][2].x && y > tb.position[i][0].y && y < tb.position[i][1].y)
+		{
+			this->downclicked = static_cast<ToolBar::Tool>(i);
 			return true;
 		}
 	}
@@ -65,6 +79,7 @@ bool ToolBar::hoveringAtool(const float x, const float y)
 		}
 	}
 	this->hoveringTool = -1;
+	this->downclicked = Tool::NONE;
 	if (this->prevhoveringTool != -1)
 	{
 		this->prevhoveringTool = this->hoveringTool;
@@ -109,9 +124,11 @@ void ToolBar::draw()
 		glBindTexture(GL_TEXTURE_2D, cursorToolsImg[i]);
 		if (this->sellectedTool == static_cast<ToolBar::Tool>(i)) {
 			glColor3f(0.2, 1, 0.2);}
+		else if (this->downclicked == static_cast<ToolBar::Tool>(i)) {
+			glColor3f(0.8, 0.8, 0.8);}
 		else if (this->hoveringTool==i) { 
 			glColor3f(1, 1, 1); }
-		else {  
+		else {
 			glColor3f(0.9, 0.9, 0.9); }
 		this->_drawButton(i);
 	}

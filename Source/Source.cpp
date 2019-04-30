@@ -2835,6 +2835,8 @@ void mouse_pasive(int x, int y)
 	vs._hoveringAnatom(jgn::vec2(jgn_x, jgn_y));
 	vs.grouplist.checkhoverstatus(jgn::vec2(jgn_x, jgn_y));
 	vs.grouplist.options.checkhoverstatus(jgn::vec2(jgn_x, jgn_y));
+	menu.hoverstatecheck(menu.editselected, jgn::vec2(jgn_x, jgn_y));
+	menu.hoverstatecheck(menu.mainmenu, jgn::vec2(jgn_x, jgn_y));
 	if (lmb == JGN_UP)
 	{
 		if (tb.sellectedTool == ToolBar::Tool::SELECT || tb.sellectedTool == ToolBar::Tool::DISTANCE)
@@ -2972,13 +2974,8 @@ void mouse_func(int b, int s, int x, int y)
 		//}
 		if (s == JGN_DOWN)
 		{
-			if (tb.toolclicked(xnorm, ynorm))
+			if (tb.tooldownclicked(xnorm, ynorm))
 			{
-				if (tb.sellectedTool == ToolBar::Tool::DISTANCE)
-				{
-					vs.unsellectAll();
-					tb._Nsellectedfordistance = 0;
-				}
 			}
 			else if (vs.grouplist.hovering)
 			{
@@ -2991,8 +2988,21 @@ void mouse_func(int b, int s, int x, int y)
 				{
 					vs.group[vs.grouplist.options.hovering].isSelected[i] = true;
 				}
-				JGN_PostRedisplay();
 			}
+			if (!menu.mainmenu->hoverstate)
+				menu.show = false;
+		}
+		else
+		{
+			if (tb.toolclicked(xnorm, ynorm))
+			{
+				if (tb.sellectedTool == ToolBar::Tool::DISTANCE)
+				{
+					vs.unsellectAll();
+					tb._Nsellectedfordistance = 0;
+				}
+			}
+			menu.shownon();
 		}
 
 		lmb = s;
@@ -3002,7 +3012,8 @@ void mouse_func(int b, int s, int x, int y)
 	else if (b == JGN_RIGHT_MOUSE_BUTTON && s == JGN_UP)
 	{
 		menu.show = true;
-		menu.coords = jgn::vec2(xnorm, ynorm);
+		menu.mainmenu->coords = jgn::vec2(xnorm, ynorm);
+		menu.editselected->coords = jgn::vec2(xnorm+0.5, ynorm);
 		JGN_PostRedisplay();
 	}
 	else if (b == JGN_MOUSE_WHEEL && s == JGN_UP)//zoom out

@@ -495,6 +495,18 @@ jgn::vec3 operator+(const jgn::vec3& v1, const jgn::vec3& v2)
 ;
 #endif// JGN_SOURCE_CPP
 
+jgn::vec2 operator+(const jgn::vec2& v1, const jgn::vec2& v2)
+#ifdef JGN_SOURCE_CPP
+
+{
+	jgn::vec2 out;
+	out.x = v1.x + v2.x;
+	out.y = v1.y + v2.y;
+	return out;
+}
+#else
+;
+#endif// JGN_SOURCE_CPP
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////functions body
 

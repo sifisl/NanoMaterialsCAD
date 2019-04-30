@@ -190,6 +190,7 @@ move /Y "$(ProjectDir)..\$(Configuration)\*.pdb" "$(ProjectDir)$(Configuration)"
     <ClInclude Include="JGN_DropFile.h" />
     <ClInclude Include="libs.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="Mouse.h" />
     <ClInclude Include="predefines.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -209,6 +210,7 @@ move /Y "$(ProjectDir)..\$(Configuration)\*.pdb" "$(ProjectDir)$(Configuration)"
     <ClCompile Include="JGN_StrokeCharacter.cpp" />
     <ClCompile Include="JGN_Windows.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="ToolBar.cpp" />
     <ClCompile Include="VSystem.cpp" />

@@ -196,6 +196,7 @@ move /Y "$(ProjectDir)..\$(Configuration)\*.pdb" "$(ProjectDir)$(Configuration)"
     <ClInclude Include="targetver.h" />
     <ClInclude Include="ToolBar.h" />
     <ClInclude Include="variables.h" />
+    <ClInclude Include="virtualwindow.h" />
     <ClInclude Include="VSystem.h" />
   </ItemGroup>
   <ItemGroup>
@@ -213,6 +214,7 @@ move /Y "$(ProjectDir)..\$(Configuration)\*.pdb" "$(ProjectDir)$(Configuration)"
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="ToolBar.cpp" />
+    <ClCompile Include="virtualwindow.cpp" />
     <ClCompile Include="VSystem.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

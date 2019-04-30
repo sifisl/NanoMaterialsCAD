@@ -19,6 +19,7 @@ public:
 	std::vector<jgn::vec3> position;
 	std::vector<jgn::string> type;
 	int _N_types;
+	int _prev_N_types;
 	std::vector<jgn::string> _alltype;
 	std::vector<jgn::string> selective_dynamics;
 	std::vector<jgn::vec3> color;
@@ -43,7 +44,7 @@ public:
 	~VSystem();
 
 	int N_types = 0;//#N of different elements
-	std::vector<jgn::string> types;//#N of different elements
+	std::vector<jgn::string> types;//name of different elements
 	int N_atoms = 0;// total #N of the system
 	std::vector<int> N_atoms_per_type;
 	std::vector<jgn::vec3> color_per_type;//color of atoms
@@ -73,8 +74,9 @@ public:
 	void _drawsysteminfo();
 	void unsellectAll();
 	void undoSellect();
-	void selected_change_element(std::string elem);
+	void selected_change_element(jgn::string elem);
 	jgn::vec2 _hoveringAnatom(const jgn::vec2 m);
+	void updateinfo();
 	class Grouplist
 	{
 	public:

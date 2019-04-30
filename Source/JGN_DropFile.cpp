@@ -1801,14 +1801,16 @@ void JGN_DropFile()
 
 	}
 	Group groupInit;
+	//primitive vectors
 	groupInit.primitiveVec[0] = jgn::vec3(ijk[0][0], ijk[0][1], ijk[0][2]);
 	groupInit.primitiveVec[1] = jgn::vec3(ijk[1][0], ijk[1][1], ijk[1][2]);
 	groupInit.primitiveVec[2] = jgn::vec3(ijk[2][0], ijk[2][1], ijk[2][2]);
 	groupInit.primitiveBase[0] = groupInit.primitiveVec[0] / groupInit.primitiveVec[0].abs();
 	groupInit.primitiveBase[1] = groupInit.primitiveVec[1] / groupInit.primitiveVec[1].abs();
 	groupInit.primitiveBase[2] = groupInit.primitiveVec[2] / groupInit.primitiveVec[2].abs();
-
+	//atoms type
 	groupInit._N_types = a;
+	groupInit._prev_N_types = a;
 	groupInit.N_atoms_per_type.reserve(groupInit._N_types);
 	groupInit.color_per_type.reserve(groupInit._N_types);
 	for (int i = 0; i < groupInit._N_types; i++)
@@ -1828,6 +1830,15 @@ void JGN_DropFile()
 		size_t sp = groupInit._alltype[i].find(" ");
 		if (sp != std::string::npos)
 		groupInit._alltype[i].resize(sp + 1);
+
+		for (int j = 0; j < groupInit._alltype[i].length(); j++)
+		{
+			if ((groupInit._alltype[i].c_str())[j] == ' ')
+			{
+				groupInit._alltype[i].erase(j, 1);
+			}
+		}
+		
 	}
 	groupInit.N_atoms = t;
 	groupInit._reserve(groupInit.N_atoms);

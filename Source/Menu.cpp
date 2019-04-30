@@ -210,6 +210,7 @@ jgn::vec2 Menu::clicked(jgn::vec2 m)
 		{
 			if (menu.editselected->element[i].hoverstate)
 			{
+				out.x = Menu::EDIT_SELECTED;
 				out.y = i;
 				return out;
 			}

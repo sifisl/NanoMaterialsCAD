@@ -12,6 +12,7 @@
 #include "VSystem.h"
 #include "ToolBar.h"
 #include "Menu.h"
+#include "virtualwindow.h"
 
 #define glutSolidSphere JGN_SolidSphere
 // TODO: make a class instead of the crystal array
@@ -38,7 +39,7 @@ int main(int argc, char *argv[])
 	JGN_Init();
 	JGN_InitWindowPosition(GetSystemMetrics(SM_CXSCREEN)/2 - 500, GetSystemMetrics(SM_CYSCREEN) / 2 - 400);
 	JGN_InitWindowSize(1000, 800);
-	JGN_CreateWindow("Ptyxiakh v1.0a");
+	JGN_CreateWindow("NanoDOT 0.1.0");
 
 
 
@@ -65,6 +66,7 @@ int main(int argc, char *argv[])
 
 	CustomSurfacesOn = 1;
 	
+	LoadBMP("button.bmp", &buttonID);
 	LoadBMP("showmore.bmp", &showmoreID);
 	LoadBMP("showless.bmp", &showlessID);
 	LoadBMP("cm_rotate.bmp", &cursorToolsImg[0]);
@@ -368,7 +370,8 @@ void display1(void)//generates the graphics output.
 	vs.cut();//TODO: move that from here
 
 	vs.draw();
-	
+	wn.draw();
+
 	tb.draw();
 
 	glColor3f(0.0, 0.0, 0.0);
@@ -1565,6 +1568,14 @@ void keyboardgl(int key, int s, int x, int y)
 		}
 
 	}
+	else if (key == VK_SHIFT && s == JGN_DOWN)
+	{
+		shift_down = true;
+	}
+	else if (key == VK_SHIFT && s == JGN_UP)
+	{
+		shift_down = false;
+	}
 	else if (key == 's' || key == 'S')
 	{
 		if (s == JGN_DOWN)
@@ -1682,7 +1693,50 @@ void keyboardgl(int key, int s, int x, int y)
 	else
 	{
 		int check_if_to_redisplay = 0;
-		if ((key == 'q' || key == 'Q') && s == JGN_DOWN)
+		if (wn.show)
+		{
+			if (s == JGN_DOWN)
+			{
+				if ((key >= 'A' && key <= 'Z') || (key >= 'a' && key <= 'z'))
+				{
+					if (capson)
+					{
+						if(!shift_down)
+							wn.in_field.push_back(key);
+						else
+							wn.in_field.push_back(key + 32);
+					}
+					else
+					{
+						if (!shift_down)
+							wn.in_field.push_back(key + 32);
+						else
+							wn.in_field.push_back(key);
+					}
+
+					
+
+					check_if_to_redisplay = 1;
+				}
+				else if (key == VK_BACK)
+				{
+					if (!wn.in_field.empty())
+					{
+						wn.in_field.erase(wn.in_field.length() - 1, 1);
+						check_if_to_redisplay = 1;
+					}
+				}
+				else if (key == VK_RETURN)
+				{
+					wn.in_message = "";
+					vs.selected_change_element(wn.in_field);
+					wn.in_field = "";
+					vs.updateinfo();
+					check_if_to_redisplay = 1;
+				}
+			}
+		}
+		else if ((key == 'q' || key == 'Q') && s == JGN_DOWN)
 		{
 			if (jgn_supercell)
 			{
@@ -1756,14 +1810,6 @@ void keyboardgl(int key, int s, int x, int y)
 		{
 			vacuum = vacuum ^ true;
 			JGN_PostRedisplay();
-		}
-		else if (key == VK_SHIFT && s == JGN_DOWN)
-		{
-			shift_down = true;
-		}
-		else if (key == VK_SHIFT && s == JGN_UP)
-		{
-			shift_down = false;
 		}
 		else if (key == VK_ADD && s == JGN_DOWN)
 		{
@@ -2045,7 +2091,7 @@ void keyboardgl(int key, int s, int x, int y)
 		{
 
 			tb.sellectedTool = ToolBar::Tool::SELECT;
-
+			vs.unsellectAll();
 			DrawDistanceLine = false;
 			int asdf = t * sized[0] * sized[1] * sized[2];
 			for (int i = 0; i < asdf; i++)
@@ -2839,13 +2885,13 @@ void mouse_pasive(int x, int y)
 	menu.hoverstatecheck(menu.mainmenu, jgn::vec2(jgn_x, jgn_y));
 	if (lmb == JGN_UP)
 	{
-		if (tb.sellectedTool == ToolBar::Tool::SELECT || tb.sellectedTool == ToolBar::Tool::DISTANCE)
+		if ((tb.sellectedTool == ToolBar::Tool::SELECT || tb.sellectedTool == ToolBar::Tool::DISTANCE) && !wn.show)
 		{
 			if (tb.sellectedTool == ToolBar::Tool::SELECT && mouse_check == 1)
 			{
 				//if (leftClick.start[0] == leftClick.finish[0] && leftClick.start[1] == leftClick.finish[1])
 				//{
-					if (!shift_down)
+					if (!(shift_down || wn.show))
 						vs.unsellectAll();
 					tb.usetool.sellect();
 				//}
@@ -2891,7 +2937,7 @@ void mouse_pasive(int x, int y)
 	else
 	{
 
-		if(tb.sellectedTool == ToolBar::Tool::SELECT || tb.sellectedTool == ToolBar::Tool::DISTANCE)
+		if((tb.sellectedTool == ToolBar::Tool::SELECT || tb.sellectedTool == ToolBar::Tool::DISTANCE) && !wn.show)
 		{
 			if (mouse_check == 0)
 			{
@@ -2914,7 +2960,7 @@ void mouse_pasive(int x, int y)
 			{
 				if (!(leftClick.start[0] == leftClick.finish[0] && leftClick.start[1] == leftClick.finish[1]))
 				{
-					if(!shift_down)
+					if (!(shift_down || !wn.show))
 						vs.unsellectAll();
 						tb.usetool.sellect();
 				}
@@ -2974,35 +3020,7 @@ void mouse_func(int b, int s, int x, int y)
 		//}
 		if (s == JGN_DOWN)
 		{
-			if (menu.show)
-			{
-				jgn::vec2 cl = menu.clicked(jgn::vec2(xnorm, ynorm));
-				if (cl.x == Menu::NONE && cl.y == Menu::NONE)
-				{
-					menu.show = false;
-				}
-				else if (cl.y==Menu::TRANSLATE)
-				{
-					menu.show = false;
-				}
-				else if (cl.y == Menu::ROTATE)
-				{
-					menu.show = false;
-				}
-				else if (cl.y == Menu::CHANGE_ELEMENT)
-				{
-					vs.selected_change_element(std::string(" H "));
-					menu.show = false;
-				}
-				else if (cl.y == Menu::CHANGE_RADIUS)
-				{
-					menu.show = false;
-				}
-				else if (cl.y == Menu::SELECTIVE_DYNAMICS)
-				{
-					menu.show = false;
-				}
-			}
+
 			if (tb.tooldownclicked(xnorm, ynorm))
 			{
 			}
@@ -3021,7 +3039,40 @@ void mouse_func(int b, int s, int x, int y)
 		}
 		else
 		{
-			if (tb.toolclicked(xnorm, ynorm))
+			if (menu.show)
+			{
+				jgn::vec2 cl = menu.clicked(jgn::vec2(xnorm, ynorm));
+				if (cl.x == Menu::NONE && cl.y == Menu::NONE)
+				{
+					std::cout << "NONE" << std::endl;
+					menu.show = false;
+				}
+				else if (cl.y == Menu::TRANSLATE)
+				{
+					std::cout << "TRANSLATE" << std::endl;
+					menu.show = false;
+				}
+				else if (cl.y == Menu::ROTATE)
+				{
+					std::cout << "ROTATE" << std::endl;
+					menu.show = false;
+				}
+				else if (cl.y == Menu::CHANGE_ELEMENT)
+				{
+					wn.in_message = "Give the element";
+					wn.in_message_translate = jgn::vec3(0.12, 0.25, 7);
+					menu.show = false;
+				}
+				else if (cl.y == Menu::CHANGE_RADIUS)
+				{
+					menu.show = false;
+				}
+				else if (cl.y == Menu::SELECTIVE_DYNAMICS)
+				{
+					menu.show = false;
+				}
+			}
+			else if (tb.toolclicked(xnorm, ynorm))
 			{
 				if (tb.sellectedTool == ToolBar::Tool::DISTANCE)
 				{

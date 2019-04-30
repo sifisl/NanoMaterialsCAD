@@ -353,7 +353,7 @@ void VSystem::_drawsysteminfo()
 	glDisable(GL_LIGHTING);
 	int stroke_c = 0;
 	//write the element type
-	for (int ff = 0; ff < vs.N_types; ff++)
+	for (int ff = 0; ff < this->N_types; ff++)
 	{
 		glLoadIdentity();
 		glColor3f(0, 0, 0);
@@ -371,7 +371,7 @@ void VSystem::_drawsysteminfo()
 	glEnable(GL_LIGHTING);
 	glPointSize(10);
 	//draw sphere color and write the number of atoms per type
-	for (int ff = 0; ff < vs.N_types; ff++)
+	for (int ff = 0; ff < this->N_types; ff++)
 	{
 		glLoadIdentity();
 		glColor3f(0, 0, 0);
@@ -700,7 +700,139 @@ void VSystem::cut()
 	}
 }
 
-void VSystem::selected_change_element(std::string elem)
+void VSystem::selected_change_element(jgn::string elem)
 {
+	for (int i = 0; i < this->group[0]._N_types; i++)
+	{
+		std::cout << this->group[0]._alltype[i] << std::endl;
+		std::cout << this->group[0].N_atoms_per_type[i] << std::endl;
+	}
+	float atomic_number = 0;
+	float atomic_weight = 0;
+	ole1 = 0;
+	periodic_table = fopen("periodic_table.jgn", "r");
+	//find atomic number and weight
+	while (ole1 == 0) {
+		std::fgets(s1, 50, periodic_table);
+		token1 = strtok(s1, " ");
+		if (strcmp(elem.c_str(), token1) == 0) {
 
+			token1 = strtok(NULL, " ");
+			my_direct[0 + 5 * ole] = std::atof(token1);
+			atomic_number = std::atof(token1);
+			token1 = strtok(NULL, " ");
+			atomic_weight = std::atof(token1);
+			ole1 = 1;
+		}
+	}
+	fclose(periodic_table);
+
+	int exists = -1;
+	for (int j = 0; j < this->group[this->_sellectHistory[i].x]._N_types; j++)
+	{
+		std::cout << elem << " " << this->group[this->_sellectHistory[i].x]._alltype[j] << std::endl;
+		//if (!std::strcmp(this->group[this->_sellectHistory[i].x]._alltype[j].c_str(), elem.c_str()))
+		if (this->group[this->_sellectHistory[i].x]._alltype[j].compare(elem))
+		{
+			exists = j;
+			break;
+		}
+	}
+
+		
+	for (int i = 0; i < this->_sellectHistory.capacity(); i++)
+	{//for every atom
+		if (this->_sellectHistory[i].z != -1)
+		{//if it is sellected
+			if (exists != -1)
+			{
+				this->group[this->_sellectHistory[i].x].N_atoms_per_type[exists]++;
+				for (int j = 0; j < this->group[this->_sellectHistory[i].x]._N_types; j++)
+				{
+					if (!std::strcmp(this->group[this->_sellectHistory[i].x].type[this->_sellectHistory[i].y].c_str(), this->group[this->_sellectHistory[i].x]._alltype[j].c_str()))
+					{
+						this->group[this->_sellectHistory[i].x].N_atoms_per_type[j]--;
+						break;
+					}
+				}
+			}
+			else
+			{
+				this->group[this->_sellectHistory[i].x]._N_types++;
+				exists = this->group[this->_sellectHistory[i].x]._N_types - 1;
+				this->group[this->_sellectHistory[i].x].N_types(this->group[this->_sellectHistory[i].x]._N_types);
+				this->group[this->_sellectHistory[i].x].N_atoms_per_type.reserve(this->group[this->_sellectHistory[i].x]._N_types);
+				this->group[this->_sellectHistory[i].x]._alltype.emplace_back(elem);
+				this->group[this->_sellectHistory[i].x].N_atoms_per_type.emplace_back(1);
+				for (int j = 0; j < this->group[this->_sellectHistory[i].x]._N_types; j++)
+				{
+					if (!std::strcmp(this->group[this->_sellectHistory[i].x].type[this->_sellectHistory[i].y].c_str(), this->group[this->_sellectHistory[i].x]._alltype[j].c_str()))
+					{
+						this->group[this->_sellectHistory[i].x].N_atoms_per_type[j]--;
+						break;
+					}
+				}
+			}
+			this->group[this->_sellectHistory[i].x].type[this->_sellectHistory[i].y] = elem;
+			this->group[this->_sellectHistory[i].x].number[this->_sellectHistory[i].y] = atomic_number;
+			this->group[this->_sellectHistory[i].x].weight[this->_sellectHistory[i].y] = atomic_weight;
+			this->group[this->_sellectHistory[i].x].color[this->_sellectHistory[i].y] = jgn::vec3(fmod(atomic_weight, 1.5), fmod(atomic_number, 0.92), fmod(100 * fmod(atomic_weight, 1.5) * fmod(atomic_number, 0.92), 0.8));
+		}
+	}
+	this->unsellectAll();
+	for (int i = 0; i < this->group[0]._N_types; i++)
+	{
+		std::cout << this->group[0]._alltype[i] << std::endl;
+		std::cout << this->group[0].N_atoms_per_type[i] << std::endl;
+	}
+}
+
+void VSystem::updateinfo()
+{
+	//zero all counts
+	for (int i = 0; i < this->N_types; i++)
+	{
+		this->N_atoms_per_type[i] = 0;
+	}
+	//check if number of types changed inside the groups
+	int more_memory = 0;
+	for (int g = 0; g < this->N_groups; g++)
+	{
+		if (this->group[g]._N_types != this->group[i]._prev_N_types)
+		{
+			more_memory += this->group[g]._N_types - this->group[i]._prev_N_types;
+		}
+	}
+	//if we need more memory allocate it
+	if (more_memory > 0)
+	{
+		///this->N_types += more_memory;
+		this->N_atoms_per_type.reserve(this->N_types + more_memory);
+		this->color_per_type.reserve(this->N_types + more_memory);
+		this->types.reserve(this->N_types + more_memory);
+	}
+	//now count the atoms
+	for (int g = 0; g < this->N_groups; g++)
+	{
+		for (int i = 0; i < this->N_atoms; i++)
+		{
+			bool exists = false;
+			for (int j = 0; j < this->N_types; j++)
+			{//check if this element if new
+				if (std::strcmp(this->types[j].c_str(), this->group[g].type[i].c_str()) == 0)
+				{//if not
+					this->N_atoms_per_type[j]++;
+					exists = true;
+					break;
+				}
+			}
+			if (!exists)
+			{
+				this->N_types++;
+				this->N_atoms_per_type.emplace_back(1);
+				this->color_per_type.emplace_back(this->group[g].color[i]);
+				this->types.emplace_back(this->group[g].type[i]);
+			}
+		}
+	}
 }

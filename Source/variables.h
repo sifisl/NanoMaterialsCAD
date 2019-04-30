@@ -55,10 +55,12 @@ EXT char* PCtype;
 
 EXT float ttest[81000000];
 EXT int lmb;//left mouse button
+EXT bool capson;
 EXT int wasfullscreenflagin;
 EXT int wasfullscreenflagout;
 EXT GLuint Font;
 EXT GLuint button1ID;
+EXT GLuint buttonID;
 EXT GLuint cursorToolsImg[4];
 EXT GLuint showmoreID;
 EXT GLuint showlessID;

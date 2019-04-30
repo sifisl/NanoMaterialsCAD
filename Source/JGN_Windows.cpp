@@ -794,7 +794,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		//Keyboard Messages
 		//
 	case WM_KEYDOWN:
-		____JGN_KeyboardFunc(wParam, JGN_DOWN, jgn_GlobalMouseCooX, jgn_GlobalMouseCooY, hWnd);
+		if (wParam == VK_CAPITAL)
+		{
+			if ((GetKeyState(VK_CAPITAL) & 0x0001) != 0)
+				capson = true;
+			else
+				capson = false;
+		}
+		else
+		{
+			____JGN_KeyboardFunc(wParam, JGN_DOWN, jgn_GlobalMouseCooX, jgn_GlobalMouseCooY, hWnd);
+		}
 		break;
 	case WM_KEYUP:
 		____JGN_KeyboardFunc(wParam, JGN_UP, jgn_GlobalMouseCooX, jgn_GlobalMouseCooY, hWnd);

@@ -2974,6 +2974,35 @@ void mouse_func(int b, int s, int x, int y)
 		//}
 		if (s == JGN_DOWN)
 		{
+			if (menu.show)
+			{
+				jgn::vec2 cl = menu.clicked(jgn::vec2(xnorm, ynorm));
+				if (cl.x == Menu::NONE && cl.y == Menu::NONE)
+				{
+					menu.show = false;
+				}
+				else if (cl.y==Menu::TRANSLATE)
+				{
+					menu.show = false;
+				}
+				else if (cl.y == Menu::ROTATE)
+				{
+					menu.show = false;
+				}
+				else if (cl.y == Menu::CHANGE_ELEMENT)
+				{
+					vs.selected_change_element(std::string(" H "));
+					menu.show = false;
+				}
+				else if (cl.y == Menu::CHANGE_RADIUS)
+				{
+					menu.show = false;
+				}
+				else if (cl.y == Menu::SELECTIVE_DYNAMICS)
+				{
+					menu.show = false;
+				}
+			}
 			if (tb.tooldownclicked(xnorm, ynorm))
 			{
 			}
@@ -2989,8 +3018,6 @@ void mouse_func(int b, int s, int x, int y)
 					vs.group[vs.grouplist.options.hovering].isSelected[i] = true;
 				}
 			}
-			if (!menu.mainmenu->hoverstate)
-				menu.show = false;
 		}
 		else
 		{

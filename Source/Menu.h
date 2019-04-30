@@ -13,7 +13,8 @@ public:
 	enum Options
 	{
 		EDIT_SELECTED,
-		SYSTEM_INFO
+		SYSTEM_INFO,
+		NONE
 	};
 	enum EDIT_SELECTED
 	{
@@ -55,6 +56,7 @@ public:
 	bool hoverstatecheck(Menu* men, jgn::vec2 m);
 	bool hoverstate;
 	void shownon();
+	jgn::vec2 clicked(jgn::vec2 m);//mouse as input, (enum mainmOptionsenu, enum EDIT_SELECTED) as outpus
 
 }EXT menu;
 

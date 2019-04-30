@@ -699,3 +699,8 @@ void VSystem::cut()
 		}
 	}
 }
+
+void VSystem::selected_change_element(std::string elem)
+{
+
+}

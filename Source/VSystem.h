@@ -73,6 +73,7 @@ public:
 	void _drawsysteminfo();
 	void unsellectAll();
 	void undoSellect();
+	void selected_change_element(std::string elem);
 	jgn::vec2 _hoveringAnatom(const jgn::vec2 m);
 	class Grouplist
 	{

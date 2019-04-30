@@ -193,3 +193,25 @@ void Menu::shownon()
 			this->mainmenu->element[i].submenu->show = false;
 	}
 }
+
+jgn::vec2 Menu::clicked(jgn::vec2 m)
+{
+	jgn::vec2 out = jgn::vec2(Menu::NONE, Menu::NONE);
+	for (int i = 0; i < menu.mainmenu->N_options; i++)
+	{
+		if (menu.mainmenu->element[i].hoverstate)
+		{
+			out.x = i;
+			return out;
+		}
+	}
+	if(menu.editselected->show)
+		for (int i = 0; i < menu.editselected->N_options; i++)
+		{
+			if (menu.editselected->element[i].hoverstate)
+			{
+				out.y = i;
+				return out;
+			}
+		}
+}

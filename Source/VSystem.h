@@ -75,6 +75,7 @@ public:
 	void unsellectAll();
 	void undoSellect();
 	void selected_change_element(jgn::string elem);
+	void selected_change_radius(jgn::string r);
 	jgn::vec2 _hoveringAnatom(const jgn::vec2 m);
 	void updateinfo();
 	class Grouplist

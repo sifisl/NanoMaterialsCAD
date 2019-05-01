@@ -149,35 +149,38 @@ jgn::vec2 Utool::_singlesellect()
 	{
 		for (int i = 0; i < vs.group[g].N_atoms; i++)
 		{
-			iatom++;
-			jgn::vec3 p1;
-			jgn::vec3 p2;
-			jgn::vec3 theta_rad;
-			jgn::vec3 prevp1;
-
-			p1 = vs.group[g].position[i] / (Svmax + 5);
-			theta_rad = jgn::vec3(theta[0] * M_PI / 180, 0, theta[1] * M_PI / 180);
-
-
-			p2 = p1.translate(jgn::vec3(model_translate[0], model_translate[1], model_translate[2]));
-			p1 = p2.rotate(theta_rad);
-			p1.z = -p1.z;
-
-			///at this point p1 is the final product
-
-
-			if (jgn::dist2d(leftClick.finish, &(p1.x)) < vs.group[g].radius[i] / (Svmax + 5))
+			if (!vs.group[g].isdeleted[i])
 			{
-				if (finalclicked.y == -1)
+				iatom++;
+				jgn::vec3 p1;
+				jgn::vec3 p2;
+				jgn::vec3 theta_rad;
+				jgn::vec3 prevp1;
+
+				p1 = vs.group[g].position[i] / (Svmax + 5);
+				theta_rad = jgn::vec3(theta[0] * M_PI / 180, 0, theta[1] * M_PI / 180);
+
+
+				p2 = p1.translate(jgn::vec3(model_translate[0], model_translate[1], model_translate[2]));
+				p1 = p2.rotate(theta_rad);
+				p1.z = -p1.z;
+
+				///at this point p1 is the final product
+
+
+				if (jgn::dist2d(leftClick.finish, &(p1.x)) < vs.group[g].radius[i] / (Svmax + 5))
 				{
-					finalclicked = jgn::vec2(g, i);
-					prevp1 = p1;
-					iatomtosellect = iatom;
-				}
-				else if (p1.z < prevp1.z) {
-					finalclicked = jgn::vec2(g, i);
-					prevp1 = p1;
-					iatomtosellect = iatom;
+					if (finalclicked.y == -1)
+					{
+						finalclicked = jgn::vec2(g, i);
+						prevp1 = p1;
+						iatomtosellect = iatom;
+					}
+					else if (p1.z < prevp1.z) {
+						finalclicked = jgn::vec2(g, i);
+						prevp1 = p1;
+						iatomtosellect = iatom;
+					}
 				}
 			}
 		}
@@ -206,27 +209,30 @@ bool Utool::_multisellect()
 		for (int i = 0; i < vs.group[g].N_atoms; i++)
 		{
 			iatoms++;
-			jgn::vec3 p1;
-			jgn::vec3 p2;
-			jgn::vec3 theta_rad;
-
-			p1 = vs.group[g].position[i] / (Svmax + 5);
-			theta_rad = jgn::vec3(theta[0] * M_PI / 180, 0, theta[1] * M_PI / 180);
-
-
-			p2 = p1.translate(jgn::vec3(model_translate[0], model_translate[1], model_translate[2]));
-			p1 = p2.rotate(theta_rad);
-			p1.z = -p1.z;
-			
-
-			if ((p1.x<leftClick.start[0] && p1.x > leftClick.finish[0]) || (p1.x > leftClick.start[0] && p1.x < leftClick.finish[0]))
+			if (!vs.group[g].isdeleted[i])
 			{
-				if ((p1.y<leftClick.start[1] && p1.y > leftClick.finish[1]) || (p1.y > leftClick.start[1] && p1.y < leftClick.finish[1]))
+				jgn::vec3 p1;
+				jgn::vec3 p2;
+				jgn::vec3 theta_rad;
+
+				p1 = vs.group[g].position[i] / (Svmax + 5);
+				theta_rad = jgn::vec3(theta[0] * M_PI / 180, 0, theta[1] * M_PI / 180);
+
+
+				p2 = p1.translate(jgn::vec3(model_translate[0], model_translate[1], model_translate[2]));
+				p1 = p2.rotate(theta_rad);
+				p1.z = -p1.z;
+
+
+				if ((p1.x<leftClick.start[0] && p1.x > leftClick.finish[0]) || (p1.x > leftClick.start[0] && p1.x < leftClick.finish[0]))
 				{
-					vs.group[g].isSelected[i] = true;
-					atLeast1isSellected = true;
-					if(vs._sellectHistory[iatoms].z==-1)
-						vs._sellectHistory[iatoms].z = vs._sellectHistory2undo;
+					if ((p1.y<leftClick.start[1] && p1.y > leftClick.finish[1]) || (p1.y > leftClick.start[1] && p1.y < leftClick.finish[1]))
+					{
+						vs.group[g].isSelected[i] = true;
+						atLeast1isSellected = true;
+						if (vs._sellectHistory[iatoms].z == -1)
+							vs._sellectHistory[iatoms].z = vs._sellectHistory2undo;
+					}
 				}
 			}
 		}

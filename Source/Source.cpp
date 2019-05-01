@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 	JGN_Init();
 	JGN_InitWindowPosition(GetSystemMetrics(SM_CXSCREEN)/2 - 500, GetSystemMetrics(SM_CYSCREEN) / 2 - 400);
 	JGN_InitWindowSize(1000, 800);
-	JGN_CreateWindow("NanoDOT 0.1.0");
+	JGN_CreateWindow(NanoDOT_v);
 
 
 
@@ -1509,7 +1509,6 @@ void deleteSelected()
 {
 	Ndeletes++;
 	bool atleast1 = false;
-	int asdf = t * sized[0] * sized[1] * sized[2];
 	for (int g = 0; g < vs.N_groups; g++)
 	{
 		for (int i = 0; i < vs.group[g].N_atoms; i++)
@@ -1697,8 +1696,8 @@ void keyboardgl(int key, int s, int x, int y)
 		{
 			if (s == JGN_DOWN)
 			{
-				if ((key >= 'A' && key <= 'Z') || (key >= 'a' && key <= 'z'))
-				{
+				if ((key >= 'A' && key <= 'Z'))
+				{//capital letters
 					if (capson)
 					{
 						if(!shift_down)
@@ -1714,8 +1713,21 @@ void keyboardgl(int key, int s, int x, int y)
 							wn.in_field.push_back(key);
 					}
 
-					
-
+					check_if_to_redisplay = 1;
+				}
+				else if (key >= '0' && key <= '9')
+				{//0 to 1
+					wn.in_field.push_back(key);
+					check_if_to_redisplay = 1;
+				}
+				else if (key >= VK_NUMPAD0 && key <= VK_NUMPAD9)
+				{//0 to 1 numpad
+					wn.in_field.push_back(key-48);
+					check_if_to_redisplay = 1;
+				}
+				else if (key == 46 || key == 110 || key == 190)
+				{//the DOT.... got it? :D
+					wn.in_field.push_back('.');
 					check_if_to_redisplay = 1;
 				}
 				else if (key == VK_BACK)
@@ -1728,12 +1740,23 @@ void keyboardgl(int key, int s, int x, int y)
 				}
 				else if (key == VK_RETURN)
 				{
-					wn.in_message = "";
-					vs.selected_change_element(wn.in_field);
-					wn.in_field = "";
-					vs.updateinfo();
+					if (!wn.in_message.compare("Give the element"))
+					{
+						wn.in_message = "";
+						vs.selected_change_element(wn.in_field);
+						wn.in_field = "";
+						vs.updateinfo();
+					}
+					else if (!wn.in_message.compare("Give the radius"))
+					{
+						wn.in_message = "";
+						vs.selected_change_radius(wn.in_field);
+						wn.in_field = "";
+						vs.updateinfo();
+					}
 					check_if_to_redisplay = 1;
 				}
+
 			}
 		}
 		else if ((key == 'q' || key == 'Q') && s == JGN_DOWN)
@@ -2912,7 +2935,6 @@ void mouse_pasive(int x, int y)
 			leftClick.start[1] = jgn_y;
 			leftClick.finish[0] = jgn_x;
 			leftClick.finish[1] = jgn_y;
-			mouse_check = 0;
 
 
 			JGN_PostRedisplay();
@@ -2922,15 +2944,14 @@ void mouse_pasive(int x, int y)
 			theta_prev[0] = -theta[0];
 			theta_prev[1] = -theta[1];
 
-			mouse_check = 0;
 		}		
 		else if (tb.sellectedTool == ToolBar::Tool::TRANSLATE)
 		{
 			translate_prev[0] = -model_translate[0];
 			translate_prev[1] = -model_translate[1];
 			translate_prev[2] = -model_translate[2];
-			mouse_check = 0;
 		}
+			mouse_check = 0;
 		mouse_x = x;
 		mouse_y = y;
 	}
@@ -2960,9 +2981,9 @@ void mouse_pasive(int x, int y)
 			{
 				if (!(leftClick.start[0] == leftClick.finish[0] && leftClick.start[1] == leftClick.finish[1]))
 				{
-					if (!(shift_down || !wn.show))
+					if (!(shift_down || wn.show))
 						vs.unsellectAll();
-						tb.usetool.sellect();
+					tb.usetool.sellect();
 				}
 			}
 		}
@@ -3065,6 +3086,8 @@ void mouse_func(int b, int s, int x, int y)
 				}
 				else if (cl.y == Menu::CHANGE_RADIUS)
 				{
+					wn.in_message = "Give the radius";
+					wn.in_message_translate = jgn::vec3(0.17, 0.25, 7);
 					menu.show = false;
 				}
 				else if (cl.y == Menu::SELECTIVE_DYNAMICS)

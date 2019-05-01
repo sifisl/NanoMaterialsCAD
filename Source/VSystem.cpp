@@ -39,35 +39,39 @@ jgn::vec2 VSystem::_hoveringAnatom(const jgn::vec2 m)
 	{
 		for (int i = 0; i < vs.group[g].N_atoms; i++)
 		{
-			iatom++;
-			jgn::vec3 p1;
-			jgn::vec3 p2;
-			jgn::vec3 theta_rad;
-			jgn::vec3 prevp1;
-
-			p1 = vs.group[g].position[i] / (Svmax + 5);
-			theta_rad = jgn::vec3(theta[0] * M_PI / 180, 0, theta[1] * M_PI / 180);
-
-
-			p2 = p1.translate(jgn::vec3(model_translate[0], model_translate[1], model_translate[2]));
-			p1 = p2.rotate(theta_rad);
-			p1.z = -p1.z;
-
-			///at this point p1 is the final product
-
-
-			if (jgn::dist2d((float*)(&(m.x)), &(p1.x)) < vs.group[g].radius[i] / (Svmax + 5))
+			if (!vs.group[g].isdeleted[i])
 			{
-				if (finalclicked.y == -1)
+
+				iatom++;
+				jgn::vec3 p1;
+				jgn::vec3 p2;
+				jgn::vec3 theta_rad;
+				jgn::vec3 prevp1;
+
+				p1 = vs.group[g].position[i] / (Svmax + 5);
+				theta_rad = jgn::vec3(theta[0] * M_PI / 180, 0, theta[1] * M_PI / 180);
+
+
+				p2 = p1.translate(jgn::vec3(model_translate[0], model_translate[1], model_translate[2]));
+				p1 = p2.rotate(theta_rad);
+				p1.z = -p1.z;
+
+				///at this point p1 is the final product
+
+
+				if (jgn::dist2d((float*)(&(m.x)), &(p1.x)) < vs.group[g].radius[i] / (Svmax + 5))
 				{
-					finalclicked = jgn::vec2(g, i);
-					prevp1 = p1;
-					iatomtosellect = iatom;
-				}
-				else if (p1.z < prevp1.z) {
-					finalclicked = jgn::vec2(g, i);
-					prevp1 = p1;
-					iatomtosellect = iatom;
+					if (finalclicked.y == -1)
+					{
+						finalclicked = jgn::vec2(g, i);
+						prevp1 = p1;
+						iatomtosellect = iatom;
+					}
+					else if (p1.z < prevp1.z) {
+						finalclicked = jgn::vec2(g, i);
+						prevp1 = p1;
+						iatomtosellect = iatom;
+					}
 				}
 			}
 		}
@@ -700,6 +704,29 @@ void VSystem::cut()
 	}
 }
 
+void VSystem::selected_change_radius(jgn::string r)
+{
+	float newradius = 0;
+	//check if is number
+	if (r.isnumber())
+	{
+		newradius = std::stof(r);
+	}
+	else {
+		return;
+	}
+
+	for (int i = 0; i < this->_sellectHistory.capacity(); i++)
+	{//for every atom
+		if (this->_sellectHistory[i].z != -1)
+		{//if it is sellected
+			this->group[this->_sellectHistory[i].x].radius[this->_sellectHistory[i].y] = newradius;
+		}
+	}
+	JGN_PostRedisplay();
+}
+
+
 void VSystem::selected_change_element(jgn::string elem)
 {
 	for (int i = 0; i < this->group[0]._N_types; i++)
@@ -713,7 +740,8 @@ void VSystem::selected_change_element(jgn::string elem)
 	periodic_table = fopen("periodic_table.jgn", "r");
 	//find atomic number and weight
 	while (ole1 == 0) {
-		std::fgets(s1, 50, periodic_table);
+		if (!std::fgets(s1, 50, periodic_table) || std::ferror(periodic_table) || std::feof(periodic_table))
+			return;
 		token1 = strtok(s1, " ");
 		if (strcmp(elem.c_str(), token1) == 0) {
 

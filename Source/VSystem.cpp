@@ -101,8 +101,8 @@ void Group::N_types(const unsigned int N_t)
 void VSystem::unsellectAll()
 {
 	_sellectHistory2undo = -1;
-	tb._sellectedfordistance[0] = jgn::vec2(-1, -1);
-	tb._sellectedfordistance[1] = jgn::vec2(-1, -1);
+	//tb._sellectedfordistance[0] = jgn::vec2(-1, -1);
+	//tb._sellectedfordistance[1] = jgn::vec2(-1, -1);
 	for (int g = 0; g < this->N_groups; g++)
 	{
 		for (int i = 0; i < this->group[g].N_atoms; i++)
@@ -120,6 +120,14 @@ void VSystem::draw()
 	glEnable(GL_LIGHTING);
 	glDisable(GL_TEXTURE_2D);
 	this->_drawatoms();
+
+	//Draw translate base if is on
+	if (this->selected_translate_ison)
+	{
+		glDisable(GL_LIGHTING);
+		this->selected_change_draw();
+		glEnable(GL_LIGHTING);
+	}
 
 	//Draw simulation box
 	this->_drawSimulationBox();
@@ -189,6 +197,150 @@ void VSystem::Grouplist::draw()
 
 		
 	}
+}
+void VSystem::selected_translate_hover_check(jgn::vec2 m)
+{
+	if (!this->istranslating_theselected)
+	{
+		jgn::vec3 v0;
+		jgn::vec3 vi;
+		jgn::vec3 r = jgn::vec3(theta[0] * M_PI / 180, 0, theta[1] * M_PI / 180);
+		jgn::vec3 t = jgn::vec3(model_translate[0], model_translate[1], model_translate[2]);
+		t = t * (Svmax + 5);
+		v0 = this->selected_translate_base[0];
+		vi = this->selected_translate_base[1];
+		jgn::cpu_translate(&(v0.x), &(t.x), &(v0.x));
+		jgn::cpu_rotate(&(v0.x), &(r.x), &(v0.x));
+		v0 = v0 / (Svmax + 5);
+		jgn::cpu_translate(&(vi.x), &(t.x), &(vi.x));
+		jgn::cpu_rotate(&(vi.x), &(r.x), &(vi.x));
+		vi = vi / (Svmax + 5);
+		jgn::Line2d line(jgn::vec2(v0.x, v0.y), jgn::vec2(vi.x, vi.y));
+		if (v0.x > vi.x - 0.0001 && v0.x < vi.x + 0.0001)
+		{
+			if (abs(jgn::distvec2toline(m, line)) < 0.01 && ((m.y > v0.y && m.y < vi.y) || (m.y < v0.y && m.y > vi.y)))
+			{
+				this->selected_translate_hovered_axes = X_AXIS;
+				return;
+			}
+		}
+		else
+		{
+			if (abs(jgn::distvec2toline(m, line)) < 0.01 && ((m.x > v0.x && m.x < vi.x) || (m.x < v0.x && m.x > vi.x)))
+			{
+				this->selected_translate_hovered_axes = X_AXIS;
+				return;
+			}
+		}
+		vi = this->selected_translate_base[2];
+		jgn::cpu_translate(&(vi.x), &(t.x), &(vi.x));
+		jgn::cpu_rotate(&(vi.x), &(r.x), &(vi.x));
+		vi = vi / (Svmax + 5);
+		line = jgn::Line2d(jgn::vec2(v0.x, v0.y), jgn::vec2(vi.x, vi.y));
+		if (v0.x > vi.x - 0.0001 && v0.x < vi.x + 0.0001)
+		{
+			if (abs(jgn::distvec2toline(m, line)) < 0.01 && ((m.y > v0.y && m.y < vi.y) || (m.y < v0.y && m.y > vi.y)))
+			{
+				this->selected_translate_hovered_axes = Y_AXIS;
+				return;
+			}
+		}
+		else
+		{
+			if (abs(jgn::distvec2toline(m, line)) < 0.01 && ((m.x > v0.x && m.x < vi.x) || (m.x < v0.x && m.x > vi.x)))
+			{
+				this->selected_translate_hovered_axes = Y_AXIS;
+				return;
+			}
+		}
+		vi = this->selected_translate_base[3];
+		jgn::cpu_translate(&(vi.x), &(t.x), &(vi.x));
+		jgn::cpu_rotate(&(vi.x), &(r.x), &(vi.x));
+		vi = vi / (Svmax + 5);
+		line = jgn::Line2d(jgn::vec2(v0.x, v0.y), jgn::vec2(vi.x, vi.y));
+		if (abs(jgn::distvec2toline(m, line)) < 0.01 && (((m.y > v0.y && m.y < vi.y) || (m.y < v0.y && m.y > vi.y))))
+		{
+			this->selected_translate_hovered_axes = Z_AXIS;
+			return;
+		}
+		this->selected_translate_hovered_axes = NO_AXIS;
+	}
+}
+
+void VSystem::selected_change_draw()
+{
+	//draw vertices
+	glClear(GL_DEPTH_BUFFER_BIT);
+	this->selected_translate_hovered_axes == X_AXIS ? glLineWidth(10) : glLineWidth(5);
+	glBegin(GL_LINES);
+	glColor3f(1, 1, 1);
+	glVertex3fvec3Svmax(this->selected_translate_base[0]);
+	glColor3f(1, 0, 0);
+	glVertex3fvec3Svmax(this->selected_translate_base[1]);
+	glEnd();
+	this->selected_translate_hovered_axes == Y_AXIS ? glLineWidth(10) : glLineWidth(5);
+	glBegin(GL_LINES);
+	glColor3f(1, 1, 1);
+	glVertex3fvec3Svmax(this->selected_translate_base[0]);
+	glColor3f(0, 1, 0);
+	glVertex3fvec3Svmax(this->selected_translate_base[2]);
+	glEnd();
+	this->selected_translate_hovered_axes == Z_AXIS ? glLineWidth(10) : glLineWidth(5);
+	glBegin(GL_LINES);
+	glColor3f(1, 1, 1);
+	glVertex3fvec3Svmax(this->selected_translate_base[0]);
+	glColor3f(0, 0, 1);
+	glVertex3fvec3Svmax(this->selected_translate_base[3]);
+	glEnd();
+
+	//draw scale (the thing in the middle)
+	//TODO: change that if possible
+	glLoadIdentity();
+	jgn::vec3 r = jgn::vec3(theta[0] * M_PI / 180, 0, theta[1] * M_PI / 180);
+	jgn::vec3 v = this->selected_translate_base[3];
+	jgn::vec3 t = jgn::vec3(model_translate[0], model_translate[1], model_translate[2]);
+	t = t * (Svmax + 5);
+	jgn::cpu_translate(&(v.x), &(t.x), &(v.x));
+	jgn::cpu_rotate(&(v.x), &(r.x), &(v.x));
+	v = v / (Svmax + 5);
+
+	glClear(GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, buttonID);
+	glColor3f(1, 1, 1);
+	glBegin(GL_QUADS);
+	glTexCoord2f(0, 0);
+	glVertex3f(v.x - 0.08, v.y - 0.04, v.z);
+	glTexCoord2f(1, 0);
+	glVertex3f(v.x + 0.08, v.y - 0.04, v.z );
+	glTexCoord2f(1, 1);
+	glVertex3f(v.x + 0.08, v.y + 0.04, v.z);
+	glTexCoord2f(0, 1);
+	glVertex3f(v.x - 0.08, v.y + 0.04, v.z);
+	glEnd();
+
+	//write the scale
+	glBindTexture(GL_TEXTURE_2D, Font);
+	glColor3f(0, 0, 0);
+	glTranslatef(v.x - 0.075 , v.y - 0.035, v.z);
+	glScalef(0.75, 0.75, 0.75);
+	jgn::string s = jgn::ftoa(this->selected_translate_sensitivity);
+	write::string(s.c_str(), 3);
+	glLoadIdentity();
+
+	glDisable(GL_TEXTURE_2D);
+	if (CustomSurfacesOn)
+	{
+		glRotatef(theta[0], 1.0, 0.0, 0.0);
+		glRotatef(theta[1], 0.0, 0.0, 1.0);
+	}
+	else
+	{
+		glRotatef(theta[0], 1.0, 0.0, 0.0);
+		glRotatef(theta[1], 0.0, 1.0, 0.0);
+	}
+	glTranslatef(model_translate[0], model_translate[1], model_translate[2]);
+
 }
 
 bool VSystem::Grouplist::Options::checkhoverstatus(const jgn::vec2 m)
@@ -509,6 +661,60 @@ void VSystem::_drawBase()
 
 }
 
+void VSystem::translate_selected(jgn::vec2& m, jgn::vec2& mprev)
+{
+	if (this->selected_translate_hovered_axes == X_AXIS)
+	{
+		jgn::vec3 dm = jgn::vec3(m.x - mprev.x, m.y - mprev.y, 0);
+		jgn::vec3 b = this->selected_translate_base[1] - this->selected_translate_base[0];
+		jgn::vec3 r = jgn::vec3(theta[0] * M_PI / 180, 0, theta[1] * M_PI / 180);
+		jgn::cpu_rotate(&b.x, &r.x, &b.x);
+		float d = jgn::dotproduct(dm, b)*this->selected_translate_sensitivity;
+
+		for (int i = 0; i < this->_sellectHistory.capacity(); i++)
+		{//for every atom
+			if (this->_sellectHistory[i].z != -1)
+			{//if it is sellected
+				this->group[this->_sellectHistory[i].x].position[this->_sellectHistory[i].y] = this->group[this->_sellectHistory[i].x].position[this->_sellectHistory[i].y] + jgn::vec3(d, 0, 0);
+			}
+		}
+	}
+	else if (this->selected_translate_hovered_axes == Y_AXIS)
+	{
+		jgn::vec3 dm = jgn::vec3(m.x - mprev.x, m.y - mprev.y, 0);
+		jgn::vec3 b = this->selected_translate_base[2] - this->selected_translate_base[0];
+		jgn::vec3 r = jgn::vec3(theta[0] * M_PI / 180, 0, theta[1] * M_PI / 180);
+		jgn::cpu_rotate(&b.x, &r.x, &b.x);
+		float d = jgn::dotproduct(dm, b)*this->selected_translate_sensitivity;
+
+		for (int i = 0; i < this->_sellectHistory.capacity(); i++)
+		{//for every atom
+			if (this->_sellectHistory[i].z != -1)
+			{//if it is sellected
+				this->group[this->_sellectHistory[i].x].position[this->_sellectHistory[i].y] = this->group[this->_sellectHistory[i].x].position[this->_sellectHistory[i].y] + jgn::vec3(0, d, 0);
+			}
+		}
+	}
+	else if (this->selected_translate_hovered_axes == Z_AXIS)
+	{
+		jgn::vec3 dm = jgn::vec3(m.x - mprev.x, m.y - mprev.y, 0);
+		jgn::vec3 b = this->selected_translate_base[3] - this->selected_translate_base[0];
+		jgn::vec3 r = jgn::vec3(theta[0] * M_PI / 180, 0, theta[1] * M_PI / 180);
+		jgn::cpu_rotate(&b.x, &r.x, &b.x);
+		float d = jgn::dotproduct(dm, b)*this->selected_translate_sensitivity;
+
+		for (int i = 0; i < this->_sellectHistory.capacity(); i++)
+		{//for every atom
+			if (this->_sellectHistory[i].z != -1)
+			{//if it is sellected
+				this->group[this->_sellectHistory[i].x].position[this->_sellectHistory[i].y] = this->group[this->_sellectHistory[i].x].position[this->_sellectHistory[i].y] + jgn::vec3(0, 0, d);
+			}
+		}
+	}
+	this->toggleselected_translate(true);
+
+}
+
 void VSystem::setSimulationBox(int s)
 {
 	this->_isimulationBox = s;
@@ -723,7 +929,62 @@ void VSystem::selected_change_radius(jgn::string r)
 			this->group[this->_sellectHistory[i].x].radius[this->_sellectHistory[i].y] = newradius;
 		}
 	}
-	JGN_PostRedisplay();
+}
+
+void VSystem::selected_change_sd(jgn::string sd)
+{
+	//check if we have 3 letter T or F
+	for (int i = 0; i < 3; i++)
+	{
+		if (sd.at(i) != 't' && sd.at(i) != 'T' && sd.at(i) != 'f' && sd.at(i) != 'F')
+		{
+			return;
+		}
+	}
+
+	for (int i = 0; i < this->_sellectHistory.capacity(); i++)
+	{//for every atom
+		if (this->_sellectHistory[i].z != -1)
+		{//if it is sellected
+			for (int j = 0; j < 3; j++)//stupid proof
+				sd.at(j) == 't' || sd.at(j) == 'T' ? this->group[this->_sellectHistory[i].x].selective_dynamics[this->_sellectHistory[i].y].at(j) = 'T' : this->group[this->_sellectHistory[i].x].selective_dynamics[this->_sellectHistory[i].y].at(j) = 'F';
+		}
+	}
+}
+void VSystem::toggleselected_translate(bool state)
+{
+	selected_translate_ison = state;
+	if (selected_translate_ison)
+	{//calculate selected_translate_base axis
+		jgn::vec3 v = jgn::vec3(0.0, 0.0, 0.0);
+		int Nsellected = 0;
+		float max_x = FLT_MIN;
+		float max_y = FLT_MIN;
+		float max_z = FLT_MIN;
+
+		for (int i = 0; i < this->_sellectHistory.capacity(); i++)
+		{//for every atom
+			if (this->_sellectHistory[i].z != -1)
+			{//if it is sellected
+				Nsellected++;
+				v = v + vs.group[this->_sellectHistory[i].x].position[this->_sellectHistory[i].y];
+				if (vs.group[this->_sellectHistory[i].x].position[this->_sellectHistory[i].y].x > max_x)
+					max_x = vs.group[this->_sellectHistory[i].x].position[this->_sellectHistory[i].y].x;
+				if (vs.group[this->_sellectHistory[i].x].position[this->_sellectHistory[i].y].y > max_y)
+					max_y = vs.group[this->_sellectHistory[i].x].position[this->_sellectHistory[i].y].y;
+				if (vs.group[this->_sellectHistory[i].x].position[this->_sellectHistory[i].y].z > max_z)
+					max_z = vs.group[this->_sellectHistory[i].x].position[this->_sellectHistory[i].y].z;
+			}
+		}
+		v = v / Nsellected;
+		max_x -= v.x;
+		max_y -= v.y;
+		max_z -= v.z;
+		this->selected_translate_base[0] = v;
+		this->selected_translate_base[1] = v + jgn::vec3(max_x + 10, 0, 0);
+		this->selected_translate_base[2] = v + jgn::vec3(0, max_y + 10, 0);
+		this->selected_translate_base[3] = v + jgn::vec3(0, 0, max_z + 10);
+	}
 }
 
 

@@ -13,6 +13,7 @@
 #include "ToolBar.h"
 #include "Menu.h"
 #include "virtualwindow.h"
+#include "Mouse.h"
 
 #define glutSolidSphere JGN_SolidSphere
 // TODO: make a class instead of the crystal array
@@ -1754,6 +1755,13 @@ void keyboardgl(int key, int s, int x, int y)
 						wn.in_field = "";
 						vs.updateinfo();
 					}
+					else if (!wn.in_message.compare("Selective dynamics"))
+					{
+						wn.in_message = "";
+						vs.selected_change_sd(wn.in_field);
+						wn.in_field = "";
+						vs.updateinfo();
+					}
 					check_if_to_redisplay = 1;
 				}
 
@@ -2107,6 +2115,9 @@ void keyboardgl(int key, int s, int x, int y)
 			vs.unsellectAll();
 			tb._Nsellectedfordistance = 0;
 			tb.sellectedTool = ToolBar::Tool::DISTANCE;
+			tb._Nsellectedfordistance = 0;
+			tb._sellectedfordistance[0] = jgn::vec2(-1, -1);
+			tb._sellectedfordistance[1] = jgn::vec2(-1, -1);
 			iClickedForDistance = 2;
 			JGN_PostRedisplay();
 		}
@@ -2115,7 +2126,6 @@ void keyboardgl(int key, int s, int x, int y)
 
 			tb.sellectedTool = ToolBar::Tool::SELECT;
 			vs.unsellectAll();
-			DrawDistanceLine = false;
 			int asdf = t * sized[0] * sized[1] * sized[2];
 			for (int i = 0; i < asdf; i++)
 			{
@@ -2883,7 +2893,6 @@ void findClicked()
 
 void mouse_pasive(int x, int y)
 {
-
 	float jgn_x;
 	float jgn_y;
 	if (width <= height)
@@ -2899,6 +2908,8 @@ void mouse_pasive(int x, int y)
 		jgn_y = 2.1 * (-((y / (float)height) - 0.5));
 	}
 
+	mouse.pos.x = jgn_x;
+	mouse.pos.y = jgn_y;
 
 	tb.hoveringAtool(jgn_x, jgn_y);
 	vs._hoveringAnatom(jgn::vec2(jgn_x, jgn_y));
@@ -2906,6 +2917,8 @@ void mouse_pasive(int x, int y)
 	vs.grouplist.options.checkhoverstatus(jgn::vec2(jgn_x, jgn_y));
 	menu.hoverstatecheck(menu.editselected, jgn::vec2(jgn_x, jgn_y));
 	menu.hoverstatecheck(menu.mainmenu, jgn::vec2(jgn_x, jgn_y));
+	if (vs.selected_translate_ison)
+		vs.selected_translate_hover_check(jgn::vec2(jgn_x, jgn_y));
 	if (lmb == JGN_UP)
 	{
 		if ((tb.sellectedTool == ToolBar::Tool::SELECT || tb.sellectedTool == ToolBar::Tool::DISTANCE) && !wn.show)
@@ -2941,15 +2954,21 @@ void mouse_pasive(int x, int y)
 		}
 		else if (tb.sellectedTool == ToolBar::Tool::ROTATE || mouse_mode == 'o' || mouse_mode == 'a' || tb.sellectedTool == ToolBar::Tool::DISTANCE)
 		{
-			theta_prev[0] = -theta[0];
-			theta_prev[1] = -theta[1];
+			if (!vs.noupdate)
+			{
+				theta_prev[0] = -theta[0];
+				theta_prev[1] = -theta[1];
+			}
 
 		}		
 		else if (tb.sellectedTool == ToolBar::Tool::TRANSLATE)
 		{
-			translate_prev[0] = -model_translate[0];
-			translate_prev[1] = -model_translate[1];
-			translate_prev[2] = -model_translate[2];
+			if (!vs.noupdate)
+			{
+				translate_prev[0] = -model_translate[0];
+				translate_prev[1] = -model_translate[1];
+				translate_prev[2] = -model_translate[2];
+			}
 		}
 			mouse_check = 0;
 		mouse_x = x;
@@ -2957,7 +2976,10 @@ void mouse_pasive(int x, int y)
 	}
 	else
 	{
-
+		if (vs.istranslating_theselected)
+		{
+			vs.translate_selected(mouse.pos, mouse.prevpos);
+		}
 		if((tb.sellectedTool == ToolBar::Tool::SELECT || tb.sellectedTool == ToolBar::Tool::DISTANCE) && !wn.show)
 		{
 			if (mouse_check == 0)
@@ -2991,12 +3013,18 @@ void mouse_pasive(int x, int y)
 		{
 			if (mouse_check == 0)
 			{
-				theta_start[0] = y * 0.2 + theta_prev[0];
-				theta_start[1] = 0.2*x + theta_prev[1];
+				if (!vs.noupdate)
+				{
+					theta_start[0] = y * 0.2 + theta_prev[0];
+					theta_start[1] = 0.2*x + theta_prev[1];
+				}
 			}
 			mouse_check = 1;
-			theta[0] = y * .2 - theta_start[0];
-			theta[1] = x * .2 - theta_start[1];
+			if (!vs.noupdate)
+			{
+				theta[0] = y * .2 - theta_start[0];
+				theta[1] = x * .2 - theta_start[1];
+			}
 
 
 		}
@@ -3009,15 +3037,20 @@ void mouse_pasive(int x, int y)
 				translate_start[2] = -sin(theta[0] * M_PI / 180)*jgn_y + translate_prev[2];
 			}
 			mouse_check = 1;
-			model_translate[0] = jgn_x * cos(theta[1]*M_PI/180) + jgn_y * cos(theta[0] * M_PI / 180)*sin(theta[1] * M_PI / 180) - translate_start[0];
-			model_translate[1] = -jgn_x * sin(theta[1] * M_PI / 180) + jgn_y * cos(theta[0] * M_PI / 180)*cos(theta[1] * M_PI / 180) - translate_start[1];
-			model_translate[2] = -jgn_y * sin(theta[0] * M_PI / 180)  - translate_start[2];
-
+			if (!vs.noupdate)
+			{
+				model_translate[0] = jgn_x * cos(theta[1] * M_PI / 180) + jgn_y * cos(theta[0] * M_PI / 180)*sin(theta[1] * M_PI / 180) - translate_start[0];
+				model_translate[1] = -jgn_x * sin(theta[1] * M_PI / 180) + jgn_y * cos(theta[0] * M_PI / 180)*cos(theta[1] * M_PI / 180) - translate_start[1];
+				model_translate[2] = -jgn_y * sin(theta[0] * M_PI / 180) - translate_start[2];
+			}
 		}
 		
 
 		JGN_PostRedisplay();
 	}
+	mouse.prevpos = mouse.pos;
+
+	JGN_PostRedisplay();
 }
 
 
@@ -3041,8 +3074,12 @@ void mouse_func(int b, int s, int x, int y)
 		//}
 		if (s == JGN_DOWN)
 		{
-
-			if (tb.tooldownclicked(xnorm, ynorm))
+			if (vs.selected_translate_hovered_axes != NO_AXIS)
+			{
+				vs.noupdate = true;
+				vs.istranslating_theselected = true;
+			}
+			else if (tb.tooldownclicked(xnorm, ynorm))
 			{
 			}
 			else if (vs.grouplist.hovering)
@@ -3060,7 +3097,12 @@ void mouse_func(int b, int s, int x, int y)
 		}
 		else
 		{
-			if (menu.show)
+			if (vs.selected_translate_ison && vs.noupdate==true)
+			{
+				vs.noupdate = false;
+				vs.istranslating_theselected = false;
+			}
+			else if (menu.show)
 			{
 				jgn::vec2 cl = menu.clicked(jgn::vec2(xnorm, ynorm));
 				if (cl.x == Menu::NONE && cl.y == Menu::NONE)
@@ -3070,7 +3112,8 @@ void mouse_func(int b, int s, int x, int y)
 				}
 				else if (cl.y == Menu::TRANSLATE)
 				{
-					std::cout << "TRANSLATE" << std::endl;
+					tb.sellectedTool = ToolBar::Tool::ROTATE;
+					vs.toggleselected_translate(true);
 					menu.show = false;
 				}
 				else if (cl.y == Menu::ROTATE)
@@ -3092,6 +3135,8 @@ void mouse_func(int b, int s, int x, int y)
 				}
 				else if (cl.y == Menu::SELECTIVE_DYNAMICS)
 				{
+					wn.in_message = "Selective dynamics";
+					wn.in_message_translate = jgn::vec3(0.1, 0.25, 7);
 					menu.show = false;
 				}
 			}
@@ -3146,7 +3191,6 @@ void mouse_func(int b, int s, int x, int y)
 
 
 
-	//cout << Svmax << endl;
 
 }
 

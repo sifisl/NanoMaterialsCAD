@@ -146,6 +146,7 @@ namespace jgn
 		;
 #endif //JGN_SOURCE_CPP
 
+
 	///////////////////////////////////////////////////////////////////////2d distance between 2 points
 	float dist2d(float* p1, float* p2)
 #ifdef JGN_SOURCE_CPP
@@ -328,6 +329,38 @@ namespace jgn
 			;
 #endif// JGN_SOURCE_CPP
 	};
+
+
+	/////////////////////////////////////////////////////////////////////////////a 2d line
+	class Line2d
+	{
+	public:
+		Line2d() {}
+		Line2d(jgn::vec2 edge1, jgn::vec2 edge2)
+		{
+			a = edge2.y - edge1.y;
+			b = edge1.x - edge2.x;
+			c = edge2.x*edge1.y - edge2.y*edge1.x;
+		}
+		Line2d(float A, float B, float C)
+		{
+			a = A;
+			b = B;
+			c = C;
+		}
+		float a, b, c;
+	};
+
+	/////////////////////////////////////////////////////////////////////////////distance of a point to a line 2d
+	float distvec2toline(jgn::vec2 p, jgn::Line2d line)
+#ifdef JGN_SOURCE_CPP
+	{
+		return (line.a*p.x + line.b*p.y + line.c) / sqrt(line.a*line.a + line.b*line.b);
+	}
+#else
+		;
+#endif// JGN_SOURCE_CPP
+
 	/////////////////////////////////////////////////////////////////////////////xproduct and dotproduct of 2 jgn::vec3
 	jgn::vec3 xproduct(jgn::vec3 v1, jgn::vec3 v2)
 #ifdef JGN_SOURCE_CPP
@@ -495,6 +528,33 @@ jgn::vec3 operator+(const jgn::vec3& v1, const jgn::vec3& v2)
 ;
 #endif// JGN_SOURCE_CPP
 
+jgn::vec3 operator-(const jgn::vec3& v1, const jgn::vec3& v2)
+#ifdef JGN_SOURCE_CPP
+
+{
+	jgn::vec3 out;
+	out.x = v1.x - v2.x;
+	out.y = v1.y - v2.y;
+	out.z = v1.z - v2.z;
+	return out;
+}
+#else
+;
+#endif// JGN_SOURCE_CPP
+
+jgn::vec2 operator-(const jgn::vec2& v1, const jgn::vec2& v2)
+#ifdef JGN_SOURCE_CPP
+
+{
+	jgn::vec2 out;
+	out.x = v1.x - v2.x;
+	out.y = v1.y - v2.y;
+	return out;
+}
+#else
+;
+#endif// JGN_SOURCE_CPP
+
 jgn::vec2 operator+(const jgn::vec2& v1, const jgn::vec2& v2)
 #ifdef JGN_SOURCE_CPP
 
@@ -519,6 +579,7 @@ jgn::vec3 jgn::vec3::translate(jgn::vec3 v)
 
 #define vec3ToGlfloat4(v) {v.x, v.y, v.z, 1.0}
 #define glTranslatefvec3(v) glTranslatef(v.x/(Svmax + 5) , v.y/(Svmax + 5) , v.z/(Svmax + 5))
+#define glVertex3fvec3Svmax(v) glVertex3f(v.x/(5+Svmax), v.y/(5+Svmax), v.z/(5+Svmax))
 #define glVertex3fvec3(v) glVertex3f(v.x, v.y, v.z)
 #define glVertex2fvec3(v) glVertex2f(v.x, v.y)
 

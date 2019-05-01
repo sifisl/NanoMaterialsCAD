@@ -44,6 +44,12 @@ bool ToolBar::toolclicked(const float x, const float y)
 		{
 			this->sellectedTool = static_cast<ToolBar::Tool>(i);
 			this->downclicked = Tool::NONE;
+			if (this->sellectedTool == ToolBar::Tool::DISTANCE)
+			{
+				this->_Nsellectedfordistance = 0;
+				this->_sellectedfordistance[0] = jgn::vec2(-1, -1);
+				this->_sellectedfordistance[0] = jgn::vec2(-1, -1);
+			}
 			return true;
 		}
 	}

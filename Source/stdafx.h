@@ -1,5 +1,5 @@
 #pragma once
-#define NanoDOT_v "NanoDOT 0.1.1"
+#define NanoDOT_v "NanoDOT 0.1.2"
 
 #include "predefines.h"
 #include "targetver.h"

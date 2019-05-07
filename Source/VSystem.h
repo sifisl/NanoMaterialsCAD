@@ -79,13 +79,17 @@ public:
 	void selected_change_radius(jgn::string r);
 	void selected_change_sd(jgn::string sd);
 	void toggleselected_translate(bool state);
+	void toggleselected_rotate(bool state);
+	bool selected_rotate_ison = false;
+	void rotate_selected(jgn::vec2& m, jgn::vec2& mprev);//take the mouse - mouse.prev
 	bool selected_translate_ison = false;
-	jgn::vec3 selected_translate_base[4];
+	jgn::vec3 selected_manipulate_base[4];
 	float selected_translate_sensitivity = 1;
-	int selected_translate_hovered_axes = -1;
+	int selected_change_hovered_axes = -1;
 	bool istranslating_theselected = false;
+	bool isrotating_theselected = false;
 	void translate_selected(jgn::vec2& m, jgn::vec2& mprev);//take the mouse - mouse.prev
-	void selected_translate_hover_check(jgn::vec2 m);
+	void selected_change_hover_check(jgn::vec2 m);
 	jgn::vec2 _hoveringAnatom(const jgn::vec2 m);
 	void selected_change_draw();
 	void updateinfo();

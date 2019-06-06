@@ -1867,10 +1867,12 @@ void JGN_DropFile()
 		groupInit.color.emplace_back(jgn::vec3(fmod(groupInit.weight[i], 1.5), fmod(groupInit.number[i], 0.92), fmod(100 * fmod(groupInit.weight[i], 1.5) * fmod(groupInit.number[i], 0.92), 0.8)));
 	}
 
-	///////////push new group to vs
+	///////////push new group to vs and vs.original
 	vs.group.push_back(groupInit);
 	vs.N_groups++;
-	///////////sellect the simulation box with the biggest volume for the vs
+	vs.original->group.push_back(groupInit);
+	vs.original->N_groups++;
+	///////////sellect the simulation box with the biggest volume for the vs and vs.original
 	if (vs.N_groups == 1)
 	{
 		vs.setSimulationBox(vs.N_groups - 1);
@@ -1879,7 +1881,15 @@ void JGN_DropFile()
 	{
 		vs.setSimulationBox(vs.N_groups-1);
 	}
-	///////////////////
+	if (vs.original->N_groups == 1)
+	{
+		vs.original->setSimulationBox(vs.original->N_groups - 1);
+	}
+	else if (jgn::volume(vs.original->group[vs.original->N_groups - 1].primitiveVec[0], vs.original->group[vs.original->N_groups - 1].primitiveVec[1], vs.original->group[vs.original->N_groups - 1].primitiveVec[2]) > vs.original->simulationboxVolume)
+	{
+		vs.original->setSimulationBox(vs.N_groups - 1);
+	}
+	/////////////////// for vs
 	vs.N_atoms += vs.group[vs.N_groups - 1].N_atoms;
 	if (vs.N_types == 0)
 	{
@@ -1919,6 +1929,47 @@ void JGN_DropFile()
 	for (int i = 0; i < vs.group[vs.N_groups - 1].N_atoms; i++)
 	{
 		vs._sellectHistory.emplace_back(jgn::vec3(vs.N_groups - 1, i, -1));
+	}
+	/////////////////// for vs.original
+	vs.original->N_atoms += vs.original->group[vs.original->N_groups - 1].N_atoms;
+	if (vs.original->N_types == 0)
+	{
+		vs.original->N_types = vs.original->group[vs.N_groups - 1]._N_types;
+		vs.original->types.reserve(vs.original->N_types);
+		vs.original->N_atoms_per_type.reserve(vs.N_types);
+		for (int i = 0; i < vs.N_types; i++)
+		{
+			vs.original->types.emplace_back(vs.original->group[vs.N_groups - 1]._alltype[i]);
+			vs.original->N_atoms_per_type.emplace_back(vs.original->group[vs.N_groups - 1].N_atoms_per_type[i]);
+			vs.original->color_per_type.emplace_back(vs.original->group[vs.N_groups - 1].color_per_type[i]);
+		}
+	}
+	else
+	{
+		for (int i = 0; i < vs.original->group[vs.original->N_groups - 1]._N_types; i++)
+		{
+			bool writeit = true;
+			for (int j = 0; j < vs.original->N_types; j++)
+			{
+				if (vs.original->types[j].compare(vs.original->group[vs.N_groups - 1]._alltype[i]) == 0)
+				{
+					writeit = false;
+					vs.original->N_atoms_per_type[i] = vs.original->N_atoms_per_type[i] + vs.original->group[vs.N_groups - 1].N_atoms_per_type[i];
+				}
+			}
+			if (writeit)
+			{
+				vs.original->N_types++;
+				vs.original->types.push_back(jgn::string(vs.original->group[vs.N_groups - 1]._alltype[i]));
+				vs.original->N_atoms_per_type.push_back(vs.original->group[vs.N_groups - 1].N_atoms_per_type[i]);
+				vs.original->color_per_type.push_back(vs.original->group[vs.N_groups - 1].color_per_type[i]);
+			}
+		}
+	}
+	vs.original->_sellectHistory.reserve(vs.N_atoms);
+	for (int i = 0; i < vs.original->group[vs.N_groups - 1].N_atoms; i++)
+	{
+		vs.original->_sellectHistory.emplace_back(jgn::vec3(vs.original->N_groups - 1, i, -1));
 	}
 
 }

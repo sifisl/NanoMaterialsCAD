@@ -1397,6 +1397,8 @@ void variableinit()
 		triangles_indices[i] = i;
 
 	vs.simulationBoxEdges[0].abs();
+	vs.original = &__backup;
+	vs.original->original = vs.original;
 	jgn::vec3 irot = jgn::vec3(0, 0, 0);
 	irot.rotate(irot);
 	tb._sellectedfordistance[0] = jgn::vec2(-1, -1);

@@ -43,6 +43,7 @@ public:
 	VSystem();
 	~VSystem();
 
+	VSystem* original;//this is the original system without the edit of the user
 	int N_types = 0;//#N of different elements
 	std::vector<jgn::string> types;//name of different elements
 	int N_atoms = 0;// total #N of the system
@@ -107,6 +108,6 @@ public:
 	} grouplist;
 }EXT vs;
 
-
+EXT VSystem __backup;
 
 

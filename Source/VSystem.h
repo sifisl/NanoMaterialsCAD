@@ -33,6 +33,7 @@ public:
 
 	void _reserve(const unsigned int N_a);
 	void N_types(const unsigned int N_t);
+	
 };
 
 
@@ -56,7 +57,7 @@ public:
 
 
 	int N_groups = 0;//#N of groups
-	int _isimulationBox = 0;
+	int _isimulationBox = 0;//the group that its simulation box is used
 	jgn::vec3 simulationBoxEdges[8];//the simumation box 2 draw;
 	std::vector<jgn::vec3> _sellectHistory;//(group,atom,history)
 	int _sellectHistory2undo = 1;//
@@ -94,6 +95,7 @@ public:
 	jgn::vec2 _hoveringAnatom(const jgn::vec2 m);
 	void selected_change_draw();
 	void updateinfo();
+	void reserve(const unsigned int sx, const unsigned int sy, const unsigned int sz);// reserve for supercell sx,sy,sz
 	class Grouplist
 	{
 	public:

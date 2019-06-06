@@ -14,7 +14,55 @@ VSystem::~VSystem()
 {
 }
 
-
+void VSystem::reserve(const unsigned int sx, const unsigned int sy, const unsigned int sz)
+{
+	//reserve for every group
+	for (int i = 0; i < this->N_groups; i++)
+	{
+		this->group[i].N_atoms = sx * sy * sz * this->original->group[i].N_atoms;
+		this->group[i].primitiveVec[0] = this->original->group[i].primitiveVec[0] * sx;
+		this->group[i].primitiveVec[1] = this->original->group[i].primitiveVec[1] * sy;
+		this->group[i].primitiveVec[2] = this->original->group[i].primitiveVec[2] * sz;
+		this->group[i]._reserve(this->group[i].N_atoms);
+	}
+		
+	//reserve for the whole system
+	vs.setSimulationBox(_isimulationBox);
+	this->N_atoms = 0;
+	for(int i=0;i<vs.N_types;i++)
+	{ 
+		this->N_atoms_per_type[i] = sx * sy * sz * this->original->N_atoms_per_type[i];
+		this->N_atoms += this->N_atoms_per_type[i];
+	}
+	vs._sellectHistory.clear();
+	vs._sellectHistory.reserve(vs.N_atoms);
+	
+	//prepare the memory
+	for (int g = 0; g < vs.N_groups; g++)
+		for (int i = vs.original->group[g].N_atoms; i < vs.group[g].N_atoms; i++)
+		{
+			vs.group[g].position.emplace_back(jgn::vec3(0, 0, 0));
+			vs.group[g].type.emplace_back(jgn::string(""));
+			vs.group[g].selective_dynamics.emplace_back(jgn::string(""));
+			vs.group[g].color.emplace_back(jgn::vec3(0, 0, 0));
+			vs.group[g].number.emplace_back(0);
+			vs.group[g].weight.emplace_back(0);
+			vs.group[g].radius.emplace_back(0);
+			vs.group[g].isSelected.emplace_back(false);
+			vs.group[g].isdeleted.emplace_back(false);
+			vs.group[g].iscut.emplace_back(false);
+			vs.group[g].ishovered.emplace_back(false);
+		}
+	for (int g = 0; g < vs.N_groups; g++)
+		for (int i = 0; i < vs.group[g].N_atoms; i++)
+		{
+			std::cout << g << " " << i << std::endl;
+			vs._sellectHistory.emplace_back(jgn::vec3(g, i, -1));
+			std::cout << &vs._sellectHistory[i] << std::endl;
+		}
+	for (int i = 0; i < vs.N_atoms; i++)
+		std::cout << vs._sellectHistory[i] << std::endl;
+}
 void Group::_reserve(const unsigned int r)
 {
 	this->position.reserve(r);
@@ -27,6 +75,7 @@ void Group::_reserve(const unsigned int r)
 	this->isSelected.reserve(r);
 	this->isdeleted.reserve(r);
 	this->iscut.reserve(r);
+	this->ishovered.reserve(r);
 
 }
 
@@ -679,7 +728,7 @@ void VSystem::translate_selected(jgn::vec2& m, jgn::vec2& mprev)
 			jgn::cpu_rotate(&b.x, &r.x, &b.x);
 			float d = jgn::dotproduct(dm, b)*this->selected_translate_sensitivity;
 
-			for (int i = 0; i < this->_sellectHistory.capacity(); i++)
+			for (int i = 0; i < this->N_atoms; i++)
 			{//for every atom
 				if (this->_sellectHistory[i].z != -1)
 				{//if it is sellected
@@ -695,7 +744,7 @@ void VSystem::translate_selected(jgn::vec2& m, jgn::vec2& mprev)
 			jgn::cpu_rotate(&b.x, &r.x, &b.x);
 			float d = jgn::dotproduct(dm, b)*this->selected_translate_sensitivity;
 
-			for (int i = 0; i < this->_sellectHistory.capacity(); i++)
+			for (int i = 0; i < this->N_atoms; i++)
 			{//for every atom
 				if (this->_sellectHistory[i].z != -1)
 				{//if it is sellected
@@ -711,7 +760,7 @@ void VSystem::translate_selected(jgn::vec2& m, jgn::vec2& mprev)
 			jgn::cpu_rotate(&b.x, &r.x, &b.x);
 			float d = jgn::dotproduct(dm, b)*this->selected_translate_sensitivity;
 
-			for (int i = 0; i < this->_sellectHistory.capacity(); i++)
+			for (int i = 0; i < this->N_atoms; i++)
 			{//for every atom
 				if (this->_sellectHistory[i].z != -1)
 				{//if it is sellected
@@ -742,7 +791,7 @@ void VSystem::rotate_selected(jgn::vec2& m, jgn::vec2& mprev)
 				d = -d;
 			jgn::vec3 rs = jgn::vec3(d, 0, 0);
 
-			for (int i = 0; i < this->_sellectHistory.capacity(); i++)
+			for (int i = 0; i < this->N_atoms; i++)
 			{//for every atom
 				if (this->_sellectHistory[i].z != -1)
 				{//if it is sellected
@@ -766,7 +815,7 @@ void VSystem::rotate_selected(jgn::vec2& m, jgn::vec2& mprev)
 				d = -d;
 			jgn::vec3 rs = jgn::vec3(0, d, 0);
 
-			for (int i = 0; i < this->_sellectHistory.capacity(); i++)
+			for (int i = 0; i < this->N_atoms; i++)
 			{//for every atom
 				if (this->_sellectHistory[i].z != -1)
 				{//if it is sellected
@@ -790,7 +839,7 @@ void VSystem::rotate_selected(jgn::vec2& m, jgn::vec2& mprev)
 				d = -d;
 			jgn::vec3 rs = jgn::vec3(0, 0, d);
 
-			for (int i = 0; i < this->_sellectHistory.capacity(); i++)
+			for (int i = 0; i < this->N_atoms; i++)
 			{//for every atom
 				if (this->_sellectHistory[i].z != -1)
 				{//if it is sellected
@@ -816,7 +865,7 @@ void VSystem::undoSellect()
 {
 	if (_sellectHistory2undo > -1)
 	{
-		for (int i = 0; i < this->_sellectHistory.capacity(); i++)
+		for (int i = 0; i < this->N_atoms; i++)
 		{
 			if (this->_sellectHistory[i].z == this->_sellectHistory2undo)
 			{
@@ -1013,7 +1062,7 @@ void VSystem::selected_change_radius(jgn::string r)
 		return;
 	}
 
-	for (int i = 0; i < this->_sellectHistory.capacity(); i++)
+	for (int i = 0; i < this->N_atoms; i++)
 	{//for every atom
 		if (this->_sellectHistory[i].z != -1)
 		{//if it is sellected
@@ -1033,7 +1082,7 @@ void VSystem::selected_change_sd(jgn::string sd)
 		}
 	}
 
-	for (int i = 0; i < this->_sellectHistory.capacity(); i++)
+	for (int i = 0; i < this->N_atoms; i++)
 	{//for every atom
 		if (this->_sellectHistory[i].z != -1)
 		{//if it is sellected
@@ -1054,7 +1103,7 @@ void VSystem::toggleselected_translate(bool state)
 		float max_y = FLT_MIN;
 		float max_z = FLT_MIN;
 
-		for (int i = 0; i < this->_sellectHistory.capacity(); i++)
+		for (int i = 0; i < this->N_atoms; i++)
 		{//for every atom
 			if (this->_sellectHistory[i].z != -1)
 			{//if it is sellected
@@ -1091,7 +1140,7 @@ void VSystem::toggleselected_rotate(bool state)
 		float max_y = FLT_MIN;
 		float max_z = FLT_MIN;
 
-		for (int i = 0; i < this->_sellectHistory.capacity(); i++)
+		for (int i = 0; i < this->N_atoms; i++)
 		{//for every atom
 			if (this->_sellectHistory[i].z != -1)
 			{//if it is sellected
@@ -1157,7 +1206,7 @@ void VSystem::selected_change_element(jgn::string elem)
 	}
 
 		
-	for (int i = 0; i < this->_sellectHistory.capacity(); i++)
+	for (int i = 0; i < this->N_atoms; i++)
 	{//for every atom
 		if (this->_sellectHistory[i].z != -1)
 		{//if it is sellected

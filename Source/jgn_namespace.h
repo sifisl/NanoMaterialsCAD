@@ -115,7 +115,7 @@ namespace jgn
 		p_bck1[0] = cos(a[2])*p[0] - sin(a[2])*p[1];
 		p_bck1[1] = sin(a[2])*p[0] + cos(a[2])*p[1];
 		p_bck1[2] = p[2];
-
+	
 		//x rotation
 		p_bck2[0] = p_bck1[0];
 		p_bck2[1] = cos(a[0])*p_bck1[1] - sin(a[0])*p_bck1[2];
@@ -124,10 +124,7 @@ namespace jgn
 		//y rotation
 		out[0] = cos(a[1])*p_bck2[0] + sin(a[1])*p_bck2[2];
 		out[1] = p_bck2[1];
-		out[2] = -sin(a[1])*p_bck2[0] + cos(a[2])*p_bck2[2];
-
-
-
+		out[2] = -sin(a[1])*p_bck2[0] + cos(a[1])*p_bck2[2];
 	}
 #else
 		;

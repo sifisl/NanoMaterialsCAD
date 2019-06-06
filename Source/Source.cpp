@@ -2919,8 +2919,8 @@ void mouse_pasive(int x, int y)
 	vs.grouplist.options.checkhoverstatus(jgn::vec2(jgn_x, jgn_y));
 	menu.hoverstatecheck(menu.editselected, jgn::vec2(jgn_x, jgn_y));
 	menu.hoverstatecheck(menu.mainmenu, jgn::vec2(jgn_x, jgn_y));
-	if (vs.selected_translate_ison)
-		vs.selected_translate_hover_check(jgn::vec2(jgn_x, jgn_y));
+	if (vs.selected_translate_ison || vs.selected_rotate_ison)
+		vs.selected_change_hover_check(jgn::vec2(jgn_x, jgn_y));
 	if (lmb == JGN_UP)
 	{
 		if ((tb.sellectedTool == ToolBar::Tool::SELECT || tb.sellectedTool == ToolBar::Tool::DISTANCE) && !wn.show)
@@ -2981,6 +2981,10 @@ void mouse_pasive(int x, int y)
 		if (vs.istranslating_theselected)
 		{
 			vs.translate_selected(mouse.pos, mouse.prevpos);
+		}
+		else if (vs.isrotating_theselected)
+		{
+			vs.rotate_selected(mouse.pos, mouse.prevpos);
 		}
 		if((tb.sellectedTool == ToolBar::Tool::SELECT || tb.sellectedTool == ToolBar::Tool::DISTANCE) && !wn.show)
 		{
@@ -3076,10 +3080,18 @@ void mouse_func(int b, int s, int x, int y)
 		//}
 		if (s == JGN_DOWN)
 		{
-			if (vs.selected_translate_hovered_axes != NO_AXIS)
+			if (vs.selected_change_hovered_axes != NO_AXIS)
 			{
-				vs.noupdate = true;
-				vs.istranslating_theselected = true;
+				if (vs.selected_translate_ison)
+				{
+					vs.noupdate = true;
+					vs.istranslating_theselected = true;
+				}
+				else if (vs.selected_rotate_ison)
+				{
+					vs.noupdate = true;
+					vs.isrotating_theselected = true;
+				}
 			}
 			else if (tb.tooldownclicked(xnorm, ynorm))
 			{
@@ -3104,6 +3116,11 @@ void mouse_func(int b, int s, int x, int y)
 				vs.noupdate = false;
 				vs.istranslating_theselected = false;
 			}
+			else if (vs.selected_rotate_ison && vs.noupdate == true)
+			{
+				vs.noupdate = false;
+				vs.isrotating_theselected = false;
+			}
 			else if (menu.show)
 			{
 				jgn::vec2 cl = menu.clicked(jgn::vec2(xnorm, ynorm));
@@ -3120,7 +3137,8 @@ void mouse_func(int b, int s, int x, int y)
 				}
 				else if (cl.y == Menu::ROTATE)
 				{
-					std::cout << "ROTATE" << std::endl;
+					tb.sellectedTool = ToolBar::Tool::ROTATE;
+					vs.toggleselected_rotate(true);
 					menu.show = false;
 				}
 				else if (cl.y == Menu::CHANGE_ELEMENT)

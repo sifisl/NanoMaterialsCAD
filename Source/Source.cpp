@@ -1,4 +1,6 @@
-
+//BUGS////////////////
+//Selective dynamics do not save properly
+//atoms do not save in correct order e.i by type and they mix up
 #include <omp.h>
 #define JGN_SOURCE_CPP
 #include "stdafx.h"
@@ -1675,21 +1677,26 @@ void keyboardgl(int key, int s, int x, int y)
 	}
 	else if (ctrl_down && t_down)
 	{
-		mouse_mode = 'a';
-		selected_rotate[0] = 0;
-		selected_rotate[1] = 0;
-		selected_rotate[2] = 0;
+		//mouse_mode = 'a';
+		//selected_rotate[0] = 0;
+		//selected_rotate[1] = 0;
+		//selected_rotate[2] = 0;
+		tb.sellectedTool = ToolBar::Tool::ROTATE;
+		vs.toggleselected_translate(true);
+		menu.show = false;
 
 		JGN_PostRedisplay();
 	}
 	else if (ctrl_down && z_down)
 	{
 		UndoDeleted();
+		vs.updateinfo();
 		JGN_PostRedisplay();
 	}
 	else if (key == VK_DELETE && s == JGN_DOWN)
 	{
 		deleteSelected();
+		vs.updateinfo();
 		JGN_PostRedisplay();
 	}
 	else

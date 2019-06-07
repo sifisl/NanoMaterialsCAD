@@ -1287,7 +1287,8 @@ void VSystem::updateinfo()
 			{//check if this element if new
 				if (std::strcmp(this->types[j].c_str(), this->group[g].type[i].c_str()) == 0)
 				{//if not
-					this->N_atoms_per_type[j]++;
+					if (!this->group[g].iscut[i] && !this->group[g].isdeleted[i])
+						this->N_atoms_per_type[j]++;
 					exists = true;
 					break;
 				}

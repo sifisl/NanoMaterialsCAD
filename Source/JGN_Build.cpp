@@ -2096,17 +2096,23 @@ void BuildPoscar(char* NewPC)
 
 		std::fprintf(NewPCF, "Cartesian\n");
 
-		for (int g = 0; g < vs.N_groups; g++)
+		for (int t = 0; t < vs.N_types; t++)
 		{
-			for (int i = 0; i < vs.group[g].N_atoms; i++)
+			for (int g = 0; g < vs.N_groups; g++)
 			{
-				if (!vs.group[g].isdeleted[i] && !vs.group[g].iscut[i])
+				for (int i = 0; i < vs.group[g].N_atoms; i++)
 				{
-					std::fprintf(NewPCF, "%.*f ", printformat, vs.group[g].position[i].x);
-					std::fprintf(NewPCF, "%.*f ", printformat, vs.group[g].position[i].y);
-					std::fprintf(NewPCF, "%.*f ", printformat, vs.group[g].position[i].z);
-					//std::fprintf(NewPCF, vs.group[g].selective_dynamics[i].c_str());
-					std::fprintf(NewPCF, "\n");
+					if (!vs.group[g].isdeleted[i] && !vs.group[g].iscut[i])
+					{
+						if (vs.types[t].compare(vs.group[g].type[i]) == 0)
+						{
+							std::fprintf(NewPCF, "%.*f ", printformat, vs.group[g].position[i].x);
+							std::fprintf(NewPCF, "%.*f ", printformat, vs.group[g].position[i].y);
+							std::fprintf(NewPCF, "%.*f ", printformat, vs.group[g].position[i].z);
+							//std::fprintf(NewPCF, vs.group[g].selective_dynamics[i].c_str());
+							std::fprintf(NewPCF, "\n");
+						}
+					}
 				}
 			}
 		}

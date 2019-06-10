@@ -3008,13 +3008,23 @@ void jgnCommands(LPTSTR ttt, int d)
 
 			r = stof(rstr);
 			srand(time(NULL));
-#pragma omp parallel for firstprivate(ole, r)
-			for (int ole1 = 0; ole1 < ole; ole1++)
+			for (int g = 0; g < vs.N_groups; g++)
 			{
-				crystal[2 + 5 * ole1] += r * (2 * (rand() / (float)RAND_MAX) - 1);
-				crystal[3 + 5 * ole1] += r * (2 * (rand() / (float)RAND_MAX) - 1);
-				crystal[4 + 5 * ole1] += r * (2 * (rand() / (float)RAND_MAX) - 1);
+				for (int i = 0; i < vs.group[g].N_atoms; i++)
+				{
+					vs.group[g].position[i].x = vs.group[g].position[i].x + r * (2 * (rand() / (float)RAND_MAX) - 1);
+					vs.group[g].position[i].y = vs.group[g].position[i].y + r * (2 * (rand() / (float)RAND_MAX) - 1);
+					vs.group[g].position[i].z = vs.group[g].position[i].z + r * (2 * (rand() / (float)RAND_MAX) - 1);
+				}
 			}
+//#pragma omp parallel for firstprivate(ole, r)
+//			for (int ole1 = 0; ole1 < ole; ole1++)
+//			{
+//				
+//				crystal[2 + 5 * ole1] += r * (2 * (rand() / (float)RAND_MAX) - 1);
+//				crystal[3 + 5 * ole1] += r * (2 * (rand() / (float)RAND_MAX) - 1);
+//				crystal[4 + 5 * ole1] += r * (2 * (rand() / (float)RAND_MAX) - 1);
+//			}
 		}
 		else
 		{

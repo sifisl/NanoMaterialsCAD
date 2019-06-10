@@ -1,6 +1,6 @@
 //BUGS////////////////
 //Selective dynamics do not save properly
-//atoms do not save in correct order e.i by type and they mix up
+//elements with 0 count still print in the output 
 //BuildPoscar(): only CustomSurfaceOn works properly
 #include <omp.h>
 #define JGN_SOURCE_CPP

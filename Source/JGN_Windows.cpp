@@ -2185,7 +2185,7 @@ LRESULT __stdcall HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 					}
 					else
 					{
-						std::cout << ole << std::endl;
+						//std::cout << ole << std::endl;
 						help = help - 2 * ole;
 						jgncmdfpath = (char*)malloc(sizeof(char)*(ole + 1));
 
@@ -2200,7 +2200,7 @@ LRESULT __stdcall HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 
 						fgets(jgncmdfline, 100, jgncmdfile);
 
-						while ((jgncmdfline[0] != 'e' && jgncmdfline[1] != 'n' && jgncmdfline[2] != 'd'))
+						while ((jgncmdfline[0] != 'e' && jgncmdfline[1] != 'x' && jgncmdfline[2] != 'i' && jgncmdfline[3] != 't'))
 						{
 							for (i = 0; i < 100; i++)
 							{
@@ -2210,9 +2210,67 @@ LRESULT __stdcall HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 									break;
 								}
 							}
-
-							jgnCommands(ttt, 0);
-							fgets(jgncmdfline, 100, jgncmdfile);
+							if (jgncmdfline[0] == 'f' && jgncmdfline[1] == 'o' && jgncmdfline[2] == 'r')
+							{//now execute the for loop (if there is one)
+								jgn::string curentLine = jgncmdfline;
+								//get rid of the spaces
+								int pos_token = curentLine.find(" ");
+								if (pos_token != std::string::npos)
+								{
+									curentLine.erase(pos_token, 1);
+									pos_token = curentLine.find(" ");
+								}
+								//get rid of the "for"
+								pos_token = curentLine.find("for");
+								curentLine.erase(pos_token, 3);
+								//extract the istart
+								pos_token = curentLine.find(":");
+								int istart = std::stof(curentLine.substr(0, pos_token));
+								//extract the ifin
+								int ifin = std::stof(curentLine.substr(pos_token + 1, curentLine.size() - 1));
+								//extract the starting file pointer
+								fpos_t forBeggining;
+								fgetpos(jgncmdfile, &forBeggining);//this is the line that says "for"
+								//start the actual for loop
+								for (int i = istart; i <= ifin; i++)
+								{
+									fsetpos(jgncmdfile, &forBeggining);
+									fgets(jgncmdfline, 100, jgncmdfile);
+									jgn::string curentLine = jgncmdfline;
+									//std::cout << i << std::endl;
+									while (curentLine.find("endfor") == std::string::npos)
+									{
+										pos_token = curentLine.find("$i");
+										if (pos_token != std::string::npos)
+										{//replace $i
+											char ireplace[10];
+											itoa(i, ireplace, 10);
+											curentLine.replace(pos_token, 2, ireplace);
+										}
+										//erase the spaces at the beggining of the line
+										while (curentLine.c_str()[0] == ' ' || curentLine.c_str()[0] == '\t')
+											curentLine.erase(0, 1);
+										strcpy(jgncmdfline, curentLine.c_str());
+										for (int j = 0; j < 100; j++)
+										{
+											ttt[j] = jgncmdfline[j];
+											if (jgncmdfline[j] == 0)
+											{
+												break;
+											}
+										}
+										std::wcout << ttt << std::endl;
+										jgnCommands(ttt, 0);
+										fgets(jgncmdfline, 100, jgncmdfile);
+										curentLine = jgncmdfline;
+									}
+								}
+							}
+							else
+							{
+								jgnCommands(ttt, 0);
+								fgets(jgncmdfline, 100, jgncmdfile);
+							}
 
 						}
 						fclose(jgncmdfile);
@@ -2983,6 +3041,7 @@ void jgnCommands(LPTSTR ttt, int d)
 	//"rand("
 	for (i = 0; i < 5; i++)
 	{
+
 		if (test1[8][i] == ttt[i])
 		{
 
@@ -3857,8 +3916,112 @@ void jgnCommands(LPTSTR ttt, int d)
 		goto peintit;
 
 	}
+	//char *test4 = "randSelection(";
+	for (i = 0; i < 14; i++)
+	{
+		if (test1[10][i] == ttt[i])
+		{
 
+		}
+		else
+		{
+			i = 100;
+		}
+	}
+	if (i == 14)
+	{
+		okrender = 1;
+		help = (char*)(ttt + 14);
+		jgn::string rstr = jgn::LPTSTR2string((LPTSTR)help, ')');
+		float percent = 0;//0-1
+		int pos_token = rstr.find(")");
+		//extract the percentage
+		jgn::string percent_input = (char*)rstr.substr(0, pos_token - 1).c_str();
+		if (percent_input.isnumber())
+		{
+			percent = std::stof(percent_input);
+		}
+		else
+		{
+			return;
+		}
 
+		vs.unsellectAll();
+		vs._sellectHistory2undo = 0;
+		ole = 0;
+		//random sellect
+		srand(time(NULL));
+		for (int g = 0; g < vs.N_groups; g++)
+		{
+			for (int i = 0; i < vs.group[g].N_atoms; i++)
+			{
+				ole++;
+				if (((float)rand() / (float)RAND_MAX) < percent)
+				{
+					vs.group[g].isSelected[i] = true;
+				}
+			}
+		}
+		//change element type
+		//vs.selected_change_element(element_input);
+		//vs.updateinfo();
+		goto peintit;
+	}
+
+	//char *test4 = "changeElement(";
+	for (i = 0; i < 14; i++)
+	{
+		if (test1[11][i] == ttt[i])
+		{
+
+		}
+		else
+		{
+			i = 100;
+		}
+	}
+	if (i == 14)
+	{
+		okrender = 1;
+		help = (char*)(ttt + 14);
+		jgn::string rstr = jgn::LPTSTR2string((LPTSTR)help, ')');
+		int rstrpos = rstr.find(" ");
+		while (rstrpos != std::string::npos)
+		{
+			rstr.erase(rstrpos, 1);
+			rstrpos = rstr.find(" ");
+		}
+		vs.selected_change_element(rstr);
+		vs.updateinfo();
+		vs.unsellectAll();
+		goto peintit;
+	}
+
+	//char *test4 = "save(";
+	for (i = 0; i < 5; i++)
+	{
+		if (test1[12][i] == ttt[i])
+		{
+
+		}
+		else
+		{
+			i = 100;
+		}
+	}
+	if (i == 5)
+	{
+		okrender = 1;
+		help = (char*)(ttt + 5);
+		jgn::string rstr = jgn::LPTSTR2string((LPTSTR)help, ')');
+		rstr.erase(0, 1);
+		rstr.erase(rstr.size() - 1, 1);
+		//TODO: do a stupid proof test
+		BuildPoscar((char*)rstr.c_str());
+
+		goto peintit;
+
+	}
 peintit:
 
 	DestroyWindow(CommandTextField);

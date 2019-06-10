@@ -1,0 +1,5 @@
+rand(0.05)
+randSelection(0.5)
+changeElement(Fe)
+save("output/POSCAR")
+end

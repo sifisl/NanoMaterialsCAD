@@ -1,0 +1,14 @@
+for 1:20 
+	rand(0.05)
+	randSelection(0.5)
+	changeElement(Fe)
+	save("output/POSCAR$i")
+endfor
+exit
+#exit the script
+
+#----------------------------------------------#
+# i is a build in variable.
+# while you are in a loop i is the iterator.
+# use it as $i
+#----------------------------------------------#

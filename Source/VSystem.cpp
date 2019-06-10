@@ -1062,13 +1062,23 @@ void VSystem::selected_change_radius(jgn::string r)
 		return;
 	}
 
-	for (int i = 0; i < this->N_atoms; i++)
-	{//for every atom
-		if (this->_sellectHistory[i].z != -1)
-		{//if it is sellected
-			this->group[this->_sellectHistory[i].x].radius[this->_sellectHistory[i].y] = newradius;
+	for (int g = 0; g < this->N_groups; g++)
+	{//for every group
+		for (int i = 0; i < this->group[g].N_atoms; i++)
+		{//for every atom of the group
+			if (this->group[g].isSelected[i])
+			{//if it is selected
+				this->group[g].radius[i] = newradius;
+			}
 		}
 	}
+	//for (int i = 0; i < this->N_atoms; i++)
+	//{//for every atom
+	//	if (this->_sellectHistory[i].z != -1)
+	//	{//if it is sellected
+	//		this->group[this->_sellectHistory[i].x].radius[this->_sellectHistory[i].y] = newradius;
+	//	}
+	//}
 }
 
 void VSystem::selected_change_sd(jgn::string sd)
@@ -1167,11 +1177,11 @@ void VSystem::toggleselected_rotate(bool state)
 
 void VSystem::selected_change_element(jgn::string elem)
 {
-	for (int i = 0; i < this->group[0]._N_types; i++)
-	{
-		std::cout << this->group[0]._alltype[i] << std::endl;
-		std::cout << this->group[0].N_atoms_per_type[i] << std::endl;
-	}
+	//for (int i = 0; i < this->group[0]._N_types; i++)
+	//{
+	//	std::cout << this->group[0]._alltype[i] << std::endl;
+	//	std::cout << this->group[0].N_atoms_per_type[i] << std::endl;
+	//}
 	float atomic_number = 0;
 	float atomic_weight = 0;
 	ole1 = 0;
@@ -1194,9 +1204,10 @@ void VSystem::selected_change_element(jgn::string elem)
 	fclose(periodic_table);
 
 	int exists = -1;
+	for (int i = 0; i < vs.N_atoms; i++)
 	for (int j = 0; j < this->group[this->_sellectHistory[i].x]._N_types; j++)
 	{
-		std::cout << elem << " " << this->group[this->_sellectHistory[i].x]._alltype[j] << std::endl;
+		//std::cout << elem << " " << this->group[this->_sellectHistory[i].x]._alltype[j] << std::endl;
 		//if (!std::strcmp(this->group[this->_sellectHistory[i].x]._alltype[j].c_str(), elem.c_str()))
 		if (this->group[this->_sellectHistory[i].x]._alltype[j].compare(elem))
 		{
@@ -1205,52 +1216,53 @@ void VSystem::selected_change_element(jgn::string elem)
 		}
 	}
 
-		
-	for (int i = 0; i < this->N_atoms; i++)
+	//for (int i = 0; i < this->N_atoms; i++)
+	for (int g = 0; g < vs.N_groups; g++)
+		for (int i = 0; i < vs.group[g].N_atoms; i++)
 	{//for every atom
-		if (this->_sellectHistory[i].z != -1)
+		if (this->group[g].isSelected[i])
 		{//if it is sellected
 			if (exists != -1)
 			{
-				this->group[this->_sellectHistory[i].x].N_atoms_per_type[exists]++;
-				for (int j = 0; j < this->group[this->_sellectHistory[i].x]._N_types; j++)
+				this->group[g].N_atoms_per_type[exists]++;
+				for (int j = 0; j < this->group[g]._N_types; j++)
 				{
-					if (!std::strcmp(this->group[this->_sellectHistory[i].x].type[this->_sellectHistory[i].y].c_str(), this->group[this->_sellectHistory[i].x]._alltype[j].c_str()))
+					if (!std::strcmp(this->group[g].type[i].c_str(), this->group[g]._alltype[j].c_str()))
 					{
-						this->group[this->_sellectHistory[i].x].N_atoms_per_type[j]--;
+						this->group[g].N_atoms_per_type[j]--;
 						break;
 					}
 				}
 			}
 			else
 			{
-				this->group[this->_sellectHistory[i].x]._N_types++;
-				exists = this->group[this->_sellectHistory[i].x]._N_types - 1;
-				this->group[this->_sellectHistory[i].x].N_types(this->group[this->_sellectHistory[i].x]._N_types);
-				this->group[this->_sellectHistory[i].x].N_atoms_per_type.reserve(this->group[this->_sellectHistory[i].x]._N_types);
-				this->group[this->_sellectHistory[i].x]._alltype.emplace_back(elem);
-				this->group[this->_sellectHistory[i].x].N_atoms_per_type.emplace_back(1);
-				for (int j = 0; j < this->group[this->_sellectHistory[i].x]._N_types; j++)
+				this->group[g]._N_types++;
+				exists = this->group[g]._N_types - 1;
+				this->group[g].N_types(this->group[g]._N_types);
+				this->group[g].N_atoms_per_type.reserve(this->group[g]._N_types);
+				this->group[g]._alltype.emplace_back(elem);
+				this->group[g].N_atoms_per_type.emplace_back(1);
+				for (int j = 0; j < this->group[g]._N_types; j++)
 				{
-					if (!std::strcmp(this->group[this->_sellectHistory[i].x].type[this->_sellectHistory[i].y].c_str(), this->group[this->_sellectHistory[i].x]._alltype[j].c_str()))
+					if (!std::strcmp(this->group[g].type[i].c_str(), this->group[g]._alltype[j].c_str()))
 					{
-						this->group[this->_sellectHistory[i].x].N_atoms_per_type[j]--;
+						this->group[g].N_atoms_per_type[j]--;
 						break;
 					}
 				}
 			}
-			this->group[this->_sellectHistory[i].x].type[this->_sellectHistory[i].y] = elem;
-			this->group[this->_sellectHistory[i].x].number[this->_sellectHistory[i].y] = atomic_number;
-			this->group[this->_sellectHistory[i].x].weight[this->_sellectHistory[i].y] = atomic_weight;
-			this->group[this->_sellectHistory[i].x].color[this->_sellectHistory[i].y] = jgn::vec3(fmod(atomic_weight, 1.5), fmod(atomic_number, 0.92), fmod(100 * fmod(atomic_weight, 1.5) * fmod(atomic_number, 0.92), 0.8));
+			this->group[g].type[i] = elem;
+			this->group[g].number[i] = atomic_number;
+			this->group[g].weight[i] = atomic_weight;
+			this->group[g].color[i] = jgn::vec3(fmod(atomic_weight, 1.5), fmod(atomic_number, 0.92), fmod(100 * fmod(atomic_weight, 1.5) * fmod(atomic_number, 0.92), 0.8));
 		}
 	}
 	this->unsellectAll();
-	for (int i = 0; i < this->group[0]._N_types; i++)
-	{
-		std::cout << this->group[0]._alltype[i] << std::endl;
-		std::cout << this->group[0].N_atoms_per_type[i] << std::endl;
-	}
+	//for (int i = 0; i < this->group[0]._N_types; i++)
+	//{
+	//	std::cout << this->group[0]._alltype[i] << std::endl;
+	//	std::cout << this->group[0].N_atoms_per_type[i] << std::endl;
+	//}
 }
 
 void VSystem::updateinfo()
@@ -1264,9 +1276,9 @@ void VSystem::updateinfo()
 	int more_memory = 0;
 	for (int g = 0; g < this->N_groups; g++)
 	{
-		if (this->group[g]._N_types != this->group[i]._prev_N_types)
+		if (this->group[g]._N_types != this->group[g]._prev_N_types)
 		{
-			more_memory += this->group[g]._N_types - this->group[i]._prev_N_types;
+			more_memory += this->group[g]._N_types - this->group[g]._prev_N_types;
 		}
 	}
 	//if we need more memory allocate it

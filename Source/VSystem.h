@@ -42,6 +42,7 @@ class VSystem
 public:
 
 	VSystem();
+	VSystem(VSystem* other);
 	~VSystem();
 
 	VSystem* original;//this is the original system without the edit of the user

@@ -4022,6 +4022,26 @@ void jgnCommands(LPTSTR ttt, int d)
 		goto peintit;
 
 	}
+
+	//char *test4 = "loadOrigin";
+	for (i = 0; i < 10; i++)
+	{
+		if (test1[13][i] == ttt[i])
+		{
+
+		}
+		else
+		{
+			i = 100;
+		}
+	}
+	if (i == 10)
+	{
+		okrender = 1;
+		vs = vs.original;
+
+		goto peintit;
+	}
 peintit:
 
 	DestroyWindow(CommandTextField);

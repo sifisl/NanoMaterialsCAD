@@ -14,6 +14,12 @@ VSystem::~VSystem()
 {
 }
 
+VSystem::VSystem(VSystem* other)
+{
+
+}
+
+
 void VSystem::reserve(const unsigned int sx, const unsigned int sy, const unsigned int sz)
 {
 	//reserve for every group

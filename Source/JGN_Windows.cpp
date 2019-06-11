@@ -2259,7 +2259,7 @@ LRESULT __stdcall HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 												break;
 											}
 										}
-										std::wcout << ttt << std::endl;
+										//std::wcout << ttt << std::endl;
 										jgnCommands(ttt, 0);
 										fgets(jgncmdfline, 100, jgncmdfile);
 										curentLine = jgncmdfline;
@@ -3066,7 +3066,7 @@ void jgnCommands(LPTSTR ttt, int d)
 			ole = t * sized[0] * sized[1] * sized[2];
 
 			r = stof(rstr);
-			srand(time(NULL));
+			srand(std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count());
 			for (int g = 0; g < vs.N_groups; g++)
 			{
 				for (int i = 0; i < vs.group[g].N_atoms; i++)
@@ -3950,7 +3950,7 @@ void jgnCommands(LPTSTR ttt, int d)
 		vs._sellectHistory2undo = 0;
 		ole = 0;
 		//random sellect
-		srand(time(NULL));
+		srand(std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count());
 		for (int g = 0; g < vs.N_groups; g++)
 		{
 			for (int i = 0; i < vs.group[g].N_atoms; i++)
@@ -4038,7 +4038,19 @@ void jgnCommands(LPTSTR ttt, int d)
 	if (i == 10)
 	{
 		okrender = 1;
-		vs = vs.original;
+		//vs = vs.original;
+
+		for (int g = 0; g < vs.N_groups; g++)
+		{
+			for (int i = 0; i < vs.group[g].N_atoms; i++)
+			{
+				vs.group[g].position[i] = vs.original->group[g].position[i];
+				vs.group[g].type[i] = vs.original->group[g].type[i];
+				vs.group[g].color[i] = vs.original->group[g].color[i];
+			}
+		}
+		vs.updateinfo();
+		
 
 		goto peintit;
 	}

@@ -15,7 +15,8 @@ VSystem::~VSystem()
 }
 
 VSystem::VSystem(VSystem* other)
-{
+{//TODO: complite that constructor
+
 
 }
 
@@ -938,7 +939,7 @@ void VSystem::cut()
 {
 	for (int g = 0; g < this->N_groups; g++)
 	{
-		#pragma omp parallel for firstprivate(g, S1v, S2v, S3, S1i, S2i, S3i, CustomSurfacesCount, i, CustomSurfaces, shperes_on, Right_Hexagonal, nanotube, CustomSurfacesOn, vacuum, Right_Hexagonal_height, figure_1, Rod_like)
+		//#pragma omp parallel for firstprivate(g, S1v, S2v, S3, S1i, S2i, S3i, CustomSurfacesCount, i, CustomSurfaces, shperes_on, Right_Hexagonal, nanotube, CustomSurfacesOn, vacuum, Right_Hexagonal_height, figure_1, Rod_like)
 		for (int ii = 0; ii < this->group[g].N_atoms; ii++)
 		{
 			float *p = &(this->group[g].position[ii].x);
@@ -1215,7 +1216,7 @@ void VSystem::selected_change_element(jgn::string elem)
 	{
 		//std::cout << elem << " " << this->group[this->_sellectHistory[i].x]._alltype[j] << std::endl;
 		//if (!std::strcmp(this->group[this->_sellectHistory[i].x]._alltype[j].c_str(), elem.c_str()))
-		if (this->group[this->_sellectHistory[i].x]._alltype[j].compare(elem))
+		if (this->group[this->_sellectHistory[i].x]._alltype[j].compare(elem) == 0)
 		{
 			exists = j;
 			break;
@@ -1241,8 +1242,8 @@ void VSystem::selected_change_element(jgn::string elem)
 				}
 			}
 			else
-			{
-				this->group[g]._N_types++;
+			{//if it doesn't exist
+				this->group[g]._N_types += 1;
 				exists = this->group[g]._N_types - 1;
 				this->group[g].N_types(this->group[g]._N_types);
 				this->group[g].N_atoms_per_type.reserve(this->group[g]._N_types);
@@ -1264,6 +1265,7 @@ void VSystem::selected_change_element(jgn::string elem)
 		}
 	}
 	this->unsellectAll();
+
 	//for (int i = 0; i < this->group[0]._N_types; i++)
 	//{
 	//	std::cout << this->group[0]._alltype[i] << std::endl;
@@ -1273,6 +1275,7 @@ void VSystem::selected_change_element(jgn::string elem)
 
 void VSystem::updateinfo()
 {
+
 	//zero all counts
 	for (int i = 0; i < this->N_types; i++)
 	{
@@ -1280,13 +1283,13 @@ void VSystem::updateinfo()
 	}
 	//check if number of types changed inside the groups
 	int more_memory = 0;
-	for (int g = 0; g < this->N_groups; g++)
-	{
-		if (this->group[g]._N_types != this->group[g]._prev_N_types)
-		{
-			more_memory += this->group[g]._N_types - this->group[g]._prev_N_types;
-		}
-	}
+	//for (int g = 0; g < this->N_groups; g++)
+	//{
+	//	if (this->group[g]._N_types != this->group[g]._prev_N_types)
+	//	{
+	//		more_memory += this->group[g]._N_types - this->group[g]._prev_N_types;
+	//	}
+	//}
 	//if we need more memory allocate it
 	if (more_memory > 0)
 	{
@@ -1318,6 +1321,31 @@ void VSystem::updateinfo()
 				this->color_per_type.emplace_back(this->group[g].color[i]);
 				this->types.emplace_back(this->group[g].type[i]);
 			}
+		}
+	}
+	//delete elements with 0 count
+	for (int g = 0; g < vs.N_groups; g++)
+		for (int i = 0; i < vs.group[g]._N_types; i++)
+		{
+			if (this->group[g].N_atoms_per_type[i] == 0)
+			{
+				this->group[g]._N_types -= 1;
+				this->group[g].color_per_type.erase(this->group[g].color_per_type.begin() + i);
+				this->group[g].N_atoms_per_type.erase(this->group[g].N_atoms_per_type.begin() + i);
+				this->group[g]._alltype.erase(this->group[g]._alltype.begin() + i);
+				i--;
+			}
+		}
+	for (int i = 0; i < this->N_types; i++)
+	{
+		std::cout << this->N_atoms_per_type[i] << std::endl;
+		if (this->N_atoms_per_type[i] == 0)
+		{
+			this->N_types -= 1;
+			this->N_atoms_per_type.erase(this->N_atoms_per_type.begin() + i);
+			this->types.erase(this->types.begin() + i);
+			this->color_per_type.erase(this->color_per_type.begin() + i);
+			i--;
 		}
 	}
 }

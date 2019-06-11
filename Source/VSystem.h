@@ -20,7 +20,7 @@ public:
 	std::vector<jgn::string> type;
 	int _N_types;
 	int _prev_N_types;
-	std::vector<jgn::string> _alltype;
+	std::vector<jgn::string> _alltype;//write all the individual types
 	std::vector<jgn::string> selective_dynamics;
 	std::vector<jgn::vec3> color;
 	std::vector<float> number;//atomic number

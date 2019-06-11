@@ -127,6 +127,7 @@ void JGN_SolidSphere(float radius, int numStacks, int numSides)
 	// part C - draw the bottom 'lid' (tris)
 
 	//vec3 backup = points[numVerts - numSides];
+
 	points[numVerts - numSides] = { 0,-radius,0 };
 	glVertexPointer(3, GL_FLOAT, 0, &points[numVerts - numSides]);
 	glNormalPointer(GL_FLOAT, 0, &points[numVerts - numSides]);

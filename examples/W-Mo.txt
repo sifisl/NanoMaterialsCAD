@@ -1,8 +1,9 @@
-for 1:20 
-	rand(0.05)
-	randSelection(0.5)
-	changeElement(Fe)
-	save("output/POSCAR$i")
+for 1:10 
+	rand(0.1)
+	randSelection(0.8)
+	changeElement(Mo)
+	save("\\155.207.10.238\gnikouli$\GAP\W and Mo binary alloy\W-Mo 20-80\POSCAR$i")
+	loadOrigin
 endfor
 exit
 #exit the script

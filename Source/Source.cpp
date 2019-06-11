@@ -2,7 +2,6 @@
 //Selective dynamics do not save properly
 //BuildPoscar(): only CustomSurfaceOn works properly
 //complite vs copy constructor
-//in void VSystem::updateinfo() more_memory doen't work properly and we get access violation
 #include <omp.h>
 #define JGN_SOURCE_CPP
 #include "stdafx.h"
@@ -20,7 +19,6 @@
 #include "Mouse.h"
 
 #define glutSolidSphere JGN_SolidSphere
-//test
 
 int main(int argc, char *argv[])
 {

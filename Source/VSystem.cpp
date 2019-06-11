@@ -1283,13 +1283,13 @@ void VSystem::updateinfo()
 	}
 	//check if number of types changed inside the groups
 	int more_memory = 0;
-	//for (int g = 0; g < this->N_groups; g++)
-	//{
-	//	if (this->group[g]._N_types != this->group[g]._prev_N_types)
-	//	{
-	//		more_memory += this->group[g]._N_types - this->group[g]._prev_N_types;
-	//	}
-	//}
+	for (int g = 0; g < this->N_groups; g++)
+	{
+		if (this->group[g]._N_types != this->group[g].N_atoms_per_type.size())
+		{
+			more_memory += this->group[g]._N_types - this->group[g].N_atoms_per_type.size();
+		}
+	}
 	//if we need more memory allocate it
 	if (more_memory > 0)
 	{

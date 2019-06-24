@@ -1,7 +1,7 @@
 //BUGS and TODOS////////////////
 //Selective dynamics do not save properly
 //BuildPoscar(): only CustomSurfaceOn works properly
-//complite vs copy constructor
+//complite vs. copy constructor
 #include <omp.h>
 #define JGN_SOURCE_CPP
 #include "stdafx.h"

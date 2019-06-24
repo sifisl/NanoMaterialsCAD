@@ -30,7 +30,7 @@ void VSystem::reserve(const unsigned int sx, const unsigned int sy, const unsign
 		this->group[i].primitiveVec[0] = this->original->group[i].primitiveVec[0] * sx;
 		this->group[i].primitiveVec[1] = this->original->group[i].primitiveVec[1] * sy;
 		this->group[i].primitiveVec[2] = this->original->group[i].primitiveVec[2] * sz;
-		this->group[i]._reserve(this->group[i].N_atoms);
+		this->group[i]._reserve(this->group[i].N_atoms * 2);
 	}
 		
 	//reserve for the whole system
@@ -42,11 +42,11 @@ void VSystem::reserve(const unsigned int sx, const unsigned int sy, const unsign
 		this->N_atoms += this->N_atoms_per_type[i];
 	}
 	vs._sellectHistory.clear();
-	vs._sellectHistory.reserve(vs.N_atoms);
+	vs._sellectHistory.reserve(vs.N_atoms*2);
 	
 	//prepare the memory
 	for (int g = 0; g < vs.N_groups; g++)
-		for (int i = vs.original->group[g].N_atoms; i < vs.group[g].N_atoms; i++)
+		for (int i = vs.original->group[g].N_atoms; i < vs.group[g].N_atoms * 2; i++)
 		{
 			vs.group[g].position.emplace_back(jgn::vec3(0, 0, 0));
 			vs.group[g].type.emplace_back(jgn::string(""));
@@ -61,17 +61,25 @@ void VSystem::reserve(const unsigned int sx, const unsigned int sy, const unsign
 			vs.group[g].ishovered.emplace_back(false);
 		}
 	for (int g = 0; g < vs.N_groups; g++)
-		for (int i = 0; i < vs.group[g].N_atoms; i++)
+		for (int i = 0; i < vs.group[g].N_atoms * 2; i++)
 		{
-			std::cout << g << " " << i << std::endl;
 			vs._sellectHistory.emplace_back(jgn::vec3(g, i, -1));
-			std::cout << &vs._sellectHistory[i] << std::endl;
 		}
-	for (int i = 0; i < vs.N_atoms; i++)
-		std::cout << vs._sellectHistory[i] << std::endl;
 }
 void Group::_reserve(const unsigned int r)
 {
+	this->position.clear();
+	this->type.clear();
+	this->selective_dynamics.clear();
+	this->color.clear();
+	this->number.clear();
+	this->weight.clear();
+	this->radius.clear();
+	this->isSelected.clear();
+	this->isdeleted.clear();
+	this->iscut.clear();
+	this->ishovered.clear();
+
 	this->position.reserve(r);
 	this->type.reserve(r);
 	this->selective_dynamics.reserve(r);
@@ -780,7 +788,7 @@ void VSystem::translate_selected(jgn::vec2& m, jgn::vec2& mprev)
 
 }
 
-void VSystem::rotate_selected(jgn::vec2& m, jgn::vec2& mprev)
+void VSystem::rotate_selected(jgn::vec2& m /*mouse*/, jgn::vec2& mprev, float angle)
 {
 	if (this->isrotating_theselected)
 	{
@@ -797,6 +805,10 @@ void VSystem::rotate_selected(jgn::vec2& m, jgn::vec2& mprev)
 			if (dd.z < 0)
 				d = -d;
 			jgn::vec3 rs = jgn::vec3(d, 0, 0);
+			if (angle != 0)
+			{
+				rs.x = angle;
+			}
 
 			for (int i = 0; i < this->N_atoms; i++)
 			{//for every atom
@@ -821,6 +833,10 @@ void VSystem::rotate_selected(jgn::vec2& m, jgn::vec2& mprev)
 			if (dd.x < 0)
 				d = -d;
 			jgn::vec3 rs = jgn::vec3(0, d, 0);
+			if (angle != 0)
+			{
+				rs.y = angle;
+			}
 
 			for (int i = 0; i < this->N_atoms; i++)
 			{//for every atom
@@ -845,6 +861,10 @@ void VSystem::rotate_selected(jgn::vec2& m, jgn::vec2& mprev)
 			if (dd.y < 0)
 				d = -d;
 			jgn::vec3 rs = jgn::vec3(0, 0, d);
+			if (angle != 0)
+			{
+				rs.z = angle;
+			}
 
 			for (int i = 0; i < this->N_atoms; i++)
 			{//for every atom

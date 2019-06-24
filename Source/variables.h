@@ -230,7 +230,7 @@ EXT int shperes_on;// render as spheres or points
 
 #ifdef JGN_WINDOWS_CPP
 
-static const int testsc = 14;
+static const int testsc = 15;
 static char *test1[testsc] = { "vector(",
 "clean",
 "undo",
@@ -244,7 +244,8 @@ static char *test1[testsc] = { "vector(",
 "randSelection(",
 "changeElement(",
 "save(",
-"loadOrigin"
+"loadOrigin",
+"rotate("
 };
 static char *test1low[testsc] = { "vector(",
 "clean",
@@ -259,7 +260,8 @@ static char *test1low[testsc] = { "vector(",
 "randSelection(",
 "changeElement(",
 "save(",
-"loadOrigin"
+"loadOrigin",
+"rotate("
 };
 static wchar_t *helplist[testsc] = { L"vector(int h,int c,int l,int A)",
 L"clean",
@@ -274,7 +276,8 @@ L"render on/off",
 L"randSelection(float (0-1))",// randomly select atoms with change from 0-1
 L"changeElement( e.x Fe )",
 L"save(string path file e.x \"POSCAR\")",//save the data to a POSCAR format at the specified location
-L"loadOrigin"//load the orginal data as befor the user changes
+L"loadOrigin",//load the orginal data as befor the user changes
+L"rotate(axes (x,y or z), float z)"//rotates the selected
 };
 #endif	// JGN_SOURCE_CPP
 

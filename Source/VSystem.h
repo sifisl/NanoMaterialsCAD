@@ -84,7 +84,7 @@ public:
 	void toggleselected_translate(bool state);
 	void toggleselected_rotate(bool state);
 	bool selected_rotate_ison = false;
-	void rotate_selected(jgn::vec2& m, jgn::vec2& mprev);//take the mouse - mouse.prev
+	void rotate_selected(jgn::vec2& m, jgn::vec2& mprev, float angle = 0);//take the mouse - mouse.prev, optional angle input
 	bool selected_translate_ison = false;
 	jgn::vec3 selected_manipulate_base[4];
 	float selected_translate_sensitivity = 1;

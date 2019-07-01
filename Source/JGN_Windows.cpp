@@ -6,6 +6,7 @@
 #include "JGN_DropFile.h"
 #include "JGN_Windows.h"
 #include "ToolBar.h"
+#include "JGN_DropFile.h"
 
 /////////////////////////////////////////////////
 //
@@ -567,93 +568,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			}
 		}
 
-		//print the droped path
-		found = std::string(inpf).find(".lmp");
-		if (found != std::string::npos)
-		{
-			ftype = 'l';
-		}
-		else
-		{
-			ftype = 'p';
-		}
-
-
-		//open the droped path
-		uc_file = fopen(inpf, "r");
 
 
 
-		//initialize facetes
-		S1i[0] = atoi(S1) / 100;
-		S1i[1] = fmod(atoi(S1) / 10, 10);
-		S1i[2] = fmod(atoi(S1), 10);
-
-		S2i[0] = atoi(S2) / 100;
-		S2i[1] = fmod(atoi(S2) / 10, 10);
-		S2i[2] = fmod(atoi(S2), 10);
-
-		S3i[0] = atoi(S3) / 100;
-		S3i[1] = fmod(atoi(S3) / 10, 10);
-		S3i[2] = fmod(atoi(S3), 10);
-
-		//shorting bullshit
-		if (S1[3] != '\0')
-		{
-			//__asm {
-			//	mov esi, [S1]
-			//	mov[esi + 3], 0
-			//}
-			S1[3] = '\0';
-		}
-		if (S2[3] != '\0') {
-			//__asm {
-			//	mov esi, [S2]
-			//	mov[esi + 3], 0
-			//}
-			S2[3] = '\0';
-
-		}if (S3[3] != '\0')
-		{
-			//__asm {
-			//	mov esi, [S3]
-			//	mov[esi + 3], 0
-			//}
-			S3[3] = '\0';
-
-		}
-
-		//define Svmax for a proper display (zoom)
-		//__asm {
-		//	mov esi, [S1v]
-		//	mov[Svmax], esi
-		//}
-		Svmax = S1v;
-		//Svmax = S1v;
-		if (S2v > Svmax)
-		{
-			/*__asm {
-				mov esi, [S2v]
-				mov[Svmax], esi
-			}*/
-			Svmax = S2v;
-		}
-		if (S3v > Svmax)
-		{
-			/*__asm {
-				mov esi, [S3v]
-				mov[Svmax], esi
-			}*/
-			Svmax = S3v;
-		}
-		/*__asm {
-			mov esi, [Svmax]
-			mov[Svmax_buckup], esi
-		}*/
-		Svmax_buckup = Svmax;
 
 
-		JGN_DropFile();
+
+		JGN_DropFile(inpf);
 
 		DragFinish((HDROP)wParam);
 
@@ -2138,8 +2059,8 @@ LRESULT __stdcall HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 				endcheck = 1;
 
 
-				//char *test1 = "fopen(";
-				for (i = 0; i < 6; i++)
+				//char *test1 = "script(";
+				for (i = 0; i < 7; i++)
 				{
 					if (test1[5][i] == ttt[i])
 					{
@@ -2151,11 +2072,11 @@ LRESULT __stdcall HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 
 					}
 				}
-				if (i == 6)
+				if (i == 7)
 				{
 					okrender = 1;
 
-					help = (char*)(ttt + 6);
+					help = (char*)(ttt + 7);
 
 					if (help[0] != '\"')
 					{
@@ -3038,8 +2959,8 @@ void jgnCommands(LPTSTR ttt, int d)
 		goto peintit;
 
 	}
-	//"rand("
-	for (i = 0; i < 5; i++)
+	//"phonon("
+	for (i = 0; i < 7; i++)
 	{
 
 		if (test1[8][i] == ttt[i])
@@ -3051,13 +2972,13 @@ void jgnCommands(LPTSTR ttt, int d)
 			i = 100;
 		}
 	}
-	if (i == 5)
+	if (i == 7)
 	{
 		okrender = 1;
 
 		float r = 0;
 
-		help = (char*)(ttt + 5);
+		help = (char*)(ttt + 7);
 
 		jgn::string rstr = jgn::LPTSTR2string((LPTSTR)help, ')');
 
@@ -3841,8 +3762,8 @@ void jgnCommands(LPTSTR ttt, int d)
 		goto peintit;
 
 	}
-	//char *test4 = "randSelection(";
-	for (i = 0; i < 14; i++)
+	//char *test4 = "randSelection%(";
+	for (i = 0; i < 15; i++)
 	{
 		if (test1[10][i] == ttt[i])
 		{
@@ -3853,10 +3774,10 @@ void jgnCommands(LPTSTR ttt, int d)
 			i = 100;
 		}
 	}
-	if (i == 14)
+	if (i == 15)
 	{
 		okrender = 1;
-		help = (char*)(ttt + 14);
+		help = (char*)(ttt + 15);
 		jgn::string rstr = jgn::LPTSTR2string((LPTSTR)help, ')');
 		float percent = 0;//0-1
 		int pos_token = rstr.find(")");
@@ -3874,7 +3795,7 @@ void jgnCommands(LPTSTR ttt, int d)
 		vs.unsellectAll();
 		vs._sellectHistory2undo = 0;
 		ole = 0;
-		//random sellect
+		//random sellect %
 		srand(std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count());
 		for (int g = 0; g < vs.N_groups; g++)
 		{
@@ -3885,6 +3806,60 @@ void jgnCommands(LPTSTR ttt, int d)
 				{
 					vs.group[g].isSelected[i] = true;
 				}
+			}
+		}
+		//change element type
+		//vs.selected_change_element(element_input);
+		//vs.updateinfo();
+		goto peintit;
+	}
+
+	//char *test4 = "randSelection(";
+	for (i = 0; i < 14; i++)
+	{
+		if (test1[15][i] == ttt[i])
+		{
+
+		}
+		else
+		{
+			i = 100;
+		}
+	}
+	if (i == 14)
+	{
+		okrender = 1;
+		help = (char*)(ttt + 14);
+		jgn::string rstr = jgn::LPTSTR2string((LPTSTR)help, ')');
+		float Natoms = 0;//0-1
+		int pos_token = rstr.find(")");
+		//extract the percentage
+		jgn::string percent_input = (char*)rstr.substr(0, pos_token - 1).c_str();
+		if (percent_input.isnumber())
+		{
+			Natoms = std::stof(percent_input);
+		}
+		else
+		{
+			return;
+		}
+
+		vs.unsellectAll();
+		vs._sellectHistory2undo = 0;
+		ole = 0;
+		//random sellect
+		srand(std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count());
+		for (int i = 0; i < Natoms; i++)
+		{
+			int atos = vs.N_atoms * rand() / (float)RAND_MAX;
+			if (vs._sellectHistory[atos].z != -1)
+			{
+				i--;
+			}
+			else
+			{
+				vs._sellectHistory[atos].z = 0;
+				vs.group[vs._sellectHistory[atos].x].isSelected[vs._sellectHistory[atos].y] = true;
 			}
 		}
 		//change element type
@@ -4032,6 +4007,66 @@ void jgnCommands(LPTSTR ttt, int d)
 		goto peintit;
 	}
 
+	//char *test4 = "delete";
+	for (i = 0; i < 6; i++)
+	{
+		if (test1[16][i] == ttt[i])
+		{
+
+		}
+		else
+		{
+			i = 100;
+		}
+	}
+	if (i == 6)
+	{
+		okrender = 1;
+		deleteSelected();
+		vs.updateinfo();
+		goto peintit;
+	}
+
+	//char *test4 = "restart";
+	for (i = 0; i < 7; i++)
+	{
+		if (test1[17][i] == ttt[i])
+		{
+
+		}
+		else
+		{
+			i = 100;
+		}
+	}
+	if (i == 7)
+	{
+		okrender = 1;
+		vs.restart();
+		goto peintit;
+	}
+
+	//char *test4 = "fopen(";
+	for (i = 0; i < 6; i++)
+	{
+		if (test1[18][i] == ttt[i])
+		{
+
+		}
+		else
+		{
+			i = 100;
+		}
+	}
+	if (i == 6)
+	{
+		okrender = 1;
+		help = (char*)(ttt + 7);
+		jgn::string rstr = jgn::LPTSTR2string((LPTSTR)help, '"');
+		JGN_DropFile(rstr.c_str());
+		jgn_file_dropd = true;
+		goto peintit;
+	}
 peintit:
 
 	DestroyWindow(CommandTextField);

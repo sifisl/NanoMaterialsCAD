@@ -96,6 +96,7 @@ public:
 	jgn::vec2 _hoveringAnatom(const jgn::vec2 m);
 	void selected_change_draw();
 	void updateinfo();
+	void restart();
 	void reserve(const unsigned int sx, const unsigned int sy, const unsigned int sz);// reserve for supercell sx,sy,sz
 	class Grouplist
 	{

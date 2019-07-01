@@ -20,6 +20,103 @@ VSystem::VSystem(VSystem* other)
 
 }
 
+void VSystem::restart()
+{
+	jgn_file_dropd = false;
+	for (int g = 0; g < this->N_groups; g++)
+	{
+		this->group[g].N_atoms_per_type.clear();//number of atoms
+		this->group[g].color_per_type.clear();//color of atoms
+		this->group[g].position.clear();
+		this->group[g].type.clear();
+		this->group[g]._alltype.clear();//write all the individual types
+		this->group[g].selective_dynamics.clear();
+		this->group[g].color.clear();
+		this->group[g].number.clear();//atomic number
+		this->group[g].weight.clear();//atomic weight
+		this->group[g].radius.clear();
+		this->group[g].isSelected.clear();
+		this->group[g].isdeleted.clear();
+		this->group[g].ishovered.clear();
+		this->group[g].iscut.clear();//if the atoms is cut by a surface
+	}
+
+	this->N_types = 0;//#N of different elements
+	this->types.clear();//name of different elements
+	this->N_atoms = 0;// total #N of the system
+	this->N_atoms_per_type.clear();
+	this->color_per_type.clear();//color of atoms
+	this->hoveredatom = jgn::vec2(-1, -1);// group,atoms of the atom that is currently hovered
+	this->hoveredatom_prev = jgn::vec2(-1, -1);
+	//this->simulationboxVolume = 0;
+	this->noupdate = false;
+
+
+	this->N_groups = 0;//#N of groups
+	this->_isimulationBox = 0;//the group that its simulation box is used
+	//jgn::vec3 simulationBoxEdges[8];//the simumation box 2 draw;
+	this->_sellectHistory.clear();//(group,atom,history)
+	this->_sellectHistory2undo = 1;//
+
+
+	this->group.clear();
+	this->deletedHistory.clear();
+
+	this->selected_rotate_ison = false;
+	this->selected_translate_ison = false;
+	this->selected_translate_sensitivity = 1;
+	this->selected_change_hovered_axes = -1;
+	this->istranslating_theselected = false;
+	this->isrotating_theselected = false;
+
+	//for the original
+	for (int g = 0; g < this->original->N_groups; g++)
+	{
+		this->original->group[g].N_atoms_per_type.clear();//number of atoms
+		this->original->group[g].color_per_type.clear();//color of atoms
+		this->original->group[g].position.clear();
+		this->original->group[g].type.clear();
+		this->original->group[g]._alltype.clear();//write all the individual types
+		this->original->group[g].selective_dynamics.clear();
+		this->original->group[g].color.clear();
+		this->original->group[g].number.clear();//atomic number
+		this->original->group[g].weight.clear();//atomic weight
+		this->original->group[g].radius.clear();
+		this->original->group[g].isSelected.clear();
+		this->original->group[g].isdeleted.clear();
+		this->original->group[g].ishovered.clear();
+		this->original->group[g].iscut.clear();//if the atoms is cut by a surface
+	}
+
+	this->original->N_types = 0;//#N of different elements
+	this->original->types.clear();//name of different elements
+	this->original->N_atoms = 0;// total #N of the system
+	this->original->N_atoms_per_type.clear();
+	this->original->color_per_type.clear();//color of atoms
+	this->original->hoveredatom = jgn::vec2(-1, -1);// group,atoms of the atom that is currently hovered
+	this->original->hoveredatom_prev = jgn::vec2(-1, -1);
+	//this->original->simulationboxVolume = 0;
+	this->original->noupdate = false;
+
+
+	this->original->N_groups = 0;//#N of groups
+	this->original->_isimulationBox = 0;//the group that its simulation box is used
+	//jgn::vec3 simulationBoxEdges[8];//the simumation box 2 draw;
+	this->original->_sellectHistory.clear();//(group,atom,history)
+	this->original->_sellectHistory2undo = 1;//
+
+
+	this->original->group.clear();
+	this->original->deletedHistory.clear();
+
+	this->original->selected_rotate_ison = false;
+	this->original->selected_translate_ison = false;
+	this->original->selected_translate_sensitivity = 1;
+	this->original->selected_change_hovered_axes = -1;
+	this->original->istranslating_theselected = false;
+	this->original->isrotating_theselected = false;
+
+}
 
 void VSystem::reserve(const unsigned int sx, const unsigned int sy, const unsigned int sz)
 {

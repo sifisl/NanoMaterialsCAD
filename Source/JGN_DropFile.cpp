@@ -6,8 +6,94 @@
 #include "VSystem.h"
 
 
-void JGN_DropFile()
+void JGN_DropFile(const char* inpf)
 {
+	delete s;
+	s = new char[SBYTES];
+	//print the droped path
+	found = std::string(inpf).find(".lmp");
+	if (found != std::string::npos)
+	{
+		ftype = 'l';
+	}
+	else
+	{
+		ftype = 'p';
+	}
+
+	//open the droped path
+	uc_file = fopen(inpf, "r");
+
+
+
+	//initialize facetes
+	S1i[0] = atoi(S1) / 100;
+	S1i[1] = fmod(atoi(S1) / 10, 10);
+	S1i[2] = fmod(atoi(S1), 10);
+
+	S2i[0] = atoi(S2) / 100;
+	S2i[1] = fmod(atoi(S2) / 10, 10);
+	S2i[2] = fmod(atoi(S2), 10);
+
+	S3i[0] = atoi(S3) / 100;
+	S3i[1] = fmod(atoi(S3) / 10, 10);
+	S3i[2] = fmod(atoi(S3), 10);
+
+	//shorting bullshit
+	if (S1[3] != '\0')
+	{
+		//__asm {
+		//	mov esi, [S1]
+		//	mov[esi + 3], 0
+		//}
+		S1[3] = '\0';
+	}
+	if (S2[3] != '\0') {
+		//__asm {
+		//	mov esi, [S2]
+		//	mov[esi + 3], 0
+		//}
+		S2[3] = '\0';
+
+	}if (S3[3] != '\0')
+	{
+		//__asm {
+		//	mov esi, [S3]
+		//	mov[esi + 3], 0
+		//}
+		S3[3] = '\0';
+
+	}
+
+	//define Svmax for a proper display (zoom)
+	//__asm {
+	//	mov esi, [S1v]
+	//	mov[Svmax], esi
+	//}
+	Svmax = S1v;
+	//Svmax = S1v;
+	if (S2v > Svmax)
+	{
+		/*__asm {
+			mov esi, [S2v]
+			mov[Svmax], esi
+		}*/
+		Svmax = S2v;
+	}
+	if (S3v > Svmax)
+	{
+		/*__asm {
+			mov esi, [S3v]
+			mov[Svmax], esi
+		}*/
+		Svmax = S3v;
+	}
+	/*__asm {
+		mov esi, [Svmax]
+		mov[Svmax_buckup], esi
+	}*/
+	Svmax_buckup = Svmax;
+
 	if (ftype == 'p')
 	{
 

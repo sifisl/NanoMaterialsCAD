@@ -40,6 +40,7 @@ void lines_param();
 void jgnCommands(LPTSTR ttt, int d);
 void variableinit();
 void JGN_QRedisplay();
+void deleteSelected();
 //
 //  Global data.
 //
@@ -230,54 +231,66 @@ EXT int shperes_on;// render as spheres or points
 
 #ifdef JGN_WINDOWS_CPP
 
-static const int testsc = 15;
+static const int testsc = 19;
 static char *test1[testsc] = { "vector(",
 "clean",
 "undo",
 "supercell(",
 "plane(",
-"fopen(",
+"script(",
 "spheres",
 "points",
-"rand(",
+"phonon(",
 "render ",
-"randSelection(",
+"randSelection%(",
 "changeElement(",
 "save(",
 "loadOrigin",
-"rotate("
+"rotate(",
+"randSelection(",
+"delete",
+"restart",
+"fopen("
 };
 static char *test1low[testsc] = { "vector(",
 "clean",
 "undo",
 "supercell(",
 "plane(",
-"fopen(",
+"script(",
 "spheres",
 "points",
-"rand(",
+"phonon(",
 "render ",
-"randSelection(",
+"randSelection%(",
 "changeElement(",
 "save(",
 "loadOrigin",
-"rotate("
+"rotate(",
+"randSelection(",
+"delete",
+"restart",
+"fopen("
 };
 static wchar_t *helplist[testsc] = { L"vector(int h,int c,int l,int A)",
 L"clean",
 L"undo",
 L"supercell(int a1,int a2,int a3)",
 L"plane(int u,int v,int w,int A)",
-L"fopen(char* file path)",
+L"script(\"file path\")",
 L"spheres",
 L"points",
-L"rand(float r)",
+L"phonon(float r)",
 L"render on/off",
-L"randSelection(float (0-1))",// randomly select atoms with change from 0-1
+L"randSelection%(float (0-1))",// randomly select atoms with change from 0-1
 L"changeElement( e.x Fe )",
 L"save(string path file e.x \"POSCAR\")",//save the data to a POSCAR format at the specified location
 L"loadOrigin",//load the orginal data as befor the user changes
-L"rotate(axes (x,y or z), float z)"//rotates the selected
+L"rotate(axes (x,y or z), float z)",//rotates the selected
+L"randSelection(int)",//select int random atoms
+L"delete",//delete selecte atoms
+L"restart",
+L"fopen(\"data path\")"
 };
 #endif	// JGN_SOURCE_CPP
 

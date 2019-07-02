@@ -4063,6 +4063,7 @@ void jgnCommands(LPTSTR ttt, int d)
 		okrender = 1;
 		help = (char*)(ttt + 7);
 		jgn::string rstr = jgn::LPTSTR2string((LPTSTR)help, '"');
+		strcpy(inpf, rstr.c_str());//for legacy reasons
 		JGN_DropFile(rstr.c_str());
 		jgn_file_dropd = true;
 		goto peintit;

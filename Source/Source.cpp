@@ -319,16 +319,10 @@ void display1(void)//generates the graphics output.
 	//glRotatef(theta[0], cos((pi*theta[1]) / 180), 0.0, sin((pi*theta[1]) / 180));
 	menu.draw();
 
-	if (CustomSurfacesOn)
-	{
+
 		glRotatef(theta[0], 1.0, 0.0, 0.0);
 		glRotatef(theta[1], 0.0, 0.0, 1.0);
-	}
-	else
-	{
-		glRotatef(theta[0], 1.0, 0.0, 0.0);
-		glRotatef(theta[1], 0.0, 1.0, 0.0);
-	}
+
 	glTranslatef(model_translate[0], model_translate[1], model_translate[2]);
 	if (perspective_on)
 	{
@@ -366,9 +360,13 @@ void display1(void)//generates the graphics output.
 				}
 			}
 
-
-		glEnable(GL_LIGHTING);
+		//////////////////////TODO: this is ungly
+		glColor3f(0, 0, 0);
+		glDisable(GL_TEXTURE_2D);
+		glDisable(GL_LIGHTING);
 	drawMoldsLines(p, p1);
+	/////////////////////////////////////
+	glEnable(GL_LIGHTING);
 	vs.cut();//TODO: move that from here
 
 	vs.draw();
@@ -378,7 +376,7 @@ void display1(void)//generates the graphics output.
 
 	glColor3f(0.0, 0.0, 0.0);
 
-
+	glBindTexture(GL_TEXTURE_2D, Font);
 //// aatoms print
 	if (perspective_on)
 	{

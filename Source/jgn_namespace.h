@@ -159,7 +159,7 @@ namespace jgn
 #endif //JGN_SOURCE_CPP
 
 	///////////////////////////////////////////////////////////////////////3d -power of 2- distance between 2 points 
-	float dist3dSquare(float& p1, float& p2)//I don't use sqrt for optimization
+	float dist3dSquare(float const & p1, float const& p2)//I don't use sqrt for optimization
 #ifdef JGN_SOURCE_CPP
 
 	{

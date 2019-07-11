@@ -819,10 +819,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			break;
 		case IDM_NT:
 
-			max_xyz[0] = crystal[2 + 5 * 0];
-			min_xyz[0] = crystal[2 + 5 * 0];
+			//max_xyz[0] = crystal[2 + 5 * 0];
+			//min_xyz[0] = crystal[2 + 5 * 0];
 
-			for (ole3 = 0; ole3 < t * (sized[0])*(sized[1])*(sized[2]); ole3++)
+			/*for (ole3 = 0; ole3 < t * (sized[0])*(sized[1])*(sized[2]); ole3++)
 			{
 				if (crystal[2 + 5 * ole3] > max_xyz[0])
 				{
@@ -834,7 +834,24 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 				}
 
+			}*/
+			max_xyz[0] = vs.group[0].position[0].x;
+			min_xyz[0] = vs.group[0].position[0].x;
+			for (int g = 0; g < vs.N_groups; g++)
+			{
+				for (int i = 0; i < vs.group[g].N_atoms; i++)
+				{
+					if (vs.group[g].position[i].x > max_xyz[0])
+					{
+						max_xyz[0] = vs.group[g].position[i].x;
+					}
+					else if (vs.group[g].position[i].x < min_xyz[0])
+					{
+						min_xyz[0] = vs.group[g].position[i].x;
+					}
+				}
 			}
+
 			sized[0] = custom_sized[0];
 			sized[1] = custom_sized[1];
 			sized[2] = custom_sized[2];
@@ -4246,7 +4263,7 @@ void MakeScroll()
 	int S2vforreal = S2v - S1v;
 	//std::cout << S1v << ' ' << S2v << ' ' << S3v << std::endl;
 	//std::cout << (max_xyz[0] - min_xyz[0]) << ' ' << S3v << std::endl;
-	int ajklsdfl = t * (sized[0])*(sized[1])*(sized[2]);
+	//int ajklsdfl = t * (sized[0])*(sized[1])*(sized[2]);
 
 	//Bisection to find max_theta
 	float max_theta = find_theta(float(S2v));
@@ -4258,27 +4275,53 @@ void MakeScroll()
 	S3v = S3v + ((max_xyz[0] - min_xyz[0]) * 2 * M_PI) / min_theta;
 
 
-
+	sized[0] = vs.group[0].primitiveVec[0].abs() / vs.original->group[0].primitiveVec[0].abs();
+	sized[1] = vs.group[0].primitiveVec[1].abs() / vs.original->group[0].primitiveVec[1].abs();
+	sized[2] = vs.group[0].primitiveVec[2].abs() / vs.original->group[0].primitiveVec[2].abs();
+	//std::cout << sized[0] << " " << sized[1] << " " << sized[2] << std::endl;
 	//S3v = max_theta / (max_xyz[0]);
+	int as = 0;//atom position starts at
+	for (int g = 0; g < vs.N_groups; g++)
+	{//for every group
+		for (int k = 0; k < sized[2]; k++)
+		{
+			for (int j = 0; j < sized[1]; j++)
+			{
+				for (int i = 0; i < sized[0]; i++)
+				{
+					for (int a = 0; a < vs.original->group[g].N_atoms; a++)
+					{//for every atom within the group
+						vs.group[g].position[a + as] = vs.original->group[g].position[a] + vs.original->group[vs._isimulationBox].primitiveVec[0] * i + vs.original->group[vs._isimulationBox].primitiveVec[1] * j + vs.original->group[vs._isimulationBox].primitiveVec[2] * k;
+						
+						float R = S1v + S2vforreal * (vs.group[g].position[a + as].x- min_xyz[0]) / (max_xyz[0] - min_xyz[0]);
+						float theta = vs.group[g].position[a + as].x * (2 * M_PI / S3v);
+						vs.group[g].position[a + as].z = R * sin(theta);
 
+						vs.group[g].position[a + as].x = R * cos(theta);
 
-	for (ole3 = 0; ole3 < ajklsdfl; ole3++)
-	{
-		crystal[2 + 5 * ole3] = crystal_backup[2 + 5 * ole3];
-		crystal[4 + 5 * ole3] = crystal_backup[4 + 5 * ole3];
-
-		double R = S1v + S2vforreal * (crystal[2 + 5 * ole3] - min_xyz[0]) / (max_xyz[0] - min_xyz[0]);
-
-		//Archimedes' Spiral
-		//http://mathworld.wolfram.com/ArchimedesSpiral.html
-
-		float theta = crystal[2 + 5 * ole3] * (2 * M_PI / S3v);
-
-
-		crystal[4 + 5 * ole3] = R * sin(theta);
-
-		crystal[2 + 5 * ole3] = R * cos(theta);
+					}
+					as += vs.original->group[g].N_atoms;
+				}
+			}
+		}
 	}
+	//for (ole3 = 0; ole3 < ajklsdfl; ole3++)
+	//{
+	//	crystal[2 + 5 * ole3] = crystal_backup[2 + 5 * ole3];
+	//	crystal[4 + 5 * ole3] = crystal_backup[4 + 5 * ole3];
+
+	//	double R = S1v + S2vforreal * (crystal[2 + 5 * ole3] - min_xyz[0]) / (max_xyz[0] - min_xyz[0]);
+
+	//	//Archimedes' Spiral
+	//	//http://mathworld.wolfram.com/ArchimedesSpiral.html
+
+	//	float theta = crystal[2 + 5 * ole3] * (2 * M_PI / S3v);
+
+
+	//	crystal[4 + 5 * ole3] = R * sin(theta);
+
+	//	crystal[2 + 5 * ole3] = R * cos(theta);
+	//}
 
 
 }

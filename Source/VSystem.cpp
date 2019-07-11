@@ -282,7 +282,8 @@ void VSystem::draw()
 	//Draw atoms
 	glEnable(GL_LIGHTING);
 	glDisable(GL_TEXTURE_2D);
-	this->_drawatoms();
+	if(render_is_on)
+		this->_drawatoms();
 
 	//Draw translate or rotate base if is on
 	if (this->selected_translate_ison)
@@ -1056,7 +1057,15 @@ void VSystem::cut()
 			}
 			else if (want_cyrcle[0] == 'y' || want_cyrcle[0] == 'Y')
 			{
-				this->group[g].iscut[ii] = false;
+				float ori[] = { 0,0,0 };
+				if (vacuum^(sqrt(jgn::dist3dSquare(this->group[g].position[ii].x, ori[0])) < rad))
+				{
+					this->group[g].iscut[ii] = false;
+				}
+				else
+				{
+					this->group[g].iscut[ii] = true;
+				}
 			}
 			else if (CustomSurfacesOn)
 			{

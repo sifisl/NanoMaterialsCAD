@@ -2,6 +2,7 @@
 //Selective dynamics do not save properly
 //BuildPoscar(): only CustomSurfaceOn works properly
 //complite vs. copy constructor
+//add inverse cut to options (ctrl+v)
 #include <omp.h>
 #define JGN_SOURCE_CPP
 #include "stdafx.h"
@@ -1519,7 +1520,7 @@ void deleteSelected()
 			{
 				atleast1 = true;
 				vs.group[g].isdeleted[i] = true;
-				deletedHistory[i] = Ndeletes;
+				//deletedHistory[i] = Ndeletes;
 			}
 		}
 	}
@@ -1686,7 +1687,7 @@ void keyboardgl(int key, int s, int x, int y)
 	}
 	else if (ctrl_down && z_down)
 	{
-		UndoDeleted();
+		//UndoDeleted();
 		vs.updateinfo();
 		JGN_PostRedisplay();
 	}
@@ -2103,7 +2104,7 @@ void keyboardgl(int key, int s, int x, int y)
 				}
 
 			}
-			//check_if_to_redisplay = 1;
+			check_if_to_redisplay = 1;
 
 		}
 		else if((key == 'r' || key == 'R') && s == JGN_DOWN)
@@ -2129,89 +2130,31 @@ void keyboardgl(int key, int s, int x, int y)
 		}
 		else if ((key == 's' || key == 'S') && s == JGN_DOWN)
 		{
-
-			tb.sellectedTool = ToolBar::Tool::SELECT;
-			vs.unsellectAll();
-			//int asdf = t * sized[0] * sized[1] * sized[2];
-			//for (int i = 0; i < asdf; i++)
-			//{
-			//	isSelected[i] = false;
-			//}
-			//if (jgn_supercell)
-			//{
-			//	jgn_supercell_xyz[1]--;
-			//	if (jgn_supercell_xyz[1] < 0)
-			//	{
-			//		jgn_supercell_xyz[1] = 0;
-			//	}
-			//	sized[1] = jgn_supercell_xyz[1];
-
-
-
-			//	FILE* periodic_table = fopen("periodic_table.jgn", "r");
-
-			//	crystal = (float*)realloc(NULL, sizeof(float)*(jgn_supercell_xyz[0] * jgn_supercell_xyz[1] * jgn_supercell_xyz[2] * t * 5));
-
-			//	if (jgn_supercell_xyz[1] / 2 == jgn_supercell_xyz[1] / 2.0)
-			//	{
-			//		xexe[1] = 0;
-			//	}
-			//	else
-			//	{
-			//		xexe[1] = 1;
-			//	}
-
-			//	for (ole4 = -jgn_supercell_xyz[2] / 2; ole4 < jgn_supercell_xyz[2] / 2 + xexe[2]; ole4++) {
-			//		for (ole2 = -jgn_supercell_xyz[1] / 2; ole2 < jgn_supercell_xyz[1] / 2 + xexe[1]; ole2++) {
-			//			for (ole = -jgn_supercell_xyz[0] / 2; ole < jgn_supercell_xyz[0] / 2 + xexe[0]; ole++) {
-			//				for (ole3 = 0; ole3 < t; ole3++) {
-			//					crystal[0 + 5 * (ole3 + t*(ole4 + jgn_supercell_xyz[2] / 2 + jgn_supercell_xyz[2] * (ole2 + jgn_supercell_xyz[1] / 2 + jgn_supercell_xyz[1] * (ole + jgn_supercell_xyz[0] / 2))))] = my_direct[0 + 5 * ole3];//atomikos ari8mos
+			if (CustomSurfacesOn)
+			{
+				tb.sellectedTool = ToolBar::Tool::SELECT;
+				vs.unsellectAll();
+				//int asdf = t * sized[0] * sized[1] * sized[2];
+				//for (int i = 0; i < asdf; i++)
+				//{
+				//	isSelected[i] = false;
+				//}
+			}
+			else
+			{
+				S2v = S2v - 1;
+				if (S2v < 0)
+				{
+					S2v = 0;
+				}
+				if (nanotube)
+				{
+					MakeScroll();
+				}
+			}
 
 
-			//																																																								 //crystal[ole + sized[0] / 2][ole2 + sized[1] / 2][ole4 + sized[2] / 2][ole3][0] = direct[0+5*ole3];
-			//					crystal[1 + 5 * (ole3 + t*(ole4 + jgn_supercell_xyz[2] / 2 + jgn_supercell_xyz[2] * (ole2 + jgn_supercell_xyz[1] / 2 + jgn_supercell_xyz[1] * (ole + jgn_supercell_xyz[0] / 2))))] = my_direct[1 + 5 * ole3];//atomiko varos
-			//																																																								 //crystal[ole + sized[0] / 2][ole2 + sized[1] / 2][ole4 + sized[2] / 2][ole3][1] = direct[1+5*ole3];
-			//					for (ole1 = 0; ole1 < 3; ole1++) {
-			//						crystal[ole1 + 2 + 5 * (ole3 + t*(ole4 + jgn_supercell_xyz[2] / 2 + jgn_supercell_xyz[2] * (ole2 + jgn_supercell_xyz[1] / 2 + jgn_supercell_xyz[1] * (ole + jgn_supercell_xyz[0] / 2))))] = uccartesian[ole1 + 3 * ole3] + ole*ijk[0][ole1] + ole2*ijk[1][ole1] + ole4*ijk[2][ole1];//cartesians
-			//																																																																											//crystal[ole + sized[0] / 2][ole2 + sized[1] / 2][ole4 + sized[2] / 2][ole3][ole1 + 2] = uccartesian[ole1+3*ole3] + ole*ijk[0][ole1] + ole2*ijk[1][ole1] + ole4*ijk[2][ole1];
-			//						if (crystal[ole1 + 2 + 5 * (ole3 + t*(ole4 + jgn_supercell_xyz[2] / 2 + jgn_supercell_xyz[2] * (ole2 + jgn_supercell_xyz[1] / 2 + jgn_supercell_xyz[1] * (ole + jgn_supercell_xyz[0] / 2))))] < min_xyz[ole1])
-			//						{
-			//							min_xyz[ole1] = crystal[ole1 + 2 + 5 * (ole3 + t*(ole4 + jgn_supercell_xyz[2] / 2 + jgn_supercell_xyz[2] * (ole2 + jgn_supercell_xyz[1] / 2 + jgn_supercell_xyz[1] * (ole + jgn_supercell_xyz[0] / 2))))];
-
-			//						}
-			//						if (crystal[ole1 + 2 + 5 * (ole3 + t*(ole4 + jgn_supercell_xyz[2] / 2 + jgn_supercell_xyz[2] * (ole2 + jgn_supercell_xyz[1] / 2 + jgn_supercell_xyz[1] * (ole + jgn_supercell_xyz[0] / 2))))] > max_xyz[ole1])
-			//						{
-			//							max_xyz[ole1] = crystal[ole1 + 2 + 5 * (ole3 + t*(ole4 + jgn_supercell_xyz[2] / 2 + jgn_supercell_xyz[2] * (ole2 + jgn_supercell_xyz[1] / 2 + jgn_supercell_xyz[1] * (ole + jgn_supercell_xyz[0] / 2))))];
-
-			//						}
-
-			//					}
-
-
-			//					rewind(periodic_table);
-
-			//				}
-			//			}
-			//		}
-			//	}
-
-
-			//	std::fclose(periodic_table);
-
-			//}
-			//else
-			//{
-			//	S2v = S2v - 1;
-			//	if (S2v < 0)
-			//	{
-			//		S2v = 0;
-			//	}
-			//	if (nanotube)
-			//	{
-			//		MakeScroll();
-			//	}
-
-			//}
+			
 			check_if_to_redisplay = 1;
 
 		}
@@ -2284,7 +2227,7 @@ void keyboardgl(int key, int s, int x, int y)
 				}
 
 			}
-			//check_if_to_redisplay = 1;
+			check_if_to_redisplay = 1;
 
 		}
 		else if ((key == 'x' || key == 'X') && s == JGN_DOWN)
@@ -2370,10 +2313,10 @@ void keyboardgl(int key, int s, int x, int y)
 					}
 
 				}
-			//check_if_to_redisplay = 1;
+			check_if_to_redisplay = 1;
 
 		}
-		else if (S1[0] == '1')
+		if (S1[0] == '1')
 		{
 			if (S2[0] == '1')
 			{

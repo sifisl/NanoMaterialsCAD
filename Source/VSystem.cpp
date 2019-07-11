@@ -127,7 +127,7 @@ void VSystem::reserve(const unsigned int sx, const unsigned int sy, const unsign
 		this->group[i].primitiveVec[0] = this->original->group[i].primitiveVec[0] * sx;
 		this->group[i].primitiveVec[1] = this->original->group[i].primitiveVec[1] * sy;
 		this->group[i].primitiveVec[2] = this->original->group[i].primitiveVec[2] * sz;
-		this->group[i]._reserve(this->group[i].N_atoms * 2);
+		this->group[i]._reserve(this->group[i].N_atoms);
 	}
 		
 	//reserve for the whole system
@@ -139,11 +139,12 @@ void VSystem::reserve(const unsigned int sx, const unsigned int sy, const unsign
 		this->N_atoms += this->N_atoms_per_type[i];
 	}
 	vs._sellectHistory.clear();
-	vs._sellectHistory.reserve(vs.N_atoms*2);
+	vs._sellectHistory.reserve(vs.N_atoms);
 	
 	//prepare the memory
 	for (int g = 0; g < vs.N_groups; g++)
-		for (int i = vs.original->group[g].N_atoms; i < vs.group[g].N_atoms * 2; i++)
+	{
+		for (int i = 0; i < vs.group[g].N_atoms; i++)
 		{
 			vs.group[g].position.emplace_back(jgn::vec3(0, 0, 0));
 			vs.group[g].type.emplace_back(jgn::string(""));
@@ -157,8 +158,9 @@ void VSystem::reserve(const unsigned int sx, const unsigned int sy, const unsign
 			vs.group[g].iscut.emplace_back(false);
 			vs.group[g].ishovered.emplace_back(false);
 		}
+	}
 	for (int g = 0; g < vs.N_groups; g++)
-		for (int i = 0; i < vs.group[g].N_atoms * 2; i++)
+		for (int i = 0; i < vs.group[g].N_atoms; i++)
 		{
 			vs._sellectHistory.emplace_back(jgn::vec3(g, i, -1));
 		}
@@ -605,6 +607,7 @@ void VSystem::_drawDistanceToolLine()
 	if (tb._sellectedfordistance[1].y != -1)
 	{
 		glDisable(GL_LIGHTING);
+
 		jgn::vec3 p1 = vs.group[tb._sellectedfordistance[0].x].position[tb._sellectedfordistance[0].y] / (Svmax + 5);
 		jgn::vec3 p2 = vs.group[tb._sellectedfordistance[1].x].position[tb._sellectedfordistance[1].y] / (Svmax + 5);
 

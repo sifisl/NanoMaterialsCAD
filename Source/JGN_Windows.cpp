@@ -3592,6 +3592,7 @@ void jgnCommands(LPTSTR ttt, int d)
 	if (i == 10)
 	{
 		okrender = 1;
+		tb._sellectedfordistance[1].y = -1;
 		help = (char*)(ttt + 10);
 		if (help[0] >= 48 && help[0] <= 57)
 		{

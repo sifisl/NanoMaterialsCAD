@@ -1176,6 +1176,7 @@ void VSystem::cut()
 			jgn::cpu_translate(&this->group[g].position[ii].x, tr, &this->group[g].position[ii].x);
 		}
 	}
+	this->updateinfo();
 }
 
 void VSystem::selected_change_radius(jgn::string r)
@@ -1422,7 +1423,7 @@ void VSystem::updateinfo()
 	//now count the atoms
 	for (int g = 0; g < this->N_groups; g++)
 	{
-		for (int i = 0; i < this->N_atoms; i++)
+		for (int i = 0; i < this->group[g].N_atoms; i++)
 		{
 			bool exists = false;
 			for (int j = 0; j < this->N_types; j++)

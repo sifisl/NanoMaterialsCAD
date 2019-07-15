@@ -2057,5 +2057,4 @@ void JGN_DropFile(const char* inpf)
 	{
 		vs.original->_sellectHistory.emplace_back(jgn::vec3(vs.original->N_groups - 1, i, -1));
 	}
-
 }

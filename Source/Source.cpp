@@ -368,6 +368,7 @@ void display1(void)//generates the graphics output.
 	drawMoldsLines(p, p1);
 	/////////////////////////////////////
 	glEnable(GL_LIGHTING);
+
 	vs.cut();//TODO: move that from here
 
 	vs.draw();
@@ -3053,6 +3054,14 @@ void mouse_func(int b, int s, int x, int y)
 				for (int i = 0; i < vs.group[vs.grouplist.options.hovering].N_atoms; i++)
 				{
 					vs.group[vs.grouplist.options.hovering].isSelected[i] = true;
+				}
+				vs._sellectHistory2undo++;
+				for (int i = 0; i < vs.N_atoms; i++)
+				{
+					if (vs._sellectHistory[i].x == vs.grouplist.options.hovering)
+					{
+						vs._sellectHistory[i].z = vs._sellectHistory2undo;
+					}
 				}
 			}
 		}

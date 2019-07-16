@@ -3,6 +3,7 @@
 //BuildPoscar(): only CustomSurfaceOn works properly
 //complite vs. copy constructor
 //add inverse cut to options (ctrl+v)
+//In the "plane(" command the forth input doesn't work
 #include <omp.h>
 #define JGN_SOURCE_CPP
 #include "stdafx.h"

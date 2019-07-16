@@ -7,6 +7,7 @@
 #include "JGN_Windows.h"
 #include "ToolBar.h"
 #include "JGN_DropFile.h"
+#define JGN_CMD_PLANE
 
 /////////////////////////////////////////////////
 //
@@ -3068,7 +3069,7 @@ void jgnCommands(LPTSTR ttt, int d)
 	}
 
 
-#if !defined(JGN_CMD_PLANE) 
+#if defined(JGN_CMD_PLANE) 
 	for (i = 0; i < 6; i++)
 	{
 		if (test1[4][i] == ttt[i])
@@ -3095,13 +3096,13 @@ void jgnCommands(LPTSTR ttt, int d)
 		CustomSurfaces[CustomSurfacesCount - 1][1] = 0;
 		CustomSurfaces[CustomSurfacesCount - 1][2] = 0;
 		CustomSurfaces[CustomSurfacesCount - 1][3] = 0;
-#if defined(JGN_CMD_PLANE)
+#if !defined(JGN_CMD_PLANE)
 		CustomSurfaces_hkl[CustomSurfacesCount - 1][0] = crystalh = intbuff[0];
 		CustomSurfaces_hkl[CustomSurfacesCount - 1][1] = crystalk = intbuff[1];
 		CustomSurfaces_hkl[CustomSurfacesCount - 1][2] = crystall = intbuff[2];
 #endif
 
-#if !defined(JGN_CMD_PLANE)
+#if defined(JGN_CMD_PLANE)
 		crystalh = 0;
 		crystalk = 0;
 		crystall = 0;

@@ -1069,7 +1069,7 @@ void VSystem::cut()
 			}
 			else if (CustomSurfacesOn)
 			{
-
+				std::cout << CustomSurfacesCount << std::endl;
 				if (CustomSurfacesCount == 0)
 				{
 					this->group[g].iscut[ii] = false;

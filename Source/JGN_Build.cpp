@@ -1639,251 +1639,251 @@ void BuildPoscar(char* NewPC)
 			i = 100;
 		}
 	}
-	if (false)
-	{
+	//if (false)
+	//{
 
 
-		std::strcat(NewPC, "_NT");
-		//std::strcat(NewPC, dt);
-		//std::strcat(NewPC, ")");
+	//	std::strcat(NewPC, "_NT");
+	//	//std::strcat(NewPC, dt);
+	//	//std::strcat(NewPC, ")");
 
-		FILE *NewPCF = fopen(NewPC, "w");
-		FILE *uc_file = fopen(inpf, "r");
+	//	FILE *NewPCF = fopen(NewPC, "w");
+	//	FILE *uc_file = fopen(inpf, "r");
 
 
-		char* s;
-		char* token;
-		s = (char*)malloc(sizeof(char) * SBYTES);
+	//	char* s;
+	//	char* token;
+	//	s = (char*)malloc(sizeof(char) * SBYTES);
 
 
-		/// line 1
+	//	/// line 1
 
-		std::fgets(s, SBYTES, uc_file);
-		std::fprintf(NewPCF, s);
-		token = strtok(s, "\t ");
-		while (token[0] == '\n')
-		{
-			std::fprintf(NewPCF, s);
+	//	std::fgets(s, SBYTES, uc_file);
+	//	std::fprintf(NewPCF, s);
+	//	token = strtok(s, "\t ");
+	//	while (token[0] == '\n')
+	//	{
+	//		std::fprintf(NewPCF, s);
 
-			std::fgets(s, SBYTES, uc_file);
-			token = strtok(s, "\t ");
+	//		std::fgets(s, SBYTES, uc_file);
+	//		token = strtok(s, "\t ");
 
-		}
+	//	}
 
 
-		/// line 2
-		std::fgets(s, SBYTES, uc_file);
-		token = strtok(s, "\t ");
-		while (token[0] == '\n')
-		{
+	//	/// line 2
+	//	std::fgets(s, SBYTES, uc_file);
+	//	token = strtok(s, "\t ");
+	//	while (token[0] == '\n')
+	//	{
 
-			std::fgets(s, SBYTES, uc_file);
-			token = strtok(s, "\t ");
+	//		std::fgets(s, SBYTES, uc_file);
+	//		token = strtok(s, "\t ");
 
-		}
-		std::fprintf(NewPCF, jgn::ftoa(actor));
-		std::fprintf(NewPCF, "\n");
+	//	}
+	//	std::fprintf(NewPCF, jgn::ftoa(actor));
+	//	std::fprintf(NewPCF, "\n");
 
 
 
-		/// line 3
-		std::fgets(s, SBYTES, uc_file);
-		token = strtok(s, "\t ");
-		while (token[0] == '\n')
-		{
-			std::fgets(s, SBYTES, uc_file);
-			token = strtok(s, "\t ");
+	//	/// line 3
+	//	std::fgets(s, SBYTES, uc_file);
+	//	token = strtok(s, "\t ");
+	//	while (token[0] == '\n')
+	//	{
+	//		std::fgets(s, SBYTES, uc_file);
+	//		token = strtok(s, "\t ");
 
-		}
+	//	}
 
-		//std::fprintf(NewPCF, "%.*f", printformat, ijk[0][0] * sized[0] / actor);
-		std::fprintf(NewPCF, "%.*f", printformat, vs.group[vs._isimulationBox].primitiveVec[0].x / actor);
-		std::fprintf(NewPCF, " ");
-		token = strtok(NULL, "\t ");
+	//	//std::fprintf(NewPCF, "%.*f", printformat, ijk[0][0] * sized[0] / actor);
+	//	std::fprintf(NewPCF, "%.*f", printformat, vs.group[vs._isimulationBox].primitiveVec[0].x / actor);
+	//	std::fprintf(NewPCF, " ");
+	//	token = strtok(NULL, "\t ");
 
-		//std::fprintf(NewPCF, "%.*f", printformat, ijk[0][1] * sized[0] / actor);
-		std::fprintf(NewPCF, "%.*f", printformat, vs.group[vs._isimulationBox].primitiveVec[0].y / actor);
-		std::fprintf(NewPCF, " ");
-		token = strtok(NULL, "\t ");
+	//	//std::fprintf(NewPCF, "%.*f", printformat, ijk[0][1] * sized[0] / actor);
+	//	std::fprintf(NewPCF, "%.*f", printformat, vs.group[vs._isimulationBox].primitiveVec[0].y / actor);
+	//	std::fprintf(NewPCF, " ");
+	//	token = strtok(NULL, "\t ");
 
-		//std::fprintf(NewPCF, "%.*f\n", printformat, ijk[0][2] * sized[0] / actor);
-		std::fprintf(NewPCF, "%.*f", printformat, vs.group[vs._isimulationBox].primitiveVec[0].z / actor);
+	//	//std::fprintf(NewPCF, "%.*f\n", printformat, ijk[0][2] * sized[0] / actor);
+	//	std::fprintf(NewPCF, "%.*f", printformat, vs.group[vs._isimulationBox].primitiveVec[0].z / actor);
 
 
-		/// line 4
-		std::fgets(s, SBYTES, uc_file);
-		token = strtok(s, "\t ");
-		while (token[0] == '\n')
-		{
-			std::fgets(s, SBYTES, uc_file);
-			token = strtok(s, "\t ");
+	//	/// line 4
+	//	std::fgets(s, SBYTES, uc_file);
+	//	token = strtok(s, "\t ");
+	//	while (token[0] == '\n')
+	//	{
+	//		std::fgets(s, SBYTES, uc_file);
+	//		token = strtok(s, "\t ");
 
-		}
+	//	}
 
-		//std::fprintf(NewPCF, "%.*f", printformat, ijk[1][0] * sized[1] / actor);
-		std::fprintf(NewPCF, "%.*f", printformat, vs.group[vs._isimulationBox].primitiveVec[1].x / actor);
-		std::fprintf(NewPCF, " ");
-		token = strtok(NULL, "\t ");
+	//	//std::fprintf(NewPCF, "%.*f", printformat, ijk[1][0] * sized[1] / actor);
+	//	std::fprintf(NewPCF, "%.*f", printformat, vs.group[vs._isimulationBox].primitiveVec[1].x / actor);
+	//	std::fprintf(NewPCF, " ");
+	//	token = strtok(NULL, "\t ");
 
-		//std::fprintf(NewPCF, "%.*f", printformat, ijk[1][1] * sized[1] / actor);
-		std::fprintf(NewPCF, "%.*f", printformat, vs.group[vs._isimulationBox].primitiveVec[1].y / actor);
-		std::fprintf(NewPCF, " ");
-		token = strtok(NULL, "\t ");
+	//	//std::fprintf(NewPCF, "%.*f", printformat, ijk[1][1] * sized[1] / actor);
+	//	std::fprintf(NewPCF, "%.*f", printformat, vs.group[vs._isimulationBox].primitiveVec[1].y / actor);
+	//	std::fprintf(NewPCF, " ");
+	//	token = strtok(NULL, "\t ");
 
-		//std::fprintf(NewPCF, "%.*f\n", printformat, ijk[1][2] * sized[1] / actor);
-		std::fprintf(NewPCF, "%.*f", printformat, vs.group[vs._isimulationBox].primitiveVec[1].z / actor);
+	//	//std::fprintf(NewPCF, "%.*f\n", printformat, ijk[1][2] * sized[1] / actor);
+	//	std::fprintf(NewPCF, "%.*f", printformat, vs.group[vs._isimulationBox].primitiveVec[1].z / actor);
 
-		/// line 5
-		std::fgets(s, SBYTES, uc_file);
-		token = strtok(s, "\t ");
-		while (token[0] == '\n')
-		{
-			std::fgets(s, SBYTES, uc_file);
-			token = strtok(s, "\t ");
+	//	/// line 5
+	//	std::fgets(s, SBYTES, uc_file);
+	//	token = strtok(s, "\t ");
+	//	while (token[0] == '\n')
+	//	{
+	//		std::fgets(s, SBYTES, uc_file);
+	//		token = strtok(s, "\t ");
 
-		}
+	//	}
 
-		//std::fprintf(NewPCF, "%.*f", printformat, ijk[2][0] * sized[2] / actor);
-		std::fprintf(NewPCF, "%.*f", printformat, vs.group[vs._isimulationBox].primitiveVec[2].x / actor);
-		std::fprintf(NewPCF, " ");
-		token = strtok(NULL, "\t ");
+	//	//std::fprintf(NewPCF, "%.*f", printformat, ijk[2][0] * sized[2] / actor);
+	//	std::fprintf(NewPCF, "%.*f", printformat, vs.group[vs._isimulationBox].primitiveVec[2].x / actor);
+	//	std::fprintf(NewPCF, " ");
+	//	token = strtok(NULL, "\t ");
 
-		//std::fprintf(NewPCF, "%.*f", printformat, ijk[2][1] * sized[2] / actor);
-		std::fprintf(NewPCF, "%.*f", printformat, vs.group[vs._isimulationBox].primitiveVec[2].y / actor);
-		std::fprintf(NewPCF, " ");
-		token = strtok(NULL, "\t ");
+	//	//std::fprintf(NewPCF, "%.*f", printformat, ijk[2][1] * sized[2] / actor);
+	//	std::fprintf(NewPCF, "%.*f", printformat, vs.group[vs._isimulationBox].primitiveVec[2].y / actor);
+	//	std::fprintf(NewPCF, " ");
+	//	token = strtok(NULL, "\t ");
 
-		//std::fprintf(NewPCF, "%.*f\n", printformat, ijk[2][2] * sized[2]) / actor;
-		std::fprintf(NewPCF, "%.*f", printformat, vs.group[vs._isimulationBox].primitiveVec[2].z / actor);
+	//	//std::fprintf(NewPCF, "%.*f\n", printformat, ijk[2][2] * sized[2]) / actor;
+	//	std::fprintf(NewPCF, "%.*f", printformat, vs.group[vs._isimulationBox].primitiveVec[2].z / actor);
 
-		/// line 6
-		std::fgets(s, SBYTES, uc_file);
-		token = strtok(s, "\t ");
-		while (token[0] == '\n')
-		{
+	//	/// line 6
+	//	std::fgets(s, SBYTES, uc_file);
+	//	token = strtok(s, "\t ");
+	//	while (token[0] == '\n')
+	//	{
 
-			std::fgets(s, SBYTES, uc_file);
-			token = strtok(s, "\t ");
+	//		std::fgets(s, SBYTES, uc_file);
+	//		token = strtok(s, "\t ");
 
-		}
+	//	}
 
 
-		std::fprintf(NewPCF, atoms);
-		std::fprintf(NewPCF, "\n");
+	//	std::fprintf(NewPCF, atoms);
+	//	std::fprintf(NewPCF, "\n");
 
 
 
 
-		for (ole1 = 0; ole1 < a; ole1++)
-		{
-			new_num_atoms[ole1] = 0;
-			atomscc = 0;
+	//	for (ole1 = 0; ole1 < a; ole1++)
+	//	{
+	//		new_num_atoms[ole1] = 0;
+	//		atomscc = 0;
 
 
-		}
+	//	}
 
 
-		for (ole = 0; ole < t*sized[0] * sized[1] * sized[2]; ole++)
-		{
+	//	for (ole = 0; ole < t*sized[0] * sized[1] * sized[2]; ole++)
+	//	{
 
-			for (ole1 = 0; ole1 < a; ole1++)
-			{
-				if (atomic_number[ole1] == (int)crystal[0 + 5 * ole])
-				{
+	//		for (ole1 = 0; ole1 < a; ole1++)
+	//		{
+	//			if (atomic_number[ole1] == (int)crystal[0 + 5 * ole])
+	//			{
 
-					new_num_atoms[ole1] = new_num_atoms[ole1] + 1;
-					atomscc++;
+	//				new_num_atoms[ole1] = new_num_atoms[ole1] + 1;
+	//				atomscc++;
 
 
-				}
+	//			}
 
-			}
+	//		}
 
 
 
 
-		}
+	//	}
 
 
-		for (ole = 0; ole < a; ole++)
-		{
-			std::fprintf(NewPCF, "%d ", new_num_atoms[ole]);
+	//	for (ole = 0; ole < a; ole++)
+	//	{
+	//		std::fprintf(NewPCF, "%d ", new_num_atoms[ole]);
 
-		}
-		std::fprintf(NewPCF, "\n");
+	//	}
+	//	std::fprintf(NewPCF, "\n");
 
 
 
-		std::fclose(uc_file);
+	//	std::fclose(uc_file);
 
 
-		if (selective_dynamics_bool)
-			std::fprintf(NewPCF, "Selective Dynamics\n");
+	//	if (selective_dynamics_bool)
+	//		std::fprintf(NewPCF, "Selective Dynamics\n");
 
-		std::fprintf(NewPCF, "Cartesian\n");
+	//	std::fprintf(NewPCF, "Cartesian\n");
 
 
-		if (sized[0] / 2 != sized[0] / 2.0)
-		{
-			xexe[0] = 1;
-		}
+	//	if (sized[0] / 2 != sized[0] / 2.0)
+	//	{
+	//		xexe[0] = 1;
+	//	}
 
-		if (sized[1] / 2 != sized[1] / 2.0)
-		{
-			xexe[1] = 1;
-		}
+	//	if (sized[1] / 2 != sized[1] / 2.0)
+	//	{
+	//		xexe[1] = 1;
+	//	}
 
-		if (sized[2] / 2 != sized[2] / 2.0)
-		{
-			xexe[2] = 1;
-		}
+	//	if (sized[2] / 2 != sized[2] / 2.0)
+	//	{
+	//		xexe[2] = 1;
+	//	}
 
 
-		for (ole5 = 0; ole5 < a; ole5++) {
-			for (ole4 = -sized[2] / 2; ole4 < sized[2] / 2 + xexe[2]; ole4++) {
-				for (ole2 = -sized[1] / 2; ole2 < sized[1] / 2 + xexe[1]; ole2++) {
-					for (ole = -sized[0] / 2; ole < sized[0] / 2 + xexe[0]; ole++) {
-						for (ole3 = 0; ole3 < t; ole3++) {
+	//	for (ole5 = 0; ole5 < a; ole5++) {
+	//		for (ole4 = -sized[2] / 2; ole4 < sized[2] / 2 + xexe[2]; ole4++) {
+	//			for (ole2 = -sized[1] / 2; ole2 < sized[1] / 2 + xexe[1]; ole2++) {
+	//				for (ole = -sized[0] / 2; ole < sized[0] / 2 + xexe[0]; ole++) {
+	//					for (ole3 = 0; ole3 < t; ole3++) {
 
-							if (crystal[0 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] == atomic_number[ole5])
-							{
+	//						if (crystal[0 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] == atomic_number[ole5])
+	//						{
 
-								for (ole1 = 0; ole1 < 3; ole1++) {
+	//							for (ole1 = 0; ole1 < 3; ole1++) {
 
-									std::fprintf(NewPCF, "%.*f ", printformat, crystal[ole1 + 2 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]);
-								}
-								if (selective_dynamics_bool)
-								{
-									for (ole1 = 0; ole1 < 3; ole1++) {
+	//								std::fprintf(NewPCF, "%.*f ", printformat, crystal[ole1 + 2 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]);
+	//							}
+	//							if (selective_dynamics_bool)
+	//							{
+	//								for (ole1 = 0; ole1 < 3; ole1++) {
 
-										std::fprintf(NewPCF, "%c ", selective_dynamics[ole1 + 3 * (ole3)]);
-									}
-								}
-								std::fprintf(NewPCF, "\n");
+	//									std::fprintf(NewPCF, "%c ", selective_dynamics[ole1 + 3 * (ole3)]);
+	//								}
+	//							}
+	//							std::fprintf(NewPCF, "\n");
 
 
 
 
-							}
+	//						}
 
-						}
-					}
-				}
-				full = 1;
-			}
+	//					}
+	//				}
+	//			}
+	//			full = 1;
+	//		}
 
-		}
+	//	}
 
-		std::fclose(NewPCF);
+	//	std::fclose(NewPCF);
 
-		delete(s);
+	//	delete(s);
 
-		return;
+	//	return;
 
 
-	}
-	else if (true)
-	{
+	//}
+	//else if (true)
+	//{
 
 		//std::strcat(NewPC, "(");
 		//std::strcat(NewPC, dt);
@@ -2142,221 +2142,221 @@ void BuildPoscar(char* NewPC)
 
 
 
-	}
-	else if (Rod_like == -1)
-	{
-		char S[50];
-		std::strcat(NewPC, "(Rod_like)");
-		if (S1v >= S2v || S1v >= S3v)
-		{
+	//}
+	//else if (Rod_like == -1)
+	//{
+	//	char S[50];
+	//	std::strcat(NewPC, "(Rod_like)");
+	//	if (S1v >= S2v || S1v >= S3v)
+	//	{
 
-		}
-		else
-		{
-			itoa(S1v, S, 10);
-			std::strcat(NewPC, "(100");
-			std::strcat(NewPC, S);
-			std::strcat(NewPC, ")");
-		}
+	//	}
+	//	else
+	//	{
+	//		itoa(S1v, S, 10);
+	//		std::strcat(NewPC, "(100");
+	//		std::strcat(NewPC, S);
+	//		std::strcat(NewPC, ")");
+	//	}
 
-		if (S2v >= 2 * S1v || S3v <= S2v)
-		{
+	//	if (S2v >= 2 * S1v || S3v <= S2v)
+	//	{
 
-		}
-		else
-		{
-			itoa(S2v, S, 10);
-			std::strcat(NewPC, "(110");
-			std::strcat(NewPC, S);
-			std::strcat(NewPC, ")");
-		}
+	//	}
+	//	else
+	//	{
+	//		itoa(S2v, S, 10);
+	//		std::strcat(NewPC, "(110");
+	//		std::strcat(NewPC, S);
+	//		std::strcat(NewPC, ")");
+	//	}
 
-		itoa(S3v, S, 10);
-		std::strcat(NewPC, "(111");
-		std::strcat(NewPC, S);
-		std::strcat(NewPC, ")");
-		FILE *NewPCF = fopen(NewPC, "w");
-		FILE *uc_file = fopen(inpf, "r");
+	//	itoa(S3v, S, 10);
+	//	std::strcat(NewPC, "(111");
+	//	std::strcat(NewPC, S);
+	//	std::strcat(NewPC, ")");
+	//	FILE *NewPCF = fopen(NewPC, "w");
+	//	FILE *uc_file = fopen(inpf, "r");
 
 
-		char* s;
-		char* token;
-		s = (char*)malloc(sizeof(char) * SBYTES);
+	//	char* s;
+	//	char* token;
+	//	s = (char*)malloc(sizeof(char) * SBYTES);
 
 
 
-		/// line 1
+	//	/// line 1
 
-		std::fgets(s, SBYTES, uc_file);
-		std::fprintf(NewPCF, s);
-		token = strtok(s, "\t ");
-		while (token[0] == '\n')
-		{
-			std::fprintf(NewPCF, s);
+	//	std::fgets(s, SBYTES, uc_file);
+	//	std::fprintf(NewPCF, s);
+	//	token = strtok(s, "\t ");
+	//	while (token[0] == '\n')
+	//	{
+	//		std::fprintf(NewPCF, s);
 
-			std::fgets(s, SBYTES, uc_file);
-			token = strtok(s, "\t ");
+	//		std::fgets(s, SBYTES, uc_file);
+	//		token = strtok(s, "\t ");
 
-		}
+	//	}
 
 
-		/// line 2
-		std::fgets(s, SBYTES, uc_file);
-		token = strtok(s, "\t ");
-		while (token[0] == '\n')
-		{
+	//	/// line 2
+	//	std::fgets(s, SBYTES, uc_file);
+	//	token = strtok(s, "\t ");
+	//	while (token[0] == '\n')
+	//	{
 
-			std::fgets(s, SBYTES, uc_file);
-			token = strtok(s, "\t ");
+	//		std::fgets(s, SBYTES, uc_file);
+	//		token = strtok(s, "\t ");
 
-		}
-		std::fprintf(NewPCF, jgn::ftoa(actor));
-		std::fprintf(NewPCF, "\n");
+	//	}
+	//	std::fprintf(NewPCF, jgn::ftoa(actor));
+	//	std::fprintf(NewPCF, "\n");
 
 
 
-		/// line 3
-		std::fgets(s, SBYTES, uc_file);
-		token = strtok(s, "\t ");
-		while (token[0] == '\n')
-		{
-			std::fgets(s, SBYTES, uc_file);
-			token = strtok(s, "\t ");
+	//	/// line 3
+	//	std::fgets(s, SBYTES, uc_file);
+	//	token = strtok(s, "\t ");
+	//	while (token[0] == '\n')
+	//	{
+	//		std::fgets(s, SBYTES, uc_file);
+	//		token = strtok(s, "\t ");
 
-		}
+	//	}
 
-		std::fprintf(NewPCF, "%.*f", printformat, ijk[0][0] * sized[0] / actor);
-		std::fprintf(NewPCF, " ");
-		token = strtok(NULL, "\t ");
+	//	std::fprintf(NewPCF, "%.*f", printformat, ijk[0][0] * sized[0] / actor);
+	//	std::fprintf(NewPCF, " ");
+	//	token = strtok(NULL, "\t ");
 
-		std::fprintf(NewPCF, "%.*f", printformat, ijk[0][1] * sized[0] / actor);
-		std::fprintf(NewPCF, " ");
-		token = strtok(NULL, "\t ");
+	//	std::fprintf(NewPCF, "%.*f", printformat, ijk[0][1] * sized[0] / actor);
+	//	std::fprintf(NewPCF, " ");
+	//	token = strtok(NULL, "\t ");
 
-		std::fprintf(NewPCF, "%.*f\n", printformat, ijk[0][2] * sized[0] / actor);
+	//	std::fprintf(NewPCF, "%.*f\n", printformat, ijk[0][2] * sized[0] / actor);
 
 
-		/// line 4
-		std::fgets(s, SBYTES, uc_file);
-		token = strtok(s, "\t ");
-		while (token[0] == '\n')
-		{
-			std::fgets(s, SBYTES, uc_file);
-			token = strtok(s, "\t ");
+	//	/// line 4
+	//	std::fgets(s, SBYTES, uc_file);
+	//	token = strtok(s, "\t ");
+	//	while (token[0] == '\n')
+	//	{
+	//		std::fgets(s, SBYTES, uc_file);
+	//		token = strtok(s, "\t ");
 
-		}
+	//	}
 
-		std::fprintf(NewPCF, "%.*f", printformat, ijk[1][0] * sized[1] / actor);
-		std::fprintf(NewPCF, " ");
+	//	std::fprintf(NewPCF, "%.*f", printformat, ijk[1][0] * sized[1] / actor);
+	//	std::fprintf(NewPCF, " ");
 
 
-		token = strtok(NULL, "\t ");
+	//	token = strtok(NULL, "\t ");
 
-		std::fprintf(NewPCF, "%.*f", printformat, ijk[1][1] * sized[1] / actor);
-		std::fprintf(NewPCF, " ");
-		token = strtok(NULL, "\t ");
+	//	std::fprintf(NewPCF, "%.*f", printformat, ijk[1][1] * sized[1] / actor);
+	//	std::fprintf(NewPCF, " ");
+	//	token = strtok(NULL, "\t ");
 
-		std::fprintf(NewPCF, "%.*f\n", printformat, ijk[1][2] * sized[1] / actor);
+	//	std::fprintf(NewPCF, "%.*f\n", printformat, ijk[1][2] * sized[1] / actor);
 
-		/// line 5
-		std::fgets(s, SBYTES, uc_file);
-		token = strtok(s, "\t ");
-		while (token[0] == '\n')
-		{
-			std::fgets(s, SBYTES, uc_file);
-			token = strtok(s, "\t ");
+	//	/// line 5
+	//	std::fgets(s, SBYTES, uc_file);
+	//	token = strtok(s, "\t ");
+	//	while (token[0] == '\n')
+	//	{
+	//		std::fgets(s, SBYTES, uc_file);
+	//		token = strtok(s, "\t ");
 
-		}
+	//	}
 
-		std::fprintf(NewPCF, "%.*f", printformat, ijk[2][0] * sized[2] / actor);
-		std::fprintf(NewPCF, " ");
-		token = strtok(NULL, "\t ");
+	//	std::fprintf(NewPCF, "%.*f", printformat, ijk[2][0] * sized[2] / actor);
+	//	std::fprintf(NewPCF, " ");
+	//	token = strtok(NULL, "\t ");
 
-		std::fprintf(NewPCF, "%.*f", printformat, ijk[2][1] * sized[2] / actor);
-		std::fprintf(NewPCF, " ");
-		token = strtok(NULL, "\t ");
+	//	std::fprintf(NewPCF, "%.*f", printformat, ijk[2][1] * sized[2] / actor);
+	//	std::fprintf(NewPCF, " ");
+	//	token = strtok(NULL, "\t ");
 
-		std::fprintf(NewPCF, "%.*f\n", printformat, ijk[2][2] * sized[2]) / actor;
+	//	std::fprintf(NewPCF, "%.*f\n", printformat, ijk[2][2] * sized[2]) / actor;
 
-		/// line 6
-		std::fgets(s, SBYTES, uc_file);
-		token = strtok(s, "\t ");
-		while (token[0] == '\n')
-		{
+	//	/// line 6
+	//	std::fgets(s, SBYTES, uc_file);
+	//	token = strtok(s, "\t ");
+	//	while (token[0] == '\n')
+	//	{
 
-			std::fgets(s, SBYTES, uc_file);
-			token = strtok(s, "\t ");
+	//		std::fgets(s, SBYTES, uc_file);
+	//		token = strtok(s, "\t ");
 
-		}
+	//	}
 
-		std::fprintf(NewPCF, atoms);
-		std::fprintf(NewPCF, "\n");
+	//	std::fprintf(NewPCF, atoms);
+	//	std::fprintf(NewPCF, "\n");
 
 
 
 
-		for (ole1 = 0; ole1 < a; ole1++)
-		{
-			new_num_atoms[ole1] = 0;
-			atomscc = 0;
+	//	for (ole1 = 0; ole1 < a; ole1++)
+	//	{
+	//		new_num_atoms[ole1] = 0;
+	//		atomscc = 0;
 
 
-		}
+	//	}
 
 
-		for (ole = 0; ole < t*sized[0] * sized[1] * sized[2]; ole++)
-		{
-			if (vacuum ^ ((S1i[0] * abs(crystal[2 + 5 * ole]) <= S1v) && (S1i[0] * abs(crystal[4 + 5 * ole]) <= S1v) && S2i[0] * abs(crystal[2 + 5 * ole]) + S2i[0] * abs(crystal[4 + 5 * ole]) <= S2v && Right_Hexagonal*(S3i[0] * abs(crystal[2 + 5 * ole]) + S3i[1] * abs(crystal[3 + 5 * ole]) + S3i[2] * abs(crystal[4 + 5 * ole])) <= S3v))
-			{
-				for (i = 0; i < CustomSurfacesCount; i++)
-				{
-					if (CustomSurfaces[i][0] * (crystal[2 + 5 * ole] - CustomSurfaces[i][0] * CustomSurfaces[i][3]) + CustomSurfaces[i][1] * (crystal[3 + 5 * ole] - CustomSurfaces[i][1] * CustomSurfaces[i][3]) + CustomSurfaces[i][2] * (crystal[4 + 5 * ole] - CustomSurfaces[i][2] * CustomSurfaces[i][3]) <= 0)
-					{
+	//	for (ole = 0; ole < t*sized[0] * sized[1] * sized[2]; ole++)
+	//	{
+	//		if (vacuum ^ ((S1i[0] * abs(crystal[2 + 5 * ole]) <= S1v) && (S1i[0] * abs(crystal[4 + 5 * ole]) <= S1v) && S2i[0] * abs(crystal[2 + 5 * ole]) + S2i[0] * abs(crystal[4 + 5 * ole]) <= S2v && Right_Hexagonal*(S3i[0] * abs(crystal[2 + 5 * ole]) + S3i[1] * abs(crystal[3 + 5 * ole]) + S3i[2] * abs(crystal[4 + 5 * ole])) <= S3v))
+	//		{
+	//			for (i = 0; i < CustomSurfacesCount; i++)
+	//			{
+	//				if (CustomSurfaces[i][0] * (crystal[2 + 5 * ole] - CustomSurfaces[i][0] * CustomSurfaces[i][3]) + CustomSurfaces[i][1] * (crystal[3 + 5 * ole] - CustomSurfaces[i][1] * CustomSurfaces[i][3]) + CustomSurfaces[i][2] * (crystal[4 + 5 * ole] - CustomSurfaces[i][2] * CustomSurfaces[i][3]) <= 0)
+	//				{
 
-					}
-					else
-					{
-						i = 1000;
-					}
+	//				}
+	//				else
+	//				{
+	//					i = 1000;
+	//				}
 
-				}
+	//			}
 
-				if (i == CustomSurfacesCount)
-				{
-					for (ole1 = 0; ole1 < a; ole1++)
-					{
-						if (atomic_number[ole1] == (int)crystal[0 + 5 * ole])
-						{
-							new_num_atoms[ole1] = new_num_atoms[ole1] + 1;
-							atomscc++;
+	//			if (i == CustomSurfacesCount)
+	//			{
+	//				for (ole1 = 0; ole1 < a; ole1++)
+	//				{
+	//					if (atomic_number[ole1] == (int)crystal[0 + 5 * ole])
+	//					{
+	//						new_num_atoms[ole1] = new_num_atoms[ole1] + 1;
+	//						atomscc++;
 
 
-						}
+	//					}
 
-					}
-				}
+	//				}
+	//			}
 
-			}
+	//		}
 
 
-		}
+	//	}
 
-		for (ole = 0; ole < a; ole++)
-		{
-			std::fprintf(NewPCF, "%d ", new_num_atoms[ole]);
+	//	for (ole = 0; ole < a; ole++)
+	//	{
+	//		std::fprintf(NewPCF, "%d ", new_num_atoms[ole]);
 
-		}
-		std::fprintf(NewPCF, "\n");
+	//	}
+	//	std::fprintf(NewPCF, "\n");
 
 
 
-		std::fclose(uc_file);
+	//	std::fclose(uc_file);
 
 
-		if (selective_dynamics_bool)
-			std::fprintf(NewPCF, "Selective Dynamics\n");
+	//	if (selective_dynamics_bool)
+	//		std::fprintf(NewPCF, "Selective Dynamics\n");
 
-		std::fprintf(NewPCF, "Cartesian\n");
+	//	std::fprintf(NewPCF, "Cartesian\n");
 
 
 
@@ -2365,746 +2365,746 @@ void BuildPoscar(char* NewPC)
 
 
 
-		if (sized[0] / 2 != sized[0] / 2.0)
-		{
-			xexe[0] = 1;
-		}
+	//	if (sized[0] / 2 != sized[0] / 2.0)
+	//	{
+	//		xexe[0] = 1;
+	//	}
 
-		if (sized[1] / 2 != sized[1] / 2.0)
-		{
-			xexe[1] = 1;
-		}
+	//	if (sized[1] / 2 != sized[1] / 2.0)
+	//	{
+	//		xexe[1] = 1;
+	//	}
 
-		if (sized[2] / 2 != sized[2] / 2.0)
-		{
-			xexe[2] = 1;
-		}
+	//	if (sized[2] / 2 != sized[2] / 2.0)
+	//	{
+	//		xexe[2] = 1;
+	//	}
 
 
-		for (ole5 = 0; ole5 < a; ole5++) {
-			for (ole4 = -sized[2] / 2; ole4 < sized[2] / 2 + xexe[2]; ole4++) {
-				for (ole2 = -sized[1] / 2; ole2 < sized[1] / 2 + xexe[1]; ole2++) {
-					for (ole = -sized[0] / 2; ole < sized[0] / 2 + xexe[0]; ole++) {
-						for (ole3 = 0; ole3 < t; ole3++) {
-							if (vacuum ^ ((S1i[0] * abs(crystal[2 + 0 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S1v) && (S1i[0] * Right_Hexagonal*Rod_like* abs(crystal[2 + 1 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S1v) && (S1i[0] * abs(crystal[2 + 2 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S1v) && Rod_like*(S2i[0] * abs(crystal[2 + 0 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S2i[0] * Right_Hexagonal* abs(crystal[2 + 1 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))])) <= S2v && S2i[0] * abs(crystal[2 + 0 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S2i[0] * abs(crystal[2 + 2 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S2v && Rod_like*(S2i[0] * Right_Hexagonal* abs(crystal[2 + 1 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S2i[0] * abs(crystal[2 + 2 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))])) <= S2v && Right_Hexagonal*(S3i[0] * abs(crystal[2 + 0 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S3i[1] * abs(crystal[2 + 1 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S3i[2] * abs(crystal[2 + 2 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))])) <= S3v))
+	//	for (ole5 = 0; ole5 < a; ole5++) {
+	//		for (ole4 = -sized[2] / 2; ole4 < sized[2] / 2 + xexe[2]; ole4++) {
+	//			for (ole2 = -sized[1] / 2; ole2 < sized[1] / 2 + xexe[1]; ole2++) {
+	//				for (ole = -sized[0] / 2; ole < sized[0] / 2 + xexe[0]; ole++) {
+	//					for (ole3 = 0; ole3 < t; ole3++) {
+	//						if (vacuum ^ ((S1i[0] * abs(crystal[2 + 0 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S1v) && (S1i[0] * Right_Hexagonal*Rod_like* abs(crystal[2 + 1 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S1v) && (S1i[0] * abs(crystal[2 + 2 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S1v) && Rod_like*(S2i[0] * abs(crystal[2 + 0 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S2i[0] * Right_Hexagonal* abs(crystal[2 + 1 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))])) <= S2v && S2i[0] * abs(crystal[2 + 0 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S2i[0] * abs(crystal[2 + 2 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) <= S2v && Rod_like*(S2i[0] * Right_Hexagonal* abs(crystal[2 + 1 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S2i[0] * abs(crystal[2 + 2 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))])) <= S2v && Right_Hexagonal*(S3i[0] * abs(crystal[2 + 0 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S3i[1] * abs(crystal[2 + 1 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]) + S3i[2] * abs(crystal[2 + 2 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))])) <= S3v))
 
-							{
-								for (i = 0; i < CustomSurfacesCount; i++)
-								{
-									if (CustomSurfaces[i][0] * (crystal[2 + 0 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] - CustomSurfaces[i][0] * CustomSurfaces[i][3]) + CustomSurfaces[i][1] * (crystal[2 + 1 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] - CustomSurfaces[i][1] * CustomSurfaces[i][3]) + CustomSurfaces[i][2] * (crystal[2 + 2 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] - CustomSurfaces[i][2] * CustomSurfaces[i][3]) <= 0)
-									{
+	//						{
+	//							for (i = 0; i < CustomSurfacesCount; i++)
+	//							{
+	//								if (CustomSurfaces[i][0] * (crystal[2 + 0 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] - CustomSurfaces[i][0] * CustomSurfaces[i][3]) + CustomSurfaces[i][1] * (crystal[2 + 1 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] - CustomSurfaces[i][1] * CustomSurfaces[i][3]) + CustomSurfaces[i][2] * (crystal[2 + 2 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] - CustomSurfaces[i][2] * CustomSurfaces[i][3]) <= 0)
+	//								{
 
-									}
-									else
-									{
-										i = 1000;
-									}
+	//								}
+	//								else
+	//								{
+	//									i = 1000;
+	//								}
 
-								}
+	//							}
 
-								if (i == CustomSurfacesCount)
-								{
-									if (crystal[0 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] == atomic_number[ole5])
-									{
-										//crystal[ole + sized[0] / 2][ole2 + sized[1] / 2][ole4 + sized[2] / 2][ole3][1] = direct[1+5*ole3];
-										for (ole1 = 0; ole1 < 3; ole1++)
-										{
-											std::fprintf(NewPCF, "%.*f ", printformat, crystal[ole1 + 2 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]);
+	//							if (i == CustomSurfacesCount)
+	//							{
+	//								if (crystal[0 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))] == atomic_number[ole5])
+	//								{
+	//									//crystal[ole + sized[0] / 2][ole2 + sized[1] / 2][ole4 + sized[2] / 2][ole3][1] = direct[1+5*ole3];
+	//									for (ole1 = 0; ole1 < 3; ole1++)
+	//									{
+	//										std::fprintf(NewPCF, "%.*f ", printformat, crystal[ole1 + 2 + 5 * (ole3 + t * (ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]);
 
-											//std::fprintf(NewPCF, "%.*f ", -min_xyz[ole1] + crystal[ole1 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]);
-										}
-										if (selective_dynamics_bool)
-										{
-											for (ole1 = 0; ole1 < 3; ole1++)
-											{
-												std::fprintf(NewPCF, "%c ", selective_dynamics[ole1 + 3 * (ole3)]);
-											}
-										}
-										std::fprintf(NewPCF, "\n");
-									}
-								}
+	//										//std::fprintf(NewPCF, "%.*f ", -min_xyz[ole1] + crystal[ole1 + 2 + 5 * (ole3 + t*(ole4 + sized[2] / 2 + sized[2] * (ole2 + sized[1] / 2 + sized[1] * (ole + sized[0] / 2))))]);
+	//									}
+	//									if (selective_dynamics_bool)
+	//									{
+	//										for (ole1 = 0; ole1 < 3; ole1++)
+	//										{
+	//											std::fprintf(NewPCF, "%c ", selective_dynamics[ole1 + 3 * (ole3)]);
+	//										}
+	//									}
+	//									std::fprintf(NewPCF, "\n");
+	//								}
+	//							}
 
-							}
+	//						}
 
-						}
-					}
-				}
-				full = 1;
-			}
+	//					}
+	//				}
+	//			}
+	//			full = 1;
+	//		}
 
-		}
+	//	}
 
-		std::fclose(NewPCF);
+	//	std::fclose(NewPCF);
 
-		delete(s);
+	//	delete(s);
 
-	}
-	else if (Right_Hexagonal == -1)
-	{
-		char S[50];
-		std::strcat(NewPC, "(Hexagonal)");
-		itoa(Right_Hexagonal_height, S, 10);
-		std::strcat(NewPC, "(0001");
-		std::strcat(NewPC, S);
-		std::strcat(NewPC, ")");
-		if (float(S1v) / float(S2v) > 1.14814814815)
-		{
+	//}
+	//else if (Right_Hexagonal == -1)
+	//{
+	//	char S[50];
+	//	std::strcat(NewPC, "(Hexagonal)");
+	//	itoa(Right_Hexagonal_height, S, 10);
+	//	std::strcat(NewPC, "(0001");
+	//	std::strcat(NewPC, S);
+	//	std::strcat(NewPC, ")");
+	//	if (float(S1v) / float(S2v) > 1.14814814815)
+	//	{
 
-		}
-		else
-		{
-			itoa(S1v, S, 10);
-			std::strcat(NewPC, "(10-10");
-			std::strcat(NewPC, S);
-			std::strcat(NewPC, ")");
-		}
-		if (float(S1v) / float(S2v) < 0.86842105263)
-		{
+	//	}
+	//	else
+	//	{
+	//		itoa(S1v, S, 10);
+	//		std::strcat(NewPC, "(10-10");
+	//		std::strcat(NewPC, S);
+	//		std::strcat(NewPC, ")");
+	//	}
+	//	if (float(S1v) / float(S2v) < 0.86842105263)
+	//	{
 
-		}
-		else
-		{
-			itoa(S2v, S, 10);
-			std::strcat(NewPC, "(11-20");
-			std::strcat(NewPC, S);
-			std::strcat(NewPC, ")");
-		}
+	//	}
+	//	else
+	//	{
+	//		itoa(S2v, S, 10);
+	//		std::strcat(NewPC, "(11-20");
+	//		std::strcat(NewPC, S);
+	//		std::strcat(NewPC, ")");
+	//	}
 
-		FILE *NewPCF = fopen(NewPC, "w");
-		FILE *uc_file = fopen(inpf, "r");
+	//	FILE *NewPCF = fopen(NewPC, "w");
+	//	FILE *uc_file = fopen(inpf, "r");
 
 
-		char* s;
-		char* token;
-		s = (char*)malloc(sizeof(char) * SBYTES);
+	//	char* s;
+	//	char* token;
+	//	s = (char*)malloc(sizeof(char) * SBYTES);
 
 
 
-		/// line 1
+	//	/// line 1
 
-		std::fgets(s, SBYTES, uc_file);
-		std::fprintf(NewPCF, s);
-		token = strtok(s, "\t ");
-		while (token[0] == '\n')
-		{
-			std::fprintf(NewPCF, s);
+	//	std::fgets(s, SBYTES, uc_file);
+	//	std::fprintf(NewPCF, s);
+	//	token = strtok(s, "\t ");
+	//	while (token[0] == '\n')
+	//	{
+	//		std::fprintf(NewPCF, s);
 
-			std::fgets(s, SBYTES, uc_file);
-			token = strtok(s, "\t ");
+	//		std::fgets(s, SBYTES, uc_file);
+	//		token = strtok(s, "\t ");
 
-		}
+	//	}
 
 
-		/// line 2
-		std::fgets(s, SBYTES, uc_file);
-		token = strtok(s, "\t ");
-		while (token[0] == '\n')
-		{
+	//	/// line 2
+	//	std::fgets(s, SBYTES, uc_file);
+	//	token = strtok(s, "\t ");
+	//	while (token[0] == '\n')
+	//	{
 
-			std::fgets(s, SBYTES, uc_file);
-			token = strtok(s, "\t ");
+	//		std::fgets(s, SBYTES, uc_file);
+	//		token = strtok(s, "\t ");
 
-		}
+	//	}
 
-		std::fprintf(NewPCF, jgn::ftoa(actor));
-		std::fprintf(NewPCF, "\n");
+	//	std::fprintf(NewPCF, jgn::ftoa(actor));
+	//	std::fprintf(NewPCF, "\n");
 
 
 
-		/// line 3
-		std::fgets(s, SBYTES, uc_file);
-		token = strtok(s, "\t ");
-		while (token[0] == '\n')
-		{
-			std::fgets(s, SBYTES, uc_file);
-			token = strtok(s, "\t ");
+	//	/// line 3
+	//	std::fgets(s, SBYTES, uc_file);
+	//	token = strtok(s, "\t ");
+	//	while (token[0] == '\n')
+	//	{
+	//		std::fgets(s, SBYTES, uc_file);
+	//		token = strtok(s, "\t ");
 
-		}
+	//	}
 
-		std::fprintf(NewPCF, "%.*f", printformat, ijk[0][0] * sized[0] / actor);
-		std::fprintf(NewPCF, " ");
-		token = strtok(NULL, "\t ");
+	//	std::fprintf(NewPCF, "%.*f", printformat, ijk[0][0] * sized[0] / actor);
+	//	std::fprintf(NewPCF, " ");
+	//	token = strtok(NULL, "\t ");
 
-		std::fprintf(NewPCF, "%.*f", printformat, ijk[0][1] * sized[0] / actor);
-		std::fprintf(NewPCF, " ");
-		token = strtok(NULL, "\t ");
+	//	std::fprintf(NewPCF, "%.*f", printformat, ijk[0][1] * sized[0] / actor);
+	//	std::fprintf(NewPCF, " ");
+	//	token = strtok(NULL, "\t ");
 
-		std::fprintf(NewPCF, "%.*f\n", printformat, ijk[0][2] * sized[0] / actor);
+	//	std::fprintf(NewPCF, "%.*f\n", printformat, ijk[0][2] * sized[0] / actor);
 
 
-		/// line 4
-		std::fgets(s, SBYTES, uc_file);
-		token = strtok(s, "\t ");
-		while (token[0] == '\n')
-		{
-			std::fgets(s, SBYTES, uc_file);
-			token = strtok(s, "\t ");
+	//	/// line 4
+	//	std::fgets(s, SBYTES, uc_file);
+	//	token = strtok(s, "\t ");
+	//	while (token[0] == '\n')
+	//	{
+	//		std::fgets(s, SBYTES, uc_file);
+	//		token = strtok(s, "\t ");
 
-		}
+	//	}
 
-		std::fprintf(NewPCF, "%.*f", printformat, ijk[1][0] * sized[1] / actor);
-		std::fprintf(NewPCF, " ");
+	//	std::fprintf(NewPCF, "%.*f", printformat, ijk[1][0] * sized[1] / actor);
+	//	std::fprintf(NewPCF, " ");
 
 
-		token = strtok(NULL, "\t ");
+	//	token = strtok(NULL, "\t ");
 
-		std::fprintf(NewPCF, "%.*f", printformat, ijk[1][1] * sized[1] / actor);
-		std::fprintf(NewPCF, " ");
-		token = strtok(NULL, "\t ");
+	//	std::fprintf(NewPCF, "%.*f", printformat, ijk[1][1] * sized[1] / actor);
+	//	std::fprintf(NewPCF, " ");
+	//	token = strtok(NULL, "\t ");
 
-		std::fprintf(NewPCF, "%.*f\n", printformat, ijk[1][2] * sized[1] / actor);
+	//	std::fprintf(NewPCF, "%.*f\n", printformat, ijk[1][2] * sized[1] / actor);
 
-		/// line 5
-		std::fgets(s, SBYTES, uc_file);
-		token = strtok(s, "\t ");
-		while (token[0] == '\n')
-		{
-			std::fgets(s, SBYTES, uc_file);
-			token = strtok(s, "\t ");
+	//	/// line 5
+	//	std::fgets(s, SBYTES, uc_file);
+	//	token = strtok(s, "\t ");
+	//	while (token[0] == '\n')
+	//	{
+	//		std::fgets(s, SBYTES, uc_file);
+	//		token = strtok(s, "\t ");
 
-		}
+	//	}
 
-		std::fprintf(NewPCF, "%.*f", printformat, ijk[2][0] * sized[2] / actor);
-		std::fprintf(NewPCF, " ");
-		token = strtok(NULL, "\t ");
+	//	std::fprintf(NewPCF, "%.*f", printformat, ijk[2][0] * sized[2] / actor);
+	//	std::fprintf(NewPCF, " ");
+	//	token = strtok(NULL, "\t ");
 
-		std::fprintf(NewPCF, "%.*f", printformat, ijk[2][1] * sized[2] / actor);
-		std::fprintf(NewPCF, " ");
-		token = strtok(NULL, "\t ");
+	//	std::fprintf(NewPCF, "%.*f", printformat, ijk[2][1] * sized[2] / actor);
+	//	std::fprintf(NewPCF, " ");
+	//	token = strtok(NULL, "\t ");
 
-		std::fprintf(NewPCF, "%.*f\n", printformat, ijk[2][2] * sized[2]) / actor;
+	//	std::fprintf(NewPCF, "%.*f\n", printformat, ijk[2][2] * sized[2]) / actor;
 
-		/// line 6
-		std::fgets(s, SBYTES, uc_file);
-		token = strtok(s, "\t ");
-		while (token[0] == '\n')
-		{
+	//	/// line 6
+	//	std::fgets(s, SBYTES, uc_file);
+	//	token = strtok(s, "\t ");
+	//	while (token[0] == '\n')
+	//	{
 
-			std::fgets(s, SBYTES, uc_file);
-			token = strtok(s, "\t ");
+	//		std::fgets(s, SBYTES, uc_file);
+	//		token = strtok(s, "\t ");
 
-		}
+	//	}
 
-		std::fprintf(NewPCF, atoms);
-		std::fprintf(NewPCF, "\n");
+	//	std::fprintf(NewPCF, atoms);
+	//	std::fprintf(NewPCF, "\n");
 
 
 
 
-		for (ole1 = 0; ole1 < a; ole1++)
-		{
-			new_num_atoms[ole1] = 0;
-			atomscc = 0;
+	//	for (ole1 = 0; ole1 < a; ole1++)
+	//	{
+	//		new_num_atoms[ole1] = 0;
+	//		atomscc = 0;
 
 
-		}
+	//	}
 
 
-		for (ole = 0; ole < t*sized[0] * sized[1] * sized[2]; ole++)
-		{
-			if (true)
-			{
-				if (vacuum ^ (abs(crystal[4 + 5 * ole]) < Right_Hexagonal_height && (S1i[0] * abs(crystal[2 + 5 * ole]) <= S2v * 0.866025404) && S2i[0] * abs(crystal[2 + 5 * ole]) / 1.73205 + S2i[0] * figure_1 * abs(crystal[2 + 1 + 5 * ole]) <= S2v &&
-					(S1i[0] * figure_1*abs(crystal[2 + 1 + 5 * ole]) <= S1v * 0.866025404) && S2i[0] * figure_1 * abs(crystal[2 + 0 + 5 * ole]) + S1i[0] * figure_1 * abs(crystal[2 + 1 + 5 * ole]) / 1.73205 <= S1v))
-				{
-					for (i = 0; i < CustomSurfacesCount; i++)
-					{
-						if (CustomSurfaces[i][0] * (crystal[2 + 5 * ole] - CustomSurfaces[i][0] * CustomSurfaces[i][3]) + CustomSurfaces[i][1] * (crystal[3 + 5 * ole] - CustomSurfaces[i][1] * CustomSurfaces[i][3]) + CustomSurfaces[i][2] * (crystal[4 + 5 * ole] - CustomSurfaces[i][2] * CustomSurfaces[i][3]) <= 0)
-						{
+	//	for (ole = 0; ole < t*sized[0] * sized[1] * sized[2]; ole++)
+	//	{
+	//		if (true)
+	//		{
+	//			if (vacuum ^ (abs(crystal[4 + 5 * ole]) < Right_Hexagonal_height && (S1i[0] * abs(crystal[2 + 5 * ole]) <= S2v * 0.866025404) && S2i[0] * abs(crystal[2 + 5 * ole]) / 1.73205 + S2i[0] * figure_1 * abs(crystal[2 + 1 + 5 * ole]) <= S2v &&
+	//				(S1i[0] * figure_1*abs(crystal[2 + 1 + 5 * ole]) <= S1v * 0.866025404) && S2i[0] * figure_1 * abs(crystal[2 + 0 + 5 * ole]) + S1i[0] * figure_1 * abs(crystal[2 + 1 + 5 * ole]) / 1.73205 <= S1v))
+	//			{
+	//				for (i = 0; i < CustomSurfacesCount; i++)
+	//				{
+	//					if (CustomSurfaces[i][0] * (crystal[2 + 5 * ole] - CustomSurfaces[i][0] * CustomSurfaces[i][3]) + CustomSurfaces[i][1] * (crystal[3 + 5 * ole] - CustomSurfaces[i][1] * CustomSurfaces[i][3]) + CustomSurfaces[i][2] * (crystal[4 + 5 * ole] - CustomSurfaces[i][2] * CustomSurfaces[i][3]) <= 0)
+	//					{
 
-						}
-						else
-						{
-							i = 1000;
-						}
+	//					}
+	//					else
+	//					{
+	//						i = 1000;
+	//					}
 
-					}
+	//				}
 
-					if (i == CustomSurfacesCount)
-					{
-						for (ole1 = 0; ole1 < a; ole1++)
-						{
-							if (atomic_number[ole1] == (int)crystal[0 + 5 * ole])
-							{
-								new_num_atoms[ole1] = new_num_atoms[ole1] + 1;
-								atomscc++;
+	//				if (i == CustomSurfacesCount)
+	//				{
+	//					for (ole1 = 0; ole1 < a; ole1++)
+	//					{
+	//						if (atomic_number[ole1] == (int)crystal[0 + 5 * ole])
+	//						{
+	//							new_num_atoms[ole1] = new_num_atoms[ole1] + 1;
+	//							atomscc++;
 
 
-							}
+	//						}
 
-						}
-					}
+	//					}
+	//				}
 
-				}
-			}
+	//			}
+	//		}
 
-		}
+	//	}
 
-		for (ole = 0; ole < a; ole++)
-		{
-			std::fprintf(NewPCF, "%d ", new_num_atoms[ole]);
+	//	for (ole = 0; ole < a; ole++)
+	//	{
+	//		std::fprintf(NewPCF, "%d ", new_num_atoms[ole]);
 
-		}
-		std::fprintf(NewPCF, "\n");
+	//	}
+	//	std::fprintf(NewPCF, "\n");
 
 
 
-		std::fclose(uc_file);
+	//	std::fclose(uc_file);
 
 
-		if (selective_dynamics_bool)
-			std::fprintf(NewPCF, "Selective Dynamics\n");
+	//	if (selective_dynamics_bool)
+	//		std::fprintf(NewPCF, "Selective Dynamics\n");
 
-		std::fprintf(NewPCF, "Cartesian\n");
+	//	std::fprintf(NewPCF, "Cartesian\n");
 
 
 
-		for (ole5 = 0; ole5 < a; ole5++) {
+	//	for (ole5 = 0; ole5 < a; ole5++) {
 
-			for (ole = 0; ole < t*sized[0] * sized[1] * sized[2]; ole++)
-			{
-				if (1)
-				{
-					if (vacuum ^ ((abs(crystal[4 + 5 * ole]) < Right_Hexagonal_height) && (S1i[0] * abs(crystal[2 + 5 * ole]) <= S2v * 0.866025404) && S2i[0] * abs(crystal[2 + 5 * ole]) / 1.73205 + S2i[0] * figure_1 * abs(crystal[2 + 1 + 5 * ole]) <= S2v &&
-						(S1i[0] * figure_1*abs(crystal[2 + 1 + 5 * ole]) <= S1v * 0.866025404) && S2i[0] * figure_1 * abs(crystal[2 + 0 + 5 * ole]) + S1i[0] * figure_1 * abs(crystal[2 + 1 + 5 * ole]) / 1.73205 <= S1v))
-					{
+	//		for (ole = 0; ole < t*sized[0] * sized[1] * sized[2]; ole++)
+	//		{
+	//			if (1)
+	//			{
+	//				if (vacuum ^ ((abs(crystal[4 + 5 * ole]) < Right_Hexagonal_height) && (S1i[0] * abs(crystal[2 + 5 * ole]) <= S2v * 0.866025404) && S2i[0] * abs(crystal[2 + 5 * ole]) / 1.73205 + S2i[0] * figure_1 * abs(crystal[2 + 1 + 5 * ole]) <= S2v &&
+	//					(S1i[0] * figure_1*abs(crystal[2 + 1 + 5 * ole]) <= S1v * 0.866025404) && S2i[0] * figure_1 * abs(crystal[2 + 0 + 5 * ole]) + S1i[0] * figure_1 * abs(crystal[2 + 1 + 5 * ole]) / 1.73205 <= S1v))
+	//				{
 
-						for (i = 0; i < CustomSurfacesCount; i++)
-						{
-							if (CustomSurfaces[i][0] * (crystal[2 + 5 * ole] - CustomSurfaces[i][0] * CustomSurfaces[i][3]) + CustomSurfaces[i][1] * (crystal[3 + 5 * ole] - CustomSurfaces[i][1] * CustomSurfaces[i][3]) + CustomSurfaces[i][2] * (crystal[4 + 5 * ole] - CustomSurfaces[i][2] * CustomSurfaces[i][3]) <= 0)
-							{
+	//					for (i = 0; i < CustomSurfacesCount; i++)
+	//					{
+	//						if (CustomSurfaces[i][0] * (crystal[2 + 5 * ole] - CustomSurfaces[i][0] * CustomSurfaces[i][3]) + CustomSurfaces[i][1] * (crystal[3 + 5 * ole] - CustomSurfaces[i][1] * CustomSurfaces[i][3]) + CustomSurfaces[i][2] * (crystal[4 + 5 * ole] - CustomSurfaces[i][2] * CustomSurfaces[i][3]) <= 0)
+	//						{
 
-							}
-							else
-							{
-								i = 1000;
-							}
+	//						}
+	//						else
+	//						{
+	//							i = 1000;
+	//						}
 
-						}
+	//					}
 
-						if (i == CustomSurfacesCount)
-						{
+	//					if (i == CustomSurfacesCount)
+	//					{
 
 
-							if (crystal[0 + 5 * ole] == atomic_number[ole5])
-							{
-								ole1 = 0;
-								std::fprintf(NewPCF, "%.*f ", printformat, crystal[ole1 + 2 + 5 * ole]);
+	//						if (crystal[0 + 5 * ole] == atomic_number[ole5])
+	//						{
+	//							ole1 = 0;
+	//							std::fprintf(NewPCF, "%.*f ", printformat, crystal[ole1 + 2 + 5 * ole]);
 
-								ole1 = 1;
-								std::fprintf(NewPCF, "%.*f ", printformat, crystal[ole1 + 2 + 5 * ole]);
+	//							ole1 = 1;
+	//							std::fprintf(NewPCF, "%.*f ", printformat, crystal[ole1 + 2 + 5 * ole]);
 
-								ole1 = 2;
-								std::fprintf(NewPCF, "%.*f ", printformat, crystal[ole1 + 2 + 5 * ole]);
+	//							ole1 = 2;
+	//							std::fprintf(NewPCF, "%.*f ", printformat, crystal[ole1 + 2 + 5 * ole]);
 
-								//ole1 = 0; 
-								//std::fprintf(NewPCF, "%.*f ", printformat, -min_xyz[ole1] + crystal[ole1 + 2 + 5 * ole]);
+	//							//ole1 = 0; 
+	//							//std::fprintf(NewPCF, "%.*f ", printformat, -min_xyz[ole1] + crystal[ole1 + 2 + 5 * ole]);
 
-								//ole1 = 1;
-								//std::fprintf(NewPCF, "%.*f ", printformat, -min_xyz[ole1] + crystal[ole1 + 2 + 5 * ole]);
+	//							//ole1 = 1;
+	//							//std::fprintf(NewPCF, "%.*f ", printformat, -min_xyz[ole1] + crystal[ole1 + 2 + 5 * ole]);
 
-								//ole1 = 2;
-								//std::fprintf(NewPCF, "%.*f ", printformat, -min_xyz[ole1] + crystal[ole1 + 2 + 5 * ole]);
+	//							//ole1 = 2;
+	//							//std::fprintf(NewPCF, "%.*f ", printformat, -min_xyz[ole1] + crystal[ole1 + 2 + 5 * ole]);
 
-								if (selective_dynamics_bool)
-								{
-									for (ole1 = 0; ole1 < 3; ole1++)
-									{
-										std::fprintf(NewPCF, "%c ", selective_dynamics[ole1 + 3 * (ole%t)]);
-									}
-								}
+	//							if (selective_dynamics_bool)
+	//							{
+	//								for (ole1 = 0; ole1 < 3; ole1++)
+	//								{
+	//									std::fprintf(NewPCF, "%c ", selective_dynamics[ole1 + 3 * (ole%t)]);
+	//								}
+	//							}
 
-								std::fprintf(NewPCF, "\n");
+	//							std::fprintf(NewPCF, "\n");
 
-							}
-						}
+	//						}
+	//					}
 
 
 
 
-					}
-				}
+	//				}
+	//			}
 
-			}
-		}
+	//		}
+	//	}
 
-		std::fclose(NewPCF);
+	//	std::fclose(NewPCF);
 
-		delete(s);
-		return;
+	//	delete(s);
+	//	return;
 
-	}
-	else
-	{
-		if (want_cyrcle[0] == 'y' || want_cyrcle[0] == 'Y')
-		{
-			char S[50];
-			itoa(rad, S, 10);
-			std::strcat(NewPC, "(sphere");
-			std::strcat(NewPC, S);
-			std::strcat(NewPC, ")");
-		}
-		else
-		{
-			char S[50];
-			if (Scase == 1 || Scase == 2 || Scase == 3 || Scase == 4)
-			{
-				itoa(S1v, S, 10);
-				std::strcat(NewPC, "(100");
-				std::strcat(NewPC, S);
-				std::strcat(NewPC, ")");
-			}
-			if (Scase == 1 || Scase == 2 || Scase == 5 || Scase == 6)
-			{
-				itoa(S2v, S, 10);
-				std::strcat(NewPC, "(110");
-				std::strcat(NewPC, S);
-				std::strcat(NewPC, ")");
-			}
-			if (Scase == 1 || Scase == 3 || Scase == 5 || Scase == 7)
-			{
-				itoa(S3v, S, 10);
-				std::strcat(NewPC, "(111");
-				std::strcat(NewPC, S);
-				std::strcat(NewPC, ")");
-			}
-		}
-		FILE *NewPCF = fopen(NewPC, "w");
-		FILE *uc_file = fopen(inpf, "r");
+	//}
+	//else
+	//{
+	//	if (want_cyrcle[0] == 'y' || want_cyrcle[0] == 'Y')
+	//	{
+	//		char S[50];
+	//		itoa(rad, S, 10);
+	//		std::strcat(NewPC, "(sphere");
+	//		std::strcat(NewPC, S);
+	//		std::strcat(NewPC, ")");
+	//	}
+	//	else
+	//	{
+	//		char S[50];
+	//		if (Scase == 1 || Scase == 2 || Scase == 3 || Scase == 4)
+	//		{
+	//			itoa(S1v, S, 10);
+	//			std::strcat(NewPC, "(100");
+	//			std::strcat(NewPC, S);
+	//			std::strcat(NewPC, ")");
+	//		}
+	//		if (Scase == 1 || Scase == 2 || Scase == 5 || Scase == 6)
+	//		{
+	//			itoa(S2v, S, 10);
+	//			std::strcat(NewPC, "(110");
+	//			std::strcat(NewPC, S);
+	//			std::strcat(NewPC, ")");
+	//		}
+	//		if (Scase == 1 || Scase == 3 || Scase == 5 || Scase == 7)
+	//		{
+	//			itoa(S3v, S, 10);
+	//			std::strcat(NewPC, "(111");
+	//			std::strcat(NewPC, S);
+	//			std::strcat(NewPC, ")");
+	//		}
+	//	}
+	//	FILE *NewPCF = fopen(NewPC, "w");
+	//	FILE *uc_file = fopen(inpf, "r");
 
-		char* s;
-		char* token;
-		s = (char*)malloc(sizeof(char) * SBYTES);
+	//	char* s;
+	//	char* token;
+	//	s = (char*)malloc(sizeof(char) * SBYTES);
 
 
 
-		/// line 1
+	//	/// line 1
 
-		std::fgets(s, SBYTES, uc_file);
-		std::fprintf(NewPCF, s);
-		token = strtok(s, "\t ");
-		while (token[0] == '\n')
-		{
-			std::fprintf(NewPCF, s);
+	//	std::fgets(s, SBYTES, uc_file);
+	//	std::fprintf(NewPCF, s);
+	//	token = strtok(s, "\t ");
+	//	while (token[0] == '\n')
+	//	{
+	//		std::fprintf(NewPCF, s);
 
-			std::fgets(s, SBYTES, uc_file);
-			token = strtok(s, "\t ");
+	//		std::fgets(s, SBYTES, uc_file);
+	//		token = strtok(s, "\t ");
 
-		}
+	//	}
 
 
-		/// line 2
-		std::fgets(s, SBYTES, uc_file);
-		token = strtok(s, "\t ");
-		while (token[0] == '\n')
-		{
+	//	/// line 2
+	//	std::fgets(s, SBYTES, uc_file);
+	//	token = strtok(s, "\t ");
+	//	while (token[0] == '\n')
+	//	{
 
-			std::fgets(s, SBYTES, uc_file);
-			token = strtok(s, "\t ");
+	//		std::fgets(s, SBYTES, uc_file);
+	//		token = strtok(s, "\t ");
 
-		}
+	//	}
 
-		std::fprintf(NewPCF, jgn::ftoa(actor));
-		std::fprintf(NewPCF, "\n");
+	//	std::fprintf(NewPCF, jgn::ftoa(actor));
+	//	std::fprintf(NewPCF, "\n");
 
 
 
-		/// line 3
-		std::fgets(s, SBYTES, uc_file);
-		token = strtok(s, "\t ");
-		while (token[0] == '\n')
-		{
-			std::fgets(s, SBYTES, uc_file);
-			token = strtok(s, "\t ");
+	//	/// line 3
+	//	std::fgets(s, SBYTES, uc_file);
+	//	token = strtok(s, "\t ");
+	//	while (token[0] == '\n')
+	//	{
+	//		std::fgets(s, SBYTES, uc_file);
+	//		token = strtok(s, "\t ");
 
-		}
+	//	}
 
-		std::fprintf(NewPCF, "%.*f", printformat, ijk[0][0] * sized[0] / actor);
-		std::fprintf(NewPCF, " ");
-		token = strtok(NULL, "\t ");
+	//	std::fprintf(NewPCF, "%.*f", printformat, ijk[0][0] * sized[0] / actor);
+	//	std::fprintf(NewPCF, " ");
+	//	token = strtok(NULL, "\t ");
 
-		std::fprintf(NewPCF, "%.*f", printformat, ijk[0][1] * sized[0] / actor);
-		std::fprintf(NewPCF, " ");
-		token = strtok(NULL, "\t ");
+	//	std::fprintf(NewPCF, "%.*f", printformat, ijk[0][1] * sized[0] / actor);
+	//	std::fprintf(NewPCF, " ");
+	//	token = strtok(NULL, "\t ");
 
-		std::fprintf(NewPCF, "%.*f\n", printformat, ijk[0][2] * sized[0] / actor);
+	//	std::fprintf(NewPCF, "%.*f\n", printformat, ijk[0][2] * sized[0] / actor);
 
 
-		/// line 4
-		std::fgets(s, SBYTES, uc_file);
-		token = strtok(s, "\t ");
-		while (token[0] == '\n')
-		{
-			std::fgets(s, SBYTES, uc_file);
-			token = strtok(s, "\t ");
+	//	/// line 4
+	//	std::fgets(s, SBYTES, uc_file);
+	//	token = strtok(s, "\t ");
+	//	while (token[0] == '\n')
+	//	{
+	//		std::fgets(s, SBYTES, uc_file);
+	//		token = strtok(s, "\t ");
 
-		}
+	//	}
 
-		std::fprintf(NewPCF, "%.*f", printformat, ijk[1][0] * sized[1] / actor);
-		std::fprintf(NewPCF, " ");
+	//	std::fprintf(NewPCF, "%.*f", printformat, ijk[1][0] * sized[1] / actor);
+	//	std::fprintf(NewPCF, " ");
 
 
-		token = strtok(NULL, "\t ");
+	//	token = strtok(NULL, "\t ");
 
-		std::fprintf(NewPCF, "%.*f", printformat, ijk[1][1] * sized[1] / actor);
-		std::fprintf(NewPCF, " ");
-		token = strtok(NULL, "\t ");
+	//	std::fprintf(NewPCF, "%.*f", printformat, ijk[1][1] * sized[1] / actor);
+	//	std::fprintf(NewPCF, " ");
+	//	token = strtok(NULL, "\t ");
 
-		std::fprintf(NewPCF, "%.*f\n", printformat, ijk[1][2] * sized[1] / actor);
+	//	std::fprintf(NewPCF, "%.*f\n", printformat, ijk[1][2] * sized[1] / actor);
 
-		/// line 5
-		std::fgets(s, SBYTES, uc_file);
-		token = strtok(s, "\t ");
-		while (token[0] == '\n')
-		{
-			std::fgets(s, SBYTES, uc_file);
-			token = strtok(s, "\t ");
+	//	/// line 5
+	//	std::fgets(s, SBYTES, uc_file);
+	//	token = strtok(s, "\t ");
+	//	while (token[0] == '\n')
+	//	{
+	//		std::fgets(s, SBYTES, uc_file);
+	//		token = strtok(s, "\t ");
 
-		}
+	//	}
 
-		std::fprintf(NewPCF, "%.*f", printformat, ijk[2][0] * sized[2] / actor);
-		std::fprintf(NewPCF, " ");
-		token = strtok(NULL, "\t ");
+	//	std::fprintf(NewPCF, "%.*f", printformat, ijk[2][0] * sized[2] / actor);
+	//	std::fprintf(NewPCF, " ");
+	//	token = strtok(NULL, "\t ");
 
-		std::fprintf(NewPCF, "%.*f", printformat, ijk[2][1] * sized[2] / actor);
-		std::fprintf(NewPCF, " ");
-		token = strtok(NULL, "\t ");
+	//	std::fprintf(NewPCF, "%.*f", printformat, ijk[2][1] * sized[2] / actor);
+	//	std::fprintf(NewPCF, " ");
+	//	token = strtok(NULL, "\t ");
 
-		std::fprintf(NewPCF, "%.*f\n", printformat, ijk[2][2] * sized[2]) / actor;
+	//	std::fprintf(NewPCF, "%.*f\n", printformat, ijk[2][2] * sized[2]) / actor;
 
-		/// line 6
-		std::fgets(s, SBYTES, uc_file);
-		token = strtok(s, "\t ");
-		while (token[0] == '\n')
-		{
+	//	/// line 6
+	//	std::fgets(s, SBYTES, uc_file);
+	//	token = strtok(s, "\t ");
+	//	while (token[0] == '\n')
+	//	{
 
-			std::fgets(s, SBYTES, uc_file);
-			token = strtok(s, "\t ");
+	//		std::fgets(s, SBYTES, uc_file);
+	//		token = strtok(s, "\t ");
 
-		}
+	//	}
 
-		std::fprintf(NewPCF, atoms);
-		std::fprintf(NewPCF, "\n");
+	//	std::fprintf(NewPCF, atoms);
+	//	std::fprintf(NewPCF, "\n");
 
 
 
 
-		for (ole1 = 0; ole1 < a; ole1++)
-		{
-			new_num_atoms[ole1] = 0;
-			atomscc = 0;
+	//	for (ole1 = 0; ole1 < a; ole1++)
+	//	{
+	//		new_num_atoms[ole1] = 0;
+	//		atomscc = 0;
 
 
-		}
+	//	}
 
-		if (want_cyrcle[0] == 'y')
-		{
+	//	if (want_cyrcle[0] == 'y')
+	//	{
 
-			for (ole = 0; ole < t*sized[0] * sized[1] * sized[2]; ole++)
-			{
+	//		for (ole = 0; ole < t*sized[0] * sized[1] * sized[2]; ole++)
+	//		{
 
-				if (vacuum ^ (sqrt(crystal[2 + 5 * ole] * crystal[2 + 5 * ole] + crystal[3 + 5 * ole] * crystal[3 + 5 * ole] + crystal[4 + 5 * ole] * crystal[4 + 5 * ole]) <= rad))
-				{
-					for (i = 0; i < CustomSurfacesCount; i++)
-					{
-						if (CustomSurfaces[i][0] * (crystal[2 + 5 * ole] - CustomSurfaces[i][0] * CustomSurfaces[i][3]) + CustomSurfaces[i][1] * (crystal[3 + 5 * ole] - CustomSurfaces[i][1] * CustomSurfaces[i][3]) + CustomSurfaces[i][2] * (crystal[4 + 5 * ole] - CustomSurfaces[i][2] * CustomSurfaces[i][3]) <= 0)
-						{
+	//			if (vacuum ^ (sqrt(crystal[2 + 5 * ole] * crystal[2 + 5 * ole] + crystal[3 + 5 * ole] * crystal[3 + 5 * ole] + crystal[4 + 5 * ole] * crystal[4 + 5 * ole]) <= rad))
+	//			{
+	//				for (i = 0; i < CustomSurfacesCount; i++)
+	//				{
+	//					if (CustomSurfaces[i][0] * (crystal[2 + 5 * ole] - CustomSurfaces[i][0] * CustomSurfaces[i][3]) + CustomSurfaces[i][1] * (crystal[3 + 5 * ole] - CustomSurfaces[i][1] * CustomSurfaces[i][3]) + CustomSurfaces[i][2] * (crystal[4 + 5 * ole] - CustomSurfaces[i][2] * CustomSurfaces[i][3]) <= 0)
+	//					{
 
-						}
-						else
-						{
-							i = 1000;
-						}
+	//					}
+	//					else
+	//					{
+	//						i = 1000;
+	//					}
 
-					}
+	//				}
 
-					if (i == CustomSurfacesCount)
-					{
-						for (ole1 = 0; ole1 < a; ole1++)
-						{
-							if (atomic_number[ole1] == (int)crystal[0 + 5 * ole])
-							{
-								new_num_atoms[ole1] = new_num_atoms[ole1] + 1;
-								atomscc++;
+	//				if (i == CustomSurfacesCount)
+	//				{
+	//					for (ole1 = 0; ole1 < a; ole1++)
+	//					{
+	//						if (atomic_number[ole1] == (int)crystal[0 + 5 * ole])
+	//						{
+	//							new_num_atoms[ole1] = new_num_atoms[ole1] + 1;
+	//							atomscc++;
 
-							}
+	//						}
 
-						}
-					}
+	//					}
+	//				}
 
-				}
+	//			}
 
-			}
+	//		}
 
-			for (ole = 0; ole < a; ole++)
-			{
-				std::fprintf(NewPCF, "%d ", new_num_atoms[ole]);
+	//		for (ole = 0; ole < a; ole++)
+	//		{
+	//			std::fprintf(NewPCF, "%d ", new_num_atoms[ole]);
 
-			}
-			std::fprintf(NewPCF, "\n");
+	//		}
+	//		std::fprintf(NewPCF, "\n");
 
-		}
-		else
-		{
+	//	}
+	//	else
+	//	{
 
 
-			for (ole = 0; ole < t*sized[0] * sized[1] * sized[2]; ole++)
-			{
+	//		for (ole = 0; ole < t*sized[0] * sized[1] * sized[2]; ole++)
+	//		{
 
-				if (vacuum ^ ((S1i[0] * abs(crystal[2 + 5 * ole]) <= S1v) && (S1i[0] * abs(crystal[3 + 5 * ole]) <= S1v) && (S1i[0] * abs(crystal[4 + 5 * ole]) <= S1v) && S2i[0] * abs(crystal[2 + 5 * ole]) + S2i[0] * abs(crystal[3 + 5 * ole]) <= S2v && S2i[0] * abs(crystal[2 + 5 * ole]) + S2i[0] * abs(crystal[4 + 5 * ole]) <= S2v && S2i[0] * abs(crystal[3 + 5 * ole]) + S2i[0] * abs(crystal[4 + 5 * ole]) <= S2v && S3i[0] * abs(crystal[2 + 5 * ole]) + S3i[1] * abs(crystal[3 + 5 * ole]) + S3i[2] * abs(crystal[4 + 5 * ole]) <= S3v))
-				{
-					for (i = 0; i < CustomSurfacesCount; i++)
-					{
-						if (CustomSurfaces[i][0] * (crystal[2 + 5 * ole] - CustomSurfaces[i][0] * CustomSurfaces[i][3]) + CustomSurfaces[i][1] * (crystal[3 + 5 * ole] - CustomSurfaces[i][1] * CustomSurfaces[i][3]) + CustomSurfaces[i][2] * (crystal[4 + 5 * ole] - CustomSurfaces[i][2] * CustomSurfaces[i][3]) <= 0)
-						{
+	//			if (vacuum ^ ((S1i[0] * abs(crystal[2 + 5 * ole]) <= S1v) && (S1i[0] * abs(crystal[3 + 5 * ole]) <= S1v) && (S1i[0] * abs(crystal[4 + 5 * ole]) <= S1v) && S2i[0] * abs(crystal[2 + 5 * ole]) + S2i[0] * abs(crystal[3 + 5 * ole]) <= S2v && S2i[0] * abs(crystal[2 + 5 * ole]) + S2i[0] * abs(crystal[4 + 5 * ole]) <= S2v && S2i[0] * abs(crystal[3 + 5 * ole]) + S2i[0] * abs(crystal[4 + 5 * ole]) <= S2v && S3i[0] * abs(crystal[2 + 5 * ole]) + S3i[1] * abs(crystal[3 + 5 * ole]) + S3i[2] * abs(crystal[4 + 5 * ole]) <= S3v))
+	//			{
+	//				for (i = 0; i < CustomSurfacesCount; i++)
+	//				{
+	//					if (CustomSurfaces[i][0] * (crystal[2 + 5 * ole] - CustomSurfaces[i][0] * CustomSurfaces[i][3]) + CustomSurfaces[i][1] * (crystal[3 + 5 * ole] - CustomSurfaces[i][1] * CustomSurfaces[i][3]) + CustomSurfaces[i][2] * (crystal[4 + 5 * ole] - CustomSurfaces[i][2] * CustomSurfaces[i][3]) <= 0)
+	//					{
 
-						}
-						else
-						{
-							i = 1000;
-						}
+	//					}
+	//					else
+	//					{
+	//						i = 1000;
+	//					}
 
-					}
+	//				}
 
-					if (i == CustomSurfacesCount)
-					{
-						for (ole1 = 0; ole1 < a; ole1++)
-						{
-							if (atomic_number[ole1] == (int)crystal[0 + 5 * ole])
-							{
-								new_num_atoms[ole1] = new_num_atoms[ole1] + 1;
-								atomscc++;
+	//				if (i == CustomSurfacesCount)
+	//				{
+	//					for (ole1 = 0; ole1 < a; ole1++)
+	//					{
+	//						if (atomic_number[ole1] == (int)crystal[0 + 5 * ole])
+	//						{
+	//							new_num_atoms[ole1] = new_num_atoms[ole1] + 1;
+	//							atomscc++;
 
 
-							}
+	//						}
 
-						}
-					}
+	//					}
+	//				}
 
-				}
+	//			}
 
-			}
+	//		}
 
-			for (ole = 0; ole < a; ole++)
-			{
-				std::fprintf(NewPCF, "%d ", new_num_atoms[ole]);
+	//		for (ole = 0; ole < a; ole++)
+	//		{
+	//			std::fprintf(NewPCF, "%d ", new_num_atoms[ole]);
 
-			}
-			std::fprintf(NewPCF, "\n");
+	//		}
+	//		std::fprintf(NewPCF, "\n");
 
 
-		}
-		std::fclose(uc_file);
+	//	}
+	//	std::fclose(uc_file);
 
-		if (selective_dynamics_bool)
-			std::fprintf(NewPCF, "Selective Dynamics\n");
+	//	if (selective_dynamics_bool)
+	//		std::fprintf(NewPCF, "Selective Dynamics\n");
 
-		std::fprintf(NewPCF, "Cartesian\n");
+	//	std::fprintf(NewPCF, "Cartesian\n");
 
 
 
 
-		if (want_cyrcle[0] == 'y') {
+	//	if (want_cyrcle[0] == 'y') {
 
 
 
-			int ajklsdfl = t * (sized[0])*(sized[1])*(sized[2]);
-			for (ole2 = 0; ole2 < a; ole2++)
-			{
-				for (ole3 = 0; ole3 < ajklsdfl; ole3++)
-				{
-					if (vacuum ^ (rad >= sqrt(crystal[0 + 2 + 5 * (ole3)] * crystal[0 + 2 + 5 * (ole3)] + crystal[1 + 2 + 5 * (ole3)] * crystal[1 + 2 + 5 * (ole3)] + crystal[2 + 2 + 5 * (ole3)] * crystal[2 + 2 + 5 * (ole3)])))
-					{
-						for (i = 0; i < CustomSurfacesCount; i++)
-						{
-							if (CustomSurfaces[i][0] * (crystal[2 + 5 * ole3] - CustomSurfaces[i][0] * CustomSurfaces[i][3]) + CustomSurfaces[i][1] * (crystal[3 + 5 * ole3] - CustomSurfaces[i][1] * CustomSurfaces[i][3]) + CustomSurfaces[i][2] * (crystal[4 + 5 * ole3] - CustomSurfaces[i][2] * CustomSurfaces[i][3]) <= 0)
-							{
+	//		int ajklsdfl = t * (sized[0])*(sized[1])*(sized[2]);
+	//		for (ole2 = 0; ole2 < a; ole2++)
+	//		{
+	//			for (ole3 = 0; ole3 < ajklsdfl; ole3++)
+	//			{
+	//				if (vacuum ^ (rad >= sqrt(crystal[0 + 2 + 5 * (ole3)] * crystal[0 + 2 + 5 * (ole3)] + crystal[1 + 2 + 5 * (ole3)] * crystal[1 + 2 + 5 * (ole3)] + crystal[2 + 2 + 5 * (ole3)] * crystal[2 + 2 + 5 * (ole3)])))
+	//				{
+	//					for (i = 0; i < CustomSurfacesCount; i++)
+	//					{
+	//						if (CustomSurfaces[i][0] * (crystal[2 + 5 * ole3] - CustomSurfaces[i][0] * CustomSurfaces[i][3]) + CustomSurfaces[i][1] * (crystal[3 + 5 * ole3] - CustomSurfaces[i][1] * CustomSurfaces[i][3]) + CustomSurfaces[i][2] * (crystal[4 + 5 * ole3] - CustomSurfaces[i][2] * CustomSurfaces[i][3]) <= 0)
+	//						{
 
-							}
-							else
-							{
-								i = 1000;
-							}
+	//						}
+	//						else
+	//						{
+	//							i = 1000;
+	//						}
 
-						}
+	//					}
 
-						if (i == CustomSurfacesCount)
-						{
-							if (atomic_number[ole2] == (int)crystal[0 + 5 * ole3])
-							{
-								for (ole1 = 0; ole1 < 3; ole1++)
-								{
-									std::fprintf(NewPCF, "%.*f ", printformat, (crystal[ole1 + 2 + 5 * ole3]));
+	//					if (i == CustomSurfacesCount)
+	//					{
+	//						if (atomic_number[ole2] == (int)crystal[0 + 5 * ole3])
+	//						{
+	//							for (ole1 = 0; ole1 < 3; ole1++)
+	//							{
+	//								std::fprintf(NewPCF, "%.*f ", printformat, (crystal[ole1 + 2 + 5 * ole3]));
 
-									//std::fprintf(NewPCF, "%.*f ", (-min_xyz[ole1] + crystal[ole1 + 2 + 5 * ole3]));
-								}
-								if (selective_dynamics_bool)
-								{
-									for (ole1 = 0; ole1 < 3; ole1++)
-									{
-										std::fprintf(NewPCF, "%c ", selective_dynamics[ole1 + 3 * (ole3%t)]);
-									}
-								}
-								std::fprintf(NewPCF, "\n");
-							}
-						}
-					}
-				}
-			}
+	//								//std::fprintf(NewPCF, "%.*f ", (-min_xyz[ole1] + crystal[ole1 + 2 + 5 * ole3]));
+	//							}
+	//							if (selective_dynamics_bool)
+	//							{
+	//								for (ole1 = 0; ole1 < 3; ole1++)
+	//								{
+	//									std::fprintf(NewPCF, "%c ", selective_dynamics[ole1 + 3 * (ole3%t)]);
+	//								}
+	//							}
+	//							std::fprintf(NewPCF, "\n");
+	//						}
+	//					}
+	//				}
+	//			}
+	//		}
 
 
-		}
-		else {
+	//	}
+	//	else {
 
-			int ajklsdfl = t * (sized[0])*(sized[1])*(sized[2]);
-			for (ole2 = 0; ole2 < a; ole2++)
-			{
-				for (ole3 = 0; ole3 < ajklsdfl; ole3++)
-				{
-					if (vacuum ^ ((S1i[0] * figure_1*abs(crystal[2 + 5 * ole3]) <= S1v) && (S1i[0] * Right_Hexagonal*Rod_like* abs(crystal[4 + 5 * ole3]) <= S1v) && (S1i[0] * figure_1*abs(crystal[3 + 5 * ole3]) <= S1v) && Rod_like*(S2i[0] * abs(crystal[2 + 5 * ole3]) + S2i[0] * Right_Hexagonal* abs(crystal[4 + 5 * ole3])) <= S2v && S2i[0] * figure_1* abs(crystal[2 + 5 * ole3]) + S2i[0] * figure_1* abs(crystal[3 + 5 * ole3]) <= S2v && Rod_like*(S2i[0] * Right_Hexagonal* abs(crystal[4 + 5 * ole3]) + S2i[0] * abs(crystal[3 + 5 * ole3])) <= S2v && Right_Hexagonal*(S3i[0] * abs(crystal[2 + 5 * ole3]) + S3i[1] * abs(crystal[4 + 5 * ole3]) + S3i[2] * abs(crystal[3 + 5 * ole3])) <= S3v))
-					{
-						for (i = 0; i < CustomSurfacesCount; i++)
-						{
-							if (CustomSurfaces[i][0] * (crystal[2 + 5 * ole3] - CustomSurfaces[i][0] * CustomSurfaces[i][3]) + CustomSurfaces[i][1] * (crystal[3 + 5 * ole3] - CustomSurfaces[i][1] * CustomSurfaces[i][3]) + CustomSurfaces[i][2] * (crystal[4 + 5 * ole3] - CustomSurfaces[i][2] * CustomSurfaces[i][3]) <= 0)
-							{
+	//		int ajklsdfl = t * (sized[0])*(sized[1])*(sized[2]);
+	//		for (ole2 = 0; ole2 < a; ole2++)
+	//		{
+	//			for (ole3 = 0; ole3 < ajklsdfl; ole3++)
+	//			{
+	//				if (vacuum ^ ((S1i[0] * figure_1*abs(crystal[2 + 5 * ole3]) <= S1v) && (S1i[0] * Right_Hexagonal*Rod_like* abs(crystal[4 + 5 * ole3]) <= S1v) && (S1i[0] * figure_1*abs(crystal[3 + 5 * ole3]) <= S1v) && Rod_like*(S2i[0] * abs(crystal[2 + 5 * ole3]) + S2i[0] * Right_Hexagonal* abs(crystal[4 + 5 * ole3])) <= S2v && S2i[0] * figure_1* abs(crystal[2 + 5 * ole3]) + S2i[0] * figure_1* abs(crystal[3 + 5 * ole3]) <= S2v && Rod_like*(S2i[0] * Right_Hexagonal* abs(crystal[4 + 5 * ole3]) + S2i[0] * abs(crystal[3 + 5 * ole3])) <= S2v && Right_Hexagonal*(S3i[0] * abs(crystal[2 + 5 * ole3]) + S3i[1] * abs(crystal[4 + 5 * ole3]) + S3i[2] * abs(crystal[3 + 5 * ole3])) <= S3v))
+	//				{
+	//					for (i = 0; i < CustomSurfacesCount; i++)
+	//					{
+	//						if (CustomSurfaces[i][0] * (crystal[2 + 5 * ole3] - CustomSurfaces[i][0] * CustomSurfaces[i][3]) + CustomSurfaces[i][1] * (crystal[3 + 5 * ole3] - CustomSurfaces[i][1] * CustomSurfaces[i][3]) + CustomSurfaces[i][2] * (crystal[4 + 5 * ole3] - CustomSurfaces[i][2] * CustomSurfaces[i][3]) <= 0)
+	//						{
 
-							}
-							else
-							{
-								i = 1000;
-							}
+	//						}
+	//						else
+	//						{
+	//							i = 1000;
+	//						}
 
-						}
+	//					}
 
-						if (i == CustomSurfacesCount)
-						{
-							if (atomic_number[ole2] == (int)crystal[0 + 5 * ole3])
-							{
-								for (ole1 = 0; ole1 < 3; ole1++)
-								{
-									std::fprintf(NewPCF, "%.*f ", printformat, (crystal[ole1 + 2 + 5 * ole3]));
+	//					if (i == CustomSurfacesCount)
+	//					{
+	//						if (atomic_number[ole2] == (int)crystal[0 + 5 * ole3])
+	//						{
+	//							for (ole1 = 0; ole1 < 3; ole1++)
+	//							{
+	//								std::fprintf(NewPCF, "%.*f ", printformat, (crystal[ole1 + 2 + 5 * ole3]));
 
-									//std::fprintf(NewPCF, "%.*f ", (-min_xyz[ole1] + crystal[ole1 + 2 + 5 * ole3]));
-								}
-								if (selective_dynamics_bool)
-								{
-									for (ole1 = 0; ole1 < 3; ole1++)
-									{
-										std::fprintf(NewPCF, "%c ", selective_dynamics[ole1 + 3 * (ole3%t)]);
-									}
-								}
-								std::fprintf(NewPCF, "\n");
-							}
-						}
-					}
-				}
-			}
-		}
-		free(s);
+	//								//std::fprintf(NewPCF, "%.*f ", (-min_xyz[ole1] + crystal[ole1 + 2 + 5 * ole3]));
+	//							}
+	//							if (selective_dynamics_bool)
+	//							{
+	//								for (ole1 = 0; ole1 < 3; ole1++)
+	//								{
+	//									std::fprintf(NewPCF, "%c ", selective_dynamics[ole1 + 3 * (ole3%t)]);
+	//								}
+	//							}
+	//							std::fprintf(NewPCF, "\n");
+	//						}
+	//					}
+	//				}
+	//			}
+	//		}
+	//	}
+	//	free(s);
 
 
-		std::fclose(NewPCF);
-		return;
-	}
+	//	std::fclose(NewPCF);
+	//	return;
+	//}
 	return;
 }

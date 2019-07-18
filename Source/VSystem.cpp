@@ -27,6 +27,7 @@ void VSystem::restart()
 	{
 		this->group[g].N_atoms_per_type.clear();//number of atoms
 		this->group[g].color_per_type.clear();//color of atoms
+		this->group[g].weight_per_type.clear();
 		this->group[g].position.clear();
 		this->group[g].type.clear();
 		this->group[g]._alltype.clear();//write all the individual types
@@ -46,6 +47,7 @@ void VSystem::restart()
 	this->N_atoms = 0;// total #N of the system
 	this->N_atoms_per_type.clear();
 	this->color_per_type.clear();//color of atoms
+	this->weight_per_type.clear();
 	this->hoveredatom = jgn::vec2(-1, -1);// group,atoms of the atom that is currently hovered
 	this->hoveredatom_prev = jgn::vec2(-1, -1);
 	//this->simulationboxVolume = 0;
@@ -74,6 +76,7 @@ void VSystem::restart()
 	{
 		this->original->group[g].N_atoms_per_type.clear();//number of atoms
 		this->original->group[g].color_per_type.clear();//color of atoms
+		this->original->group[g].weight_per_type.clear();
 		this->original->group[g].position.clear();
 		this->original->group[g].type.clear();
 		this->original->group[g]._alltype.clear();//write all the individual types
@@ -93,6 +96,7 @@ void VSystem::restart()
 	this->original->N_atoms = 0;// total #N of the system
 	this->original->N_atoms_per_type.clear();
 	this->original->color_per_type.clear();//color of atoms
+	this->original->weight_per_type.clear();
 	this->original->hoveredatom = jgn::vec2(-1, -1);// group,atoms of the atom that is currently hovered
 	this->original->hoveredatom_prev = jgn::vec2(-1, -1);
 	//this->original->simulationboxVolume = 0;
@@ -1418,6 +1422,7 @@ void VSystem::updateinfo()
 		///this->N_types += more_memory;
 		this->N_atoms_per_type.reserve(this->N_types + more_memory);
 		this->color_per_type.reserve(this->N_types + more_memory);
+		this->weight_per_type.reserve(this->N_types + more_memory);
 		this->types.reserve(this->N_types + more_memory);
 	}
 	//now count the atoms
@@ -1441,6 +1446,7 @@ void VSystem::updateinfo()
 				this->N_types++;
 				this->N_atoms_per_type.emplace_back(1);
 				this->color_per_type.emplace_back(this->group[g].color[i]);
+				this->weight_per_type.emplace_back(this->group[g].weight[i]);
 				this->types.emplace_back(this->group[g].type[i]);
 			}
 		}
@@ -1453,6 +1459,7 @@ void VSystem::updateinfo()
 			{
 				this->group[g]._N_types -= 1;
 				this->group[g].color_per_type.erase(this->group[g].color_per_type.begin() + i);
+				this->group[g].weight_per_type.erase(this->group[g].weight_per_type.begin() + i);
 				this->group[g].N_atoms_per_type.erase(this->group[g].N_atoms_per_type.begin() + i);
 				this->group[g]._alltype.erase(this->group[g]._alltype.begin() + i);
 				i--;
@@ -1467,6 +1474,7 @@ void VSystem::updateinfo()
 			this->N_atoms_per_type.erase(this->N_atoms_per_type.begin() + i);
 			this->types.erase(this->types.begin() + i);
 			this->color_per_type.erase(this->color_per_type.begin() + i);
+			this->weight_per_type.erase(this->weight_per_type.begin() + i);
 			i--;
 		}
 	}

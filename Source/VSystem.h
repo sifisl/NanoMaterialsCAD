@@ -14,6 +14,7 @@ public:
 	unsigned int N_atoms;//number of atoms
 	std::vector<unsigned int> N_atoms_per_type;//number of atoms
 	std::vector<jgn::vec3> color_per_type;//color of atoms
+	std::vector<float> weight_per_type;
 	jgn::vec3 primitiveVec[3];//the primitiveVec
 	jgn::vec3 primitiveBase[3];//the primitiveVec/|primitiveVec|
 	std::vector<jgn::vec3> position;
@@ -51,6 +52,7 @@ public:
 	int N_atoms = 0;// total #N of the system
 	std::vector<int> N_atoms_per_type;
 	std::vector<jgn::vec3> color_per_type;//color of atoms
+	std::vector<float> weight_per_type;
 	jgn::vec2 hoveredatom = jgn::vec2(-1, -1);// group,atoms of the atom that is currently hovered
 	jgn::vec2 hoveredatom_prev = jgn::vec2(-1, -1);
 	float simulationboxVolume;

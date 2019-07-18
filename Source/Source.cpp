@@ -3,6 +3,7 @@
 //BuildPoscar(): only CustomSurfaceOn works properly
 //complite vs. copy constructor
 //add inverse cut to options (ctrl+v)
+//use cubic to create a np -> select tool doesn't work properly
 #include <omp.h>
 #define JGN_SOURCE_CPP
 #include "stdafx.h"

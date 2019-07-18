@@ -3431,7 +3431,7 @@ void jgnCommands(LPTSTR ttt, int d)
 		//CustomSurfaces[CustomSurfacesCount - 1][2] = crystall;
 		//CustomSurfaces[CustomSurfacesCount - 1][3] = 10;
 
-#if !defined(JGN_NO_CMD_HISTORY)
+#if defined(JGN_NO_CMD_HISTORY)
 		help += 2;
 		isngtv = 0;
 

@@ -3747,7 +3747,21 @@ void jgnCommands(LPTSTR ttt, int d)
 			vs.N_atoms = sx * sy * sz * vs.original->N_atoms;
 			vs.reserve(sx, sy, sz);
 
+			std::cout << vs.group[0].position[0]			<<  std::endl;
+			std::cout << vs.group[0].type[0]				<<  std::endl;
+			std::cout << vs.group[0].selective_dynamics[0] 	<<  std::endl;
+			std::cout << vs.group[0].color[0] 				<<  std::endl;
+			std::cout << vs.group[0].number[0] 				<<  std::endl;
+			std::cout << vs.group[0].weight[0] 				<<  std::endl;
+			std::cout << vs.group[0].radius[0] 				<<  std::endl;
+			std::cout << vs.group[0].isSelected[0] 			<<  std::endl;
+			std::cout << vs.group[0].isdeleted[0] 			<<  std::endl;
+			std::cout << vs.group[0].iscut[0] 				<<  std::endl;
 
+			getchar();
+			getchar();
+			getchar();
+			getchar();
 			int as = 0;//atom position starts at
 			for (int g = 0; g < vs.N_groups; g++)
 			{//for every group

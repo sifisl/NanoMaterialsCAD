@@ -133,7 +133,6 @@ void VSystem::reserve(const unsigned int sx, const unsigned int sy, const unsign
 		this->group[i].primitiveVec[2] = this->original->group[i].primitiveVec[2] * sz;
 		this->group[i]._reserve(this->group[i].N_atoms);
 	}
-		
 	//reserve for the whole system
 	vs.setSimulationBox(_isimulationBox);
 	this->N_atoms = 0;
@@ -1073,7 +1072,7 @@ void VSystem::cut()
 			}
 			else if (CustomSurfacesOn)
 			{
-				std::cout << CustomSurfacesCount << std::endl;
+				//std::cout << CustomSurfacesCount << std::endl;
 				if (CustomSurfacesCount == 0)
 				{
 					this->group[g].iscut[ii] = false;
@@ -1467,7 +1466,7 @@ void VSystem::updateinfo()
 		}
 	for (int i = 0; i < this->N_types; i++)
 	{
-		std::cout << this->N_atoms_per_type[i] << std::endl;
+		//std::cout << this->N_atoms_per_type[i] << std::endl;
 		if (this->N_atoms_per_type[i] == 0)
 		{
 			this->N_types -= 1;

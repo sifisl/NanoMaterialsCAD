@@ -1274,7 +1274,10 @@ void JGN_DropFile(const char* inpf)
 		aweights = (float*)realloc(NULL, sizeof(float)*a);
 		aatoms = (int*)realloc(NULL, sizeof(int)*a);
 		anumber = (int*)realloc(NULL, sizeof(int)*a);
-
+		for (int i = 0; i < a; i++)
+		{
+			ea[i] = 0;
+		}
 
 		///grammh 7 xy xz yz (if it exists), Masses if exist, Atoms
 		std::fgets(s, SBYTES, uc_file);
@@ -1501,7 +1504,7 @@ void JGN_DropFile(const char* inpf)
 			token = strtok(NULL, "\t ");
 			my_direct[0 + 5 * ole] = anumber[atoi(token) - 1];//atomicos ari8os
 			my_direct[1 + 5 * ole] = aweights[atoi(token) - 1];//atomicos varos
-
+			ea[atoi(token) - 1]++;
 
 			token = strtok(NULL, "\t ");
 
@@ -1906,6 +1909,7 @@ void JGN_DropFile(const char* inpf)
 		groupInit.color_per_type.emplace_back(jgn::vec3(fmod(aweights[i], 1.5), fmod(anumber[i], 0.92), fmod(100 * fmod(aweights[i], 1.5) * fmod(anumber[i], 0.92), 0.8)));
 		groupInit.weight_per_type.emplace_back(aweights[i]);
 	}
+	getchar();
 	for (int i = 0; i < groupInit._N_types; i++)
 	{
 		groupInit._alltype.emplace_back(jgn::string(atoms));
@@ -1937,12 +1941,12 @@ void JGN_DropFile(const char* inpf)
 		s.push_back(selective_dynamics[3 * i]);
 		s.push_back(selective_dynamics[1 + 3 * i]);
 		s.push_back(selective_dynamics[2 + 3 * i]);
-		//if (!(s[0] == 'T' || s[0] == 't' || s[0] == 'f' || s[0] == 'F'))
-		//{
-		//	s[0] = 'T';
-		//	s[1] = 'T';
-		//	s[2] = 'T';
-		//}
+		if (!(s[0] == 'T' || s[0] == 't' || s[0] == 'f' || s[0] == 'F'))
+		{
+			s[0] = 'T';
+			s[1] = 'T';
+			s[2] = 'T';
+		}
 		groupInit.selective_dynamics.emplace_back(s);
 		groupInit.number.emplace_back( crystal[5 * i]);
 		groupInit.weight.emplace_back(crystal[1 + 5 * i]);

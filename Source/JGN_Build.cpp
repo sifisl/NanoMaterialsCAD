@@ -2094,7 +2094,7 @@ void BuildPoscar(char* NewPC)
 
 		//if (selective_dynamics_bool)
 			//std::fprintf(NewPCF, "Selective Dynamics\n");
-
+		std::fprintf(NewPCF, "Selective dynamics\n");
 		std::fprintf(NewPCF, "Cartesian\n");
 
 		for (int t = 0; t < vs.N_types; t++)
@@ -2109,8 +2109,10 @@ void BuildPoscar(char* NewPC)
 						{
 							std::fprintf(NewPCF, "%.*f ", printformat, vs.group[g].position[i].x);
 							std::fprintf(NewPCF, "%.*f ", printformat, vs.group[g].position[i].y);
-							std::fprintf(NewPCF, "%.*f ", printformat, vs.group[g].position[i].z);
-							//std::fprintf(NewPCF, vs.group[g].selective_dynamics[i].c_str());
+							std::fprintf(NewPCF, "%.*f   ", printformat, vs.group[g].position[i].z);
+							std::fprintf(NewPCF, "%c ", vs.group[g].selective_dynamics[i].c_str()[0]);
+							std::fprintf(NewPCF, "%c ", vs.group[g].selective_dynamics[i].c_str()[1]);
+							std::fprintf(NewPCF, "%c", vs.group[g].selective_dynamics[i].c_str()[2]);
 							std::fprintf(NewPCF, "\n");
 						}
 					}

@@ -441,7 +441,7 @@ void JGN_DropFile(const char* inpf)
 			else
 			{
 				for (ole1 = 0; ole1 < 3; ole1++)
-					selective_dynamics[ole1 + 3 * ole] = true;
+					selective_dynamics[ole1 + 3 * ole] = 'T';
 			}
 
 
@@ -1935,6 +1935,12 @@ void JGN_DropFile(const char* inpf)
 		s.push_back(selective_dynamics[3 * i]);
 		s.push_back(selective_dynamics[1 + 3 * i]);
 		s.push_back(selective_dynamics[2 + 3 * i]);
+		//if (!(s[0] == 'T' || s[0] == 't' || s[0] == 'f' || s[0] == 'F'))
+		//{
+		//	s[0] = 'T';
+		//	s[1] = 'T';
+		//	s[2] = 'T';
+		//}
 		groupInit.selective_dynamics.emplace_back(s);
 		groupInit.number.emplace_back( crystal[5 * i]);
 		groupInit.weight.emplace_back(crystal[1 + 5 * i]);

@@ -1,5 +1,5 @@
 //BUGS and TODOS////////////////
-//Selective dynamics do not save properly
+//buildlammps doesn't work properly
 //BuildPoscar(): only CustomSurfaceOn works properly
 //complite vs. copy constructor
 //add inverse cut to options (ctrl+v)

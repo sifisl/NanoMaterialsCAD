@@ -155,7 +155,7 @@ jgn::vec2 Utool::_singlesellect()
 	{
 		for (int i = 0; i < vs.group[g].N_atoms; i++)
 		{
-			if (!vs.group[g].isdeleted[i])
+			if (!(vs.group[g].isdeleted[i] || vs.group[g].iscut[i]))
 			{
 				iatom++;
 				jgn::vec3 p1;
@@ -215,7 +215,7 @@ bool Utool::_multisellect()
 		for (int i = 0; i < vs.group[g].N_atoms; i++)
 		{
 			iatoms++;
-			if (!vs.group[g].isdeleted[i])
+			if (!(vs.group[g].isdeleted[i] || vs.group[g].iscut[i]))
 			{
 				jgn::vec3 p1;
 				jgn::vec3 p2;

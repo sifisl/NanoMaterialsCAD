@@ -1364,6 +1364,11 @@ void VSystem::selected_change_element(jgn::string elem)
 					if (!std::strcmp(this->group[g].type[i].c_str(), this->group[g]._alltype[j].c_str()))
 					{
 						this->group[g].N_atoms_per_type[j]--;
+						if (this->group[g].N_atoms_per_type[j] == 0)
+						{
+							this->group[g].N_atoms_per_type.erase(this->group[g].N_atoms_per_type.begin() + j);
+							this->group[g]._N_types--;
+						}
 						break;
 					}
 				}
@@ -1381,6 +1386,11 @@ void VSystem::selected_change_element(jgn::string elem)
 					if (!std::strcmp(this->group[g].type[i].c_str(), this->group[g]._alltype[j].c_str()))
 					{
 						this->group[g].N_atoms_per_type[j]--;
+						if (this->group[g].N_atoms_per_type[j] == 0)
+						{
+							this->group[g].N_atoms_per_type.erase(this->group[g].N_atoms_per_type.begin() + j);
+							this->group[g]._N_types--;
+						}
 						break;
 					}
 				}
@@ -1431,13 +1441,15 @@ void VSystem::updateinfo()
 	{
 		for (int i = 0; i < this->group[g].N_atoms; i++)
 		{
+			if (!this->group[g].iscut[i] && !this->group[g].isdeleted[i])
+			{
+			
 			bool exists = false;
 			for (int j = 0; j < this->N_types; j++)
 			{//check if this element if new
 				if (std::strcmp(this->types[j].c_str(), this->group[g].type[i].c_str()) == 0)
 				{//if not
-					if (!this->group[g].iscut[i] && !this->group[g].isdeleted[i])
-						this->N_atoms_per_type[j]++;
+					this->N_atoms_per_type[j]++;
 					exists = true;
 					break;
 				}
@@ -1450,6 +1462,7 @@ void VSystem::updateinfo()
 				this->weight_per_type.emplace_back(this->group[g].weight[i]);
 				this->types.emplace_back(this->group[g].type[i]);
 			}
+		}
 		}
 	}
 	//delete elements with 0 count

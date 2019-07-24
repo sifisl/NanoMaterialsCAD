@@ -1335,18 +1335,7 @@ void VSystem::selected_change_element(jgn::string elem)
 	}
 	fclose(periodic_table);
 
-	int exists = -1;
-	for (int i = 0; i < vs.N_atoms; i++)
-	for (int j = 0; j < this->group[this->_sellectHistory[i].x]._N_types; j++)
-	{
-		//std::cout << elem << " " << this->group[this->_sellectHistory[i].x]._alltype[j] << std::endl;
-		//if (!std::strcmp(this->group[this->_sellectHistory[i].x]._alltype[j].c_str(), elem.c_str()))
-		if (this->group[this->_sellectHistory[i].x]._alltype[j].compare(elem) == 0)
-		{
-			exists = j;
-			break;
-		}
-	}
+
 
 	//for (int i = 0; i < this->N_atoms; i++)
 	for (int g = 0; g < vs.N_groups; g++)
@@ -1354,6 +1343,19 @@ void VSystem::selected_change_element(jgn::string elem)
 	{//for every atom
 		if (this->group[g].isSelected[i])
 		{//if it is sellected
+
+			int exists = -1;
+			for (int j = 0; j < this->group[g]._N_types; j++)
+			{
+				//std::cout << elem << " " << this->group[this->_sellectHistory[i].x]._alltype[j] << std::endl;
+				//if (!std::strcmp(this->group[this->_sellectHistory[i].x]._alltype[j].c_str(), elem.c_str()))
+				if (this->group[g]._alltype[j].compare(elem) == 0)
+				{
+					exists = j;
+					break;
+				}
+			}
+
 			if (exists != -1)
 			{
 				this->group[g].N_atoms_per_type[exists]++;

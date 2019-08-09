@@ -194,6 +194,19 @@ namespace jgn
 #else
 		;
 #endif //JGN_SOURCE_CPP
+	///////////////////////////////////////////////////////////////////////quaternion, a+bi+cj+dk
+	class quaternion {
+	public:
+		float a, b, c, d;
+		quaternion() {}
+		quaternion(float aa, float bb, float cc, float dd) { this->a = aa; this->b = bb; this->c = cc; this->d = dd; }
+		jgn::quaternion conjugate()
+		{
+			return jgn::quaternion(a,-b,-c,-d);
+		}
+
+		
+	};
 
 	///////////////////////////////////////////////////////////////////////some extra string functionality
 	class string : public std::string {
@@ -201,7 +214,7 @@ namespace jgn
 	public:
 		string() {};
 		string(char* c) : std::string(c) {};
-			bool isnumber()
+		bool isnumber()
 		{
 			std::string::const_iterator it = this->begin();
 			int dotread = 0;
@@ -217,6 +230,23 @@ namespace jgn
 
 			}
 			return (!(this->empty()) && it == (this->end()));
+		}
+		void eraseblank()
+		{
+			//get rid of the spaces
+			int rstrpos = this->find(" ");
+			while (rstrpos != std::string::npos)
+			{
+				this->erase(rstrpos, 1);
+				rstrpos = this->find(" ");
+			}
+			//get rid of the \t
+			rstrpos = this->find("\t");
+			while (rstrpos != std::string::npos)
+			{
+				this->erase(rstrpos, 1);
+				rstrpos = this->find("\t");
+			}
 		}
 	};
 
@@ -438,6 +468,28 @@ namespace jgn
 
 //////////////operators overload/////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////
+
+jgn::quaternion operator*(const jgn::quaternion& q1, const jgn::quaternion& q2)
+#ifdef JGN_SOURCE_CPP
+
+{
+	return jgn::quaternion(q1.a*q2.a - q1.b*q2.b - q1.c*q2.c*q1.d*q2.d, q1.a*q2.b + q1.b*q2.a + q1.c*q2.d - q1.d*q2.c, q1.a*q2.c - q1.b*q2.d + q1.c*q2.a + q1.d*q2.b, q1.a*q2.d + q1.b*q2.c - q1.c*q2.b + q1.d*q2.a);
+}
+#else
+;
+
+#endif// JGN_SOURCE_CPP
+
+std::ostream& operator<<(std::ostream& stream, const jgn::quaternion& q)
+#ifdef JGN_SOURCE_CPP
+
+{
+	stream << q.a << " , " << q.b << " , " << q.c << " , " << q.d;
+	return stream;
+}
+#else
+;
+#endif// JGN_SOURCE_CPP
 
 std::ostream& operator<<(std::ostream& stream, const jgn::vec3& vect)
 #ifdef JGN_SOURCE_CPP

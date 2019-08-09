@@ -231,7 +231,7 @@ EXT int shperes_on;// render as spheres or points
 
 #ifdef JGN_WINDOWS_CPP
 
-static const int testsc = 19;
+static const int testsc = 20;
 static char *test1[testsc] = { "vector(",
 "clean",
 "undo",
@@ -250,7 +250,8 @@ static char *test1[testsc] = { "vector(",
 "randSelection(",
 "delete",
 "restart",
-"fopen("
+"fopen(",
+"facet("
 };
 static char *test1low[testsc] = { "vector(",
 "clean",
@@ -270,7 +271,8 @@ static char *test1low[testsc] = { "vector(",
 "randSelection(",
 "delete",
 "restart",
-"fopen("
+"fopen(",
+"facet("
 };
 static wchar_t *helplist[testsc] = { L"vector(int h,int c,int l,int A)",
 L"clean",
@@ -290,7 +292,8 @@ L"rotate(axes (x,y or z), float z)",//rotates the selected
 L"randSelection(int)",//select int random atoms
 L"delete",//delete selecte atoms
 L"restart",
-L"fopen(\"data path\")"
+L"fopen(\"data path\")",
+L"facet(h,k,l)"//places the <hkl> vector perpendicular to z-axis
 };
 #endif	// JGN_SOURCE_CPP
 

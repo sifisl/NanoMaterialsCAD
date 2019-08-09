@@ -4006,14 +4006,8 @@ void jgnCommands(LPTSTR ttt, int d)
 		okrender = 1;
 		help = (char*)(ttt + 7);
 		jgn::string rstr = jgn::LPTSTR2string((LPTSTR)help, ')');
-		//get rid of the spaces
-		int rstrpos = rstr.find(" ");
-		while (rstrpos != std::string::npos)
-		{
-			rstr.erase(rstrpos, 1);
-			rstrpos = rstr.find(" ");
-		}
-		rstrpos = rstr.find(",");
+		rstr.erase();
+		int rstrpos = rstr.find(",");
 		jgn::string raxes = (char*)rstr.substr(0, rstrpos).c_str();
 		if (raxes.compare("x") == 0)
 		{
@@ -4099,6 +4093,122 @@ void jgnCommands(LPTSTR ttt, int d)
 		strcpy(inpf, rstr.c_str());//for legacy reasons
 		JGN_DropFile(rstr.c_str());
 		jgn_file_dropd = true;
+		goto peintit;
+	}
+
+	//char *test4 = "facet(";
+	for (i = 0; i < 6; i++)
+	{
+		if (test1[19][i] == ttt[i])
+		{
+
+		}
+		else
+		{
+			i = 100;
+		}
+	}
+	if (i == 6)
+	{
+		okrender = 1;
+		help = (char*)(ttt + 6);
+		jgn::string rstr = jgn::LPTSTR2string((LPTSTR)help, ')');
+		rstr.eraseblank();
+
+		int h, k, l;
+		jgn::vec3 v0;//the vector that will become perpendicular to z-axis
+		jgn::quaternion atomq;//the equivalent quartenion of every atomic position
+		jgn::vec3 vr;//we will rotate everything around this vector
+		jgn::quaternion vrq;//the equivalent of vr for quaternion
+		float theta;//rotate everything by theta around vr
+		//h
+		int pos_token = rstr.find(",");
+		if (pos_token == std::string::npos || !((jgn::string)((char*)rstr.substr(0, pos_token).c_str())).isnumber())
+		{
+			okrender = 0;
+			goto peintit;
+		}
+		h = std::stoi(rstr.substr(0, pos_token).c_str());
+		rstr.erase(0, pos_token + 1);
+		//k
+		pos_token = rstr.find(",");
+		if (pos_token == std::string::npos || !((jgn::string)((char*)rstr.substr(0, pos_token).c_str())).isnumber())
+		{
+			okrender = 0;
+			goto peintit;
+		}
+		k = std::stoi(rstr.substr(0, pos_token).c_str());
+		rstr.erase(0, pos_token + 1);
+		//l
+		if (!((jgn::string)((char*)rstr.substr(0, pos_token).c_str())).isnumber())
+		{
+			okrender = 0;
+			goto peintit;
+		}
+		l = std::stoi(rstr.c_str());
+		//TODO:reduce the indexes
+		//now we have    h k l
+		jgn::vec3* vpr = vs.group[vs._isimulationBox].primitiveVec;//primitive vectors
+		v0.x = 0;
+		v0.y = 0;
+		v0.z = 0;
+		if (h != 0)
+		{
+			v0.x += vpr[0].x / h;
+			v0.y += vpr[0].y / h;
+			v0.z += vpr[0].z / h;
+		}
+		if (k != 0)
+		{
+			v0.x += vpr[1].x / k;
+			v0.y += vpr[1].y / k;
+			v0.z += vpr[1].z / k;
+		}
+		if (l != 0)
+		{
+			v0.x += vpr[2].x / l;
+			v0.y += vpr[2].y / l;
+			v0.z += vpr[2].z / l;
+		}
+		//now we have v0
+		vr.x = v0.y;
+		vr.y = -v0.x;
+		vr.z = 0;
+		//now we have vr
+		if (vr.abs() == 0)
+		{
+			okrender = 0;
+			goto peintit;
+		}
+		vr.x = vr.x / vr.abs();
+		vr.y = vr.y / vr.abs();
+		//now we have vr as a unit vector
+		theta = std::acos((v0.z) / v0.abs());
+		//now we have theta in radians
+		vrq.a = cos(theta / 2);
+		vrq.b = vr.x*sin(theta / 2);
+		vrq.c = vr.y*sin(theta / 2);
+		vrq.d = vr.z*sin(theta / 2);
+		//now we have the quartenion
+		//we will now make the rotation
+		std::cout << v0 << std::endl;
+		for (int g = 0; g < vs.N_groups; g++)
+		{//for every group
+			for (int i = 0; i < vs.group[g].N_atoms; i++)
+			{//for every atom
+				//create the quartenion
+				atomq.a = 0;
+				atomq.b = vs.group[g].position[i].x;
+				atomq.c = vs.group[g].position[i].y;
+				atomq.d = vs.group[g].position[i].z;
+				jgn::quaternion ans = (vrq*atomq)*vrq.conjugate();
+				vs.group[g].position[i].x = ans.b;
+				vs.group[g].position[i].y = ans.c;
+				vs.group[g].position[i].z = ans.d;
+				std::cout << vs.group[g].position[i] << std::endl;
+			}
+		}
+
 		goto peintit;
 	}
 peintit:

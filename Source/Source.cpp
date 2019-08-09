@@ -2,6 +2,7 @@
 //complite vs. copy constructor
 //add inverse cut to options (ctrl+v)
 //CuO tetragonal plane(1,1,1,0) doesn't work properly
+//reduce the (hkl) indexes in the "facet(" command
 #include <omp.h>
 #define JGN_SOURCE_CPP
 #include "stdafx.h"
@@ -3049,7 +3050,8 @@ void mouse_func(int b, int s, int x, int y)
 			}
 			else if (vs.grouplist.options.hovering != -1)
 			{
-					vs.unsellectAll();
+				vs.unsellectAll();
+				tb.sellectedTool = ToolBar::Tool::ROTATE;
 				for (int i = 0; i < vs.group[vs.grouplist.options.hovering].N_atoms; i++)
 				{
 					vs.group[vs.grouplist.options.hovering].isSelected[i] = true;

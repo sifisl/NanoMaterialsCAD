@@ -3747,7 +3747,7 @@ void jgnCommands(LPTSTR ttt, int d)
 			vs.N_atoms = sx * sy * sz * vs.original->N_atoms;
 			vs.reserve(sx, sy, sz);
 
-			std::cout << vs.group[0].position[0]			<<  std::endl;
+			/*std::cout << vs.group[0].position[0]			<<  std::endl;
 			std::cout << vs.group[0].type[0]				<<  std::endl;
 			std::cout << vs.group[0].selective_dynamics[0] 	<<  std::endl;
 			std::cout << vs.group[0].color[0] 				<<  std::endl;
@@ -3756,12 +3756,8 @@ void jgnCommands(LPTSTR ttt, int d)
 			std::cout << vs.group[0].radius[0] 				<<  std::endl;
 			std::cout << vs.group[0].isSelected[0] 			<<  std::endl;
 			std::cout << vs.group[0].isdeleted[0] 			<<  std::endl;
-			std::cout << vs.group[0].iscut[0] 				<<  std::endl;
+			std::cout << vs.group[0].iscut[0] 				<<  std::endl;*/
 
-			getchar();
-			getchar();
-			getchar();
-			getchar();
 			int as = 0;//atom position starts at
 			for (int g = 0; g < vs.N_groups; g++)
 			{//for every group
@@ -3791,7 +3787,8 @@ void jgnCommands(LPTSTR ttt, int d)
 				}
 			}
 		}
-
+		if (d == 0)
+			okrender = 0;
 		goto peintit;
 
 	}
@@ -4121,6 +4118,8 @@ void jgnCommands(LPTSTR ttt, int d)
 		jgn::vec3 vr;//we will rotate everything around this vector
 		jgn::quaternion vrq;//the equivalent of vr for quaternion
 		float theta;//rotate everything by theta around vr
+		jgn::quaternion fvpr[3];//here we will construct the new primitive vectors
+		jgn::quaternion fvpr0[3];//same but keeping the initial values
 		//h
 		int pos_token = rstr.find(",");
 		if (pos_token == std::string::npos || !((jgn::string)((char*)rstr.substr(0, pos_token).c_str())).isnumber())
@@ -4180,23 +4179,27 @@ void jgnCommands(LPTSTR ttt, int d)
 			okrender = 0;
 			goto peintit;
 		}
-		vr.x = vr.x / vr.abs();
-		vr.y = vr.y / vr.abs();
+		float vrabs = vr.abs();
+		vr.x = vr.x / vrabs;
+		vr.y = vr.y / vrabs;
 		//now we have vr as a unit vector
 		theta = std::acos((v0.z) / v0.abs());
 		//now we have theta in radians
-		vrq.a = cos(theta / 2);
-		vrq.b = vr.x*sin(theta / 2);
-		vrq.c = vr.y*sin(theta / 2);
-		vrq.d = vr.z*sin(theta / 2);
+		vrq.a = cos(theta / 2.f);
+		vrq.b = vr.x*sin(theta / 2.f);
+		vrq.c = vr.y*sin(theta / 2.f);
+		vrq.d = vr.z*sin(theta / 2.f);
 		//now we have the quartenion
+		//first create a big bulk 
+		jgnCommands(L"supercell(10,10,10)", 0);
 		//we will now make the rotation
-		std::cout << v0 << std::endl;
 		for (int g = 0; g < vs.N_groups; g++)
 		{//for every group
 			for (int i = 0; i < vs.group[g].N_atoms; i++)
 			{//for every atom
 				//create the quartenion
+				//first center the bulk at the origin
+				vs.group[g].position[i] = vs.group[g].position[i].translate(v0 * (-5));
 				atomq.a = 0;
 				atomq.b = vs.group[g].position[i].x;
 				atomq.c = vs.group[g].position[i].y;
@@ -4205,9 +4208,91 @@ void jgnCommands(LPTSTR ttt, int d)
 				vs.group[g].position[i].x = ans.b;
 				vs.group[g].position[i].y = ans.c;
 				vs.group[g].position[i].z = ans.d;
-				std::cout << vs.group[g].position[i] << std::endl;
 			}
 		}
+		//lets prepare the primitive vectors
+		fvpr[0].a = 0;
+		fvpr[0].b = v0.x;
+		fvpr[0].c = v0.y;
+		fvpr[0].d = v0.z;
+
+		fvpr[1].a = 0;
+		fvpr[1].b = -v0.y;
+		fvpr[1].c = v0.z;
+		fvpr[1].d = v0.x;
+
+		fvpr[2].a = 0;
+		fvpr[2].b = v0.z;
+		fvpr[2].c = -v0.x;
+		fvpr[2].d = v0.y;
+
+		fvpr[0] = (vrq*fvpr[0])*vrq.conjugate();
+		fvpr[1] = (vrq*fvpr[1])*vrq.conjugate();
+		fvpr[2] = (vrq*fvpr[2])*vrq.conjugate();
+		fvpr0[0] = fvpr[0];
+		fvpr0[1] = fvpr[1];
+		fvpr0[2] = fvpr[2];
+		std::cout << fvpr[0] << std::endl;
+		std::cout << fvpr0[0] << std::endl;
+		//lets check the periodic boundaries
+		//create a grid of duplicated (0,0,0) points and rotate it
+		jgn::quaternion duplicateO[10][10][10];
+		for (int i = -5; i < 5; i++)
+		{
+			for (int j = -5; j < 5; j++)
+			{
+				for (int k = -5; k < 5; k++)
+				{
+					duplicateO[i+5][j+5][k+5] = jgn::quaternion(0, 
+						vpr[0].x*i + vpr[1].x*j + vpr[2].x*k, 
+						vpr[0].y*i + vpr[1].y*j + vpr[2].y*k,
+						vpr[0].z*i + vpr[1].z*j + vpr[2].z*k);
+					duplicateO[i + 5][j + 5][k + 5] = (vrq*duplicateO[i + 5][j + 5][k + 5])*vrq.conjugate();
+				}
+			}
+		}
+		//check if the primitive vectors overlaps with a duplica of (0,0,0)
+		for (int v = 0; v < 3; v++)
+		{
+			bool isoverlap = false;
+			for (int i = 0; i < 10; i++)
+			{
+				for (int j = 0; j < 10; j++)
+				{
+					for (int k = 0; k < 10; k++)
+					{
+						if (jgn::dist3dSquare(fvpr[v].b, duplicateO[i][j][k].b));
+						{
+							isoverlap = true;
+							i = 10000;
+							j = 10000;
+							k = 10000;
+						}
+					}
+				}
+			}
+			if (isoverlap == false)
+			{
+				fvpr[v] = fvpr[v] + fvpr0[v];
+				v--;
+			}
+		}
+		//the primitive vectors are ready... put them in the vs.group[...
+		vs.group[vs._isimulationBox].primitiveVec[2].x = fvpr[0].b;
+		vs.group[vs._isimulationBox].primitiveVec[2].y = fvpr[0].c;
+		vs.group[vs._isimulationBox].primitiveVec[2].z = fvpr[0].d;
+
+		vs.group[vs._isimulationBox].primitiveVec[0].x = fvpr[1].b;
+		vs.group[vs._isimulationBox].primitiveVec[0].y = fvpr[1].c;
+		vs.group[vs._isimulationBox].primitiveVec[0].z = fvpr[1].d;
+
+		vs.group[vs._isimulationBox].primitiveVec[1].x = fvpr[2].b;
+		vs.group[vs._isimulationBox].primitiveVec[1].y = fvpr[2].c;
+		vs.group[vs._isimulationBox].primitiveVec[1].z = fvpr[2].d;
+
+		vs._updateSimulationBox();
+		//cut every atom outside of the unit cell
+
 
 		goto peintit;
 	}

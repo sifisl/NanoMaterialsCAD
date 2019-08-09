@@ -469,11 +469,26 @@ namespace jgn
 //////////////operators overload/////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////
 
+jgn::quaternion operator+(const jgn::quaternion& q1, const jgn::quaternion& q2)
+#ifdef JGN_SOURCE_CPP
+
+{
+	jgn::quaternion out;
+	out.a = q1.a + q2.a;
+	out.b = q1.b + q2.b;
+	out.c = q1.c + q2.c;
+	out.d = q1.d + q2.d;
+	return out;
+}
+#else
+;
+#endif// JGN_SOURCE_CPP
+
 jgn::quaternion operator*(const jgn::quaternion& q1, const jgn::quaternion& q2)
 #ifdef JGN_SOURCE_CPP
 
 {
-	return jgn::quaternion(q1.a*q2.a - q1.b*q2.b - q1.c*q2.c*q1.d*q2.d, q1.a*q2.b + q1.b*q2.a + q1.c*q2.d - q1.d*q2.c, q1.a*q2.c - q1.b*q2.d + q1.c*q2.a + q1.d*q2.b, q1.a*q2.d + q1.b*q2.c - q1.c*q2.b + q1.d*q2.a);
+	return jgn::quaternion(q1.a*q2.a - q1.b*q2.b - q1.c*q2.c - q1.d*q2.d, q1.a*q2.b + q1.b*q2.a + q1.c*q2.d - q1.d*q2.c, q1.a*q2.c - q1.b*q2.d + q1.c*q2.a + q1.d*q2.b, q1.a*q2.d + q1.b*q2.c - q1.c*q2.b + q1.d*q2.a);
 }
 #else
 ;

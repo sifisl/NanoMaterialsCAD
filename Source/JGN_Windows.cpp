@@ -4212,28 +4212,33 @@ void jgnCommands(LPTSTR ttt, int d)
 		}
 		//lets prepare the primitive vectors
 		fvpr[0].a = 0;
+		//y
 		fvpr[0].b = v0.x;
 		fvpr[0].c = v0.y;
 		fvpr[0].d = v0.z;
 
+		//x
 		fvpr[1].a = 0;
-		fvpr[1].b = -v0.y;
-		fvpr[1].c = v0.z;
-		fvpr[1].d = v0.x;
+		fvpr[1].b = v0.y + (v0.y == 0 && v0.x == 0);
+		fvpr[1].c = -v0.x;
+		fvpr[1].d = 0;
 
+		//y
 		fvpr[2].a = 0;
-		fvpr[2].b = v0.z;
-		fvpr[2].c = -v0.x;
-		fvpr[2].d = v0.y;
+		fvpr[2].b = 0;
+		fvpr[2].c = v0.z + (v0.z == 0 && v0.y == 0);
+		fvpr[2].d = -v0.y;
 
 		fvpr[0] = (vrq*fvpr[0])*vrq.conjugate();
 		fvpr[1] = (vrq*fvpr[1])*vrq.conjugate();
 		fvpr[2] = (vrq*fvpr[2])*vrq.conjugate();
+		/////////
+		//fvpr[1].d = 0;
+		//fvpr[2].d = 0;
+		/////////
 		fvpr0[0] = fvpr[0];
 		fvpr0[1] = fvpr[1];
 		fvpr0[2] = fvpr[2];
-		std::cout << fvpr[0] << std::endl;
-		std::cout << fvpr0[0] << std::endl;
 		//lets check the periodic boundaries
 		//create a grid of duplicated (0,0,0) points and rotate it
 		jgn::quaternion duplicateO[10][10][10];
@@ -4261,7 +4266,7 @@ void jgnCommands(LPTSTR ttt, int d)
 				{
 					for (int k = 0; k < 10; k++)
 					{
-						if (jgn::dist3dSquare(fvpr[v].b, duplicateO[i][j][k].b));
+						if (jgn::dist3dSquare(fvpr[v].b, duplicateO[i][j][k].b) < 0.01)
 						{
 							isoverlap = true;
 							i = 10000;
@@ -4271,12 +4276,26 @@ void jgnCommands(LPTSTR ttt, int d)
 					}
 				}
 			}
-			if (isoverlap == false)
+			/*if (isoverlap == false)
 			{
 				fvpr[v] = fvpr[v] + fvpr0[v];
 				v--;
-			}
+			}*/
 		}
+		int lcmkl = jgn::lcm(k, l);//multiply frist vec with that
+		int lcmhl = jgn::lcm(h, l);//multiply second vec with that
+		int lcmhk = jgn::lcm(h, k);//multiply third vec with that
+		if (lcmkl == 0)
+			lcmkl = 1;
+		if (lcmhl == 0)
+			lcmhl = 1;
+		if (lcmhk == 0)
+			lcmhk = 1;
+
+		fvpr[0] = fvpr[0] * lcmkl;
+		fvpr[1] = fvpr[1] * lcmkl;
+		fvpr[2] = fvpr[2] * lcmkl;
+
 		//the primitive vectors are ready... put them in the vs.group[...
 		vs.group[vs._isimulationBox].primitiveVec[2].x = fvpr[0].b;
 		vs.group[vs._isimulationBox].primitiveVec[2].y = fvpr[0].c;

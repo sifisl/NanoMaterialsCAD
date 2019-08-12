@@ -146,6 +146,54 @@ namespace jgn
 		;
 #endif //JGN_SOURCE_CPP
 
+	///////////////////////////////////////////////////////////////////////greatest common divisor
+	int gcd(int &p1, int &p2)
+#ifdef JGN_SOURCE_CPP
+	{
+		if (p1 == 0)
+		{
+			return p2;
+		}
+		else if (p2 == 0)
+		{
+			return p1;
+		}
+		else
+		{
+			int ans = 1;
+			int test = 1;
+			while (p1 / float(test) > 1 && p2 / float(test) > 1)
+			{
+				test++;
+				if (p1 / float(test) == p1 / test && p2 / float(test) == p2 / test)
+				{
+					ans = test;
+				}
+			}
+			return ans;
+		}
+	}
+#else
+		;
+#endif //JGN_SOURCE_CPP
+
+	///////////////////////////////////////////////////////////////////////least common multiple
+	int lcm(int &p1, int &p2)
+#ifdef JGN_SOURCE_CPP
+	{
+		int gcdp1p2 = jgn::gcd(p1, p2);
+		if (gcdp1p2 == 0)
+		{
+			return 0;
+		}
+		else
+		{
+			return p1 * p2 / gcdp1p2;
+		}
+	}
+#else
+		;
+#endif //JGN_SOURCE_CPP
 
 	///////////////////////////////////////////////////////////////////////2d distance between 2 points
 	float dist2d(float* p1, float* p2)
@@ -489,6 +537,17 @@ jgn::quaternion operator*(const jgn::quaternion& q1, const jgn::quaternion& q2)
 
 {
 	return jgn::quaternion(q1.a*q2.a - q1.b*q2.b - q1.c*q2.c - q1.d*q2.d, q1.a*q2.b + q1.b*q2.a + q1.c*q2.d - q1.d*q2.c, q1.a*q2.c - q1.b*q2.d + q1.c*q2.a + q1.d*q2.b, q1.a*q2.d + q1.b*q2.c - q1.c*q2.b + q1.d*q2.a);
+}
+#else
+;
+
+#endif// JGN_SOURCE_CPP
+
+jgn::quaternion operator*(const jgn::quaternion& q, const float& f)
+#ifdef JGN_SOURCE_CPP
+
+{
+	return jgn::quaternion(q.a*f, q.b*f, q.c*f, q.d*f);
 }
 #else
 ;

@@ -119,6 +119,7 @@ void VSystem::restart()
 	this->original->selected_change_hovered_axes = -1;
 	this->original->istranslating_theselected = false;
 	this->original->isrotating_theselected = false;
+	jgnCommands(L"clean", 0);
 
 }
 
@@ -604,6 +605,14 @@ void VSystem::_drawatoms()
 				}
 		}
 	}
+
+	if (CustomSurfacesCount > 0)
+	{
+		glBegin(GL_LINES);
+		glVertex3f(0, 0, 0);
+		glVertex3f(CustomSurfaces[CustomSurfacesCount - 1][0] / (Svmax + 5) * 100, CustomSurfaces[CustomSurfacesCount - 1][1] / (Svmax + 5) * 100, CustomSurfaces[CustomSurfacesCount - 1][2] / (Svmax + 5) * 100);
+		glEnd();
+	}
 }
 
 void VSystem::_drawDistanceToolLine()
@@ -1053,6 +1062,7 @@ void VSystem::cut()
 				-(sized[2] / 2) * (vs.original->group[vs._isimulationBox].primitiveVec[0].z + vs.original->group[vs._isimulationBox].primitiveVec[1].z + vs.original->group[vs._isimulationBox].primitiveVec[2].z) };
 			jgn::cpu_translate(&this->group[g].position[ii].x, tr, &this->group[g].position[ii].x);
 
+
 			float *p = &(this->group[g].position[ii].x);
 			if (nanotube)
 			{
@@ -1079,9 +1089,10 @@ void VSystem::cut()
 				}
 				else
 				{
+
 					for (i = 0; i < CustomSurfacesCount; i++)
 					{
-						if (CustomSurfaces[i][0] * (p[0] - CustomSurfaces[i][0] * CustomSurfaces[i][3]) + CustomSurfaces[i][1] * (p[1] - CustomSurfaces[i][1] * CustomSurfaces[i][3]) + CustomSurfaces[i][2] * (p[2] - CustomSurfaces[i][2] * CustomSurfaces[i][3]) <= 0)
+						if (CustomSurfaces[i][0] * (p[0] - CustomSurfaces[i][0] * CustomSurfaces[i][3]) + CustomSurfaces[i][1] * (p[1] - CustomSurfaces[i][1] * CustomSurfaces[i][3]) + CustomSurfaces[i][2] * (p[2] - CustomSurfaces[i][2] * CustomSurfaces[i][3]) < 0)
 						{
 
 						}
@@ -1149,7 +1160,7 @@ void VSystem::cut()
 						{
 							if (CustomSurfaces[i][0] * (p[0] - CustomSurfaces[i][0] * CustomSurfaces[i][3]) + CustomSurfaces[i][1] * (p[1] - CustomSurfaces[i][1] * CustomSurfaces[i][3]) + CustomSurfaces[i][2] * (p[2] - CustomSurfaces[i][2] * CustomSurfaces[i][3]) <= 0)
 							{
-
+								
 							}
 							else
 							{

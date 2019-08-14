@@ -3232,112 +3232,152 @@ void jgnCommands(LPTSTR ttt, int d)
 		}
 
 #endif
-		if (crystalh == 0)
-		{
-			if (crystalk == 0)
-			{
-				if (crystall == 0)//000 ok
-				{
-					CustomSurfacesCount--;
-					okrender = 0;
-					return;
-				}
-				else//00l ok
-				{
-					CustomSurfaces[CustomSurfacesCount - 1][0] = ijk[0][1] * ijk[1][2] - ijk[0][2] * ijk[1][1];
-					CustomSurfaces[CustomSurfacesCount - 1][1] = -ijk[0][0] * ijk[1][2] + ijk[0][2] * ijk[1][0];
-					CustomSurfaces[CustomSurfacesCount - 1][2] = ijk[0][0] * ijk[1][1] - ijk[0][1] * ijk[1][0];
+
+		//if (crystalh == 0)
+		//{
+		//	if (crystalk == 0)
+		//	{
+		//		if (crystall == 0)//000 ok
+		//		{
+		//			CustomSurfacesCount--;
+		//			okrender = 0;
+		//			return;
+		//		}
+		//		else//00l ok
+		//		{
+		//			CustomSurfaces[CustomSurfacesCount - 1][0] = vs.group[vs._isimulationBox].primitiveVec[0].y * vs.group[vs._isimulationBox].primitiveVec[1].z - vs.group[vs._isimulationBox].primitiveVec[0].z * vs.group[vs._isimulationBox].primitiveVec[1].y;
+		//			CustomSurfaces[CustomSurfacesCount - 1][1] = -vs.group[vs._isimulationBox].primitiveVec[0].x * vs.group[vs._isimulationBox].primitiveVec[1].z + vs.group[vs._isimulationBox].primitiveVec[0].z * vs.group[vs._isimulationBox].primitiveVec[1].x;
+		//			CustomSurfaces[CustomSurfacesCount - 1][2] = vs.group[vs._isimulationBox].primitiveVec[0].x * vs.group[vs._isimulationBox].primitiveVec[1].y - vs.group[vs._isimulationBox].primitiveVec[0].y * vs.group[vs._isimulationBox].primitiveVec[1].x;
 
 
-					CustomSurfaces[CustomSurfacesCount - 1][0] = crystall * CustomSurfaces[CustomSurfacesCount - 1][0];
-					CustomSurfaces[CustomSurfacesCount - 1][1] = crystall * CustomSurfaces[CustomSurfacesCount - 1][1];
-					CustomSurfaces[CustomSurfacesCount - 1][2] = crystall * CustomSurfaces[CustomSurfacesCount - 1][2];
+		//			CustomSurfaces[CustomSurfacesCount - 1][0] = crystall * CustomSurfaces[CustomSurfacesCount - 1][0];
+		//			CustomSurfaces[CustomSurfacesCount - 1][1] = crystall * CustomSurfaces[CustomSurfacesCount - 1][1];
+		//			CustomSurfaces[CustomSurfacesCount - 1][2] = crystall * CustomSurfaces[CustomSurfacesCount - 1][2];
 
-				}
-			}
-			else
-			{
-				if (crystall == 0)//0k0 ok
-				{
-					CustomSurfaces[CustomSurfacesCount - 1][0] = -ijk[0][1] * ijk[2][2] + ijk[0][2] * ijk[2][1];
-					CustomSurfaces[CustomSurfacesCount - 1][1] = ijk[0][0] * ijk[2][2] - ijk[0][2] * ijk[2][0];
-					CustomSurfaces[CustomSurfacesCount - 1][2] = -ijk[0][0] * ijk[2][1] + ijk[0][1] * ijk[2][0];
+		//		}
+		//	}
+		//	else
+		//	{
+		//		if (crystall == 0)//0k0 ok
+		//		{
+		//			CustomSurfaces[CustomSurfacesCount - 1][0] = -vs.group[vs._isimulationBox].primitiveVec[0].y * vs.group[vs._isimulationBox].primitiveVec[2].z + vs.group[vs._isimulationBox].primitiveVec[0].z * vs.group[vs._isimulationBox].primitiveVec[2].y;
+		//			CustomSurfaces[CustomSurfacesCount - 1][1] = vs.group[vs._isimulationBox].primitiveVec[0].x * vs.group[vs._isimulationBox].primitiveVec[2].z - vs.group[vs._isimulationBox].primitiveVec[0].z * vs.group[vs._isimulationBox].primitiveVec[2].x;
+		//			CustomSurfaces[CustomSurfacesCount - 1][2] = -vs.group[vs._isimulationBox].primitiveVec[0].x * vs.group[vs._isimulationBox].primitiveVec[2].y + vs.group[vs._isimulationBox].primitiveVec[0].y * vs.group[vs._isimulationBox].primitiveVec[2].x;
 
-					CustomSurfaces[CustomSurfacesCount - 1][0] = crystalk * CustomSurfaces[CustomSurfacesCount - 1][0];
-					CustomSurfaces[CustomSurfacesCount - 1][1] = crystalk * CustomSurfaces[CustomSurfacesCount - 1][1];
-					CustomSurfaces[CustomSurfacesCount - 1][2] = crystalk * CustomSurfaces[CustomSurfacesCount - 1][2];
+		//			CustomSurfaces[CustomSurfacesCount - 1][0] = crystalk * CustomSurfaces[CustomSurfacesCount - 1][0];
+		//			CustomSurfaces[CustomSurfacesCount - 1][1] = crystalk * CustomSurfaces[CustomSurfacesCount - 1][1];
+		//			CustomSurfaces[CustomSurfacesCount - 1][2] = crystalk * CustomSurfaces[CustomSurfacesCount - 1][2];
 
-				}
-				else//0kl ok
-				{
-					CustomSurfaces[CustomSurfacesCount - 1][0] = ijk[0][1] * (ijk[1][2] / crystalk - ijk[2][2] / crystall) - ijk[0][2] * (ijk[1][1] / crystalk - ijk[2][1] / crystall);
-					CustomSurfaces[CustomSurfacesCount - 1][1] = -ijk[0][0] * (ijk[1][2] / crystalk - ijk[2][2] / crystall) + ijk[0][2] * (ijk[1][0] / crystalk - ijk[2][0] / crystall);
-					CustomSurfaces[CustomSurfacesCount - 1][2] = ijk[0][0] * (ijk[1][1] / crystalk - ijk[2][1] / crystall) - ijk[0][1] * (ijk[1][0] / crystalk - ijk[2][0] / crystall);
+		//		}
+		//		else//0kl ok
+		//		{
+		//			CustomSurfaces[CustomSurfacesCount - 1][0] = vs.group[vs._isimulationBox].primitiveVec[0].y * (vs.group[vs._isimulationBox].primitiveVec[1].z / crystalk - vs.group[vs._isimulationBox].primitiveVec[2].z / crystall) - vs.group[vs._isimulationBox].primitiveVec[0].z * (vs.group[vs._isimulationBox].primitiveVec[1].y / crystalk - vs.group[vs._isimulationBox].primitiveVec[2].y / crystall);
+		//			CustomSurfaces[CustomSurfacesCount - 1][1] = -vs.group[vs._isimulationBox].primitiveVec[0].x * (vs.group[vs._isimulationBox].primitiveVec[1].z / crystalk - vs.group[vs._isimulationBox].primitiveVec[2].z / crystall) + vs.group[vs._isimulationBox].primitiveVec[0].z * (vs.group[vs._isimulationBox].primitiveVec[1].x / crystalk - vs.group[vs._isimulationBox].primitiveVec[2].x / crystall);
+		//			CustomSurfaces[CustomSurfacesCount - 1][2] = vs.group[vs._isimulationBox].primitiveVec[0].x * (vs.group[vs._isimulationBox].primitiveVec[1].y / crystalk - vs.group[vs._isimulationBox].primitiveVec[2].y / crystall) - vs.group[vs._isimulationBox].primitiveVec[0].y * (vs.group[vs._isimulationBox].primitiveVec[1].x / crystalk - vs.group[vs._isimulationBox].primitiveVec[2].x / crystall);
 
 
-					CustomSurfaces[CustomSurfacesCount - 1][0] = crystalk * crystall*CustomSurfaces[CustomSurfacesCount - 1][0];
-					CustomSurfaces[CustomSurfacesCount - 1][1] = crystalk * crystall*CustomSurfaces[CustomSurfacesCount - 1][1];
-					CustomSurfaces[CustomSurfacesCount - 1][2] = crystalk * crystall*CustomSurfaces[CustomSurfacesCount - 1][2];
-				}
-			}
+		//			CustomSurfaces[CustomSurfacesCount - 1][0] = crystalk * crystall*CustomSurfaces[CustomSurfacesCount - 1][0];
+		//			CustomSurfaces[CustomSurfacesCount - 1][1] = crystalk * crystall*CustomSurfaces[CustomSurfacesCount - 1][1];
+		//			CustomSurfaces[CustomSurfacesCount - 1][2] = crystalk * crystall*CustomSurfaces[CustomSurfacesCount - 1][2];
+		//		}
+		//	}
+		//}
+		//else
+		//{
+		//	if (crystalk == 0)
+		//	{
+		//		if (crystall == 0)//h00 ok
+		//		{
+		//			CustomSurfaces[CustomSurfacesCount - 1][0] = vs.group[vs._isimulationBox].primitiveVec[1].y * vs.group[vs._isimulationBox].primitiveVec[2].z - vs.group[vs._isimulationBox].primitiveVec[1].z * vs.group[vs._isimulationBox].primitiveVec[2].y;
+		//			CustomSurfaces[CustomSurfacesCount - 1][1] = -vs.group[vs._isimulationBox].primitiveVec[1].x * vs.group[vs._isimulationBox].primitiveVec[2].z + vs.group[vs._isimulationBox].primitiveVec[1].z * vs.group[vs._isimulationBox].primitiveVec[2].x;
+		//			CustomSurfaces[CustomSurfacesCount - 1][2] = vs.group[vs._isimulationBox].primitiveVec[1].x * vs.group[vs._isimulationBox].primitiveVec[2].y - vs.group[vs._isimulationBox].primitiveVec[1].y * vs.group[vs._isimulationBox].primitiveVec[2].x;
+
+		//			CustomSurfaces[CustomSurfacesCount - 1][0] = crystalh * CustomSurfaces[CustomSurfacesCount - 1][0];
+		//			CustomSurfaces[CustomSurfacesCount - 1][1] = crystalh * CustomSurfaces[CustomSurfacesCount - 1][1];
+		//			CustomSurfaces[CustomSurfacesCount - 1][2] = crystalh * CustomSurfaces[CustomSurfacesCount - 1][2];
+
+		//		}
+		//		else//h0l ok
+		//		{
+
+
+		//			CustomSurfaces[CustomSurfacesCount - 1][0] = vs.group[vs._isimulationBox].primitiveVec[1].y * (vs.group[vs._isimulationBox].primitiveVec[0].z / crystalh - vs.group[vs._isimulationBox].primitiveVec[2].z / crystall) - vs.group[vs._isimulationBox].primitiveVec[1].z * (vs.group[vs._isimulationBox].primitiveVec[0].y / crystalh - vs.group[vs._isimulationBox].primitiveVec[2].y / crystall);
+		//			CustomSurfaces[CustomSurfacesCount - 1][1] = -vs.group[vs._isimulationBox].primitiveVec[1].x * (vs.group[vs._isimulationBox].primitiveVec[0].z / crystalh - vs.group[vs._isimulationBox].primitiveVec[2].z / crystall) + vs.group[vs._isimulationBox].primitiveVec[1].z * (vs.group[vs._isimulationBox].primitiveVec[0].x / crystalh - vs.group[vs._isimulationBox].primitiveVec[2].x / crystall);
+		//			CustomSurfaces[CustomSurfacesCount - 1][2] = vs.group[vs._isimulationBox].primitiveVec[1].x * (vs.group[vs._isimulationBox].primitiveVec[0].y / crystalh - vs.group[vs._isimulationBox].primitiveVec[2].y / crystall) - vs.group[vs._isimulationBox].primitiveVec[1].y * (vs.group[vs._isimulationBox].primitiveVec[0].x / crystalh - vs.group[vs._isimulationBox].primitiveVec[2].x / crystall);
+
+		//			CustomSurfaces[CustomSurfacesCount - 1][0] = -crystalh * crystall*CustomSurfaces[CustomSurfacesCount - 1][0];
+		//			CustomSurfaces[CustomSurfacesCount - 1][1] = -crystalh * crystall*CustomSurfaces[CustomSurfacesCount - 1][1];
+		//			CustomSurfaces[CustomSurfacesCount - 1][2] = -crystalh * crystall*CustomSurfaces[CustomSurfacesCount - 1][2];
+
+
+		//		}
+		//	}
+		//	else
+		//	{
+		//		if (crystall == 0)//hk0 ok
+		//		{
+		//			CustomSurfaces[CustomSurfacesCount - 1][0] = vs.group[vs._isimulationBox].primitiveVec[2].y * (vs.group[vs._isimulationBox].primitiveVec[0].z / crystalh - vs.group[vs._isimulationBox].primitiveVec[1].z / crystalk) - vs.group[vs._isimulationBox].primitiveVec[2].z * (vs.group[vs._isimulationBox].primitiveVec[0].y / crystalh - vs.group[vs._isimulationBox].primitiveVec[1].y / crystalk);
+		//			CustomSurfaces[CustomSurfacesCount - 1][1] = -vs.group[vs._isimulationBox].primitiveVec[2].x * (vs.group[vs._isimulationBox].primitiveVec[0].z / crystalh - vs.group[vs._isimulationBox].primitiveVec[1].z / crystalk) + vs.group[vs._isimulationBox].primitiveVec[2].z * (vs.group[vs._isimulationBox].primitiveVec[0].x / crystalh - vs.group[vs._isimulationBox].primitiveVec[1].x / crystalk);
+		//			CustomSurfaces[CustomSurfacesCount - 1][2] = vs.group[vs._isimulationBox].primitiveVec[2].x * (vs.group[vs._isimulationBox].primitiveVec[0].y / crystalh - vs.group[vs._isimulationBox].primitiveVec[1].y / crystalk) - vs.group[vs._isimulationBox].primitiveVec[2].y * (vs.group[vs._isimulationBox].primitiveVec[0].x / crystalh - vs.group[vs._isimulationBox].primitiveVec[1].x / crystalk);
+
+		//			CustomSurfaces[CustomSurfacesCount - 1][0] = crystalk * crystalh*CustomSurfaces[CustomSurfacesCount - 1][0];
+		//			CustomSurfaces[CustomSurfacesCount - 1][1] = crystalk * crystalh*CustomSurfaces[CustomSurfacesCount - 1][1];
+		//			CustomSurfaces[CustomSurfacesCount - 1][2] = crystalk * crystalh*CustomSurfaces[CustomSurfacesCount - 1][2];
+		//		}
+		//		else//hkl
+		//		{
+		//			CustomSurfaces[CustomSurfacesCount - 1][0] = (vs.group[vs._isimulationBox].primitiveVec[0].y / crystalh - vs.group[vs._isimulationBox].primitiveVec[2].y / crystall) * (vs.group[vs._isimulationBox].primitiveVec[0].z / crystalh - vs.group[vs._isimulationBox].primitiveVec[1].z / crystalk) - (vs.group[vs._isimulationBox].primitiveVec[0].z / crystalh - vs.group[vs._isimulationBox].primitiveVec[2].z / crystall) * (vs.group[vs._isimulationBox].primitiveVec[0].y / crystalh - vs.group[vs._isimulationBox].primitiveVec[1].y / crystalk);
+		//			CustomSurfaces[CustomSurfacesCount - 1][1] = -(vs.group[vs._isimulationBox].primitiveVec[0].x / crystalh - vs.group[vs._isimulationBox].primitiveVec[2].x / crystall) * (vs.group[vs._isimulationBox].primitiveVec[0].z / crystalh - vs.group[vs._isimulationBox].primitiveVec[1].z / crystalk) + (vs.group[vs._isimulationBox].primitiveVec[0].z / crystalh - vs.group[vs._isimulationBox].primitiveVec[2].z / crystall) * (vs.group[vs._isimulationBox].primitiveVec[0].x / crystalh - vs.group[vs._isimulationBox].primitiveVec[1].x / crystalk);
+		//			CustomSurfaces[CustomSurfacesCount - 1][2] = (vs.group[vs._isimulationBox].primitiveVec[0].x / crystalh - vs.group[vs._isimulationBox].primitiveVec[2].x / crystall) * (vs.group[vs._isimulationBox].primitiveVec[0].y / crystalh - vs.group[vs._isimulationBox].primitiveVec[1].y / crystalk) - (vs.group[vs._isimulationBox].primitiveVec[0].y / crystalh - vs.group[vs._isimulationBox].primitiveVec[2].y / crystall) * (vs.group[vs._isimulationBox].primitiveVec[0].x / crystalh - vs.group[vs._isimulationBox].primitiveVec[1].x / crystalk);
+
+		//			CustomSurfaces[CustomSurfacesCount - 1][0] = -crystall * crystalk*crystalh*CustomSurfaces[CustomSurfacesCount - 1][0];
+		//			CustomSurfaces[CustomSurfacesCount - 1][1] = -crystall * crystalk*crystalh*CustomSurfaces[CustomSurfacesCount - 1][1];
+		//			CustomSurfaces[CustomSurfacesCount - 1][2] = -crystall * crystalk*crystalh*CustomSurfaces[CustomSurfacesCount - 1][2];
+
+
+
+		//		}
+		//	}
+		//}
+
+		
+		jgn::vec3 p1 = vs.group[vs._isimulationBox].primitiveVec[0];
+		std::cout << p1 << std::endl;
+		if (crystalh == 0) {
+			p1 = p1 * crystalh;
 		}
 		else
 		{
-			if (crystalk == 0)
-			{
-				if (crystall == 0)//h00 ok
-				{
-					CustomSurfaces[CustomSurfacesCount - 1][0] = ijk[1][1] * ijk[2][2] - ijk[1][2] * ijk[2][1];
-					CustomSurfaces[CustomSurfacesCount - 1][1] = -ijk[1][0] * ijk[2][2] + ijk[1][2] * ijk[2][0];
-					CustomSurfaces[CustomSurfacesCount - 1][2] = ijk[1][0] * ijk[2][1] - ijk[1][1] * ijk[2][0];
-
-					CustomSurfaces[CustomSurfacesCount - 1][0] = crystalh * CustomSurfaces[CustomSurfacesCount - 1][0];
-					CustomSurfaces[CustomSurfacesCount - 1][1] = crystalh * CustomSurfaces[CustomSurfacesCount - 1][1];
-					CustomSurfaces[CustomSurfacesCount - 1][2] = crystalh * CustomSurfaces[CustomSurfacesCount - 1][2];
-
-				}
-				else//h0l ok
-				{
-
-
-					CustomSurfaces[CustomSurfacesCount - 1][0] = ijk[1][1] * (ijk[0][2] / crystalh - ijk[2][2] / crystall) - ijk[1][2] * (ijk[0][1] / crystalh - ijk[2][1] / crystall);
-					CustomSurfaces[CustomSurfacesCount - 1][1] = -ijk[1][0] * (ijk[0][2] / crystalh - ijk[2][2] / crystall) + ijk[1][2] * (ijk[0][0] / crystalh - ijk[2][0] / crystall);
-					CustomSurfaces[CustomSurfacesCount - 1][2] = ijk[1][0] * (ijk[0][1] / crystalh - ijk[2][1] / crystall) - ijk[1][1] * (ijk[0][0] / crystalh - ijk[2][0] / crystall);
-
-					CustomSurfaces[CustomSurfacesCount - 1][0] = -crystalh * crystall*CustomSurfaces[CustomSurfacesCount - 1][0];
-					CustomSurfaces[CustomSurfacesCount - 1][1] = -crystalh * crystall*CustomSurfaces[CustomSurfacesCount - 1][1];
-					CustomSurfaces[CustomSurfacesCount - 1][2] = -crystalh * crystall*CustomSurfaces[CustomSurfacesCount - 1][2];
-
-
-				}
-			}
-			else
-			{
-				if (crystall == 0)//hk0 ok
-				{
-					CustomSurfaces[CustomSurfacesCount - 1][0] = ijk[2][1] * (ijk[0][2] / crystalh - ijk[1][2] / crystalk) - ijk[2][2] * (ijk[0][1] / crystalh - ijk[1][1] / crystalk);
-					CustomSurfaces[CustomSurfacesCount - 1][1] = -ijk[2][0] * (ijk[0][2] / crystalh - ijk[1][2] / crystalk) + ijk[2][2] * (ijk[0][0] / crystalh - ijk[1][0] / crystalk);
-					CustomSurfaces[CustomSurfacesCount - 1][2] = ijk[2][0] * (ijk[0][1] / crystalh - ijk[1][1] / crystalk) - ijk[2][1] * (ijk[0][0] / crystalh - ijk[1][0] / crystalk);
-
-					CustomSurfaces[CustomSurfacesCount - 1][0] = crystalk * crystalh*CustomSurfaces[CustomSurfacesCount - 1][0];
-					CustomSurfaces[CustomSurfacesCount - 1][1] = crystalk * crystalh*CustomSurfaces[CustomSurfacesCount - 1][1];
-					CustomSurfaces[CustomSurfacesCount - 1][2] = crystalk * crystalh*CustomSurfaces[CustomSurfacesCount - 1][2];
-				}
-				else//hkl
-				{
-					CustomSurfaces[CustomSurfacesCount - 1][0] = (ijk[0][1] / crystalh - ijk[2][1] / crystall) * (ijk[0][2] / crystalh - ijk[1][2] / crystalk) - (ijk[0][2] / crystalh - ijk[2][2] / crystall) * (ijk[0][1] / crystalh - ijk[1][1] / crystalk);
-					CustomSurfaces[CustomSurfacesCount - 1][1] = -(ijk[0][0] / crystalh - ijk[2][0] / crystall) * (ijk[0][2] / crystalh - ijk[1][2] / crystalk) + (ijk[0][2] / crystalh - ijk[2][2] / crystall) * (ijk[0][0] / crystalh - ijk[1][0] / crystalk);
-					CustomSurfaces[CustomSurfacesCount - 1][2] = (ijk[0][0] / crystalh - ijk[2][0] / crystall) * (ijk[0][1] / crystalh - ijk[1][1] / crystalk) - (ijk[0][1] / crystalh - ijk[2][1] / crystall) * (ijk[0][0] / crystalh - ijk[1][0] / crystalk);
-
-					CustomSurfaces[CustomSurfacesCount - 1][0] = -crystall * crystalk*crystalh*CustomSurfaces[CustomSurfacesCount - 1][0];
-					CustomSurfaces[CustomSurfacesCount - 1][1] = -crystall * crystalk*crystalh*CustomSurfaces[CustomSurfacesCount - 1][1];
-					CustomSurfaces[CustomSurfacesCount - 1][2] = -crystall * crystalk*crystalh*CustomSurfaces[CustomSurfacesCount - 1][2];
-
-				}
-			}
+			p1 = p1 * (1.f / crystalh);
 		}
+		jgn::vec3 p2 = vs.group[vs._isimulationBox].primitiveVec[1];
+		std::cout << p2 << std::endl;
+		if (crystalk == 0) {
+			p2 = p2 * crystalk;
+		}
+		else
+		{
+			p2 = p2 * (1.f / crystalk);
+		}
+		jgn::vec3 p3 = vs.group[vs._isimulationBox].primitiveVec[2];
+		std::cout << p3 << std::endl;
+		if (crystall == 0) {
+			p3 = p3 * crystall;
+		}
+		else
+		{
+			p3 = p3 * (1.f / crystall);
+		}
+		jgn::vec3 p12 = p2 - p1;
+		jgn::vec3 p13 = p3 - p1;
 
+		CustomSurfaces[CustomSurfacesCount - 1][0] = p12.y * p13.z - p12.z * p13.y;
+		CustomSurfaces[CustomSurfacesCount - 1][1] = p12.z * p13.x - p12.x * p13.z;
+		CustomSurfaces[CustomSurfacesCount - 1][2] = p12.x * p13.y - p12.y * p13.x;
 
+		//CustomSurfaces[CustomSurfacesCount - 1][0] = CustomSurfaces[CustomSurfacesCount - 1][0] * vs.group[vs._isimulationBox].primitiveVec[0].abs();
+		//CustomSurfaces[CustomSurfacesCount - 1][1] = CustomSurfaces[CustomSurfacesCount - 1][1] * vs.group[vs._isimulationBox].primitiveVec[1].abs();
+		//CustomSurfaces[CustomSurfacesCount - 1][2] = CustomSurfaces[CustomSurfacesCount - 1][2] * vs.group[vs._isimulationBox].primitiveVec[2].abs();
 
 		/*if (crystalh == 0)
 		{
@@ -3426,12 +3466,6 @@ void jgnCommands(LPTSTR ttt, int d)
 		CustomSurfaces[CustomSurfacesCount - 1][1] = CustomSurfaces[CustomSurfacesCount - 1][1] / sqrt(pow(helping1, 2) + pow(helping2, 2) + pow(helping3, 2));
 		CustomSurfaces[CustomSurfacesCount - 1][2] = CustomSurfaces[CustomSurfacesCount - 1][2] / sqrt(pow(helping1, 2) + pow(helping2, 2) + pow(helping3, 2));
 
-		//CustomSurfaces[CustomSurfacesCount - 1][0] = crystalh;
-		//CustomSurfaces[CustomSurfacesCount - 1][1] = crystalk;
-		//CustomSurfaces[CustomSurfacesCount - 1][2] = crystall;
-		//CustomSurfaces[CustomSurfacesCount - 1][3] = 10;
-
-#if defined(JGN_NO_CMD_HISTORY)
 		help += 2;
 		isngtv = 0;
 
@@ -3473,7 +3507,6 @@ void jgnCommands(LPTSTR ttt, int d)
 		}
 		help += 2;
 		isngtv = 0;
-#endif
 
 		if (okrender == 0)
 		{
@@ -3971,16 +4004,8 @@ void jgnCommands(LPTSTR ttt, int d)
 		okrender = 1;
 		//vs = vs.original;
 
-		for (int g = 0; g < vs.N_groups; g++)
-		{
-			for (int i = 0; i < vs.group[g].N_atoms; i++)
-			{
-				vs.group[g].position[i] = vs.original->group[g].position[i];
-				vs.group[g].type[i] = vs.original->group[g].type[i];
-				vs.group[g].color[i] = vs.original->group[g].color[i];
-			}
-		}
-		vs.updateinfo();
+		jgnCommands(L"supercell(1,1,1)", 1);
+		jgnCommands(L"clean", 1);
 		
 
 		goto peintit;
@@ -4148,27 +4173,32 @@ void jgnCommands(LPTSTR ttt, int d)
 		//TODO:reduce the indexes
 		//now we have    h k l
 		jgn::vec3* vpr = vs.group[vs._isimulationBox].primitiveVec;//primitive vectors
+		jgn::vec3 hkl = jgn::vec3(h, k, l);
+		jgn::vec3* m = jgn::millerP2V(&hkl, vpr);
 		v0.x = 0;
 		v0.y = 0;
 		v0.z = 0;
+		std::cout << hkl << std::endl;
+		std::cout << m->x << " , " << m->y << " , " << m->z << std::endl;
 		if (h != 0)
 		{
-			v0.x += vpr[0].x / h;
-			v0.y += vpr[0].y / h;
-			v0.z += vpr[0].z / h;
+			v0.x += vpr[0].x / m->x;
+			v0.y += vpr[0].y / m->x;
+			v0.z += vpr[0].z / m->x;
 		}
 		if (k != 0)
 		{
-			v0.x += vpr[1].x / k;
-			v0.y += vpr[1].y / k;
-			v0.z += vpr[1].z / k;
+			v0.x += vpr[1].x / m->y;
+			v0.y += vpr[1].y / m->y;
+			v0.z += vpr[1].z / m->y;
 		}
 		if (l != 0)
 		{
-			v0.x += vpr[2].x / l;
-			v0.y += vpr[2].y / l;
-			v0.z += vpr[2].z / l;
+			v0.x += vpr[2].x / m->z;
+			v0.y += vpr[2].y / m->z;
+			v0.z += vpr[2].z / m->z;
 		}
+		//std::cout << v0 << std::endl;
 		//now we have v0
 		vr.x = v0.y;
 		vr.y = -v0.x;
@@ -4199,7 +4229,9 @@ void jgnCommands(LPTSTR ttt, int d)
 			{//for every atom
 				//create the quartenion
 				//first center the bulk at the origin
-				vs.group[g].position[i] = vs.group[g].position[i].translate(v0 * (-5));
+				vs.group[g].position[i] = vs.group[g].position[i].translate(vpr[0] * (-0.5));
+				vs.group[g].position[i] = vs.group[g].position[i].translate(vpr[1] * (-0.5));
+				vs.group[g].position[i] = vs.group[g].position[i].translate(vpr[2] * (-0.5));
 				atomq.a = 0;
 				atomq.b = vs.group[g].position[i].x;
 				atomq.c = vs.group[g].position[i].y;
@@ -4295,6 +4327,9 @@ void jgnCommands(LPTSTR ttt, int d)
 		fvpr[0] = fvpr[0] * lcmkl;
 		fvpr[1] = fvpr[1] * lcmkl;
 		fvpr[2] = fvpr[2] * lcmkl;
+		sized[0] = 1;
+		sized[1] = 1;
+		sized[2] = 1;
 
 		//the primitive vectors are ready... put them in the vs.group[...
 		vs.group[vs._isimulationBox].primitiveVec[2].x = fvpr[0].b;
@@ -4311,6 +4346,37 @@ void jgnCommands(LPTSTR ttt, int d)
 
 		vs._updateSimulationBox();
 		//cut every atom outside of the unit cell
+		//x
+		jgn::string tocut = "plane(";
+		char *buf = new char[100];
+		tocut += "1,0,0,";
+		itoa((int)(vs.group[vs._isimulationBox].primitiveVec[0].abs() - 0.5), buf, 10);
+		tocut += buf;
+		tocut += ')';
+		jgnCommands(jgn::string2LPTSTR(tocut), 0);
+		//-x
+		tocut = "plane(-1,0,0,1)";
+		jgnCommands(jgn::string2LPTSTR(tocut), 0);
+		//y
+		tocut = "plane(";
+		tocut += "0,1,0,";
+		itoa((int)(vs.group[vs._isimulationBox].primitiveVec[1].abs() - 0.5), buf, 10);
+		tocut += buf;
+		tocut += ')';
+		jgnCommands(jgn::string2LPTSTR(tocut), 0);
+		//-y
+		tocut = "plane(0,-1,0,1)";
+		jgnCommands(jgn::string2LPTSTR(tocut), 0);
+		//z
+		tocut = "plane(";
+		tocut += "0,0,1,";
+		itoa((int)(vs.group[vs._isimulationBox].primitiveVec[2].abs() - 0.5), buf, 10);
+		tocut += buf;
+		tocut += ')';
+		jgnCommands(jgn::string2LPTSTR(tocut), 0);
+		//-z
+		tocut = "plane(0,0,-1,1)";
+		jgnCommands(jgn::string2LPTSTR(tocut), 0);
 
 
 		goto peintit;

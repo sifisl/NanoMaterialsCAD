@@ -314,6 +314,22 @@ namespace jgn
 #else
 		;
 #endif// JGN_SOURCE_CPP
+
+	///////////////////////////////////////////////////////////////////////string to LPTSTR
+	LPTSTR string2LPTSTR(jgn::string str)
+#ifdef JGN_SOURCE_CPP
+	{
+		LPTSTR out = new TCHAR[100];
+		for (int i = 0; i < str.size(); i++)
+		{
+			out[i] = str.c_str()[i];
+		}
+		return out;
+	}
+#else
+		;
+#endif// JGN_SOURCE_CPP
+
 	///////////////////////////////////////////////////////////////////////just a vec2
 	class vec2
 	{
@@ -439,6 +455,234 @@ namespace jgn
 		;
 #endif// JGN_SOURCE_CPP
 
+	/////////////////////////////////////////////////////////////////////////////Miller notation plane to vector
+	jgn::vec3* millerP2V(const jgn::vec3 *hkl /*(h,k,l)*/, const jgn::vec3 *prvec /*primitive vectors*/)
+#ifdef JGN_SOURCE_CPP
+	{
+		/*std::cout << hkl->x << std::endl;
+		std::cout << hkl->y << std::endl;
+		std::cout << hkl->z << std::endl;
+		std::cout << prvec[0].x << std::endl;
+		std::cout << prvec[0].y << std::endl;
+		std::cout << prvec[0].z << std::endl;
+		std::cout << prvec[1].x << std::endl;
+		std::cout << prvec[1].y << std::endl;
+		std::cout << prvec[1].z << std::endl;
+		std::cout << prvec[2].x << std::endl;
+		std::cout << prvec[2].y << std::endl;
+		std::cout << prvec[2].z << std::endl;*/
+		jgn::vec3* out = new jgn::vec3;
+		if (hkl->x == 0)
+		{
+			if (hkl->y == 0)
+			{
+				if (hkl->z == 0)//000 ok
+				{
+					*out = jgn::vec3(0, 0, 0);
+				}
+				else//00l ok
+				{
+					//CustomSurfaces[CustomSurfacesCount - 1][0] = vs.group[vs._isimulationBox].primitiveVec[0].y * vs.group[vs._isimulationBox].primitiveVec[1].z - vs.group[vs._isimulationBox].primitiveVec[0].z * vs.group[vs._isimulationBox].primitiveVec[1].y;
+					out->x = prvec[0].y*prvec[1].z - prvec[0].z*prvec[1].y;
+					//CustomSurfaces[CustomSurfacesCount - 1][1] = -vs.group[vs._isimulationBox].primitiveVec[0].x * vs.group[vs._isimulationBox].primitiveVec[1].z + vs.group[vs._isimulationBox].primitiveVec[0].z * vs.group[vs._isimulationBox].primitiveVec[1].x;
+					out->y = -prvec[0].x*prvec[1].z + prvec[0].z*prvec[1].x;
+					//CustomSurfaces[CustomSurfacesCount - 1][2] = vs.group[vs._isimulationBox].primitiveVec[0].x * vs.group[vs._isimulationBox].primitiveVec[1].y - vs.group[vs._isimulationBox].primitiveVec[0].y * vs.group[vs._isimulationBox].primitiveVec[1].x;
+					out->z = prvec[0].x*prvec[1].y - prvec[0].y*prvec[1].x;
+
+					//CustomSurfaces[CustomSurfacesCount - 1][0] = crystall * CustomSurfaces[CustomSurfacesCount - 1][0];
+					out->x = hkl->z*out->x;
+					//CustomSurfaces[CustomSurfacesCount - 1][1] = crystall * CustomSurfaces[CustomSurfacesCount - 1][1];
+					out->y = hkl->z*out->y;
+					//CustomSurfaces[CustomSurfacesCount - 1][2] = crystall * CustomSurfaces[CustomSurfacesCount - 1][2];
+					out->z = hkl->z*out->z;
+				}
+			}
+			else
+			{
+				if (hkl->z == 0)//0k0 ok
+				{
+					//CustomSurfaces[CustomSurfacesCount - 1][0] = -vs.group[vs._isimulationBox].primitiveVec[0].y * vs.group[vs._isimulationBox].primitiveVec[2].z + vs.group[vs._isimulationBox].primitiveVec[0].z * vs.group[vs._isimulationBox].primitiveVec[2].y;
+					out->x = -prvec[0].y*prvec[2].z + prvec[0].z*prvec[2].z;
+					//CustomSurfaces[CustomSurfacesCount - 1][1] = vs.group[vs._isimulationBox].primitiveVec[0].x * vs.group[vs._isimulationBox].primitiveVec[2].z - vs.group[vs._isimulationBox].primitiveVec[0].z * vs.group[vs._isimulationBox].primitiveVec[2].x;
+					out->y = prvec[0].x*prvec[2].z - prvec[0].z*prvec[2].x;
+					//CustomSurfaces[CustomSurfacesCount - 1][2] = -vs.group[vs._isimulationBox].primitiveVec[0].x * vs.group[vs._isimulationBox].primitiveVec[2].y + vs.group[vs._isimulationBox].primitiveVec[0].y * vs.group[vs._isimulationBox].primitiveVec[2].x;
+					out->z = -prvec[0].x*prvec[2].y + prvec[0].y*prvec[2].x;
+
+					//CustomSurfaces[CustomSurfacesCount - 1][0] = crystalk * CustomSurfaces[CustomSurfacesCount - 1][0];
+					out->x = hkl->y*out->x;
+					//CustomSurfaces[CustomSurfacesCount - 1][1] = crystalk * CustomSurfaces[CustomSurfacesCount - 1][1];
+					out->y = hkl->y*out->y;
+					//CustomSurfaces[CustomSurfacesCount - 1][2] = crystalk * CustomSurfaces[CustomSurfacesCount - 1][2];
+					out->z = hkl->y*out->z;
+				}
+				else//0kl ok
+				{
+					//CustomSurfaces[CustomSurfacesCount - 1][0] = vs.group[vs._isimulationBox].primitiveVec[0].y * (vs.group[vs._isimulationBox].primitiveVec[1].z / crystalk - vs.group[vs._isimulationBox].primitiveVec[2].z / crystall) - vs.group[vs._isimulationBox].primitiveVec[0].z * (vs.group[vs._isimulationBox].primitiveVec[1].y / crystalk - vs.group[vs._isimulationBox].primitiveVec[2].y / crystall);
+					out->x = prvec[0].y * (prvec[1].z / hkl->y - prvec[2].z / hkl->z) - prvec[0].z * (prvec[1].y / hkl->y - prvec[2].y / hkl->z);
+					//CustomSurfaces[CustomSurfacesCount - 1][1] = -vs.group[vs._isimulationBox].primitiveVec[0].x * (vs.group[vs._isimulationBox].primitiveVec[1].z / crystalk - vs.group[vs._isimulationBox].primitiveVec[2].z / crystall) + vs.group[vs._isimulationBox].primitiveVec[0].z * (vs.group[vs._isimulationBox].primitiveVec[1].x / crystalk - vs.group[vs._isimulationBox].primitiveVec[2].x / crystall);
+					out->y = -prvec[0].x * (prvec[1].z / hkl->y - prvec[2].z / hkl->z) + prvec[0].z * (prvec[1].x / hkl->y - prvec[2].x / hkl->z);
+					//CustomSurfaces[CustomSurfacesCount - 1][2] = vs.group[vs._isimulationBox].primitiveVec[0].x * (vs.group[vs._isimulationBox].primitiveVec[1].y / crystalk - vs.group[vs._isimulationBox].primitiveVec[2].y / crystall) - vs.group[vs._isimulationBox].primitiveVec[0].y * (vs.group[vs._isimulationBox].primitiveVec[1].x / crystalk - vs.group[vs._isimulationBox].primitiveVec[2].x / crystall);
+					out->z = prvec[0].x * (prvec[1].y / hkl->y - prvec[2].y / hkl->z) - prvec[0].y * (prvec[1].x / hkl->y - prvec[2].x / hkl->z);
+
+
+					//CustomSurfaces[CustomSurfacesCount - 1][0] = crystalk * crystall*CustomSurfaces[CustomSurfacesCount - 1][0];
+					//CustomSurfaces[CustomSurfacesCount - 1][1] = crystalk * crystall*CustomSurfaces[CustomSurfacesCount - 1][1];
+					//CustomSurfaces[CustomSurfacesCount - 1][2] = crystalk * crystall*CustomSurfaces[CustomSurfacesCount - 1][2];
+					out->x = hkl->y*hkl->z*out->x;
+					out->y = hkl->y*hkl->z*out->y;
+					out->z = hkl->y*hkl->z*out->z;
+				}
+			}
+		}
+		else
+		{
+			if (hkl->y == 0)
+			{
+				if (crystall == 0)//h00 ok
+				{
+					//CustomSurfaces[CustomSurfacesCount - 1][0] = vs.group[vs._isimulationBox].primitiveVec[1].y * vs.group[vs._isimulationBox].primitiveVec[2].z - vs.group[vs._isimulationBox].primitiveVec[1].z * vs.group[vs._isimulationBox].primitiveVec[2].y;
+					out->x = prvec[1].y*prvec[2].z - prvec[1].z*prvec[2].y;
+					//CustomSurfaces[CustomSurfacesCount - 1][1] = -vs.group[vs._isimulationBox].primitiveVec[1].x * vs.group[vs._isimulationBox].primitiveVec[2].z + vs.group[vs._isimulationBox].primitiveVec[1].z * vs.group[vs._isimulationBox].primitiveVec[2].x;
+					out->y = -prvec[1].x*prvec[2].z + prvec[1].z*prvec[2].x;
+					//CustomSurfaces[CustomSurfacesCount - 1][2] = vs.group[vs._isimulationBox].primitiveVec[1].x * vs.group[vs._isimulationBox].primitiveVec[2].y - vs.group[vs._isimulationBox].primitiveVec[1].y * vs.group[vs._isimulationBox].primitiveVec[2].x;
+					out->z = prvec[1].x*prvec[2].y - prvec[1].y*prvec[2].x;
+
+					//CustomSurfaces[CustomSurfacesCount - 1][0] = crystalh * CustomSurfaces[CustomSurfacesCount - 1][0];
+					out->x = hkl->x*out->x;
+					//CustomSurfaces[CustomSurfacesCount - 1][1] = crystalh * CustomSurfaces[CustomSurfacesCount - 1][1];
+					out->y = hkl->x*out->y;
+					//CustomSurfaces[CustomSurfacesCount - 1][2] = crystalh * CustomSurfaces[CustomSurfacesCount - 1][2];
+					out->z = hkl->x*out->z;
+
+				}
+				else//h0l ok
+				{
+
+
+					//CustomSurfaces[CustomSurfacesCount - 1][0] = vs.group[vs._isimulationBox].primitiveVec[1].y * (vs.group[vs._isimulationBox].primitiveVec[0].z / crystalh - vs.group[vs._isimulationBox].primitiveVec[2].z / crystall) - vs.group[vs._isimulationBox].primitiveVec[1].z * (vs.group[vs._isimulationBox].primitiveVec[0].y / crystalh - vs.group[vs._isimulationBox].primitiveVec[2].y / crystall);
+					out->x = prvec[1].y * (prvec[0].z / hkl->x - prvec[2].z / hkl->z) - prvec[1].z * (prvec[0].y / hkl->x - prvec[2].y / hkl->z);
+					//CustomSurfaces[CustomSurfacesCount - 1][1] = -vs.group[vs._isimulationBox].primitiveVec[1].x * (vs.group[vs._isimulationBox].primitiveVec[0].z / crystalh - vs.group[vs._isimulationBox].primitiveVec[2].z / crystall) + vs.group[vs._isimulationBox].primitiveVec[1].z * (vs.group[vs._isimulationBox].primitiveVec[0].x / crystalh - vs.group[vs._isimulationBox].primitiveVec[2].x / crystall);
+					out->y = -prvec[1].x * (prvec[0].z / hkl->x - prvec[2].z / hkl->z) + prvec[1].z * (prvec[0].x / hkl->x - prvec[2].x / hkl->z);
+					//CustomSurfaces[CustomSurfacesCount - 1][2] = vs.group[vs._isimulationBox].primitiveVec[1].x * (vs.group[vs._isimulationBox].primitiveVec[0].y / crystalh - vs.group[vs._isimulationBox].primitiveVec[2].y / crystall) - vs.group[vs._isimulationBox].primitiveVec[1].y * (vs.group[vs._isimulationBox].primitiveVec[0].x / crystalh - vs.group[vs._isimulationBox].primitiveVec[2].x / crystall);
+					out->z = prvec[1].x * (prvec[0].y / hkl->x - prvec[2].y / hkl->z) - prvec[1].y * (prvec[0].x / hkl->x - prvec[2].x / hkl->z);
+
+					//CustomSurfaces[CustomSurfacesCount - 1][0] = -crystalh * crystall*CustomSurfaces[CustomSurfacesCount - 1][0];
+					//CustomSurfaces[CustomSurfacesCount - 1][1] = -crystalh * crystall*CustomSurfaces[CustomSurfacesCount - 1][1];
+					//CustomSurfaces[CustomSurfacesCount - 1][2] = -crystalh * crystall*CustomSurfaces[CustomSurfacesCount - 1][2];
+					out->x = hkl->x*hkl->z*out->x;
+					out->y = hkl->x*hkl->z*out->y;
+					out->z = hkl->x*hkl->z*out->z;
+
+
+				}
+			}
+			else
+			{
+				if (hkl->z == 0)//hk0 ok
+				{
+					//CustomSurfaces[CustomSurfacesCount - 1][0] = vs.group[vs._isimulationBox].primitiveVec[2].y * (vs.group[vs._isimulationBox].primitiveVec[0].z / crystalh - vs.group[vs._isimulationBox].primitiveVec[1].z / crystalk) - vs.group[vs._isimulationBox].primitiveVec[2].z * (vs.group[vs._isimulationBox].primitiveVec[0].y / crystalh - vs.group[vs._isimulationBox].primitiveVec[1].y / crystalk);
+					out->x = prvec[2].y * (prvec[0].z / hkl->x - prvec[1].z / hkl->y) - prvec[2].z * (prvec[0].y / hkl->x - prvec[1].y / hkl->y);
+					//CustomSurfaces[CustomSurfacesCount - 1][1] = -vs.group[vs._isimulationBox].primitiveVec[2].x * (vs.group[vs._isimulationBox].primitiveVec[0].z / crystalh - vs.group[vs._isimulationBox].primitiveVec[1].z / crystalk) + vs.group[vs._isimulationBox].primitiveVec[2].z * (vs.group[vs._isimulationBox].primitiveVec[0].x / crystalh - vs.group[vs._isimulationBox].primitiveVec[1].x / crystalk);
+					out->y = -prvec[2].x * (prvec[0].z / hkl->x - prvec[1].z / hkl->y) + prvec[2].z * (prvec[0].x / hkl->x - prvec[1].x / hkl->y);
+					//CustomSurfaces[CustomSurfacesCount - 1][2] = vs.group[vs._isimulationBox].primitiveVec[2].x * (vs.group[vs._isimulationBox].primitiveVec[0].y / crystalh - vs.group[vs._isimulationBox].primitiveVec[1].y / crystalk) - vs.group[vs._isimulationBox].primitiveVec[2].y * (vs.group[vs._isimulationBox].primitiveVec[0].x / crystalh - vs.group[vs._isimulationBox].primitiveVec[1].x / crystalk);
+					out->z = prvec[2].x * (prvec[0].y / hkl->x - prvec[1].y / hkl->y) - prvec[2].y * (prvec[0].x / hkl->x - prvec[1].x / hkl->y);
+
+					//CustomSurfaces[CustomSurfacesCount - 1][0] = crystalk * crystalh*CustomSurfaces[CustomSurfacesCount - 1][0];
+					//CustomSurfaces[CustomSurfacesCount - 1][1] = crystalk * crystalh*CustomSurfaces[CustomSurfacesCount - 1][1];
+					//CustomSurfaces[CustomSurfacesCount - 1][2] = crystalk * crystalh*CustomSurfaces[CustomSurfacesCount - 1][2];
+					out->x = hkl->x*hkl->y*out->x;
+					out->y = hkl->x*hkl->y*out->y;
+					out->z = hkl->x*hkl->y*out->z;
+				}
+				else//hkl
+				{
+					//CustomSurfaces[CustomSurfacesCount - 1][0] = (vs.group[vs._isimulationBox].primitiveVec[0].y / crystalh - vs.group[vs._isimulationBox].primitiveVec[2].y / crystall) * (vs.group[vs._isimulationBox].primitiveVec[0].z / crystalh - vs.group[vs._isimulationBox].primitiveVec[1].z / crystalk) - (vs.group[vs._isimulationBox].primitiveVec[0].z / crystalh - vs.group[vs._isimulationBox].primitiveVec[2].z / crystall) * (vs.group[vs._isimulationBox].primitiveVec[0].y / crystalh - vs.group[vs._isimulationBox].primitiveVec[1].y / crystalk);
+					out->x = (prvec[0].y / hkl->x - prvec[2].y / hkl->z) * (prvec[0].z / hkl->x - prvec[1].z / hkl->y) - (prvec[0].z / hkl->x - prvec[2].z / hkl->z) * (prvec[0].y / hkl->x - prvec[1].y / hkl->y);
+					//CustomSurfaces[CustomSurfacesCount - 1][1] = -(vs.group[vs._isimulationBox].primitiveVec[0].x / crystalh - vs.group[vs._isimulationBox].primitiveVec[2].x / crystall) * (vs.group[vs._isimulationBox].primitiveVec[0].z / crystalh - vs.group[vs._isimulationBox].primitiveVec[1].z / crystalk) + (vs.group[vs._isimulationBox].primitiveVec[0].z / crystalh - vs.group[vs._isimulationBox].primitiveVec[2].z / crystall) * (vs.group[vs._isimulationBox].primitiveVec[0].x / crystalh - vs.group[vs._isimulationBox].primitiveVec[1].x / crystalk);
+					out->y = -(prvec[0].x / hkl->x - prvec[2].x / hkl->z) * (prvec[0].z / hkl->x - prvec[1].z / hkl->y) + (prvec[0].z / hkl->x - prvec[2].z / hkl->z) * (prvec[0].x / hkl->x - prvec[1].x / hkl->y);
+					//CustomSurfaces[CustomSurfacesCount - 1][2] = (vs.group[vs._isimulationBox].primitiveVec[0].x / crystalh - vs.group[vs._isimulationBox].primitiveVec[2].x / crystall) * (vs.group[vs._isimulationBox].primitiveVec[0].y / crystalh - vs.group[vs._isimulationBox].primitiveVec[1].y / crystalk) - (vs.group[vs._isimulationBox].primitiveVec[0].y / crystalh - vs.group[vs._isimulationBox].primitiveVec[2].y / crystall) * (vs.group[vs._isimulationBox].primitiveVec[0].x / crystalh - vs.group[vs._isimulationBox].primitiveVec[1].x / crystalk);
+					out->z = (prvec[0].x / hkl->x - prvec[2].x / hkl->z) * (prvec[0].y / hkl->x - prvec[1].y / hkl->y) - (prvec[0].y / hkl->x - prvec[2].y / hkl->z) * (prvec[0].x / hkl->x - prvec[1].x / hkl->y);
+
+					//CustomSurfaces[CustomSurfacesCount - 1][0] = -crystall * crystalk*crystalh*CustomSurfaces[CustomSurfacesCount - 1][0];
+					//CustomSurfaces[CustomSurfacesCount - 1][1] = -crystall * crystalk*crystalh*CustomSurfaces[CustomSurfacesCount - 1][1];
+					//CustomSurfaces[CustomSurfacesCount - 1][2] = -crystall * crystalk*crystalh*CustomSurfaces[CustomSurfacesCount - 1][2];
+					out->x = -hkl->x*hkl->y*hkl->z*out->x;
+					out->y = -hkl->x*hkl->y*hkl->z*out->y;
+					out->z = -hkl->x*hkl->y*hkl->z*out->z;
+
+				}
+			}
+		}
+		float abs = out->abs();
+		if (abs != 0)
+		{
+			out->x = out->x / abs;
+			out->y = out->y / abs;
+			out->z = out->z / abs;
+		}
+		std::cout << out->x << " , " << out->y << " , " << out->z << std::endl;
+
+		//float m = 0;
+		//if (out->x == out->y) {
+		//	if (out->x == out->z) {//x==y==z
+		//		m = 1;
+		//		if (out->x != 0)
+		//			m *= (1 / out->x);
+		//		out->x = out->x*m;
+		//		out->y = out->y*m;
+		//		out->z = out->z*m;
+		//	}
+		//	else {//x==y
+		//		m = 1;
+		//		if (out->x != 0)
+		//			m *= (1 / out->x);
+		//		if (out->z != 0)
+		//			m *= (1 / out->z);
+		//		out->x = out->x*m;
+		//		out->y = out->y*m;
+		//		out->z = out->z*m;
+		//	}
+		//}
+		//else {
+		//	if (out->x == out->z) {//x==z
+		//		m = 1;
+		//		if (out->x != 0)
+		//			m *= (1 / out->x);
+		//		if (out->y != 0)
+		//			m *= (1 / out->y);
+		//		out->x = out->x*m;
+		//		out->y = out->y*m;
+		//		out->z = out->z*m;
+		//	}
+		//	else if (out->y == out->z) {//y==z
+		//		m = 1;
+		//		if (out->x != 0)
+		//			m *= (1 / out->x);
+		//		if (out->z != 0)
+		//			m *= (1 / out->z);
+		//		out->x = out->x*m;
+		//		out->y = out->y*m;
+		//		out->z = out->z*m;
+		//	}
+		//	else {//
+		//		m = 1;
+		//		if (out->x != 0)
+		//			m *= (1 / out->x);
+		//		if (out->y != 0)
+		//			m *= (1 / out->y);
+		//		if (out->z != 0)
+		//			m *= (1 / out->z);
+		//		out->x = out->x*m;
+		//		out->y = out->y*m;
+		//		out->z = out->z*m;
+		//	}
+		//}
+		
+		return out;
+	}
+#else
+		;
+#endif// JGN_SOURCE_CPP
 	/////////////////////////////////////////////////////////////////////////////xproduct and dotproduct of 2 jgn::vec3
 	jgn::vec3 xproduct(jgn::vec3 v1, jgn::vec3 v2)
 #ifdef JGN_SOURCE_CPP
@@ -612,7 +856,7 @@ bool operator==(const jgn::vec2& v1, const jgn::vec2& v2)
 ;
 #endif// JGN_SOURCE_CPP
 
-jgn::vec3 operator/(const jgn::vec3& v, const int& i)
+jgn::vec3 operator/(const jgn::vec3& v, const float& i)
 #ifdef JGN_SOURCE_CPP
 
 {
@@ -626,7 +870,7 @@ jgn::vec3 operator/(const jgn::vec3& v, const int& i)
 ;
 #endif// JGN_SOURCE_CPP
 
-jgn::vec3 operator*(const jgn::vec3& v, const int& i)
+jgn::vec3 operator*(const jgn::vec3& v, const float& i)
 #ifdef JGN_SOURCE_CPP
 
 {

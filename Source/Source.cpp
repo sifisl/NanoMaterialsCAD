@@ -321,7 +321,6 @@ void display1(void)//generates the graphics output.
 	//glRotatef(theta[0], cos((pi*theta[1]) / 180), 0.0, sin((pi*theta[1]) / 180));
 	menu.draw();
 
-
 	glRotatef(theta[0], 1.0, 0.0, 0.0);
 	glRotatef(theta[1], 0.0, 0.0, 1.0);
 

@@ -283,6 +283,7 @@ void VSystem::unsellectAll()
 
 void VSystem::draw()
 {
+
 	//Draw atoms
 	glEnable(GL_LIGHTING);
 	glDisable(GL_TEXTURE_2D);

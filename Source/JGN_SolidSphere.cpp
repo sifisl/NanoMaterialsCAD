@@ -88,7 +88,7 @@ void JGN_SolidSphere(float radius, int numStacks, int numSides)
 	glVertexPointer(3, GL_FLOAT, 0, &points[1]);
 	glNormalPointer(GL_FLOAT, 0, &points[1]);
 
-	glDrawElements(GL_QUAD_STRIP, (numStacks - 2)*numSides * 4, GL_UNSIGNED_INT, &quads_indices[0]);
+	glDrawElements(GL_QUAD_STRIP, ((numStacks - 2)*numSides * 4)/4.0, GL_UNSIGNED_INT, &quads_indices[0]);
 	/*int vertIndex;
 	for (int curStack = 0; curStack < numStacks - 2; curStack++)
 	{
@@ -133,7 +133,7 @@ void JGN_SolidSphere(float radius, int numStacks, int numSides)
 	glNormalPointer(GL_FLOAT, 0, &points[numVerts - numSides]);
 
 	triangles_indices[numSides + 1] = 1;
-	glDrawElements(GL_TRIANGLE_FAN, numSides + 2, GL_UNSIGNED_INT, triangles_indices);
+	//glDrawElements(GL_TRIANGLE_FAN, numSides + 2, GL_UNSIGNED_INT, triangles_indices);
 	triangles_indices[numSides + 1] = numSides + 1;
 	//points[numVerts - numSides] = backup;
 

@@ -3,6 +3,7 @@
 //add inverse cut to options (ctrl+v)
 //CuO tetragonal plane(1,1,1,0) doesn't work properly
 //reduce the (hkl) indexes in the "facet(" command
+//add floats to "plane function
 #include <omp.h>
 #define JGN_SOURCE_CPP
 #include "stdafx.h"
@@ -321,8 +322,8 @@ void display1(void)//generates the graphics output.
 	menu.draw();
 
 
-		glRotatef(theta[0], 1.0, 0.0, 0.0);
-		glRotatef(theta[1], 0.0, 0.0, 1.0);
+	glRotatef(theta[0], 1.0, 0.0, 0.0);
+	glRotatef(theta[1], 0.0, 0.0, 1.0);
 
 	glTranslatef(model_translate[0], model_translate[1], model_translate[2]);
 	if (perspective_on)
@@ -334,16 +335,6 @@ void display1(void)//generates the graphics output.
 
 		}
 	}
-	//if (mouse_check == 1 ) {
-	//	glRotatef(sqrt(theta[1] * theta[1] + theta[0] * theta[0]), theta[0] - theta_pr[0], theta[1] - theta_pr[1], 0.0);
-	//}
-	//cout << theta[0] - theta_pr[0] << " " << theta[1] - theta_pr[1] << "\n";
-	//theta_pr[0] = theta[0];
-	//theta_pr[1] = theta[1];
-
-	//glRotatef(theta[0], cos((pi*theta[1])/180), sin((pi*theta[1])/180)*cos((pi*theta[0])/180), sin((pi*theta[0])/180)*sin((pi*theta[1])/180));
-	//glRotatef(theta[1], sin((pi*theta[0]) / 180)*sin((pi*theta[1]) / 180), cos((pi*theta[0])/180), -sin((pi*theta[0])/180)*cos((pi*theta[1]) / 180));
-
 
 		ball_atoms = 0;
 
@@ -624,88 +615,7 @@ void display1(void)//generates the graphics output.
 		write::character(Angstrom);
 
 	}
-	/*else if (jgn_supercell)
-	{
-	glLoadIdentity();
 
-	glColor3f(0, 0, 0);
-
-	glTranslatef(dipleft, 0.8, 0);
-	glScalef(1.0 / 1000.0,
-	1.0 / 1000.0,
-	1.0 / 1000.0);
-
-	glLineWidth(2);
-	glutStrokeCharacter(GLUT_STROKE_ROMAN, 'a');
-	glutStrokeCharacter(GLUT_STROKE_ROMAN, '1');
-	glutStrokeCharacter(GLUT_STROKE_ROMAN, ' ');
-
-	itoa(jgn_supercell_xyz[0], s1itoa, 10);
-
-	for (Scounter = 0; Scounter < 5; Scounter++)
-	{
-
-	glutStrokeCharacter(GLUT_STROKE_ROMAN, s1itoa[Scounter]);
-	if (s1itoa[Scounter] == '\0')
-	{
-	break;
-	}
-	}
-
-	glLoadIdentity();
-
-	glColor3f(0, 0, 0);
-
-
-
-	glTranslatef(dipleft, 0.6, 0);
-	glScalef(1.0 / 1000.0,
-	1.0 / 1000.0,
-	1.0 / 1000.0);
-
-	glLineWidth(2);
-	glutStrokeCharacter(GLUT_STROKE_ROMAN, 'a');
-	glutStrokeCharacter(GLUT_STROKE_ROMAN, '2');
-	glutStrokeCharacter(GLUT_STROKE_ROMAN, ' ');
-
-	itoa(jgn_supercell_xyz[1], s1itoa, 10);
-
-	for (Scounter = 0; Scounter < 5; Scounter++)
-	{
-
-	glutStrokeCharacter(GLUT_STROKE_ROMAN, s1itoa[Scounter]);
-	if (s1itoa[Scounter] == '\0')
-	{
-	break;
-	}
-	}
-
-	glLoadIdentity();
-
-
-	glTranslatef(dipleft, 0.4, 0);
-	glScalef(1.0 / 1000.0,
-	1.0 / 1000.0,
-	1.0 / 1000.0);
-
-	glColor3f(0, 0, 0);
-	glLineWidth(2);
-	glutStrokeCharacter(GLUT_STROKE_ROMAN, 'a');
-	glutStrokeCharacter(GLUT_STROKE_ROMAN, '3');
-	glutStrokeCharacter(GLUT_STROKE_ROMAN, ' ');
-
-	itoa(jgn_supercell_xyz[2], s1itoa, 10);
-
-	for (Scounter = 0; Scounter < 5; Scounter++)
-	{
-
-	glutStrokeCharacter(GLUT_STROKE_ROMAN, s1itoa[Scounter]);
-	if (s1itoa[Scounter] == '\0')
-	{
-	break;
-	}
-	}
-	}*/
 	else if (CustomSurfacesOn)
 	{
 

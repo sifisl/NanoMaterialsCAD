@@ -555,6 +555,8 @@ bool VSystem::Grouplist::checkhoverstatus(const jgn::vec2 m)
 
 void VSystem::_drawatoms()
 {
+
+
 	for (int g = 0; g < this->N_groups; g++)
 	{
 		for (int i = 0; i < this->group[g].N_atoms; i++)
@@ -599,20 +601,29 @@ void VSystem::_drawatoms()
 					glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
 					glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_deffuse);
 
+
+
+
 					glTranslatefvec3(this->group[g].position[i]);
+					glRotatef(-theta[1], 0.0, 0, 1);
+					glRotatef(-theta[0], 1.0, 0.0, 0.0);
+					glRotatef(90, 1.0, 0.0, 0.0);
 					JGN_SolidSphere(this->group[g].radius[i] / (Svmax + 5), sphStacks, sphSides);
+					glRotatef(-90, 1.0, 0.0, 0.0);
+					glRotatef(theta[0], 1.0, 0.0, 0.0);
+					glRotatef(theta[1], 0.0, 0, 1);
 					glTranslatefvec3(-this->group[g].position[i]);
 				}
 		}
 	}
 
-	if (CustomSurfacesCount > 0)
+	/*if (CustomSurfacesCount > 0)
 	{
 		glBegin(GL_LINES);
 		glVertex3f(0, 0, 0);
 		glVertex3f(CustomSurfaces[CustomSurfacesCount - 1][0] / (Svmax + 5) * 100, CustomSurfaces[CustomSurfacesCount - 1][1] / (Svmax + 5) * 100, CustomSurfaces[CustomSurfacesCount - 1][2] / (Svmax + 5) * 100);
 		glEnd();
-	}
+	}*/
 }
 
 void VSystem::_drawDistanceToolLine()

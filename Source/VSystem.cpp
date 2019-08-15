@@ -206,7 +206,7 @@ jgn::vec2 VSystem::_hoveringAnatom(const jgn::vec2 m)
 	{
 		for (int i = 0; i < vs.group[g].N_atoms; i++)
 		{
-			if (!vs.group[g].isdeleted[i])
+			if (!vs.group[g].isdeleted[i] && !vs.group[g].iscut[i])
 			{
 
 				iatom++;

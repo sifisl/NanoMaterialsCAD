@@ -242,19 +242,7 @@ namespace jgn
 #else
 		;
 #endif //JGN_SOURCE_CPP
-	///////////////////////////////////////////////////////////////////////quaternion, a+bi+cj+dk
-	class quaternion {
-	public:
-		float a, b, c, d;
-		quaternion() {}
-		quaternion(float aa, float bb, float cc, float dd) { this->a = aa; this->b = bb; this->c = cc; this->d = dd; }
-		jgn::quaternion conjugate()
-		{
-			return jgn::quaternion(a,-b,-c,-d);
-		}
 
-		
-	};
 
 	///////////////////////////////////////////////////////////////////////some extra string functionality
 	class string : public std::string {
@@ -424,6 +412,22 @@ namespace jgn
 #endif// JGN_SOURCE_CPP
 	};
 
+	///////////////////////////////////////////////////////////////////////quaternion, a+bi+cj+dk
+	class quaternion {
+	public:
+		float a, b, c, d;
+		quaternion() {}
+		quaternion(float aa, float bb, float cc, float dd) { this->a = aa; this->b = bb; this->c = cc; this->d = dd; }
+		jgn::quaternion conjugate()
+		{
+			return jgn::quaternion(a, -b, -c, -d);
+		}
+		jgn::vec3 vec3()
+		{
+			return jgn::vec3(b, c, d);
+		}
+
+	};
 
 	/////////////////////////////////////////////////////////////////////////////a 2d line
 	class Line2d
@@ -540,6 +544,7 @@ namespace jgn
 			{
 				if (crystall == 0)//h00 ok
 				{
+
 					//CustomSurfaces[CustomSurfacesCount - 1][0] = vs.group[vs._isimulationBox].primitiveVec[1].y * vs.group[vs._isimulationBox].primitiveVec[2].z - vs.group[vs._isimulationBox].primitiveVec[1].z * vs.group[vs._isimulationBox].primitiveVec[2].y;
 					out->x = prvec[1].y*prvec[2].z - prvec[1].z*prvec[2].y;
 					//CustomSurfaces[CustomSurfacesCount - 1][1] = -vs.group[vs._isimulationBox].primitiveVec[1].x * vs.group[vs._isimulationBox].primitiveVec[2].z + vs.group[vs._isimulationBox].primitiveVec[1].z * vs.group[vs._isimulationBox].primitiveVec[2].x;

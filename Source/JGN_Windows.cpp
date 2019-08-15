@@ -3468,6 +3468,7 @@ void jgnCommands(LPTSTR ttt, int d)
 		CustomSurfaces[CustomSurfacesCount - 1][1] = CustomSurfaces[CustomSurfacesCount - 1][1] / sqrt(pow(helping1, 2) + pow(helping2, 2) + pow(helping3, 2));
 		CustomSurfaces[CustomSurfacesCount - 1][2] = CustomSurfaces[CustomSurfacesCount - 1][2] / sqrt(pow(helping1, 2) + pow(helping2, 2) + pow(helping3, 2));
 
+		//std::cout << CustomSurfaces[CustomSurfacesCount - 1][0] << " " << CustomSurfaces[CustomSurfacesCount - 1][1] << " " << CustomSurfaces[CustomSurfacesCount - 1][2] << std::endl;
 		help += 2;
 		isngtv = 0;
 
@@ -4174,31 +4175,11 @@ void jgnCommands(LPTSTR ttt, int d)
 		l = std::stoi(rstr.c_str());
 		//TODO:reduce the indexes
 		//now we have    h k l
-		jgn::vec3* vpr = vs.group[vs._isimulationBox].primitiveVec;//primitive vectors
+		jgn::vec3* vpr = vs.original->group[vs._isimulationBox].primitiveVec;//primitive vectors
 		jgn::vec3 hkl = jgn::vec3(h, k, l);
-		jgn::vec3* m = jgn::millerP2V(&hkl, vpr);
-		v0.x = 0;
-		v0.y = 0;
-		v0.z = 0;
-		std::cout << "m" << *m << std::endl;
-		if (h != 0)
-		{
-			v0.x += vpr[0].x / m->x;
-			v0.y += vpr[0].y / m->x;
-			v0.z += vpr[0].z / m->x;
-		}
-		if (k != 0)
-		{
-			v0.x += vpr[1].x / m->y;
-			v0.y += vpr[1].y / m->y;
-			v0.z += vpr[1].z / m->y;
-		}
-		if (l != 0)
-		{
-			v0.x += vpr[2].x / m->z;
-			v0.y += vpr[2].y / m->z;
-			v0.z += vpr[2].z / m->z;
-		}
+		v0 = *jgn::millerP2V(&hkl, vpr);
+		//std::cout << "m" << *m << std::endl;
+		//std::cout << v0 << std::endl;
 		//now we have v0
 		vr.x = v0.y;
 		vr.y = -v0.x;
@@ -4229,9 +4210,9 @@ void jgnCommands(LPTSTR ttt, int d)
 			{//for every atom
 				//create the quartenion
 				//first center the bulk at the origin
-				vs.group[g].position[i] = vs.group[g].position[i].translate(vpr[0] * (-0.5));
-				vs.group[g].position[i] = vs.group[g].position[i].translate(vpr[1] * (-0.5));
-				vs.group[g].position[i] = vs.group[g].position[i].translate(vpr[2] * (-0.5));
+				vs.group[g].position[i] = vs.group[g].position[i].translate(vs.group[vs._isimulationBox].primitiveVec[0] * (-0.5));
+				vs.group[g].position[i] = vs.group[g].position[i].translate(vs.group[vs._isimulationBox].primitiveVec[1] * (-0.5));
+				vs.group[g].position[i] = vs.group[g].position[i].translate(vs.group[vs._isimulationBox].primitiveVec[2] * (-0.5));
 				atomq.a = 0;
 				atomq.b = vs.group[g].position[i].x;
 				atomq.c = vs.group[g].position[i].y;
@@ -4243,35 +4224,6 @@ void jgnCommands(LPTSTR ttt, int d)
 			}
 		}
 		//lets prepare the primitive vectors
-		fvpr[0].a = 0;
-		//y
-		fvpr[0].b = v0.x;
-		fvpr[0].c = v0.y;
-		fvpr[0].d = v0.z;
-
-		//x
-		fvpr[1].a = 0;
-		fvpr[1].b = v0.y + (v0.y == 0 && v0.x == 0);
-		fvpr[1].c = -v0.x;
-		fvpr[1].d = 0;
-
-		//y
-		fvpr[2].a = 0;
-		fvpr[2].b = 0;
-		fvpr[2].c = v0.z + (v0.z == 0 && v0.y == 0);
-		fvpr[2].d = -v0.y;
-
-		fvpr[0] = (vrq*fvpr[0])*vrq.conjugate();
-		fvpr[1] = (vrq*fvpr[1])*vrq.conjugate();
-		fvpr[2] = (vrq*fvpr[2])*vrq.conjugate();
-		/////////
-		//fvpr[1].d = 0;
-		//fvpr[2].d = 0;
-		/////////
-		fvpr0[0] = fvpr[0];
-		fvpr0[1] = fvpr[1];
-		fvpr0[2] = fvpr[2];
-		//lets check the periodic boundaries
 		//create a grid of duplicated (0,0,0) points and rotate it
 		jgn::quaternion duplicateO[10][10][10];
 		for (int i = -5; i < 5; i++)
@@ -4280,68 +4232,180 @@ void jgnCommands(LPTSTR ttt, int d)
 			{
 				for (int k = -5; k < 5; k++)
 				{
-					duplicateO[i+5][j+5][k+5] = jgn::quaternion(0, 
-						vpr[0].x*i + vpr[1].x*j + vpr[2].x*k, 
+					duplicateO[i + 5][j + 5][k + 5] = jgn::quaternion(0,
+						vpr[0].x*i + vpr[1].x*j + vpr[2].x*k,
 						vpr[0].y*i + vpr[1].y*j + vpr[2].y*k,
 						vpr[0].z*i + vpr[1].z*j + vpr[2].z*k);
 					duplicateO[i + 5][j + 5][k + 5] = (vrq*duplicateO[i + 5][j + 5][k + 5])*vrq.conjugate();
 				}
 			}
 		}
-		//check if the primitive vectors overlaps with a duplica of (0,0,0)
-		for (int v = 0; v < 3; v++)
+		//z
+		//x
+		//y
+		fvpr[0] = jgn::quaternion(0, 1000, 1000, 1000);
+		for (int i = 9 ; i >= 0; i--)
 		{
-			bool isoverlap = false;
-			for (int i = 0; i < 10; i++)
+			for (int j = 9; j >= 0; j--)
 			{
-				for (int j = 0; j < 10; j++)
+				for (int k = 9; k >= 0; k--)
 				{
-					for (int k = 0; k < 10; k++)
+					if (duplicateO[i][j][k].vec3().abs() != 0)
 					{
-						if (jgn::dist3dSquare(fvpr[v].b, duplicateO[i][j][k].b) < 0.01)
+						if (abs(duplicateO[i][j][k].b) < 0.01 && abs(duplicateO[i][j][k].c) < 0.01)
 						{
-							isoverlap = true;
-							i = 10000;
-							j = 10000;
-							k = 10000;
+							if (duplicateO[i][j][k].vec3().abs() < fvpr[0].vec3().abs())
+							{
+								fvpr[0] = duplicateO[i][j][k];
+							}
 						}
 					}
 				}
 			}
-			/*if (isoverlap == false)
+		}
+
+		fvpr[1] = jgn::quaternion(0, 1000, 1000, 1000);
+		for (int i = 9; i >= 0; i--)
+		{
+			for (int j = 9; j >= 0; j--)
 			{
-				fvpr[v] = fvpr[v] + fvpr0[v];
-				v--;
-			}*/
+				for (int k = 9; k >= 0; k--)
+				{
+					if (duplicateO[i][j][k].vec3().abs() != 0)
+						if (abs(duplicateO[i][j][k].d) < 0.01)
+						{
+							if (duplicateO[i][j][k].vec3().abs() < fvpr[1].vec3().abs())
+							{
+								fvpr[1] = duplicateO[i][j][k];
+							}
+						}
+				}
+			}
 		}
-		int lcmkl = jgn::lcm(k, l);//multiply frist vec with that
-		int lcmhl = jgn::lcm(h, l);//multiply second vec with that
-		int lcmhk = jgn::lcm(h, k);//multiply third vec with that
-		int lcmhkl;
-		/*if (lcmkl == 0)
-			lcmkl = 1;
-		if (lcmhl == 0)
-			lcmhl = 1;
-		if (lcmhk == 0)
-			lcmhk = 1;*/
-		if (lcmkl != 0)
+
+		fvpr[2] = jgn::quaternion(0, 1000, 1000, 1000);
+		for (int i = 9; i >= 0; i--)
 		{
-			lcmhk = jgn::lcm(lcmkl, h);
+			for (int j = 9; j >= 0; j--)
+			{
+				for (int k = 9; k >= 0; k--)
+				{
+					if (duplicateO[i][j][k].vec3().abs() != 0)
+						if (abs(duplicateO[i][j][k].d) < 0.01)
+						{
+							if (duplicateO[i][j][k].vec3().abs() < fvpr[2].vec3().abs())
+							{
+								if (!(abs(fvpr[1].b / duplicateO[i][j][k].b - fvpr[1].c / duplicateO[i][j][k].c) < 0.01))
+								{
+									fvpr[2] = duplicateO[i][j][k];
+								}
+							}
+						}
+				}
+			}
 		}
-		else if (lcmhl == 0)
-		{
-			lcmhk = jgn::lcm(lcmhl, k);
-		}
-		else if (lcmhk == 0)
-		{
-			lcmhk = jgn::lcm(lcmhk, l);
-		}
-		//std::cout << "fvpr[0] " << fvpr[0] << " fvpr[1] " << fvpr[1] << " fvpr[2] " << fvpr[2] << std::endl;
-		//std::cout << "lcmkl " << lcmkl << " lcmhl " << lcmhl << " lcmhk " << lcmhk << std::endl;
-		fvpr[0] = fvpr[0] * lcmhk;// lcmhk;
-		fvpr[1] = fvpr[1] * lcmhk;
-		fvpr[2] = fvpr[2] * lcmhk;
-		//std::cout << "fvpr[0] " << fvpr[0] << " fvpr[1] " << fvpr[1] << " fvpr[2] " << fvpr[2] << std::endl;
+
+
+
+		//fvpr[0].a = 0;
+		////y
+		//fvpr[0].b = v0.x;
+		//fvpr[0].c = v0.y;
+		//fvpr[0].d = v0.z;
+
+		////x
+		//fvpr[1].a = 0;
+		//fvpr[1].b = v0.y + (v0.y == 0 && v0.x == 0);
+		//fvpr[1].c = -v0.x;
+		//fvpr[1].d = 0;
+
+		////y
+		//fvpr[2].a = 0;
+		//fvpr[2].b = 0;
+		//fvpr[2].c = v0.z + (v0.z == 0 && v0.y == 0);
+		//fvpr[2].d = -v0.y;
+
+		//fvpr[0] = (vrq*fvpr[0])*vrq.conjugate();
+		//fvpr[1] = (vrq*fvpr[1])*vrq.conjugate();
+		//fvpr[2] = (vrq*fvpr[2])*vrq.conjugate();
+		///////////
+		////fvpr[1].d = 0;
+		////fvpr[2].d = 0;
+		///////////
+		//fvpr0[0] = fvpr[0];
+		//fvpr0[1] = fvpr[1];
+		//fvpr0[2] = fvpr[2];
+		////lets check the periodic boundaries
+		////create a grid of duplicated (0,0,0) points and rotate it
+		//jgn::quaternion duplicateO[10][10][10];
+		//for (int i = -5; i < 5; i++)
+		//{
+		//	for (int j = -5; j < 5; j++)
+		//	{
+		//		for (int k = -5; k < 5; k++)
+		//		{
+		//			duplicateO[i+5][j+5][k+5] = jgn::quaternion(0, 
+		//				vpr[0].x*i + vpr[1].x*j + vpr[2].x*k, 
+		//				vpr[0].y*i + vpr[1].y*j + vpr[2].y*k,
+		//				vpr[0].z*i + vpr[1].z*j + vpr[2].z*k);
+		//			duplicateO[i + 5][j + 5][k + 5] = (vrq*duplicateO[i + 5][j + 5][k + 5])*vrq.conjugate();
+		//		}
+		//	}
+		//}
+		////check if the primitive vectors overlaps with a duplica of (0,0,0)
+		//for (int v = 0; v < 3; v++)
+		//{
+		//	bool isoverlap = false;
+		//	for (int i = 0; i < 10; i++)
+		//	{
+		//		for (int j = 0; j < 10; j++)
+		//		{
+		//			for (int k = 0; k < 10; k++)
+		//			{
+		//				if (jgn::dist3dSquare(fvpr[v].b, duplicateO[i][j][k].b) < 0.01)
+		//				{
+		//					isoverlap = true;
+		//					i = 10000;
+		//					j = 10000;
+		//					k = 10000;
+		//				}
+		//			}
+		//		}
+		//	}
+		//	/*if (isoverlap == false)
+		//	{
+		//		fvpr[v] = fvpr[v] + fvpr0[v];
+		//		v--;
+		//	}*/
+		//}
+		//int lcmkl = jgn::lcm(k, l);//multiply frist vec with that
+		//int lcmhl = jgn::lcm(h, l);//multiply second vec with that
+		//int lcmhk = jgn::lcm(h, k);//multiply third vec with that
+		//int lcmhkl;
+		///*if (lcmkl == 0)
+		//	lcmkl = 1;
+		//if (lcmhl == 0)
+		//	lcmhl = 1;
+		//if (lcmhk == 0)
+		//	lcmhk = 1;*/
+		//if (lcmkl != 0)
+		//{
+		//	lcmhk = jgn::lcm(lcmkl, h);
+		//}
+		//else if (lcmhl == 0)
+		//{
+		//	lcmhk = jgn::lcm(lcmhl, k);
+		//}
+		//else if (lcmhk == 0)
+		//{
+		//	lcmhk = jgn::lcm(lcmhk, l);
+		//}
+		////std::cout << "fvpr[0] " << fvpr[0] << " fvpr[1] " << fvpr[1] << " fvpr[2] " << fvpr[2] << std::endl;
+		////std::cout << "lcmkl " << lcmkl << " lcmhl " << lcmhl << " lcmhk " << lcmhk << std::endl;
+		//fvpr[0] = fvpr[0] * lcmhk;// lcmhk;
+		//fvpr[1] = fvpr[1] * lcmhk;
+		//fvpr[2] = fvpr[2] * lcmhk;
+		////std::cout << "fvpr[0] " << fvpr[0] << " fvpr[1] " << fvpr[1] << " fvpr[2] " << fvpr[2] << std::endl;
 
 		sized[0] = 1;
 		sized[1] = 1;

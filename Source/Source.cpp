@@ -529,28 +529,7 @@ void display1(void)//generates the graphics output.
 	//}
 
 	//print custom surfaces
-	int Nline = 0;
-	for (i = 0; i < CustomSurfacesCount; i++)
-	{
-		glLoadIdentity();
-		glScalef(0.5, 0.5, 0);
-		glTranslatef(2 * dipleft, 2 * dipapan- Nline*0.15, 0);
-		i == CustomSurfaceSelected ? glColor3f(1.0, 0.0, 0.0) : glColor3f(0.0, 0.0, 0.0);
 
-
-		char buf[100];
-		itoa(CustomSurfaces_hkl[i][0], buf, 10);
-		write::string(buf);
-		itoa(CustomSurfaces_hkl[i][1], buf, 10);
-		write::string(buf);
-		itoa(CustomSurfaces_hkl[i][2], buf, 10);
-		write::string(buf);
-		write::character(' ');
-		itoa(CustomSurfaces[i][3], buf, 10);
-		write::string(buf);
-
-		Nline++;
-	}
 	////test
 	//glLoadIdentity();
 	//glLineWidth(1);

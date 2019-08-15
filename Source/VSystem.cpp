@@ -707,6 +707,30 @@ void VSystem::_drawsysteminfo()
 		}
 		stroke_c = 0;
 	}
+	////////////write custom surfaces
+	glColor3f(0, 0, 0);
+	for (int i = 0; i < CustomSurfacesCount; i++)
+	{
+		glLoadIdentity();
+		glTranslatef(dipleft + 1.5 * tb.size, dipapan - 0.1 - 0.06*i, 6);
+		glScalef(0.5, 0.5, 0);
+		i == CustomSurfaceSelected ? glColor3f(1.0, 0.0, 0.0) : glColor3f(0.0, 0.0, 0.0);
+
+		write::character('(');
+		char buf[100];
+		itoa(CustomSurfaces_hkl[i][0], buf, 10);
+		write::string(buf);
+		itoa(CustomSurfaces_hkl[i][1], buf, 10);
+		write::string(buf);
+		itoa(CustomSurfaces_hkl[i][2], buf, 10);
+		write::string(buf);
+		write::character(')');
+		write::character(' ');
+		itoa(CustomSurfaces[i][3], buf, 10);
+		write::string(buf);
+		write::character(Angstrom);
+
+	}
 	glEnable(GL_LIGHTING);
 	glPointSize(10);
 	//draw sphere color and write the number of atoms per type

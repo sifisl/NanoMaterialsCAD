@@ -3096,11 +3096,7 @@ void jgnCommands(LPTSTR ttt, int d)
 		CustomSurfaces[CustomSurfacesCount - 1][1] = 0;
 		CustomSurfaces[CustomSurfacesCount - 1][2] = 0;
 		CustomSurfaces[CustomSurfacesCount - 1][3] = 0;
-#if !defined(JGN_CMD_PLANE)
-		CustomSurfaces_hkl[CustomSurfacesCount - 1][0] = crystalh = intbuff[0];
-		CustomSurfaces_hkl[CustomSurfacesCount - 1][1] = crystalk = intbuff[1];
-		CustomSurfaces_hkl[CustomSurfacesCount - 1][2] = crystall = intbuff[2];
-#endif
+
 
 #if defined(JGN_CMD_PLANE)
 		crystalh = 0;
@@ -3232,6 +3228,9 @@ void jgnCommands(LPTSTR ttt, int d)
 		}
 
 #endif
+		CustomSurfaces_hkl[CustomSurfacesCount - 1][0] = crystalh;
+		CustomSurfaces_hkl[CustomSurfacesCount - 1][1] = crystalk;
+		CustomSurfaces_hkl[CustomSurfacesCount - 1][2] = crystall;
 
 		if (crystalh == 0)
 		{

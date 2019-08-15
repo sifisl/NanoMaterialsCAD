@@ -2992,7 +2992,7 @@ void mouse_func(int b, int s, int x, int y)
 				jgn::vec2 cl = menu.clicked(jgn::vec2(xnorm, ynorm));
 				if (cl.x == Menu::NONE && cl.y == Menu::NONE)
 				{
-					std::cout << "NONE" << std::endl;
+					//std::cout << "NONE" << std::endl;
 					menu.show = false;
 				}
 				else if (cl.y == Menu::TRANSLATE)

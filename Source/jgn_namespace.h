@@ -613,14 +613,13 @@ namespace jgn
 				}
 			}
 		}
-		float abs = out->abs();
-		if (abs != 0)
-		{
-			out->x = out->x / abs;
-			out->y = out->y / abs;
-			out->z = out->z / abs;
-		}
-		std::cout << out->x << " , " << out->y << " , " << out->z << std::endl;
+		//float abs = out->abs();
+		//if (abs != 0)
+		//{
+		//	out->x = out->x / abs;
+		//	out->y = out->y / abs;
+		//	out->z = out->z / abs;
+		//}
 
 		//float m = 0;
 		//if (out->x == out->y) {
@@ -677,7 +676,19 @@ namespace jgn
 		//		out->z = out->z*m;
 		//	}
 		//}
-		
+		float min = 1000;
+		if (out->x != 0 && out->x < min)
+			min = out->x;
+		if (out->y != 0 && out->y < min)
+			min = out->y;
+		if (out->z != 0 && out->z < min)
+			min = out->z;
+
+		out->x /= min;
+		out->y /= min;
+		out->z /= min;
+		//std::cout << out->x << " , " << out->y << " , " << out->z << std::endl;
+
 		return out;
 	}
 #else

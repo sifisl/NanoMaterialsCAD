@@ -4426,7 +4426,7 @@ void jgnCommands(LPTSTR ttt, int d)
 		vs._updateSimulationBox();
 		//cut every atom outside of the unit cell
 		//x
-		jgn::string tocut = "cut(";
+		jgn::string tocut = test1[4];
 		char *buf = new char[100];
 		tocut += "1,0,0,";
 		itoa((int)(vs.group[vs._isimulationBox].primitiveVec[0].abs() - 0.5), buf, 10);
@@ -4434,27 +4434,30 @@ void jgnCommands(LPTSTR ttt, int d)
 		tocut += ')';
 		jgnCommands(jgn::string2LPTSTR(tocut), 0);
 		//-x
-		tocut = "cut(-1,0,0,1)";
+		tocut = test1[4];
+		tocut += "-1,0,0,1)";
 		jgnCommands(jgn::string2LPTSTR(tocut), 0);
 		//y
-		tocut = "cut(";
+		tocut = test1[4];
 		tocut += "0,1,0,";
 		itoa((int)(vs.group[vs._isimulationBox].primitiveVec[1].abs() - 0.5), buf, 10);
 		tocut += buf;
 		tocut += ')';
 		jgnCommands(jgn::string2LPTSTR(tocut), 0);
 		//-y
-		tocut = "cut(0,-1,0,1)";
+		tocut = test1[4];
+		tocut += "0,-1,0,1)";
 		jgnCommands(jgn::string2LPTSTR(tocut), 0);
 		//z
-		tocut = "cut(";
+		tocut = test1[4];
 		tocut += "0,0,1,";
 		itoa((int)(vs.group[vs._isimulationBox].primitiveVec[2].abs() - 0.5), buf, 10);
 		tocut += buf;
 		tocut += ')';
 		jgnCommands(jgn::string2LPTSTR(tocut), 0);
 		//-z
-		tocut = "cut(0,0,-1,1)";
+		tocut = test1[4];
+		tocut += "0,0,-1,1)";
 		jgnCommands(jgn::string2LPTSTR(tocut), 0);
 
 

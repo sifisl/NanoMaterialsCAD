@@ -236,7 +236,7 @@ static char *test1[testsc] = { "vector(",
 "clean",
 "undo",
 "supercell(",
-"plane(",
+"cut(",
 "script(",
 "spheres",
 "points",
@@ -251,13 +251,13 @@ static char *test1[testsc] = { "vector(",
 "delete",
 "restart",
 "fopen(",
-"facet("
+"mkfacet("
 };
 static char *test1low[testsc] = { "vector(",
 "clean",
 "undo",
 "supercell(",
-"plane(",
+"cut(",
 "script(",
 "spheres",
 "points",
@@ -272,13 +272,13 @@ static char *test1low[testsc] = { "vector(",
 "delete",
 "restart",
 "fopen(",
-"facet("
+"mkfacet("
 };
 static wchar_t *helplist[testsc] = { L"vector(int h,int c,int l,int A)",
 L"clean",
 L"undo",
 L"supercell(int a1,int a2,int a3)",
-L"plane(int u,int v,int w,int A)",
+L"cut(int u,int v,int w,int A)",
 L"script(\"file path\")",
 L"spheres",
 L"points",
@@ -293,7 +293,7 @@ L"randSelection(int)",//select int random atoms
 L"delete",//delete selecte atoms
 L"restart",
 L"fopen(\"data path\")",
-L"facet(h,k,l)"//places the <hkl> vector perpendicular to z-axis
+L"mkfacet(h,k,l)"//places the <hkl> vector perpendicular to z-axis
 };
 #endif	// JGN_SOURCE_CPP
 

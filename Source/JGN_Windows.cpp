@@ -3033,7 +3033,7 @@ void jgnCommands(LPTSTR ttt, int d)
 		goto peintit;
 
 	}
-	//"Plane("
+	//"cut("
 	bool cont = true;
 	int Nnumbs = 0;//count 3 numbers
 	int ibuff = 0;
@@ -3070,7 +3070,7 @@ void jgnCommands(LPTSTR ttt, int d)
 
 
 #if defined(JGN_CMD_PLANE) 
-	for (i = 0; i < 6; i++)
+	for (i = 0; i < 4; i++)
 	{
 		if (test1[4][i] == ttt[i])
 		{
@@ -3082,7 +3082,7 @@ void jgnCommands(LPTSTR ttt, int d)
 		}
 	}
 #endif
-	if (i == 6)
+	if (i == 4)
 	{
 
 		okrender = 1;
@@ -3102,7 +3102,7 @@ void jgnCommands(LPTSTR ttt, int d)
 		crystalh = 0;
 		crystalk = 0;
 		crystall = 0;
-		help = (char*)(ttt + 6);
+		help = (char*)(ttt + 4);
 		if (help[0] >= 48 && help[0] <= 57)
 		{
 			crystalh = help[0] - 48;
@@ -4120,8 +4120,8 @@ void jgnCommands(LPTSTR ttt, int d)
 		goto peintit;
 	}
 
-	//char *test4 = "facet(";
-	for (i = 0; i < 6; i++)
+	//char *test4 = "mkfacet(";
+	for (i = 0; i < 8; i++)
 	{
 		if (test1[19][i] == ttt[i])
 		{
@@ -4132,10 +4132,10 @@ void jgnCommands(LPTSTR ttt, int d)
 			i = 100;
 		}
 	}
-	if (i == 6)
+	if (i == 8)
 	{
 		okrender = 1;
-		help = (char*)(ttt + 6);
+		help = (char*)(ttt + 8);
 		jgn::string rstr = jgn::LPTSTR2string((LPTSTR)help, ')');
 		rstr.eraseblank();
 
@@ -4426,7 +4426,7 @@ void jgnCommands(LPTSTR ttt, int d)
 		vs._updateSimulationBox();
 		//cut every atom outside of the unit cell
 		//x
-		jgn::string tocut = "plane(";
+		jgn::string tocut = "cut(";
 		char *buf = new char[100];
 		tocut += "1,0,0,";
 		itoa((int)(vs.group[vs._isimulationBox].primitiveVec[0].abs() - 0.5), buf, 10);
@@ -4434,27 +4434,27 @@ void jgnCommands(LPTSTR ttt, int d)
 		tocut += ')';
 		jgnCommands(jgn::string2LPTSTR(tocut), 0);
 		//-x
-		tocut = "plane(-1,0,0,1)";
+		tocut = "cut(-1,0,0,1)";
 		jgnCommands(jgn::string2LPTSTR(tocut), 0);
 		//y
-		tocut = "plane(";
+		tocut = "cut(";
 		tocut += "0,1,0,";
 		itoa((int)(vs.group[vs._isimulationBox].primitiveVec[1].abs() - 0.5), buf, 10);
 		tocut += buf;
 		tocut += ')';
 		jgnCommands(jgn::string2LPTSTR(tocut), 0);
 		//-y
-		tocut = "plane(0,-1,0,1)";
+		tocut = "cut(0,-1,0,1)";
 		jgnCommands(jgn::string2LPTSTR(tocut), 0);
 		//z
-		tocut = "plane(";
+		tocut = "cut(";
 		tocut += "0,0,1,";
 		itoa((int)(vs.group[vs._isimulationBox].primitiveVec[2].abs() - 0.5), buf, 10);
 		tocut += buf;
 		tocut += ')';
 		jgnCommands(jgn::string2LPTSTR(tocut), 0);
 		//-z
-		tocut = "plane(0,0,-1,1)";
+		tocut = "cut(0,0,-1,1)";
 		jgnCommands(jgn::string2LPTSTR(tocut), 0);
 
 

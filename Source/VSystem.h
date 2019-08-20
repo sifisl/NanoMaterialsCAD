@@ -18,6 +18,7 @@ public:
 	jgn::vec3 primitiveVec[3];//the primitiveVec
 	jgn::vec3 primitiveBase[3];//the primitiveVec/|primitiveVec|
 	std::vector<jgn::vec3> position;
+	std::vector<jgn::vec3> fractional;//fractional coordinats
 	std::vector<jgn::string> type;
 	int _N_types;
 	int _prev_N_types;

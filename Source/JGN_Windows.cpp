@@ -4463,6 +4463,79 @@ void jgnCommands(LPTSTR ttt, int d)
 
 		goto peintit;
 	}
+
+	//char *test4 = "randstress";
+	for (i = 0; i < 10; i++)
+	{
+		if (test1[20][i] == ttt[i])
+		{
+
+		}
+		else
+		{
+			i = 100;
+		}
+	}
+	if (i == 10)
+	{
+		okrender = 1;
+		//help = (char*)(ttt + 7);
+		//jgn::string rstr = jgn::LPTSTR2string((LPTSTR)help, '"');
+		//strcpy(inpf, rstr.c_str());//for legacy reasons
+		//JGN_DropFile(rstr.c_str());
+		//jgn_file_dropd = true;
+		///1-x
+		srand(std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count());
+		float stress = vs.group[vs._isimulationBox].primitiveVec[0].abs()*(rand() / (float)RAND_MAX * 2 - 1) * 0.04;
+		vs.group[vs._isimulationBox].primitiveVec[0].x += stress;
+		srand(std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count()+1);
+		stress = vs.group[vs._isimulationBox].primitiveVec[0].abs()*(rand() / (float)RAND_MAX * 2 - 1) * 0.04;
+		vs.group[vs._isimulationBox].primitiveVec[0].y += stress;
+		srand(std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count() + 2);
+		stress = vs.group[vs._isimulationBox].primitiveVec[0].abs()*(rand() / (float)RAND_MAX * 2 - 1) * 0.04;
+		vs.group[vs._isimulationBox].primitiveVec[0].z += stress;
+
+		srand(std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count() + 3);
+		stress = vs.group[vs._isimulationBox].primitiveVec[1].abs()*(rand() / (float)RAND_MAX * 2 - 1) * 0.04;
+		vs.group[vs._isimulationBox].primitiveVec[1].x += stress;
+		srand(std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count() + 4);
+		stress = vs.group[vs._isimulationBox].primitiveVec[1].abs()*(rand() / (float)RAND_MAX * 2 - 1) * 0.04;
+		vs.group[vs._isimulationBox].primitiveVec[1].y += stress;
+		srand(std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count() + 5);
+		stress = vs.group[vs._isimulationBox].primitiveVec[1].abs()*(rand() / (float)RAND_MAX * 2 - 1) * 0.04;
+		vs.group[vs._isimulationBox].primitiveVec[1].z += stress;
+
+		srand(std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count() + 6);
+		stress = vs.group[vs._isimulationBox].primitiveVec[2].abs()*(rand() / (float)RAND_MAX * 2 - 1) * 0.04;
+		vs.group[vs._isimulationBox].primitiveVec[2].x += stress;
+		srand(std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count() + 7);
+		stress = vs.group[vs._isimulationBox].primitiveVec[2].abs()*(rand() / (float)RAND_MAX * 2 - 1) * 0.04;
+		vs.group[vs._isimulationBox].primitiveVec[2].y += stress;
+		srand(std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count() + 8);
+		stress = vs.group[vs._isimulationBox].primitiveVec[2].abs()*(rand() / (float)RAND_MAX * 2 - 1) * 0.04;
+		vs.group[vs._isimulationBox].primitiveVec[2].z += stress;
+
+		vs._updateSimulationBox();
+
+		for (int g = 0; g<vs.N_groups; g++)
+		{
+			for (int i = 0; i < vs.group[g].N_atoms; i++)
+			{
+				vs.group[g].position[i].x = vs.group[g].fractional[i].x*vs.group[vs._isimulationBox].primitiveVec[0].x + vs.group[g].fractional[i].y*vs.group[vs._isimulationBox].primitiveVec[1].x + vs.group[g].fractional[i].z*vs.group[vs._isimulationBox].primitiveVec[2].x;
+				vs.group[g].position[i].y = vs.group[g].fractional[i].x*vs.group[vs._isimulationBox].primitiveVec[0].y + vs.group[g].fractional[i].y*vs.group[vs._isimulationBox].primitiveVec[1].y + vs.group[g].fractional[i].z*vs.group[vs._isimulationBox].primitiveVec[2].y;
+				vs.group[g].position[i].z = vs.group[g].fractional[i].x*vs.group[vs._isimulationBox].primitiveVec[0].z + vs.group[g].fractional[i].y*vs.group[vs._isimulationBox].primitiveVec[1].z + vs.group[g].fractional[i].z*vs.group[vs._isimulationBox].primitiveVec[2].z;
+			}
+		}
+
+		//uccartesian[i * 3 + 0] = my_direct[2 + i * 5 + 0] * ijk[0][0] + my_direct[2 + i * 5 + 1] * ijk[1][0] + my_direct[2 + i * 5 + 2] * ijk[2][0];
+		//uccartesian[i * 3 + 1] = my_direct[2 + i * 5 + 0] * ijk[0][1] + my_direct[2 + i * 5 + 1] * ijk[1][1] + my_direct[2 + i * 5 + 2] * ijk[2][1];
+		//uccartesian[i * 3 + 2] = my_direct[2 + i * 5 + 0] * ijk[0][2] + my_direct[2 + i * 5 + 1] * ijk[1][2] + my_direct[2 + i * 5 + 2] * ijk[2][2];
+
+
+		goto peintit;
+	}
+
+
 peintit:
 
 	DestroyWindow(CommandTextField);

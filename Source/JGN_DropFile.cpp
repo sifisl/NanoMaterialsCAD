@@ -1909,7 +1909,7 @@ void JGN_DropFile(const char* inpf)
 		groupInit.color_per_type.emplace_back(jgn::vec3(fmod(aweights[i], 1.5), fmod(anumber[i], 0.92), fmod(100 * fmod(aweights[i], 1.5) * fmod(anumber[i], 0.92), 0.8)));
 		groupInit.weight_per_type.emplace_back(aweights[i]);
 	}
-	getchar();
+	//getchar();
 	for (int i = 0; i < groupInit._N_types; i++)
 	{
 		groupInit._alltype.emplace_back(jgn::string(atoms));
@@ -1934,9 +1934,17 @@ void JGN_DropFile(const char* inpf)
 	}
 	groupInit.N_atoms = t;
 	groupInit._reserve(groupInit.N_atoms);
+	float cosg = groupInit.primitiveVec[1].x / groupInit.primitiveVec[1].abs();
+	float cosb = groupInit.primitiveVec[2].x / groupInit.primitiveVec[2].abs();
+	float sing = groupInit.primitiveVec[1].y / groupInit.primitiveVec[1].abs();
+	float cosa = (groupInit.primitiveVec[2].y*groupInit.primitiveVec[1].y + groupInit.primitiveVec[2].x*groupInit.primitiveVec[1].x) / (groupInit.primitiveVec[2].abs()*groupInit.primitiveVec[1].abs());
+	float V = jgn::volume(groupInit.primitiveVec[0], groupInit.primitiveVec[1], groupInit.primitiveVec[2]);
 	for (int i = 0; i < groupInit.N_atoms; i++)
 	{
 		groupInit.position.emplace_back(jgn::vec3(crystal[2 + 5 * i], crystal[3 + 5 * i], crystal[4 + 5 * i]));
+groupInit.fractional.emplace_back(jgn::vec3(crystal[2 + 5 * i] / groupInit.primitiveVec[0].abs() - crystal[3 + 5 * i] * groupInit.primitiveVec[1].x / (groupInit.primitiveVec[0].abs()*groupInit.primitiveVec[1].y) + crystal[4 + 5 * i]*groupInit.primitiveVec[1].abs()*groupInit.primitiveVec[2].abs()*(((groupInit.primitiveVec[2].y*groupInit.primitiveVec[1].y+ groupInit.primitiveVec[2].x*groupInit.primitiveVec[1].x)*groupInit.primitiveVec[1].x)/ (groupInit.primitiveVec[2].abs()*groupInit.primitiveVec[1].abs()*groupInit.primitiveVec[1].abs()) - groupInit.primitiveVec[2].x/ groupInit.primitiveVec[2].abs())/(jgn::volume(groupInit.primitiveVec[0], groupInit.primitiveVec[1], groupInit.primitiveVec[2])*groupInit.primitiveVec[1].y/ groupInit.primitiveVec[1].abs())
+			, crystal[3 + 5 * i]/ groupInit.primitiveVec[1].y+ crystal[4 + 5 * i]* groupInit.primitiveVec[0].abs()*groupInit.primitiveVec[2].abs()*(cosb*cosg-cosa)/(V*sing)
+			, crystal[4 + 5 * i] * groupInit.primitiveVec[0].abs()*groupInit.primitiveVec[1].abs()*sing / V));
 		jgn::string s;
 		s.push_back(selective_dynamics[3 * i]);
 		s.push_back(selective_dynamics[1 + 3 * i]);

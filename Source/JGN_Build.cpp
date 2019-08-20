@@ -1504,11 +1504,12 @@ void BuildPoscar(char* NewPC)
 		/// line 1
 
 		std::fgets(s, SBYTES, uc_file);
-		std::fprintf(NewPCF, s);
+		//std::fprintf(NewPCF, s);
+		std::fprintf(NewPCF, "poscar file by\n");
 		token = strtok(s, "\t ");
 		while (token[0] == '\n')
 		{
-			std::fprintf(NewPCF, s);
+			//std::fprintf(NewPCF, s);
 
 			std::fgets(s, SBYTES, uc_file);
 			token = strtok(s, "\t ");

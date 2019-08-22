@@ -4428,8 +4428,9 @@ void jgnCommands(LPTSTR ttt, int d)
 		//x
 		jgn::string tocut = test1[4];
 		char *buf = new char[100];
+		float tantheta = vs.group[vs._isimulationBox].primitiveVec[1].x / vs.group[vs._isimulationBox].primitiveVec[1].y;
 		tocut += "1,0,0,";
-		itoa((int)(vs.group[vs._isimulationBox].primitiveVec[0].abs() - 0.5), buf, 10);
+		itoa((int)(vs.group[vs._isimulationBox].primitiveVec[0].x - vs.group[vs._isimulationBox].primitiveVec[0].y*tantheta - 1), buf, 10);
 		tocut += buf;
 		tocut += ')';
 		jgnCommands(jgn::string2LPTSTR(tocut), 0);
@@ -4438,9 +4439,10 @@ void jgnCommands(LPTSTR ttt, int d)
 		tocut += "-1,0,0,1)";
 		jgnCommands(jgn::string2LPTSTR(tocut), 0);
 		//y
+		tantheta = vs.group[vs._isimulationBox].primitiveVec[0].y / vs.group[vs._isimulationBox].primitiveVec[0].x;
 		tocut = test1[4];
 		tocut += "0,1,0,";
-		itoa((int)(vs.group[vs._isimulationBox].primitiveVec[1].abs() - 0.5), buf, 10);
+		itoa((int)(vs.group[vs._isimulationBox].primitiveVec[1].y - vs.group[vs._isimulationBox].primitiveVec[1].x*tantheta - 1), buf, 10);
 		tocut += buf;
 		tocut += ')';
 		jgnCommands(jgn::string2LPTSTR(tocut), 0);
@@ -4451,7 +4453,7 @@ void jgnCommands(LPTSTR ttt, int d)
 		//z
 		tocut = test1[4];
 		tocut += "0,0,1,";
-		itoa((int)(vs.group[vs._isimulationBox].primitiveVec[2].abs() - 0.5), buf, 10);
+		itoa((int)(vs.group[vs._isimulationBox].primitiveVec[2].z - 1), buf, 10);
 		tocut += buf;
 		tocut += ')';
 		jgnCommands(jgn::string2LPTSTR(tocut), 0);

@@ -4,6 +4,7 @@
 #include "ToolBar.h"
 #include "JGN_StrokeCharacter.h"
 #include "JGN_Windows.h"
+#include "Cammera.h"
 
 VSystem::VSystem()
 {
@@ -283,6 +284,8 @@ void VSystem::unsellectAll()
 
 void VSystem::draw()
 {
+	if(cam.perspective_on)
+		cam.loadperspectivematrix();
 
 	//Draw atoms
 	glEnable(GL_LIGHTING);
@@ -306,11 +309,15 @@ void VSystem::draw()
 
 	//Draw simulation box
 	this->_drawSimulationBox();
+	cam.loadorthmatrix();
 	this->_drawBase();
 
 	//Draw distance tool line
+	if (cam.perspective_on)
+		cam.loadperspectivematrix();
 	this->_drawDistanceToolLine();
 
+	cam.loadorthmatrix();
 	//Draw system info
 	this->_drawsysteminfo();
 

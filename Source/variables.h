@@ -68,7 +68,6 @@ EXT GLuint showlessID;
 EXT GLuint vboId;
 EXT float dipleft;
 EXT float dipapan;
-EXT float perspective_on;
 EXT GLfloat theta[3];
 EXT int flagmax;
 EXT GLfloat first;

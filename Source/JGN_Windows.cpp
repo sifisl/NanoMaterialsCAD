@@ -7,6 +7,7 @@
 #include "JGN_Windows.h"
 #include "ToolBar.h"
 #include "JGN_DropFile.h"
+#include "Cammera.h"
 #define JGN_CMD_PLANE
 
 /////////////////////////////////////////////////
@@ -1125,10 +1126,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			break;
 		case IDM_PERSPECTIVE_TUGLE:
-			if (perspective_on)
+			if (cam.perspective_on)
 			{
 
-				perspective_on = 0;
+				cam.perspective_on = 0;
 				glViewport(0, 0, width, height);//(first 2 sets the lower left corner of the window w h sets width height of the window
 				glMatrixMode(GL_PROJECTION);// defines the camera behavior projection is the view point of me
 				glLoadIdentity();
@@ -1157,7 +1158,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			}
 			else
 			{
-				perspective_on = 1;
+				cam.perspective_on = 1;
 
 				glMatrixMode(GL_PROJECTION);
 				glLoadIdentity();

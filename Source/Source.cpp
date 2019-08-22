@@ -1,9 +1,8 @@
 //BUGS and TODOS////////////////
 //complite vs. copy constructor
 //add inverse cut to options (ctrl+v)
-//CuO tetragonal plane(1,1,1,0) doesn't work properly
-//reduce the (hkl) indexes in the "facet(" command
 //add floats to "plane function
+//do the perspective matrix
 #include <omp.h>
 #define JGN_SOURCE_CPP
 #include "stdafx.h"
@@ -19,6 +18,7 @@
 #include "Menu.h"
 #include "virtualwindow.h"
 #include "Mouse.h"
+#include "Cammera.h"
 
 #define glutSolidSphere JGN_SolidSphere
 
@@ -103,8 +103,6 @@ void myReshape(int w, int h)// window reshape
 	width = w;
 	height = h;
 
-	glViewport(0, 0, width, height);//(first 2 sets the lower left corner of the window w h sets width height of the window
-	glMatrixMode(GL_PROJECTION);// defines the camera behavior projection is the view point of me
 
 	glLoadIdentity();//load the origin matrix the original place view point etc...
 					 // gia na mhn allwienetai h eikona kanw to if
@@ -113,32 +111,13 @@ void myReshape(int w, int h)// window reshape
 					 //Specify the coordinates for the bottom and top horizontal clipping planes.
 					 //Specify the distances to the nearest and farthest depth clipping planes)
 	//cout << w << "X" << h << endl;
-	if (perspective_on)
+	if (cam.perspective_on)
 	{
-		//gluPerspective(60, (float)w / (float)h, 0.001, 100);
+		cam.loadperspectivematrix();
 	}
 	else
 	{
-		if (w <= h)
-		{
-			glOrtho(
-				-1.05, +1.05,
-				-1.05 * (GLfloat)h / (GLfloat)w, +1.05 * (GLfloat)h / (GLfloat)w,
-				-10.0, 10.0);
-			dipleft = -1.05;
-			dipapan = 1.05*(GLfloat)h / (GLfloat)w;
-
-		}
-		else
-		{
-			glOrtho(
-				-1.05 * (GLfloat)w / (GLfloat)h, +1.05 * (GLfloat)w / (GLfloat)h,
-				-1.05, +1.05,
-				-10.0, 10.0);
-			dipleft = -1.05*(GLfloat)w / (GLfloat)h;
-			dipapan = 1.05;
-
-		}
+		cam.loadorthmatrix();
 	}
 
 	glMatrixMode(GL_MODELVIEW);//modelview would be the manipulation of the object
@@ -269,7 +248,7 @@ void display1(void)//generates the graphics output.
 
 
 
-	if (perspective_on)
+	if (cam.perspective_on)
 	{
 		glViewport(0, 0, width, height);//(first 2 sets the lower left corner of the window w h sets width height of the window
 		glMatrixMode(GL_PROJECTION);// defines the camera behavior projection is the view point of me
@@ -300,12 +279,9 @@ void display1(void)//generates the graphics output.
 	glPointSize(pointsize);
 
 	stroke_c = 0;
-	if (perspective_on)
+	if (cam.perspective_on)
 	{
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		//gluPerspective(60, (float)width / (float)height, 0.001, 100);
-		glMatrixMode(GL_MODELVIEW);
+		cam.loadperspectivematrix();
 	}
 	glLoadIdentity();
 
@@ -325,15 +301,7 @@ void display1(void)//generates the graphics output.
 	glRotatef(theta[1], 0.0, 0.0, 1.0);
 
 	glTranslatef(model_translate[0], model_translate[1], model_translate[2]);
-	if (perspective_on)
-	{
-		glTranslated(0, 0, -3);
-		if (Rod_like == -1)
-		{
-			glTranslated(0, 0, 1);
 
-		}
-	}
 
 		ball_atoms = 0;
 
@@ -362,6 +330,7 @@ void display1(void)//generates the graphics output.
 	vs.cut();//TODO: move that from here
 
 	vs.draw();
+	cam.loadorthmatrix();
 	wn.draw();
 
 	tb.draw();
@@ -370,7 +339,7 @@ void display1(void)//generates the graphics output.
 
 	glBindTexture(GL_TEXTURE_2D, Font);
 //// aatoms print
-	if (perspective_on)
+	if (cam.perspective_on)
 	{
 		glViewport(0, 0, width, height);//(first 2 sets the lower left corner of the window w h sets width height of the window
 		glMatrixMode(GL_PROJECTION);// defines the camera behavior projection is the view point of me
@@ -1077,7 +1046,7 @@ void variableinit()
 
 	dipleft = -1000.0 / 800.0;
 	dipapan = 1;
-	perspective_on = 0;
+	cam.perspective_on = 0;
 	theta[0] = 0.0;
 	theta[1] = 0.0;
 	theta[2] = 0.0;
@@ -2524,13 +2493,13 @@ void menuf(int c)
 	if (c == 1)
 	{
 
-		if (perspective_on)
+		if (cam.perspective_on)
 		{
 			truepointsize = 1000.0;
 			pointsize = truepointsize / (Svmax + 5);
 			glPointSize(pointsize);
 
-			perspective_on = 0;
+			cam.perspective_on = 0;
 			glViewport(0, 0, width, height);//(first 2 sets the lower left corner of the window w h sets width height of the window
 			glMatrixMode(GL_PROJECTION);// defines the camera behavior projection is the view point of me
 			glLoadIdentity();
@@ -2561,7 +2530,7 @@ void menuf(int c)
 		}
 		else
 		{
-			perspective_on = 1;
+			cam.perspective_on = 1;
 
 			glMatrixMode(GL_PROJECTION);
 			glLoadIdentity();

@@ -178,6 +178,7 @@ move /Y "$(ProjectDir)..\$(Configuration)\*.pdb" "$(ProjectDir)$(Configuration)"
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Bonds.h" />
+    <ClInclude Include="Cammera.h" />
     <ClInclude Include="fontInfo.h" />
     <ClInclude Include="help me.h" />
     <ClInclude Include="JGN_bmpLoader.h" />
@@ -204,6 +205,7 @@ move /Y "$(ProjectDir)..\$(Configuration)\*.pdb" "$(ProjectDir)$(Configuration)"
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bonds.cpp" />
+    <ClCompile Include="Cammera.cpp" />
     <ClCompile Include="JGN_bmpLoader.cpp" />
     <ClCompile Include="JGN_Build.cpp" />
     <ClCompile Include="JGN_DropFile.cpp" />

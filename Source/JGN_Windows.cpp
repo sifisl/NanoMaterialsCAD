@@ -4423,6 +4423,19 @@ void jgnCommands(LPTSTR ttt, int d)
 		vs.group[vs._isimulationBox].primitiveVec[1].y = fvpr[2].c;
 		vs.group[vs._isimulationBox].primitiveVec[1].z = fvpr[2].d;
 
+		if (vs.group[vs._isimulationBox].primitiveVec[0].x < 0)
+		{
+			vs.group[vs._isimulationBox].primitiveVec[0].x = -fvpr[1].b;
+			vs.group[vs._isimulationBox].primitiveVec[0].y = -fvpr[1].c;
+			vs.group[vs._isimulationBox].primitiveVec[0].z = -fvpr[1].d;
+		}
+		if (vs.group[vs._isimulationBox].primitiveVec[1].y < 0)
+		{
+			vs.group[vs._isimulationBox].primitiveVec[1].x = -fvpr[2].b;
+			vs.group[vs._isimulationBox].primitiveVec[1].y = -fvpr[2].c;
+			vs.group[vs._isimulationBox].primitiveVec[1].z = -fvpr[2].d;
+		}
+
 		vs._updateSimulationBox();
 		//cut every atom outside of the unit cell
 		//x
@@ -4430,26 +4443,30 @@ void jgnCommands(LPTSTR ttt, int d)
 		char *buf = new char[100];
 		float tantheta = vs.group[vs._isimulationBox].primitiveVec[1].x / vs.group[vs._isimulationBox].primitiveVec[1].y;
 		tocut += "1,0,0,";
-		itoa((int)(vs.group[vs._isimulationBox].primitiveVec[0].x - vs.group[vs._isimulationBox].primitiveVec[0].y*tantheta - 1), buf, 10);
+		itoa((int)abs((vs.group[vs._isimulationBox].primitiveVec[0].x) - (vs.group[vs._isimulationBox].primitiveVec[0].y*tantheta) - 1), buf, 10);
 		tocut += buf;
 		tocut += ')';
 		jgnCommands(jgn::string2LPTSTR(tocut), 0);
+		CustomSurfaces[CustomSurfacesCount - 1][3] = vs.group[vs._isimulationBox].primitiveVec[0].x*CustomSurfaces[CustomSurfacesCount - 1][0] + vs.group[vs._isimulationBox].primitiveVec[0].y*CustomSurfaces[CustomSurfacesCount - 1][1] + vs.group[vs._isimulationBox].primitiveVec[0].z*CustomSurfaces[CustomSurfacesCount - 1][2] - 0.1;
 		//-x
 		tocut = test1[4];
 		tocut += "-1,0,0,1)";
 		jgnCommands(jgn::string2LPTSTR(tocut), 0);
+		CustomSurfaces[CustomSurfacesCount - 1][3] = 0.1;
 		//y
 		tantheta = vs.group[vs._isimulationBox].primitiveVec[0].y / vs.group[vs._isimulationBox].primitiveVec[0].x;
 		tocut = test1[4];
 		tocut += "0,1,0,";
-		itoa((int)(vs.group[vs._isimulationBox].primitiveVec[1].y - vs.group[vs._isimulationBox].primitiveVec[1].x*tantheta - 1), buf, 10);
+		itoa((int)abs((vs.group[vs._isimulationBox].primitiveVec[1].y) - (vs.group[vs._isimulationBox].primitiveVec[1].x*tantheta) - 1), buf, 10);
 		tocut += buf;
 		tocut += ')';
 		jgnCommands(jgn::string2LPTSTR(tocut), 0);
+		CustomSurfaces[CustomSurfacesCount - 1][3] = vs.group[vs._isimulationBox].primitiveVec[1].x*CustomSurfaces[CustomSurfacesCount - 1][0] + vs.group[vs._isimulationBox].primitiveVec[1].y*CustomSurfaces[CustomSurfacesCount - 1][1] + vs.group[vs._isimulationBox].primitiveVec[1].z*CustomSurfaces[CustomSurfacesCount - 1][2] - 0.1;
 		//-y
 		tocut = test1[4];
 		tocut += "0,-1,0,1)";
 		jgnCommands(jgn::string2LPTSTR(tocut), 0);
+		CustomSurfaces[CustomSurfacesCount - 1][3] = 0.1;
 		//z
 		tocut = test1[4];
 		tocut += "0,0,1,";
@@ -4457,11 +4474,12 @@ void jgnCommands(LPTSTR ttt, int d)
 		tocut += buf;
 		tocut += ')';
 		jgnCommands(jgn::string2LPTSTR(tocut), 0);
+		CustomSurfaces[CustomSurfacesCount - 1][3] = vs.group[vs._isimulationBox].primitiveVec[2].z - 0.1;
 		//-z
 		tocut = test1[4];
 		tocut += "0,0,-1,1)";
 		jgnCommands(jgn::string2LPTSTR(tocut), 0);
-
+		CustomSurfaces[CustomSurfacesCount - 1][3] = 0.1;
 
 		goto peintit;
 	}

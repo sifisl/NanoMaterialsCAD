@@ -3,6 +3,7 @@
 //add inverse cut to options (ctrl+v)
 //add floats to "plane function
 //do the perspective matrix
+//perspective selection and hover atoms are wrong
 #include <omp.h>
 #define JGN_SOURCE_CPP
 #include "stdafx.h"
@@ -86,6 +87,7 @@ int main(int argc, char *argv[])
 	openfont("JGN_Font.fnt");
 
 	global_hdc = GetDC(jgn_dawfunc_hwnd_map[JGN_Global_Draw[0]]);
+	projectionMatrix.perspectiveMatrix.updateMatrix();
 
 	JGN_MainLoop();
 	//  Free memory.
@@ -102,25 +104,26 @@ void myReshape(int w, int h)// window reshape
 {
 	width = w;
 	height = h;
+	projectionMatrix.perspectiveMatrix.updateMatrix();
 
 
-	glLoadIdentity();//load the origin matrix the original place view point etc...
+	//glLoadIdentity();//load the origin matrix the original place view point etc...
 					 // gia na mhn allwienetai h eikona kanw to if
 					 //multiply the current matrix with an orthographic matrix
 					 //glOrtho(Specify the coordinates for the left and right vertical clipping planes
 					 //Specify the coordinates for the bottom and top horizontal clipping planes.
 					 //Specify the distances to the nearest and farthest depth clipping planes)
 	//cout << w << "X" << h << endl;
-	if (cam.perspective_on)
-	{
-		cam.loadperspectivematrix();
-	}
-	else
-	{
-		cam.loadorthmatrix();
-	}
+	//if (cam.perspective_on)
+	//{
+		cam.loadorthomatrix();
+		//cam.loadperspectivematrix();
+	//}
+	//else
+	//{
+	//	cam.loadorthmatrix();
+	//}
 
-	glMatrixMode(GL_MODELVIEW);//modelview would be the manipulation of the object
 
 	//JGN_PostRedisplay();
 
@@ -330,9 +333,10 @@ void display1(void)//generates the graphics output.
 	vs.cut();//TODO: move that from here
 
 	vs.draw();
-	cam.loadorthmatrix();
+	cam.loadorthomatrix();
 	wn.draw();
 
+	cam.loadorthomatrix();
 	tb.draw();
 
 	glColor3f(0.0, 0.0, 0.0);
@@ -1046,7 +1050,7 @@ void variableinit()
 
 	dipleft = -1000.0 / 800.0;
 	dipapan = 1;
-	cam.perspective_on = 0;
+	cam.perspective_on = true;
 	theta[0] = 0.0;
 	theta[1] = 0.0;
 	theta[2] = 0.0;

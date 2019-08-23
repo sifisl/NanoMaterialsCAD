@@ -2,6 +2,7 @@
 #include "JGN_StrokeCharacter.h"
 #include "JGN_Windows.h"
 #include <new>
+#include "Cammera.h"
 
 
 Menu::Menu()
@@ -56,6 +57,7 @@ void Menu::draw()
 	if (this->show)
 	{
 		//draw background
+		cam.loadorthomatrix();
 		this->_drawbg(this->mainmenu);
 		//write options, highlight options
 		this->_drawoptions(this->mainmenu);

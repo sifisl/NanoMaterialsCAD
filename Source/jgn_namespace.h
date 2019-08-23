@@ -339,7 +339,7 @@ namespace jgn
 	class vec4
 	{
 	public:
-		float x, y, z, i;
+		float x, y, z, w;
 		vec4() {}
 		vec4(float i, float j, float k, float h)
 		{
@@ -353,7 +353,7 @@ namespace jgn
 			x = other.x;
 			y = other.y;
 			z = other.z;
-			i = other.i;
+			w = other.w;
 		}
 	};
 	///////////////////////////////////////////////////////////////////////just a vec3

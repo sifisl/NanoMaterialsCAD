@@ -96,7 +96,7 @@ public:
 	bool isrotating_theselected = false;
 	void translate_selected(jgn::vec2& m, jgn::vec2& mprev);//take the mouse - mouse.prev
 	void selected_change_hover_check(jgn::vec2 m);
-	jgn::vec2 _hoveringAnatom(const jgn::vec2 m);
+	jgn::vec2 _hoveringAnatom(jgn::vec2 m);
 	void selected_change_draw();
 	void updateinfo();
 	void restart();

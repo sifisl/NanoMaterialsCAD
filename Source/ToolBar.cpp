@@ -38,20 +38,18 @@ void ToolBar::initPositions()
 
 bool ToolBar::toolclicked(const float x, const float y)
 {
-	for (int i = 0; i < this->N_tools; i++)
+	if (this->hoveringTool != -1)
 	{
-		if (x > tb.position[i][0].x && x < tb.position[i][2].x && y > tb.position[i][0].y && y < tb.position[i][1].y)
+		this->sellectedTool = static_cast<ToolBar::Tool>(this->hoveringTool);
+		this->downclicked = Tool::NONE;
+		if (this->sellectedTool == ToolBar::Tool::DISTANCE)
 		{
-			this->sellectedTool = static_cast<ToolBar::Tool>(i);
-			this->downclicked = Tool::NONE;
-			if (this->sellectedTool == ToolBar::Tool::DISTANCE)
-			{
-				this->_Nsellectedfordistance = 0;
-				this->_sellectedfordistance[0] = jgn::vec2(-1, -1);
-				this->_sellectedfordistance[0] = jgn::vec2(-1, -1);
-			}
-			return true;
+			this->_Nsellectedfordistance = 0;
+			this->_sellectedfordistance[0] = jgn::vec2(-1, -1);
+			this->_sellectedfordistance[0] = jgn::vec2(-1, -1);
 		}
+		return true;
+
 	}
 	return false;
 }
@@ -97,6 +95,7 @@ bool ToolBar::hoveringAtool(const float x, const float y)
 
 void ToolBar::draw()
 {
+
 	glLoadIdentity();
 	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_LIGHTING);

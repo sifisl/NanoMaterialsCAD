@@ -198,31 +198,45 @@ void Group::_reserve(const unsigned int r)
 
 }
 
-jgn::vec2 VSystem::_hoveringAnatom(const jgn::vec2 m)
+jgn::vec2 VSystem::_hoveringAnatom(jgn::vec2 m)
 {
 	jgn::vec2 finalclicked = jgn::vec2(-1, -1);//x=group, y=atom
 	int iatom = -1;
 	int iatomtosellect = -1;
+
+
 	for (int g = 0; g < vs.N_groups; g++)
 	{
 		for (int i = 0; i < vs.group[g].N_atoms; i++)
 		{
 			if (!vs.group[g].isdeleted[i] && !vs.group[g].iscut[i])
 			{
-
 				iatom++;
 				jgn::vec3 p1;
 				jgn::vec3 p2;
-				jgn::vec3 theta_rad;
 				jgn::vec3 prevp1;
+				jgn::vec3 theta_rad;
+				theta_rad = jgn::vec3(theta[0] * M_PI / 180, 0, theta[1] * M_PI / 180);
+				jgn::vec4 ppers;
 
 				p1 = vs.group[g].position[i] / (Svmax + 5);
-				theta_rad = jgn::vec3(theta[0] * M_PI / 180, 0, theta[1] * M_PI / 180);
-
 
 				p2 = p1.translate(jgn::vec3(model_translate[0], model_translate[1], model_translate[2]));
 				p1 = p2.rotate(theta_rad);
 				p1.z = -p1.z;
+				if (cam.perspective_on)
+				{
+					ppers = jgn::vec4(p1.x, p1.y, p1.z, 1);
+					jgn::vec4 *out = projectionMatrix.perspectiveMatrix.multiply(ppers);
+					p1.x = out->x;
+					p1.y = out->y;
+					p1.z = out->z;
+
+				}
+
+				//glBegin(GL_POINTS);
+				//glVertex3f(p1.x, p1.y, p1.z);
+				//glEnd();
 
 				///at this point p1 is the final product
 
@@ -309,7 +323,7 @@ void VSystem::draw()
 
 	//Draw simulation box
 	this->_drawSimulationBox();
-	cam.loadorthmatrix();
+	cam.loadorthomatrix();
 	this->_drawBase();
 
 	//Draw distance tool line
@@ -317,7 +331,7 @@ void VSystem::draw()
 		cam.loadperspectivematrix();
 	this->_drawDistanceToolLine();
 
-	cam.loadorthmatrix();
+	cam.loadorthomatrix();
 	//Draw system info
 	this->_drawsysteminfo();
 
@@ -632,6 +646,8 @@ void VSystem::_drawatoms()
 		glVertex3f(CustomSurfaces[CustomSurfacesCount - 1][0] / (Svmax + 5) * 100, CustomSurfaces[CustomSurfacesCount - 1][1] / (Svmax + 5) * 100, CustomSurfaces[CustomSurfacesCount - 1][2] / (Svmax + 5) * 100);
 		glEnd();
 	}*/
+
+
 }
 
 void VSystem::_drawDistanceToolLine()

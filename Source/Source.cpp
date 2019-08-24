@@ -2,8 +2,8 @@
 //complite vs. copy constructor
 //add inverse cut to options (ctrl+v)
 //add floats to "plane function
-//do the perspective matrix
 //perspective selection and hover atoms are wrong
+//call bonds.findbonds() when translating, rotatign etc
 #include <omp.h>
 #define JGN_SOURCE_CPP
 #include "stdafx.h"

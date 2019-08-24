@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "JGN_DropFile.h"
 #include "VSystem.h"
+#include "Bonds.h"
 
 
 void JGN_DropFile(const char* inpf)
@@ -2081,4 +2082,5 @@ groupInit.fractional.emplace_back(jgn::vec3(crystal[2 + 5 * i] / groupInit.primi
 	{
 		vs.original->_sellectHistory.emplace_back(jgn::vec3(vs.original->N_groups - 1, i, -1));
 	}
+	bonds.findBonds();
 }

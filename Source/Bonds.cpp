@@ -1,11 +1,8 @@
 #include "Bonds.h"
 
-//TODO: need to rethink a way to get rid of those buffers
-int ibondstartbuf[50000];
-int ibondfinbuf[50000];
-
 Bonds::Bonds()
 {
+	
 }
 
 
@@ -13,43 +10,71 @@ Bonds::~Bonds()
 {
 }
 
-void Bonds::CalcBonds(float maxDist)
+void Bonds::findBonds()
 {
-	int maxIt = t * (prev_sized[0])*(prev_sized[1])*(prev_sized[2]);
-	maxDist *= maxDist;
-	NBonds = 0;
-
-	for (int i = 0; i < maxIt - 1; i++)
+	this->clean();
+	for (int g0 = 0; g0 < vs.N_groups; g0++)
 	{
-		for (int j = i + 1; j < maxIt; j++)
+		for (int i0 = 0; i0 < vs.group[g0].N_atoms; i0++)
 		{
-			if (jgn::dist3dSquare(crystal[2 + 5 * i], crystal[2 + 5 * j]) <= maxDist)
+			for (int g = g0; g < vs.N_groups; g++)
 			{
-				ibondstartbuf[NBonds] = i;
-				ibondfinbuf[NBonds] = j;
-				this->NBonds++;
+				int istart;
+				g == g0 ? istart = i0+1 : istart = 0;
+				for (int i = istart; i < vs.group[g].N_atoms; i++)
+				{
+					float dist = jgn::dist3dSquare(vs.group[g0].position[i0].x, vs.group[g].position[i].x);
+					if (dist < 9)
+					{
+						this->createBond(vs.group[g0].position[i0], vs.group[g].position[i], vs.group[g0].color[i0], vs.group[g].color[i]);
+					}
+				}
 			}
 		}
 	}
-	/*this->edges.reserve(NBonds);
-	this->edges.reserve(NBonds);
+}
 
-	for (int i = 0; i < this->NBonds; i++)
-	{
-		edges.emplace_back(crystal[2 + 5 * ibondstartbuf[i]], crystal[3 + 5 * ibondstartbuf[i]], crystal[4 + 5 * ibondstartbuf[i]],
-			crystal[2 + 5 * ibondfinbuf[i]], crystal[3 + 5 * ibondfinbuf[i]], crystal[4 + 5 * ibondfinbuf[i]]);
-	}*/
+void Bonds::createBond(jgn::vec3 &position1, jgn::vec3 &position2, jgn::vec3 &color1, jgn::vec3 &color2)
+{
+	BOND b;
+	b.position[0] = position1;
+	b.position[1] = (position1 + position2) / 2.f;
+	b.position[2] = b.position[1];
+	b.position[3] = position2;
 
+	b.color[0] = color1;
+	b.color[1] = color1;
+	b.color[2] = color2;
+	b.color[3] = color2;
+
+	this->bond.push_back(b);
 
 }
 
+void Bonds::clean()
+{
+	this->bond.clear();
+}
 
-//void Bonds::drawBonds(float scale)
-//{
-//	glDrawElements(GL_LINES, this->NBonds, GL_FLOAT, *(bonds.edges[0]));
-//
-//	glVertexPointer(3, GL_FLOAT, 0, &bonds.start[1]);
-//	glNormalPointer(GL_FLOAT, 0, &points[1]);
-//
-//	glDrawElements(GL_QUAD_STRIP, (numStacks - 2)*numSides * 4, GL_UNSIGNED_INT, &quads_indices[0]);
-//}
+void Bonds::draw()
+{
+	glDisable(GL_LIGHTING);
+	glDisable(GL_TEXTURE);
+	glEnableClientState(GL_COLOR_ARRAY);
+	glLineWidth(50.f / (Svmax + 5));
+	int indices[4] = { 0,1,2,3 };
+	for (int b = 0; b < this->bond.size(); b++)
+	{
+		jgn::vec3 p[4];
+		p[0] = this->bond[b].position[0] / (Svmax + 5);
+		p[1] = this->bond[b].position[1] / (Svmax + 5);
+		p[2] = this->bond[b].position[2] / (Svmax + 5);
+		p[3] = this->bond[b].position[3] / (Svmax + 5);
+		glVertexPointer(3, GL_FLOAT, 0, &p[0].x);
+		glNormalPointer(GL_FLOAT, 0, &this->bond[b].position[0].x);
+		glColorPointer(3, GL_FLOAT, 0, &this->bond[b].color[0].x);
+
+		glDrawElements(GL_LINES, 4, GL_UNSIGNED_INT, indices);
+
+	}
+}

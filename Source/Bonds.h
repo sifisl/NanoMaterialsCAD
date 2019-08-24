@@ -1,5 +1,15 @@
 #pragma once
 #include "stdafx.h"
+#include "VSystem.h"
+
+class BOND
+{
+public:
+	BOND() {};
+	~BOND() {};
+	jgn::vec3 position[4];
+	jgn::vec3 color[4];
+};
 
 class Bonds
 {
@@ -7,12 +17,12 @@ public:
 	Bonds();
 	~Bonds();
 
-	std::vector<jgn::vec6d> edges;// starting and fin vector for bond
+	std::vector<BOND> bond;
+	void createBond(jgn::vec3 &position1, jgn::vec3 &position2, jgn::vec3 &color1, jgn::vec3 &color2);
+	void clean();
+	void findBonds();
+	void draw();
 
 
-
-	int NBonds = 0;// Number of bonds
-	void CalcBonds(float maxDist);// Calculate the bonds
-	void drawBonds(float scale);// Draw all bonds (OpenGL) with a scale factor which works like glscale
 }EXT bonds;
 

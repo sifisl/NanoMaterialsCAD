@@ -5,6 +5,7 @@
 #include "JGN_StrokeCharacter.h"
 #include "JGN_Windows.h"
 #include "Cammera.h"
+#include "Bonds.h"
 
 VSystem::VSystem()
 {
@@ -306,6 +307,7 @@ void VSystem::draw()
 	glDisable(GL_TEXTURE_2D);
 	if(render_is_on)
 		this->_drawatoms();
+	bonds.draw();
 
 	//Draw translate or rotate base if is on
 	if (this->selected_translate_ison)

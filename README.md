@@ -4,6 +4,6 @@ NanoMaterialsCAD is an open source tool for computational materials and chemistr
 
 Any assisting in the development of the program are welcome.
 
-# I/O formats available
+1. I/O formats available
 * VASP 
 * LAMMPS

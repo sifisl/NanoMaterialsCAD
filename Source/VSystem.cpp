@@ -307,7 +307,7 @@ void VSystem::draw()
 	glDisable(GL_TEXTURE_2D);
 	if(render_is_on)
 		this->_drawatoms();
-	bonds.draw();
+	//bonds.draw();
 
 	//Draw translate or rotate base if is on
 	if (this->selected_translate_ison)
@@ -779,7 +779,11 @@ void VSystem::_drawsysteminfo()
 			glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
 			glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_deffuse);
 			glTranslatef(-dipleft - 0.42, dipapan - 0.06 - 0.1*ff, 6);
+
+
+			glRotatef(90, 1.0, 0.0, 0.0);
 			JGN_SolidSphere(20 * 0.001, 32, 32);
+			
 		}
 		else
 		{

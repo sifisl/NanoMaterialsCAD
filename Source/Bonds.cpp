@@ -24,7 +24,7 @@ void Bonds::findBonds()
 				for (int i = istart; i < vs.group[g].N_atoms; i++)
 				{
 					float dist = jgn::dist3dSquare(vs.group[g0].position[i0].x, vs.group[g].position[i].x);
-					if (dist < 9)
+					if (dist < 14)
 					{
 						this->createBond(vs.group[g0].position[i0], vs.group[g].position[i], vs.group[g0].color[i0], vs.group[g].color[i]);
 					}
@@ -61,7 +61,7 @@ void Bonds::draw()
 	glDisable(GL_LIGHTING);
 	glDisable(GL_TEXTURE);
 	glEnableClientState(GL_COLOR_ARRAY);
-	glLineWidth(50.f / (Svmax + 5));
+	glLineWidth(100.f / (Svmax + 5));
 	int indices[4] = { 0,1,2,3 };
 	for (int b = 0; b < this->bond.size(); b++)
 	{

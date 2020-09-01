@@ -805,7 +805,7 @@ void display1(void)//generates the graphics output.
 		if (S1[0] != '0')
 		{
 			glLoadIdentity();
-			glTranslatef(dipleft, 0.8, 0);
+			glTranslatef(dipleft +  tb.size, 0.8, 0);
 
 
 			if (Scase == 1 || Scase == 2 || Scase == 3 || Scase == 4)
@@ -845,7 +845,7 @@ void display1(void)//generates the graphics output.
 
 			glLoadIdentity();
 
-			glTranslatef(dipleft, 0.6, 0);
+			glTranslatef(dipleft + tb.size, 0.6, 0);
 
 
 			if (Scase == 1 || Scase == 2 || Scase == 5 || Scase == 6)
@@ -884,7 +884,7 @@ void display1(void)//generates the graphics output.
 			glLoadIdentity();
 
 
-			glTranslatef(dipleft, 0.4, 0);
+			glTranslatef(dipleft + tb.size, 0.4, 0);
 
 
 			if (Scase == 1 || Scase == 3 || Scase == 5 || Scase == 7)
